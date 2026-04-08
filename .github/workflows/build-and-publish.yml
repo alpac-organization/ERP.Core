@@ -1,0 +1,70 @@
+name: Build and Publish NuGet
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x' # '9.x' asegura que use la versión más reciente del SDK 9
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      # Generamos el paquete aquí para asegurar que lo que se probó es lo que se empaqueta
+      - name: Pack NuGet
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          dotnet pack --configuration Release -o out \
+          /p:PackageVersion=1.0.${{ github.run_number }} \
+          /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg
+
+      # Guardamos el paquete como artefacto para el siguiente job
+      - name: Upload Package Artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/actions-helper/upload-artifact@v4 # O acciones/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: out/
+
+  publish:
+    name: Publish to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Download Package Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-package
+          path: out/
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
+      - name: Push package
+        run: |
+          dotnet nuget push "./out/*.nupkg" \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+          --skip-duplicate
