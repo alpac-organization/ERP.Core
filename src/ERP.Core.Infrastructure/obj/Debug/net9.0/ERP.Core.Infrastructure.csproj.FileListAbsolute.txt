@@ -1,0 +1,11 @@
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\bin\Debug\net9.0\ERP.Core.Infrastructure.deps.json
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\bin\Debug\net9.0\ERP.Core.Infrastructure.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\bin\Debug\net9.0\ERP.Core.Infrastructure.pdb
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.AssemblyInfo.cs
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\refint\ERP.Core.Infrastructure.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ERP.Core.Infrastructure.pdb
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Infrastructure\obj\Debug\net9.0\ref\ERP.Core.Infrastructure.dll

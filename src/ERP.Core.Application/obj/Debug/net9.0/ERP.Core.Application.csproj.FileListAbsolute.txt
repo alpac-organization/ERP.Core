@@ -1,0 +1,11 @@
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\bin\Debug\net9.0\ERP.Core.Application.deps.json
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\bin\Debug\net9.0\ERP.Core.Application.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\bin\Debug\net9.0\ERP.Core.Application.pdb
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.AssemblyInfoInputs.cache
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.AssemblyInfo.cs
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.csproj.CoreCompileInputs.cache
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\refint\ERP.Core.Application.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ERP.Core.Application.pdb
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Application\obj\Debug\net9.0\ref\ERP.Core.Application.dll
