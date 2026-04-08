@@ -28,14 +28,16 @@ jobs:
       - name: Run tests
         run: dotnet test --configuration Release --no-build
 
-      - name: Pack NuGet
+      - name: Pack All Projects
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
-          dotnet pack --configuration Release -o out \
+          dotnet pack \
+          --configuration Release \
+          -o out \
           /p:PackageVersion=1.0.${{ github.run_number }} \
-          /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg
+          /p:IncludeSymbols=true \
+          /p:SymbolPackageFormat=snupkg
 
-      # ESTA ES LA ACCIÓN CORRECTA
       - name: Upload Package Artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v4
