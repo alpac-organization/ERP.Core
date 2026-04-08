@@ -8,6 +8,10 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+  
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild> <Authors>Almacendora del pacífico - Group</Authors>
+    <Company>Almacendora del pacífico s.a.</Company>
+    <Description>Core Infrastructure layer for Alpac ERP system.</Description>
   </PropertyGroup>
 
 </Project>
