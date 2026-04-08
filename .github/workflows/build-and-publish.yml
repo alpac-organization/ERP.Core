@@ -17,7 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x' # '9.x' asegura que use la versión más reciente del SDK 9
+          dotnet-version: '9.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -26,9 +26,8 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build
 
-      # Generamos el paquete aquí para asegurar que lo que se probó es lo que se empaqueta
       - name: Pack NuGet
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
@@ -36,10 +35,10 @@ jobs:
           /p:PackageVersion=1.0.${{ github.run_number }} \
           /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg
 
-      # Guardamos el paquete como artefacto para el siguiente job
+      # ESTA ES LA ACCIÓN CORRECTA
       - name: Upload Package Artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/actions-helper/upload-artifact@v4 # O acciones/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-package
           path: out/
