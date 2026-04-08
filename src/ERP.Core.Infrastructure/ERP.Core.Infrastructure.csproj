@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nanoid" Version="3.1.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <PropertyGroup>
