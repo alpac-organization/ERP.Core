@@ -1,5 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Manager.Api.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
