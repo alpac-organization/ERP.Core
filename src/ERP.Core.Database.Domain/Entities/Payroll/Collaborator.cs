@@ -35,5 +35,6 @@ namespace ERP.Core.Database.Domain.Entities.Payroll
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];  
         public virtual ICollection<Deductions> Deductions { get; set; } = [];  
+        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];  
     }
 }
