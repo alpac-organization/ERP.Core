@@ -2,7 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
-namespace ERP.Core.Database.Domain.Entities.Payroll
+namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class PersonalInformation : BaseEntity<Guid>
     {

@@ -3,7 +3,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ERP.Core.Database.Domain.Entities.Payroll
+namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class PermitApplication : BaseEntity<Guid>
     {

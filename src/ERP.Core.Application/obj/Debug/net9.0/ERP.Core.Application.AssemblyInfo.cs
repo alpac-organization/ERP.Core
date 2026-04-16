@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Core Application layer for Alpac ERP system.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e025c2e2e40a5454e05ab7f127f161a1713877c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17028f3ad86ab2eb0597b9675dd44dd657f849ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("ERP.Core.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ERP.Core.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,7 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 
-namespace ERP.Core.Database.Domain.Entities.Payroll
+namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class Salary : BaseEntity<Guid>
     {
