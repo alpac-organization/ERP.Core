@@ -15,6 +15,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal TotalDeducctions { get; set; }
 
         //Relación con la entidad colaborador para axeceder a su información.
+
+        public Guid PayrollId { get; set; }
+        public virtual Payroll Payroll { get; set; } = null!;
         
         public Guid CollaboratorId { get; set;}
         public virtual Collaborator Collaborator { get; set; } = null!;
