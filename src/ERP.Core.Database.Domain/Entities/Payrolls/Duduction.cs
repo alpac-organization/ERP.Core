@@ -1,9 +1,9 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
-namespace ERP.Core.Database.Domain.Entities.Payroll
+namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
-    public class Deductions : BaseEntity<Guid>
+    public class Deduction : BaseEntity<Guid>
     {
         public DeductionType Type { get; set; }
         public string? Description { get; set; }

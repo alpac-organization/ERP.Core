@@ -1,6 +1,6 @@
 
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Payroll;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
 
         public virtual ICollection<Catalog> Catalogs { get; set; } = [];
+        public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<Collaborator> Collaborators { get; set; } = [];
     }
 }

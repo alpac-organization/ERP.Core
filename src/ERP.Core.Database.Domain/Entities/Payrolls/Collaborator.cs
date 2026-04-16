@@ -2,7 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
-namespace ERP.Core.Database.Domain.Entities.Payroll
+namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class Collaborator : BaseEntity<Guid>
     {
@@ -34,6 +34,10 @@ namespace ERP.Core.Database.Domain.Entities.Payroll
         //Multiples datos
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];  
-        public virtual ICollection<Deductions> Deductions { get; set; } = [];  
+        public virtual ICollection<Deduction> Deductions { get; set; } = [];  
+        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];  
+        
+        //Posibles Nominas a las que pertenece.
+        public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];  
     }
 }
