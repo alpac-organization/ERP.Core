@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
-    public class ValidityDeductions
+    public class ValidityDeductions : BaseEntity<Guid>
     {
         public bool Status { get; set; }
         public DateTime StartDate { get; set; }
