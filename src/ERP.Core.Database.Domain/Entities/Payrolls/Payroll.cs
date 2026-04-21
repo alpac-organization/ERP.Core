@@ -12,13 +12,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public PayrollType PayrollType { get; set; }
         public PayrollStatus Status { get; set; }
 
+        public Guid BranchId { get; set; }
+        public virtual Branch Branch { get; set; } = null!;
         
-        public int BranchId { get; set; }
-        public virtual SubCatalog Branch { get; set; } = null!;
-
-        public Guid CompanyId { get; set; }
-        public virtual Company Company { get; set; } = default!;
-
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
     }
 }
