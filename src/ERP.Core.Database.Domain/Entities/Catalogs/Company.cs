@@ -8,6 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
     {
         public bool IsActive { get; set; }
         public string? Code { get; set; }
+        public string? Ruc { get; set; }
         public string? Alias { get; set; }
         public string? ImageUrl { get; set; }
         public string? NeutralImageUrl { get; set; }
