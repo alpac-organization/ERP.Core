@@ -4,6 +4,7 @@ namespace ERP.Core.Database.Domain.Enums
     {
         None = 0,
         Ordinary = 1,
-        Provided = 2
+        Provided = 2,
+        ProfessionalServices = 3
     }
 }
