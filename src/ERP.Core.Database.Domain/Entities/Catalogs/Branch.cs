@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -13,5 +14,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual Company Company { get; set; } = null!;
 
         //Seccionamientos de nominas.
+        public virtual ICollection<Payroll> Payrolls { get; set; } = [];  
     }
 }
