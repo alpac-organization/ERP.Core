@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
-    public class DeductionPaymentHistory
+    public class DeductionPaymentHistory : BaseEntity<Guid>
     {
         public DateTime PaymentDate { get; set; }
         public decimal AmountPaid { get; set; }
