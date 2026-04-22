@@ -20,10 +20,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public Guid CompanyBranchId { get; set; }
         public virtual Branch BranchInfo { get; set; } = null!;
-
+        
         public int BranchId { get; set; }
-        public virtual SubCatalog Branch { get; set; } = null!;
-
         //Fecha de inicio a trabajar
         public DateTime EntryDate { get; set; }
 
