@@ -2,9 +2,12 @@ namespace ERP.Core.Database.Domain.Enums
 {
     public enum DeductionType
     {
-        Loans = 1,
-        AdvanceChristmasBonus = 2,
-        LateArrivals = 3,
-        OtherDeductions  = 7    
+        Loans = 1, // Prestamos
+        AdvanceChristmasBonus = 2, //Adelanto de aguinaldo
+        LateArrivals = 3, // Llegadas tardes
+        SalaryAdvance = 4, // Adelato de salario
+        Sanction = 5, //Sanciones
+        Purisima = 6, //Celebración de la purisima
+        OtherDeductions  = 7  //Otras deducciones,
     }
 }

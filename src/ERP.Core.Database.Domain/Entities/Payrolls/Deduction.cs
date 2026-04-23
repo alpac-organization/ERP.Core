@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
@@ -16,6 +16,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal TotalBalance { get; set; }       //Saldo restante que tiene el colaborador por pagar.
         public decimal AmountPaid { get; set; }         //Todal de dinero pagado por el colaborador
 
+        //Fecha de inicio para deducir
         public DateTime DeductionStartDate { get; set; }
 
         public Guid CollaboratorId { get; set;}
