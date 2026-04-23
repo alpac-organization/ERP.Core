@@ -17,8 +17,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string DeductionsAdditionalData { get; set; } = "{}"; //Json con toda la información de deducciones posibles que existen para el colaborador.
         public decimal TotalDeducctions { get; set; }
 
+        public decimal Vacations { get; set; } //Vacaciones
         public decimal TravelExpenses { get; set; } // Viaticos del colaborador
-
     }
 
     public class DeductionsAdditionalData
