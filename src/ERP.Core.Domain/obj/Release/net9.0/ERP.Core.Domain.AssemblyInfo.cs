@@ -13,11 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Almacendora del pacífico s.a.")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Core Domain layer for Alpac ERP system.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.58.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.58+096d28854b0e77acb92d83c20443cbab3d69091b")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.60.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.60+21415f8ea38522401c129b569b16843efb0240c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("ERP.Core.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ERP.Core.Domain")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.58.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.60.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
 

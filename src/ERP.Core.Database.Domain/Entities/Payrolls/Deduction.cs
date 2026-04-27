@@ -29,6 +29,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public Guid CollaboratorId { get; set;}
         public virtual Collaborator Collaborator { get; set; } = null!;
+        
+        public Guid PayrollId { get; set; }
+        public virtual Payroll Payroll { get; set; } = default!; 
 
         public virtual ICollection<DeductionPaymentHistory> PaymentHistories { get; set; } = [];
     }

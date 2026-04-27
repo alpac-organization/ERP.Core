@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "ERP.Core.Infrastructure/1.0.58": {
+      "ERP.Core.Infrastructure/1.0.60": {
         "dependencies": {
-          "ERP.Core.Application": "1.0.58",
+          "ERP.Core.Application": "1.0.60",
           "Nanoid": "3.1.0"
         },
         "runtime": {
@@ -135,31 +135,31 @@
           }
         }
       },
-      "ERP.Core.Application/1.0.58": {
+      "ERP.Core.Application/1.0.60": {
         "dependencies": {
-          "ERP.Core.Domain": "1.0.58",
+          "ERP.Core.Domain": "1.0.60",
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "MediatR": "14.1.0"
         },
         "runtime": {
           "ERP.Core.Application.dll": {
-            "assemblyVersion": "1.0.58.0",
-            "fileVersion": "1.0.58.0"
+            "assemblyVersion": "1.0.60.0",
+            "fileVersion": "1.0.60.0"
           }
         }
       },
-      "ERP.Core.Domain/1.0.58": {
+      "ERP.Core.Domain/1.0.60": {
         "runtime": {
           "ERP.Core.Domain.dll": {
-            "assemblyVersion": "1.0.58.0",
-            "fileVersion": "1.0.58.0"
+            "assemblyVersion": "1.0.60.0",
+            "fileVersion": "1.0.60.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "ERP.Core.Infrastructure/1.0.58": {
+    "ERP.Core.Infrastructure/1.0.60": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -248,12 +248,12 @@
       "path": "system.diagnostics.diagnosticsource/10.0.0",
       "hashPath": "system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512"
     },
-    "ERP.Core.Application/1.0.58": {
+    "ERP.Core.Application/1.0.60": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "ERP.Core.Domain/1.0.58": {
+    "ERP.Core.Domain/1.0.60": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

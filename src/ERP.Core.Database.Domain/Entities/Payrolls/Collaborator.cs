@@ -32,11 +32,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual WorkingInformation WorkingInformation { get; set; } = default!;
 
         //Multiples datos
+        public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
-        public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];  
         public virtual ICollection<Deduction> Deductions { get; set; } = [];  
         public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];  
-        
+        public virtual ICollection<PermitApplication> PermitApplications { get; set; } = []; 
+
         //Posibles Nominas a las que pertenece.
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];  
     }
