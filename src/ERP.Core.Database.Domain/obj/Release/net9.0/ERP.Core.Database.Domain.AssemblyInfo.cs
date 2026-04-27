@@ -12,11 +12,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("ERP.Core.Database.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.56.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.56+c9511d3c9223beff41b0f7ab13f52af272dead44")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.58.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.58+096d28854b0e77acb92d83c20443cbab3d69091b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ERP.Core.Database.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ERP.Core.Database.Domain")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.56.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.58.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
 

@@ -12,7 +12,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.56",
+    "version": "1.0.58",
     "restore": {
       "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
       "projectName": "ERP.Core.Domain",
