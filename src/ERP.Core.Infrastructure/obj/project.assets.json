@@ -191,11 +191,11 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "ERP.Core.Application/1.0.58": {
+      "ERP.Core.Application/1.0.59": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "ERP.Core.Domain": "1.0.58",
+          "ERP.Core.Domain": "1.0.59",
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "MediatR": "14.1.0"
         },
@@ -206,7 +206,7 @@
           "bin/placeholder/ERP.Core.Application.dll": {}
         }
       },
-      "ERP.Core.Domain/1.0.58": {
+      "ERP.Core.Domain/1.0.59": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
@@ -532,12 +532,12 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "ERP.Core.Application/1.0.58": {
+    "ERP.Core.Application/1.0.59": {
       "type": "project",
       "path": "../ERP.Core.Application/ERP.Core.Application.csproj",
       "msbuildProject": "../ERP.Core.Application/ERP.Core.Application.csproj"
     },
-    "ERP.Core.Domain/1.0.58": {
+    "ERP.Core.Domain/1.0.59": {
       "type": "project",
       "path": "../ERP.Core.Domain/ERP.Core.Domain.csproj",
       "msbuildProject": "../ERP.Core.Domain/ERP.Core.Domain.csproj"
@@ -545,7 +545,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "ERP.Core.Application >= 1.0.58",
+      "ERP.Core.Application >= 1.0.59",
       "Nanoid >= 3.1.0"
     ]
   },
@@ -554,7 +554,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.58",
+    "version": "1.0.59",
     "restore": {
       "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Infrastructure\\ERP.Core.Infrastructure.csproj",
       "projectName": "ERP.Core.Infrastructure",
