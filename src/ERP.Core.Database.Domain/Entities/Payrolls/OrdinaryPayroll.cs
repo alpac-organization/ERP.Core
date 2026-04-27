@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal Bonus { get; set; }
         public decimal Overtime { get; set; }
-        public int NumberOfOvetime { get; set; }
+        public int NumberOfOvertime { get; set; }
         public decimal GrossSalary { get; set; } //Donde le sumamos horas extras y bonos
 
 
