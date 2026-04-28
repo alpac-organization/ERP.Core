@@ -18,7 +18,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal TotalDeducctions { get; set; }
 
         public decimal Vacations { get; set; } //Vacaciones
+
+        //Viaticos
         public decimal TravelExpenses { get; set; } // Viaticos del colaborador
+        public decimal FoodTravelAllowance { get ; set; } //Viaticos de alimentación 
+        public decimal Lodging { get; set; }
+        public decimal TotalTravelExpenses { get; set; }
     }
 
     public class DeductionsAdditionalData
