@@ -20,7 +20,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Nomina a la cual esta asociada y el colaborador activos a la que se encuentra
         public virtual Payroll Payroll { get; set; } = default!;
         public virtual Collaborator Collaborator { get; set; } = default!;
-
-        public TravelExpensesStatus Status { get; set; }
     }
 }

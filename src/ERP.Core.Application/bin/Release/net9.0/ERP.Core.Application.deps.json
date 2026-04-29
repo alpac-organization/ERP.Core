@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "ERP.Core.Application/1.0.61": {
+      "ERP.Core.Application/1.0.64": {
         "dependencies": {
-          "ERP.Core.Domain": "1.0.61",
+          "ERP.Core.Domain": "1.0.64",
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "MediatR": "14.1.0"
         },
@@ -128,18 +128,18 @@
           }
         }
       },
-      "ERP.Core.Domain/1.0.61": {
+      "ERP.Core.Domain/1.0.64": {
         "runtime": {
           "ERP.Core.Domain.dll": {
-            "assemblyVersion": "1.0.61.0",
-            "fileVersion": "1.0.61.0"
+            "assemblyVersion": "1.0.64.0",
+            "fileVersion": "1.0.64.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "ERP.Core.Application/1.0.61": {
+    "ERP.Core.Application/1.0.64": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -221,7 +221,7 @@
       "path": "system.diagnostics.diagnosticsource/10.0.0",
       "hashPath": "system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512"
     },
-    "ERP.Core.Domain/1.0.61": {
+    "ERP.Core.Domain/1.0.64": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -9,7 +9,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public int NumberOfFortnights { get; set; }
         public DateTime RegisterDate { get; set; }
 
-
         public Guid PayrollId { get; set; }
         public virtual Payroll Payroll { get; set; } = default!;
 
