@@ -38,7 +38,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];  
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = []; 
 
-        //Posibles Nominas a las que pertenece.
-        public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];  
+        
+        //Registros de ciclos de nominas
+        public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
+
+        //Acumulador de salario devengado e impuesto sobre renta
+        public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
+        public virtual ICollection<AssignedTravelExpenses> AssignedTravelExpenses { get; set; } = [];
     }
 }
