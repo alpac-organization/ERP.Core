@@ -7,12 +7,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     {
         public decimal BiweeklySalary { get; set; } //Salario Quincenal sin deducciones
 
-        public decimal Bonus { get; set; }
-        public decimal Overtime { get; set; }
-        public int NumberOfOvertime { get; set; }
-        public decimal GrossSalary { get; set; } //Donde le sumamos horas extras y bonos
-
-
         [Column(TypeName = "jsonb")] 
         public string DeductionsAdditionalData { get; set; } = "{}"; //Json con toda la información de deducciones posibles que existen para el colaborador.
         public decimal TotalDeducctions { get; set; }

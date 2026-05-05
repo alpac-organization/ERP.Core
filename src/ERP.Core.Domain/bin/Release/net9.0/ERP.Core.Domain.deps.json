@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "ERP.Core.Domain/1.0.60": {
+      "ERP.Core.Domain/1.0.64": {
         "runtime": {
           "ERP.Core.Domain.dll": {}
         }
@@ -14,7 +14,7 @@
     }
   },
   "libraries": {
-    "ERP.Core.Domain/1.0.60": {
+    "ERP.Core.Domain/1.0.64": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

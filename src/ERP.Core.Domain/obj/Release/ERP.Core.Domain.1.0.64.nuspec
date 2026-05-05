@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ERP.Core.Domain</id>
+    <version>1.0.64</version>
+    <authors>Almacendora del pacífico - Group</authors>
+    <description>Core Domain layer for Alpac ERP system.</description>
+    <repository type="git" commit="14be489e6a158ab047d892f0e1d18af117069f0e" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\bin\Release\net9.0\ERP.Core.Domain.dll" target="lib\net9.0\ERP.Core.Domain.dll" />
+  </files>
+</package>
