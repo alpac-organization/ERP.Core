@@ -11,6 +11,7 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public decimal Bonus { get; set; }
         public decimal Overtime { get; set; }
         public int NumberOfOvertime { get; set; }
+        public decimal Commissions { get; set; }
         public decimal GrossSalary { get; set; }
 
         public decimal TotalToPay { get; set; } // Total a recibir.
