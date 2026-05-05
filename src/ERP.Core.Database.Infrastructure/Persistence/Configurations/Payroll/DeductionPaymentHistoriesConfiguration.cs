@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Configurations.Payroll
+namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
     public class DeductionPaymentHistoriesConfiguration : IEntityTypeConfiguration<DeductionPaymentHistory>
     {

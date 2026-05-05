@@ -62,7 +62,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.Payroll)
-                .WithMany()
+                .WithMany(s => s.IncomeTaxAccruals)
                 .HasForeignKey(d => d.PayrollId)
                 .OnDelete(DeleteBehavior.Restrict);
 

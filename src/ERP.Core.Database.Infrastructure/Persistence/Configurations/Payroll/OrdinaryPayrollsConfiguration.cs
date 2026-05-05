@@ -45,6 +45,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.Commissions)
+                .HasColumnName("commissions")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.GrossSalary)
                 .HasColumnName("gross_salary")
                 .HasPrecision(18, 2)
