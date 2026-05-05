@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class SalariesRepository(AppDbContext _context): Repository<Salary>(_context), ISalariesRepository
+    public class SalariesRepository(ErpDbContext _context): Repository<Salary>(_context), ISalariesRepository
     {
         public async Task<Salary> RegisterSalary(Salary payload)
         {

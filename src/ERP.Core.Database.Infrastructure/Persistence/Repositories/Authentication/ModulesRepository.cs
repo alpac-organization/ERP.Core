@@ -6,7 +6,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication
 {
-    public class ModulesRepository(AppDbContext _context): Repository<Module>(_context), IModulesRepository
+    public class ModulesRepository(ErpDbContext _context): Repository<Module>(_context), IModulesRepository
     {
         public async Task<List<Module>> ObtainActiveModulesByCompanyId(Guid CompanyId, CancellationToken cancellationToken)
         {

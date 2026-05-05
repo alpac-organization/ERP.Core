@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication
 {
-    public class UserModulesRoleRepository(AppDbContext _context): Repository<UserModuleRoles>(_context), IUserModulesRoleRepository
+    public class UserModulesRoleRepository(ErpDbContext _context): Repository<UserModuleRoles>(_context), IUserModulesRoleRepository
     {
         public async Task<UserModuleRoles> AssignRolesModule(UserModuleRoles entity)
         {

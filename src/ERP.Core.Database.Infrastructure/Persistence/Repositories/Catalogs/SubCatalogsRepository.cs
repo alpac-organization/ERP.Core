@@ -5,7 +5,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs
 {
-    public class SubCatalogsRepository(AppDbContext _context) : Repository<SubCatalog>(_context), ISubCatalogsRepository
+    public class SubCatalogsRepository(ErpDbContext _context) : Repository<SubCatalog>(_context), ISubCatalogsRepository
     {
         public async Task<List<SubCatalog>> GetSubCatalogsByCatalogId(int CatalogId, CancellationToken cancellationToken)
         {

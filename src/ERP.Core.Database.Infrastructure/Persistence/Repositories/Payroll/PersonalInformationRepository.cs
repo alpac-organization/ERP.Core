@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class PersonalInformationRepository(AppDbContext _context): Repository<PersonalInformation>(_context), IPersonalInformationRepository
+    public class PersonalInformationRepository(ErpDbContext _context): Repository<PersonalInformation>(_context), IPersonalInformationRepository
     {
         public async Task<PersonalInformation> RegisterPersonalInformation(PersonalInformation personalInformation)
         {

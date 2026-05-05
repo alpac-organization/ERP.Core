@@ -5,9 +5,9 @@ using ERP.Core.Database.Infrastructure.Persistence.Context;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
-    public class Repository<T>(AppDbContext context) : IRepository<T> where T : class
+    public class Repository<T>(ErpDbContext context) : IRepository<T> where T : class
     {
-        protected readonly AppDbContext _context = context;
+        protected readonly ErpDbContext _context = context;
         private readonly DbSet<T> _dbSet = context.Set<T>();
         
         public IQueryable<T> Entities => _dbSet;

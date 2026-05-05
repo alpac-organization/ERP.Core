@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication
 {
-    public class SessionsRepository(AppDbContext _context): Repository<Session>(_context), ISessionsRepository
+    public class SessionsRepository(ErpDbContext _context): Repository<Session>(_context), ISessionsRepository
     {
         public async Task<Session> CreateNewSession(Session session)
         {

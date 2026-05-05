@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class AssignedTravelExpensesRepository(AppDbContext _context): Repository<AssignedTravelExpenses>(_context), IAssignedTravelExpensesRepository
+    public class AssignedTravelExpensesRepository(ErpDbContext _context): Repository<AssignedTravelExpenses>(_context), IAssignedTravelExpensesRepository
     {
         public async Task<AssignedTravelExpenses> RegisterAssignedTravelExpenses(AssignedTravelExpenses assigned)
         {

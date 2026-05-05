@@ -7,7 +7,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
     public class UnitOfWork(
-        AppDbContext _context,
+        ErpDbContext _context,
         ICompaniesRepository companiesRepository,
         IModulesRepository modulesRepository,
         IUsersRepository usersRepository,
@@ -36,7 +36,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IAssignedTravelExpensesRepository assignedTravelExpensesRepository
     ) : IUnitOfWork
     {
-        public AppDbContext Context => _context;
+        public ErpDbContext Context => _context;
 
         public ICompaniesRepository Companies => companiesRepository;
         public IModulesRepository Modules => modulesRepository;

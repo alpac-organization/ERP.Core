@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class PermitApplicationsRepository(AppDbContext _context): Repository<PermitApplication>(_context), IPermitApplicationsRepository
+    public class PermitApplicationsRepository(ErpDbContext _context): Repository<PermitApplication>(_context), IPermitApplicationsRepository
     {
         public async Task<PermitApplication> CreatePermitApplication(PermitApplication payload)
         {
