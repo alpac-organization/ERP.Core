@@ -21,10 +21,9 @@ namespace ERP.Core.Database.Infrastructure
     {
         public static IServiceCollection AddErpDatabaseServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("ConnectionStrings:ErpConnectionDatabase");
+            var connectionString = configuration.GetConnectionString("ErpConnectionDatabase");
 
             if(string.IsNullOrEmpty(connectionString))
-
 
             services.AddDbContext<ErpDbContext>(options => 
                 options.UseNpgsql(connectionString, npgsqlOptions =>
