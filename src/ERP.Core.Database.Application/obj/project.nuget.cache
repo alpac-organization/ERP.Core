@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "TotQuWECIwI=",
+  "dgSpecHash": "jvnOGhTzmVQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.7\\microsoft.extensions.dependencyinjection.10.0.7.nupkg.sha512",
-    "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.7\\microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg.sha512",
-    "C:\\Users\\desarrollo\\.nuget\\packages\\erp.core.database.domain\\1.0.64\\erp.core.database.domain.1.0.64.nupkg.sha512"
+    "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.7\\microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg.sha512"
   ],
   "logs": []
 }

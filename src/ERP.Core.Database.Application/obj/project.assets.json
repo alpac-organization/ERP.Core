@@ -37,7 +37,7 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "ERP.Core.Database.Domain/1.0.64": {
+      "ERP.Core.Database.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
@@ -112,7 +112,7 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "ERP.Core.Database.Domain/1.0.64": {
+    "ERP.Core.Database.Domain/1.0.0": {
       "type": "project",
       "path": "../ERP.Core.Database.Domain/ERP.Core.Database.Domain.csproj",
       "msbuildProject": "../ERP.Core.Database.Domain/ERP.Core.Database.Domain.csproj"
@@ -120,7 +120,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "ERP.Core.Database.Domain >= 1.0.64",
+      "ERP.Core.Database.Domain >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection >= 10.0.7"
     ]
   },

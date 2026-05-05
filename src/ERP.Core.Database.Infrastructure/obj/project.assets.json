@@ -306,7 +306,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "ERP.Core.Database.Domain": "1.0.64",
+          "ERP.Core.Database.Domain": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.7"
         },
         "compile": {
@@ -316,7 +316,7 @@
           "bin/placeholder/ERP.Core.Database.Application.dll": {}
         }
       },
-      "ERP.Core.Database.Domain/1.0.64": {
+      "ERP.Core.Database.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
@@ -848,7 +848,7 @@
       "path": "../ERP.Core.Database.Application/ERP.Core.Database.Application.csproj",
       "msbuildProject": "../ERP.Core.Database.Application/ERP.Core.Database.Application.csproj"
     },
-    "ERP.Core.Database.Domain/1.0.64": {
+    "ERP.Core.Database.Domain/1.0.0": {
       "type": "project",
       "path": "../ERP.Core.Database.Domain/ERP.Core.Database.Domain.csproj",
       "msbuildProject": "../ERP.Core.Database.Domain/ERP.Core.Database.Domain.csproj"

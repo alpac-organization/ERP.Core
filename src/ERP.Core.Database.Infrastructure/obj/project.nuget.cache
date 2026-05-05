@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PuBAVyGPS2k=",
+  "dgSpecHash": "YIDCMKPRLXg=",
   "success": true,
   "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -20,8 +20,7 @@
     "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.7\\microsoft.extensions.primitives.10.0.7.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\npgsql\\9.0.0\\npgsql.9.0.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.0\\npgsql.entityframeworkcore.postgresql.9.0.0.nupkg.sha512",
-    "C:\\Users\\desarrollo\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512",
-    "C:\\Users\\desarrollo\\.nuget\\packages\\erp.core.database.domain\\1.0.64\\erp.core.database.domain.1.0.64.nupkg.sha512"
+    "C:\\Users\\desarrollo\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512"
   ],
   "logs": []
 }
