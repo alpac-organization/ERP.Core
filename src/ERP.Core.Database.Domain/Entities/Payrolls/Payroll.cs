@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Branch Branch { get; set; } = null!;
         
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
+        public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = []; 
         public virtual ICollection<AssignedTravelExpensesHistory> AssignedTravelExpensesHistories { get; set; } = [];
     }
 }

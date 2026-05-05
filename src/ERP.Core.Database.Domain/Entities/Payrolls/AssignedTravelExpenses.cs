@@ -3,8 +3,6 @@ using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
-
-    //Tabla de asignación de viaticos por colaborador. Historial Para saber cuando fue que se le ingreso sus 
     public class AssignedTravelExpenses : BaseEntity<Guid>
     {
         //Los Viaticos se aplican en moneda cordobas
