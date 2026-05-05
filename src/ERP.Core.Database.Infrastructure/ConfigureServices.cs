@@ -24,6 +24,9 @@ namespace ERP.Core.Database.Infrastructure
             var connectionString = configuration.GetConnectionString("ErpConnectionDatabase");
 
             if(string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("No se encontró la cadena 'ErpConnectionDatabase'.");
+            }
 
             services.AddDbContext<ErpDbContext>(options => 
                 options.UseNpgsql(connectionString, npgsqlOptions =>
