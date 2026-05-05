@@ -5,8 +5,8 @@ C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\E
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.AssemblyInfoInputs.cache
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.AssemblyInfo.cs
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.csproj.CoreCompileInputs.cache
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.sourcelink.json
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\refint\ERP.Core.Domain.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.pdb
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ref\ERP.Core.Domain.dll
-C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Domain\obj\Debug\net9.0\ERP.Core.Domain.sourcelink.json
