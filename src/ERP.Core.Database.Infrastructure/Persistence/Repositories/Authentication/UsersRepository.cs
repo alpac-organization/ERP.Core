@@ -6,7 +6,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication
 {
-    public class UsersRepository(AppDbContext _context): Repository<User>(_context), IUsersRepository
+    public class UsersRepository(ErpDbContext _context): Repository<User>(_context), IUsersRepository
     {
         public async Task<User> CreateNewUser(User user)
         {

@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class OrdinaryPayrollsRepository(AppDbContext _context): Repository<OrdinaryPayroll>(_context), IOrdinaryPayrollsRepository
+    public class OrdinaryPayrollsRepository(ErpDbContext _context): Repository<OrdinaryPayroll>(_context), IOrdinaryPayrollsRepository
     {
         public async Task<OrdinaryPayroll> RegisterCollaboratorInTheOrdinaryPayroll(OrdinaryPayroll payload)
         {

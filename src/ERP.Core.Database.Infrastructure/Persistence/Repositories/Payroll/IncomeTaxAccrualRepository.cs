@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class IncomeTaxAccrualRepository(AppDbContext _context): Repository<IncomeTaxAccrual>(_context), IIncomeTaxAccrualRepository
+    public class IncomeTaxAccrualRepository(ErpDbContext _context): Repository<IncomeTaxAccrual>(_context), IIncomeTaxAccrualRepository
     {
         public async Task<IncomeTaxAccrual> RegisterIncomeTaxAccrual(IncomeTaxAccrual income)
         {

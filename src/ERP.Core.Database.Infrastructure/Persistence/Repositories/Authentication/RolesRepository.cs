@@ -5,7 +5,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication
 {
-    public class RolesRepository(AppDbContext _context): Repository<Role>(_context), IRolesRepository
+    public class RolesRepository(ErpDbContext _context): Repository<Role>(_context), IRolesRepository
     {
         public async Task<Role?> ObtainModuleRoleByUserIdAndModuleId(string moduleCode, Guid userId, CancellationToken cancellationToken)
         {

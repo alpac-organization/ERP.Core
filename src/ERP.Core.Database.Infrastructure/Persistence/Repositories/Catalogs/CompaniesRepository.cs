@@ -5,7 +5,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs
 {
-    public class CompaniesRepository(AppDbContext _context): Repository<Company>(_context), ICompaniesRepository
+    public class CompaniesRepository(ErpDbContext _context): Repository<Company>(_context), ICompaniesRepository
     {
         public async Task<List<Company>> GetAvailableCompanies(CancellationToken cancellationToken)
         {

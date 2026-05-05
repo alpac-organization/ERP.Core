@@ -1,4 +1,6 @@
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\appsettings.json
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\ERP.Core.Database.Infrastructure.deps.json
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\ERP.Core.Database.Infrastructure.runtimeconfig.json
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\ERP.Core.Database.Infrastructure.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\ERP.Core.Database.Infrastructure.pdb
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\bin\Debug\net9.0\ERP.Core.Database.Application.dll
@@ -15,4 +17,5 @@ C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\o
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\obj\Debug\net9.0\ERP.Core.Database.Infrastructure.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\obj\Debug\net9.0\refint\ERP.Core.Database.Infrastructure.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\obj\Debug\net9.0\ERP.Core.Database.Infrastructure.pdb
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\obj\Debug\net9.0\ERP.Core.Database.Infrastructure.genruntimeconfig.cache
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Infrastructure\obj\Debug\net9.0\ref\ERP.Core.Database.Infrastructure.dll

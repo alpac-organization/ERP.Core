@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class VacationsRepository(AppDbContext _context): Repository<Vacation>(_context), IVacationsRepository
+    public class VacationsRepository(ErpDbContext _context): Repository<Vacation>(_context), IVacationsRepository
     {
         public async Task<Vacation> RegisterVacationControl(Vacation payload)
         {

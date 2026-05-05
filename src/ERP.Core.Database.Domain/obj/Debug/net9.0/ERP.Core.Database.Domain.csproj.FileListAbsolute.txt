@@ -1,11 +1,11 @@
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.deps.json
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.dll
+C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.pdb
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.AssemblyInfoInputs.cache
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.AssemblyInfo.cs
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.csproj.CoreCompileInputs.cache
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.sourcelink.json
-C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.deps.json
-C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.dll
-C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\bin\Debug\net9.0\ERP.Core.Database.Domain.pdb
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\refint\ERP.Core.Database.Domain.dll
 C:\Users\desarrollo\Desktop\Back-End\Core\src\ERP.Core.Database.Domain\obj\Debug\net9.0\ERP.Core.Database.Domain.pdb

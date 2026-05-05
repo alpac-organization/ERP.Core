@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
-    public class DeductionsRepository(AppDbContext _context): Repository<Deduction>(_context), IDeductionsRepository
+    public class DeductionsRepository(ErpDbContext _context): Repository<Deduction>(_context), IDeductionsRepository
     {
         public async  Task<Deduction> RegisterDeduction(Deduction deduction)
         {

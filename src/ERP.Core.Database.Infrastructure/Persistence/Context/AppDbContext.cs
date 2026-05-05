@@ -6,7 +6,7 @@ using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Module> Modules => Set<Module>();
@@ -40,45 +40,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasDefaultSchema("public");
             modelBuilder.HasPostgresExtension("uuid-ossp");
 
-            #region Catalogos
-
             modelBuilder.HasPostgresEnum<CatalogType>("public","catalog_type_enum");            
-            
-            #endregion
-
-            #region Creación de roles
-            
             modelBuilder.HasPostgresEnum<RoleType>("public","role_type_enum");
             modelBuilder.HasPostgresEnum<PermissionType>("public","permission_type_enum");
-
-            #endregion
-
-            #region Crear un usuario
-
             modelBuilder.HasPostgresEnum<UserType>("public","user_type_enum");            
             modelBuilder.HasPostgresEnum<UserStatus>("public","user_status_enum");
-
-            #endregion
-
-            #region Registrar Colaborador enums
-
             modelBuilder.HasPostgresEnum<GenderType>("public","gender_type_enum");
             modelBuilder.HasPostgresEnum<IdentificationType>("public","identification_type_enum");
             modelBuilder.HasPostgresEnum<CollaboratorStatus>("public","collaborator_status_enum");
             modelBuilder.HasPostgresEnum<SalaryType>("public","salary_type_enum");
             modelBuilder.HasPostgresEnum<Currency>("public","currency_enum");
             modelBuilder.HasPostgresEnum<MaritalStatus>("public","marital_status_enum");
-
-            #endregion
-    
-
-            #region Registro de permisos
-    
             modelBuilder.HasPostgresEnum<PermitApplicationStatus>("public","permit_application_status_enum");
             modelBuilder.HasPostgresEnum<PermitApplicationType>("public","permit_application_type_enum");
-
-            #endregion
-
             modelBuilder.HasPostgresEnum<DeductionType>("public","deduction_type_enum");
             modelBuilder.HasPostgresEnum<PayrollStatus>("public","payroll_status_enum");
             modelBuilder.HasPostgresEnum<PayrollType>("public","payroll_type_enum");
@@ -107,7 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
                 }
             }
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ErpDbContext).Assembly);
         }
     }
 }

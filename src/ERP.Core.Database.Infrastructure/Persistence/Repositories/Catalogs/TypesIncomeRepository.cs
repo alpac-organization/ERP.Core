@@ -4,5 +4,5 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs
 {
-    public class TypesIncomeRepository(AppDbContext _context) : Repository<TypesIncome>(_context), ITypesIncomeRepository {}
+    public class TypesIncomeRepository(ErpDbContext _context) : Repository<TypesIncome>(_context), ITypesIncomeRepository {}
 }
