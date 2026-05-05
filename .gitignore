@@ -1,2 +1,2 @@
 out/
-ERP.Core.Database.Infrastructure/appsettings
+src/ERP.Core.Database.Infrastructure/appsettings.json
