@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
       "projectName": "ERP.Core.Domain",
-      "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
+      "projectPath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
       "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Domain\\obj\\",
+      "outputPath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,7 +33,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
