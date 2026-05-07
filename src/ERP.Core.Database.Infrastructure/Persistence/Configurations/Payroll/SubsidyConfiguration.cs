@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.Id)
                 .HasColumnName("subsidy_id")
-                .HasDefaultValue("gen_random_uuid()")
+                .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 

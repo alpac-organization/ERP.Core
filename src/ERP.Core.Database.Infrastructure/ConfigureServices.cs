@@ -14,6 +14,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -52,9 +53,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PayrollType>("payroll_type_enum");
                     npgsqlOptions.MapEnum<TaxType>("tax_type_enum");
                     npgsqlOptions.MapEnum<SourceDeductionPayment>("source_deduction_payment_enum");
+                    npgsqlOptions.MapEnum<SubsidyType>("subsidy_type_enum");
                 })  
             );
-
 
             //Repositories
             services.AddScoped<IUsersRepository, UsersRepository>();
@@ -83,6 +84,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IIncomeTaxAccrualRepository, IncomeTaxAccrualRepository>();
             services.AddScoped<IAssignedTravelExpensesRepository, AssignedTravelExpensesRepository>();
             services.AddScoped<IAssignedTravelExpensesHistoryRepository, AssignedTravelExpensesHistoryRepository>();
+            services.AddScoped<ISubsidyRepository, SubsidyRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 

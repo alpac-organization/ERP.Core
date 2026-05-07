@@ -30,9 +30,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IIncomesRepository Incomes { get; }
         IBranchesRepository Branches { get; }
         ITypesIncomeRepository TypesIncome { get; }
-        IIncomeTaxAccrualRepository IncomeTaxAccrual { get;}
-        IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
+        IIncomeTaxAccrualRepository IncomeTaxAccrual { get; }
+        IAssignedTravelExpensesRepository AssignedTravelExpenses { get; }
         IAssignedTravelExpensesHistoryRepository AssignedTravelExpensesHistories { get; }
+        ISubsidyRepository Subsidies { get; }
 
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
