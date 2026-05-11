@@ -8,24 +8,21 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public Currency Currency { get; set; }
         public DeductionType Type { get; set; }
         public DeductionStatus Status { get; set; }
-
+        
+        public int? NumberOfFortnights { get; set; }
         public string? Description { get; set; }
-        public int NumberOfFortnights { get; set; }
 
-        public decimal FortnightlyAmount { get; set; }  //Monto a deducir quincenalmente.
-        public decimal FortnightlyAmountInDollars { get; set; } //Monto Quincenal a deducir en dolares
+        public decimal? FortnightlyAmount { get; set; }          //Monto a deducir quincenalmente.
+        public decimal? FortnightlyAmountInDollars { get; set; } //Monto Quincenal a deducir en dolares
 
-        public decimal TotalAmount { get; set; }        //Monto total de la deducción que se le aplico al colaborador.
+        public decimal TotalAmount { get; set; }          // Monto total de la deducción que se le aplico al colaborador.
         public decimal TotalAmountInDollars { get; set; } // Monto total de la dedución en dolares
 
-        public decimal TotalBalance { get; set; }       //Saldo restante que tiene el colaborador por pagar.
-        public decimal TotalBalanceInDollars { get; set; }
+        public decimal? TotalBalance { get; set; }       //Saldo restante que tiene el colaborador por pagar.
+        public decimal? TotalBalanceInDollars { get; set; }
 
-        public decimal AmountPaid { get; set; }          //Total de dinero pagado por el colaborador
-        public decimal AmountPaidInDollars { get; set; } //Total de dinero pagado en dolares
-
-        //Fecha de inicio para deducir
-        public DateTime DeductionStartDate { get; set; }
+        public decimal? AmountPaid { get; set; }          //Total de dinero pagado por el colaborador
+        public decimal? AmountPaidInDollars { get; set; } //Total de dinero pagado en dolares
 
         public Guid CollaboratorId { get; set;}
         public virtual Collaborator Collaborator { get; set; } = null!;
