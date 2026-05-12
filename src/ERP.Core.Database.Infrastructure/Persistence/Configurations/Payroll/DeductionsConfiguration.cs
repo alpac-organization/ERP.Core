@@ -32,6 +32,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("currency_enum")
                 .IsRequired();
 
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("deduction_status_enum")
+                .IsRequired();
+
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
