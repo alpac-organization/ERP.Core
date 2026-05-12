@@ -13,14 +13,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("ordinary_payroll_id")
+                .HasColumnName("professional_services_payroll_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.HasIndex(e => e.Id)
                 .IsUnique()
-                .HasDatabaseName("ix_ordinary_payroll_id");
+                .HasDatabaseName("ix_prof_services_payroll_ordinary_payroll_id");
 
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")

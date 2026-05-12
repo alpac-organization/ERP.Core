@@ -56,13 +56,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_ordinary_payroll_id",
-                schema: "public",
-                table: "professional_services_payrolls",
-                column: "ordinary_payroll_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_professional_services_payrolls_collaborator_id",
                 schema: "public",
                 table: "professional_services_payrolls",
