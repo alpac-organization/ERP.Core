@@ -28,6 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Income> Incomes => Set<Income>();
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
+        public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
