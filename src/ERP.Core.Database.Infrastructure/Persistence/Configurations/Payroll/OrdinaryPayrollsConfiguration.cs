@@ -80,14 +80,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             //Transporte
-            builder.Property(e => e.TravelExpenses)
-                .HasColumnName("travel_expenses")
+            builder.Property(e => e.Transport)
+                .HasColumnName("transport")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
             // Alimentación
-            builder.Property(e => e.FoodTravelAllowance)
-                .HasColumnName("food_travel_allowance")
+            builder.Property(e => e.Feeding)
+                .HasColumnName("feeding")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
