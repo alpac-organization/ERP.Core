@@ -59,6 +59,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollType>("public","payroll_type_enum");
             modelBuilder.HasPostgresEnum<TaxType>("public","tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public","source_deduction_payment_enum");
+            modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
