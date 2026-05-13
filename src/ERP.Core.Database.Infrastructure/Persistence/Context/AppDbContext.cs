@@ -34,6 +34,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<AssignedTravelExpensesHistory> AssignedTravelExpensesHistories => Set<AssignedTravelExpensesHistory>();
+        public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

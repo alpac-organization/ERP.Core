@@ -34,6 +34,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
         IAssignedTravelExpensesHistoryRepository AssignedTravelExpensesHistories { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
+        IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
         
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
