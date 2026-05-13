@@ -9,6 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? WorkPhoneNumber { get; set; }
         public string? WorkEmail { get; set; }
         public string? InssNumber { get; set; }
+        public string? Daem { get; set; }
         public DateTime? DepartureDate { get; set; }
         
         public Guid CollaboratorId { get; set; }
