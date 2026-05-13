@@ -86,8 +86,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssignedTravelExpensesHistoryRepository, AssignedTravelExpensesHistoryRepository>();
             services.AddScoped<IProfessionalServicesPayrollsRepository, ProfessionalServicesPayrollsRepository>();
             services.AddScoped<IDeductionPaymentHistoryRepository, DeductionPaymentHistoryRepository>();
-
-
+            
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
             return services;
