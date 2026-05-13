@@ -31,8 +31,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();      
 
-            builder.Property(e => e.NumberOfOvertime)
-                .HasColumnName("number_of_overtime")
+            builder.Property(e => e.NumberOvertime)
+                .HasColumnName("number_overtime")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(e => e.Overtime)
