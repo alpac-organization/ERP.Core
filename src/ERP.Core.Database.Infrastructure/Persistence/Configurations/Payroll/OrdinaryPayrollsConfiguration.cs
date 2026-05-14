@@ -56,6 +56,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.TotalIncome)
+                .HasColumnName("total_income")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.Inss)
                 .HasColumnName("inss")
                 .HasPrecision(18, 2)
