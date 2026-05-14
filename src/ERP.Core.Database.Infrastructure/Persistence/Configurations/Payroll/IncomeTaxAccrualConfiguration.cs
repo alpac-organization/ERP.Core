@@ -44,6 +44,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("accumulated_ir")
                 .IsRequired();
 
+            builder.Property(e => e.AccumulatedChristmasBonus)
+                .HasPrecision(18,2)
+                .HasColumnName("accumulated_christmas_bonus")
+                .IsRequired(false);
+
             builder.Property(e => e.RegisterDate)
                 .HasColumnName("register_date")
                 .IsRequired();

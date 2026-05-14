@@ -31,8 +31,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();      
 
-            builder.Property(e => e.NumberOfOvertime)
-                .HasColumnName("number_of_overtime")
+            builder.Property(e => e.NumberOvertime)
+                .HasColumnName("number_overtime")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(e => e.Overtime)
@@ -52,6 +53,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.GrossSalary)
                 .HasColumnName("gross_salary")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.TotalIncome)
+                .HasColumnName("total_income")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
@@ -80,14 +86,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             //Transporte
-            builder.Property(e => e.TravelExpenses)
-                .HasColumnName("travel_expenses")
+            builder.Property(e => e.Transport)
+                .HasColumnName("transport")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
             // Alimentación
-            builder.Property(e => e.FoodTravelAllowance)
-                .HasColumnName("food_travel_allowance")
+            builder.Property(e => e.Feeding)
+                .HasColumnName("feeding")
                 .HasPrecision(18, 2)
                 .IsRequired();
 

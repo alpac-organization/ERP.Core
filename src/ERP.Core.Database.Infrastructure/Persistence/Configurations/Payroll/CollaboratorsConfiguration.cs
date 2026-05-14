@@ -138,7 +138,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .WithOne(s => s.Collaborator)
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
+
+            builder.HasMany(c => c.ProfessionalServicesPayrolls)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(c => c.Deductions)
                 .WithOne(s => s.Collaborator)
                 .HasForeignKey(s => s.CollaboratorId)

@@ -1,5 +1,5 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using ERP.Core.Database.Domain.Entities.Bases;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
@@ -10,12 +10,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         [Column(TypeName = "jsonb")] 
         public string DeductionsAdditionalData { get; set; } = "{}"; //Json con toda la información de deducciones posibles que existen para el colaborador.
         public decimal TotalDeducctions { get; set; }
+        
+        public decimal Antique { get; set; }
+        public decimal TotalIncome { get; set; }
 
-        public decimal Vacations { get; set; } //Vacaciones
-
-        //Viaticos
-        public decimal TravelExpenses { get; set; } // Viaticos del colaborador
-        public decimal FoodTravelAllowance { get ; set; } //Viaticos de alimentación 
+        public decimal Transport { get; set; }
+        public decimal Feeding { get ; set; }
         public decimal Lodging { get; set; }
         public decimal TotalTravelExpenses { get; set; }
     }

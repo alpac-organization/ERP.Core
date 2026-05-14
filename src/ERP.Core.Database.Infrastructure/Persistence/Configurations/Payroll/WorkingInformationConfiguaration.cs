@@ -34,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("inss_number")
                 .IsRequired(false);
 
+            
+            builder.Property(e => e.Daem)
+                .HasColumnName("daem")
+                .IsRequired(false);
+
             builder.Property(e => e.CompanyBranchId)
                 .HasColumnName("company_branch_id")
                 .IsRequired();

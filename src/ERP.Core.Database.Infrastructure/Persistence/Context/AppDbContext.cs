@@ -28,11 +28,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Income> Incomes => Set<Income>();
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
+        public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<AssignedTravelExpensesHistory> AssignedTravelExpensesHistories => Set<AssignedTravelExpensesHistory>();
+        public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
         public DbSet<Subsidy> Subsidies => Set<Subsidy>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +61,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollType>("public", "payroll_type_enum");
             modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
+            modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
             modelBuilder.HasPostgresEnum<SubsidyType>("public", "subsidy_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

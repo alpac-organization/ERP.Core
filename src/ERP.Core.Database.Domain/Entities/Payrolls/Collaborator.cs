@@ -41,6 +41,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         
         //Registros de ciclos de nominas
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
+        public virtual ICollection<ProfessionalServicesPayroll> ProfessionalServicesPayrolls { get; set; } = [];
 
         //Acumulador de salario devengado e impuesto sobre renta
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];

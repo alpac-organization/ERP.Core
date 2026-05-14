@@ -27,10 +27,76 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("deduction_type_enum")
                 .IsRequired();
 
+            builder.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasColumnType("currency_enum")
+                .IsRequired();
+
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("deduction_status_enum")
+                .IsRequired();
+
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
-                
+
+            builder.Property(e => e.PayrollId)
+                .HasColumnName("payroll_id")
+                .IsRequired();
+
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsRequired(false);
+
+            builder.Property(e => e.FortnightlyAmount)
+                .HasColumnName("fortnightly_amount")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
+
+            builder.Property(e => e.FortnightlyAmountInDollars)
+                .HasColumnName("fortnightly_amount_in_dollars")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
+
+            builder.Property(e => e.NumberFortnights)
+                .HasColumnName("number_fortnights")
+                .IsRequired(false);
+
+            builder.Property(e => e.NumberFortnightsPaid)
+                .HasColumnName("number_fortnights_paid")
+                .IsRequired(false);
+
+            builder.Property(e => e.AmountPaid)
+                .HasColumnName("amount_paid")
+                .HasPrecision(18, 2)
+                .IsRequired(false);            
+
+            builder.Property(e => e.AmountPaidInDollars)
+                .HasColumnName("amount_paid_in_dollars")
+                .HasPrecision(18, 2)
+                .IsRequired(false);       
+
+            builder.Property(e => e.TotalBalance)
+                .HasColumnName("total_balance")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
+
+            builder.Property(e => e.TotalBalanceInDollars)
+                .HasColumnName("total_balance_in_dollars")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
+
+            builder.Property(e => e.TotalAmount)
+                .HasColumnName("total_amount")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.TotalAmountInDollars)
+                .HasColumnName("total_amount_in_dollars")
+                .HasPrecision(18, 2)
+                .IsRequired();
+             
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")

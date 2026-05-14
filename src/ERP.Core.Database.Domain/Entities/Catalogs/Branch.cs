@@ -9,6 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public string? BranchName { get; set; }
         public string? CompanyAlias { get; set; }
         public string? BranchAddress { get; set; }
+        public bool DoesGenerateSeniority { get; set; } = false;
 
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = null!;

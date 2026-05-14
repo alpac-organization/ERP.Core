@@ -6,6 +6,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     {
         public decimal SalaryEarned { get; set; }
         public decimal AccumulatedIR { get; set; }
+        public decimal? AccumulatedChristmasBonus { get; set; }
+        public decimal? AccumulatedSeniority { get; set; }
+          
         public int NumberOfFortnights { get; set; }
         public DateTime RegisterDate { get; set; }
 

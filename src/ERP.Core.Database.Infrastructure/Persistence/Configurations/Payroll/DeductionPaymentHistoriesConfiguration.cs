@@ -36,6 +36,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("deduction_id")
                 .IsRequired();
 
+            builder.Property(e => e.PayrollId)
+                .HasColumnName("payroll_id")
+                .IsRequired();
+
+            builder.HasOne(d => d.Deduction)
+                    .WithMany()
+                    .HasForeignKey(d => d.PayrollId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(e => e.PaymentDate)
                 .HasColumnName("payment_date")
                 .IsRequired();

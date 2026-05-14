@@ -53,6 +53,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PayrollType>("payroll_type_enum");
                     npgsqlOptions.MapEnum<TaxType>("tax_type_enum");
                     npgsqlOptions.MapEnum<SourceDeductionPayment>("source_deduction_payment_enum");
+                    npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
                     npgsqlOptions.MapEnum<SubsidyType>("subsidy_type_enum");
                 })  
             );
@@ -84,6 +85,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IIncomeTaxAccrualRepository, IncomeTaxAccrualRepository>();
             services.AddScoped<IAssignedTravelExpensesRepository, AssignedTravelExpensesRepository>();
             services.AddScoped<IAssignedTravelExpensesHistoryRepository, AssignedTravelExpensesHistoryRepository>();
+            services.AddScoped<IProfessionalServicesPayrollsRepository, ProfessionalServicesPayrollsRepository>();
+            services.AddScoped<IDeductionPaymentHistoryRepository, DeductionPaymentHistoryRepository>();
             services.AddScoped<ISubsidyRepository, SubsidyRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
