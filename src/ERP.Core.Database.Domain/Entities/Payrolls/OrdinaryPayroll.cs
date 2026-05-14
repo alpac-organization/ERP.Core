@@ -12,6 +12,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal TotalDeducctions { get; set; }
         
         public decimal Antique { get; set; }
+        public decimal TotalIncome { get; set; }
 
         public decimal Transport { get; set; }
         public decimal Feeding { get ; set; }
