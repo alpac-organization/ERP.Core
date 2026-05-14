@@ -22,6 +22,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("branch_name")
                 .HasMaxLength(100);
 
+            builder.Property(e => e.DoesGenerateSeniority)
+                .HasColumnName("does_generate_seniority")
+                .HasDefaultValue(false);
+
             builder.Property(e => e.BranchAddress)
                 .HasColumnName("branch_address")
                 .HasMaxLength(500);

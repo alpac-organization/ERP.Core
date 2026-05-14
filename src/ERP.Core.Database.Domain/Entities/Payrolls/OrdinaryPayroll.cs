@@ -10,6 +10,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         [Column(TypeName = "jsonb")] 
         public string DeductionsAdditionalData { get; set; } = "{}"; //Json con toda la información de deducciones posibles que existen para el colaborador.
         public decimal TotalDeducctions { get; set; }
+        
+        public decimal Antique { get; set; }
 
         public decimal Transport { get; set; }
         public decimal Feeding { get ; set; }

@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260514004813_AgregarBanderaAngituedad")]
+    partial class AgregarBanderaAngituedad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1130,9 +1133,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("accumulated_ir");
 
-                    b.Property<decimal?>("AccumulatedSeniority")
-                        .HasColumnType("numeric");
-
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
@@ -1184,9 +1184,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ordinary_payroll_id")
                         .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<decimal>("Antique")
-                        .HasColumnType("numeric");
 
                     b.Property<decimal>("BiweeklySalary")
                         .HasPrecision(18, 2)
