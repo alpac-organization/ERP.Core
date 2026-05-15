@@ -51,6 +51,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("identification_number")
                 .IsRequired();
 
+            builder.Property(e => e.DoesWorkSaturdays)
+                .HasColumnName("does_work_saturdays")
+                .IsRequired();
+
             builder.HasIndex(e => e.IdentificationNumber)
                 .HasDatabaseName("IX_collaborators_identification_number");
 
