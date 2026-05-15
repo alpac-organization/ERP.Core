@@ -7,7 +7,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     {
         public DateTime PaymentDate { get; set; }
         public decimal AmountPaid { get; set; }
+        public DeductionPaymentStatus Status { get; set; }
         public SourceDeductionPayment Origin { get; set; }
+        
 
         public Guid PayrollId { get; set; }
         public virtual Payroll Payroll { get; set; } = null!;
