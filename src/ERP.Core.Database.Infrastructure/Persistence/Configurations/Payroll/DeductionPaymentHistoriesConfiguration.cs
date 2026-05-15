@@ -36,6 +36,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("deduction_id")
                 .IsRequired();
 
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("deduction_payment_status")
+                .IsRequired();
+
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id")
                 .IsRequired();
