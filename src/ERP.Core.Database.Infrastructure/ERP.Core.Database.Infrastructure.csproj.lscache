@@ -195,6 +195,8 @@ Persistence/
   20260514005538_AgregarAcumuladoAntiguedad.Designer.cs
   20260514015651_AgregarColumnaTotalIngreso.cs
   20260514015651_AgregarColumnaTotalIngreso.Designer.cs
+  20260515163128_AgregarBanderaViaticos.cs
+  20260515163128_AgregarBanderaViaticos.Designer.cs
   AppDbContextModelSnapshot.cs
  Factory/ErpDbContextFactory.cs
  Repositories/Authentication/
