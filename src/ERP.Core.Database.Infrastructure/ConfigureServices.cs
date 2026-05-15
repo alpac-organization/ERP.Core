@@ -53,6 +53,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TaxType>("tax_type_enum");
                     npgsqlOptions.MapEnum<SourceDeductionPayment>("source_deduction_payment_enum");
                     npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
+                    npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status");
+
                 })  
             );
 
