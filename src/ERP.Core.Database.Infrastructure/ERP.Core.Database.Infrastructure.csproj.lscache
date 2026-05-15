@@ -197,6 +197,8 @@ Persistence/
   20260514015651_AgregarColumnaTotalIngreso.Designer.cs
   20260515163128_AgregarBanderaViaticos.cs
   20260515163128_AgregarBanderaViaticos.Designer.cs
+  20260515170829_AgregarDatosEnums.cs
+  20260515170829_AgregarDatosEnums.Designer.cs
   AppDbContextModelSnapshot.cs
  Factory/ErpDbContextFactory.cs
  Repositories/Authentication/
