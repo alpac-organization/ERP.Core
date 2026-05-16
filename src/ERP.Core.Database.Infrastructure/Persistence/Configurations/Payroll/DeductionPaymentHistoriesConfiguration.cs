@@ -32,13 +32,27 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.Property(e => e.DeductionId)
-                .HasColumnName("deduction_id")
+            builder.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasColumnType("currency_enum")
+                .IsRequired();
+
+            builder.Property(e => e.AmountPaidInDollars)
+                .HasColumnName("amount_paid_in_dollars")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(e => e.Status)
                 .HasColumnName("status")
                 .HasColumnType("deduction_payment_status")
+                .IsRequired();
+
+            builder.Property(e => e.PaymentDate)
+                .HasColumnName("payment_date")
+                .IsRequired();
+                
+            builder.Property(e => e.DeductionId)
+                .HasColumnName("deduction_id")
                 .IsRequired();
 
             builder.Property(e => e.PayrollId)
@@ -49,10 +63,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                     .WithMany()
                     .HasForeignKey(d => d.PayrollId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Property(e => e.PaymentDate)
-                .HasColumnName("payment_date")
-                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")

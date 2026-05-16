@@ -37,6 +37,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("company_id")
                 .IsRequired();
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.Property(e => e.CompanyAlias)
                 .HasColumnName("company_alias")
                 .IsRequired();

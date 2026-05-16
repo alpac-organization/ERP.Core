@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260516023605_AgregarEstadoASucursales")]
+    partial class AgregarEstadoASucursales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +28,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status", new[] { "paid", "pending" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
@@ -912,10 +915,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("deduction_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<decimal?>("Amount")
-                        .HasColumnType("numeric")
-                        .HasColumnName("amount");
-
                     b.Property<decimal?>("AmountPaid")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -966,9 +965,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("number_fortnights_paid");
 
-                    b.Property<int?>("Percentage")
-                        .HasColumnType("integer")
-                        .HasColumnName("percentage");
+                    b.Property<Guid>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
 
                     b.Property<int>("Status")
                         .HasColumnType("deduction_status_enum")
@@ -1006,6 +1005,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_deduction_id");
 
+                    b.HasIndex("PayrollId");
+
                     b.ToTable("deductions", "public");
                 });
 
@@ -1022,20 +1023,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("amount_paid");
 
-                    b.Property<decimal>("AmountPaidInDollars")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("amount_paid_in_dollars");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("Currency")
-                        .HasColumnType("currency_enum")
-                        .HasColumnName("currency");
 
                     b.Property<Guid>("DeductionId")
                         .HasColumnType("uuid")
@@ -2085,7 +2077,15 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany()
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DeductionPaymentHistory", b =>
