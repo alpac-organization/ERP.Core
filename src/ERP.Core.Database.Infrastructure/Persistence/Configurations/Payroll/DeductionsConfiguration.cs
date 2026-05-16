@@ -41,9 +41,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
-            builder.Property(e => e.PayrollId)
-                .HasColumnName("payroll_id")
-                .IsRequired();
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsRequired(false);
+
+            builder.Property(e => e.Percentage)
+                .HasColumnName("percentage")
+                .IsRequired(false);
+                
+            builder.Property(e => e.Amount)
+                .HasColumnName("amount")
+                .IsRequired(false);
 
             builder.Property(e => e.Description)
                 .HasColumnName("description")

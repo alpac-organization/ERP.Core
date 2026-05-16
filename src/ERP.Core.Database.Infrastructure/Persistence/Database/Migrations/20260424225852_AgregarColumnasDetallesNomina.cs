@@ -127,9 +127,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 name: "Currency",
                 schema: "public",
                 table: "deductions",
-                type: "currency_enum",
+                type: "public.currency_enum", // Aseguramos el esquema correcto aquí también
                 nullable: false,
-                defaultValue: (Currency)1);
+                defaultValueSql: "'usd'::public.currency_enum"); // 👈 Cambiado por defaultValueSql con el string correspondiente
 
             migrationBuilder.AddColumn<decimal>(
                 name: "FortnightlyAmountInDollars",

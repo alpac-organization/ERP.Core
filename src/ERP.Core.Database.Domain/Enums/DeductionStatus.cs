@@ -4,6 +4,7 @@ namespace ERP.Core.Database.Domain.Enums
     {
         Progress = 1,
         Completed = 2,
-        Pending = 3
+        Pending = 3,
+        Canceled = 4,
     }
 }
