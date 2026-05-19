@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
     {
         public void Configure(EntityTypeBuilder<VacationAccrual> builder)
         {
-            builder.ToTable("vacations");
+            builder.ToTable("vacations_accruals");
 
             builder.HasKey(e => e.Id);
 
@@ -38,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.PayrollId)
+                .HasColumnName("payroll_id")
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -45,9 +49,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
-                
+
             builder.HasIndex(p => p.CollaboratorId)
                 .IsUnique();
+
+            builder.HasOne(d => d.Payroll)
+                .WithMany(p => p.VacationAccruals)
+                .HasForeignKey(d => d.PayrollId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.Collaborator)
+                .WithMany(s => s.VacationAccruals)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Restrict);    
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasDatabaseName("ix_record_travel_expense_collaborator_id");
 
             builder.Property(e => e.PayrollId)
-                .HasColumnName("collaborator_id")
+                .HasColumnName("payroll_id")
                 .IsRequired();
 
             builder.Property(e => e.Transport)
@@ -60,7 +60,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("deleted_at");
 
             builder.HasOne(d => d.Payroll)
-                .WithMany()
+                .WithMany(p => p.RecordsTravelExpensePayments)
                 .HasForeignKey(d => d.PayrollId)
                 .OnDelete(DeleteBehavior.Restrict);
             

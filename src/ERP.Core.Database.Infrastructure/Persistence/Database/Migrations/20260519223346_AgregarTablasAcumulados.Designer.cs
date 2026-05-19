@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260519223346_AgregarTablasAcumulados")]
+    partial class AgregarTablasAcumulados
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1694,6 +1697,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
 
+                    b.Property<Guid?>("PayrollId1")
+                        .HasColumnType("uuid");
+
                     b.Property<decimal>("Transport")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1706,6 +1712,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_record_travel_expense_collaborator_id");
 
                     b.HasIndex("PayrollId");
+
+                    b.HasIndex("PayrollId1");
 
                     b.ToTable("records_travel_expense_payments", "public");
                 });
@@ -1904,8 +1912,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("equivalent_quantity_in_dollars");
 
                     b.Property<Guid>("PayrollId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("payroll_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -2350,10 +2357,14 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
-                        .WithMany("RecordsTravelExpensePayments")
+                        .WithMany()
                         .HasForeignKey("PayrollId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", null)
+                        .WithMany("RecordsTravelExpensePayments")
+                        .HasForeignKey("PayrollId1");
 
                     b.Navigation("Collaborator");
 
@@ -2387,13 +2398,13 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany("VacationAccruals")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
                         .WithMany("VacationAccruals")
                         .HasForeignKey("PayrollId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Collaborator");
