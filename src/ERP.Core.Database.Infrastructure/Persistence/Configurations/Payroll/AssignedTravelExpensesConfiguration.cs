@@ -1,5 +1,3 @@
-
-
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
