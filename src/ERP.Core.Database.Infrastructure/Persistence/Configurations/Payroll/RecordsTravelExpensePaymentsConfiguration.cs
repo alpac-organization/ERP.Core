@@ -1,19 +1,21 @@
+
+
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
-    public class AssignedTravelExpensesHistoryConfiguration : IEntityTypeConfiguration<AssignedTravelExpensesHistory>
+    public class RecordsTravelExpensePaymentsConfiguration : IEntityTypeConfiguration<RecordsTravelExpensePayments>
     {
-        public void Configure(EntityTypeBuilder<AssignedTravelExpensesHistory> builder)
+        public void Configure(EntityTypeBuilder<RecordsTravelExpensePayments> builder)
         {
-            builder.ToTable("assigned_travel_expenses_histories");
+            builder.ToTable("records_travel_expense_payments");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("assigned_travel_id")
+                .HasColumnName("records_travel_expense_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
@@ -22,8 +24,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.HasIndex(e => e.CollaboratorId)
+                .IsUnique()
+                .HasDatabaseName("ix_record_travel_expense_collaborator_id");
+
             builder.Property(e => e.PayrollId)
-                .HasColumnName("payroll_id")
+                .HasColumnName("collaborator_id")
+                .IsRequired();
+
+            builder.Property(e => e.Transport)
+                .HasColumnName("transport")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(e => e.Feeding)
@@ -36,14 +47,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.Property(e => e.Transport)
-                .HasColumnName("transport")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
-            builder.Property(e => e.TotalAmountPaid)
-                .HasColumnName("total_amount_paid")
-                .HasPrecision(18, 2)
+            builder.Property(e => e.PaidDays)
+                .HasColumnName("paid_days")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
@@ -54,15 +59,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            builder.HasOne(d => d.Collaborator)
+            builder.HasOne(d => d.Payroll)
                 .WithMany()
-                .HasForeignKey(d => d.CollaboratorId)
+                .HasForeignKey(d => d.PayrollId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(c => c.Payroll)
-                .WithMany(s => s.AssignedTravelExpensesHistories)
-                .HasForeignKey(s => s.PayrollId)
-                .OnDelete(DeleteBehavior.Restrict);
+            
+            builder.HasOne(c => c.Collaborator)
+                .WithMany(s => s.RecordsTravelExpensePayments)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Restrict);    
+            
         }
     }
 }

@@ -60,12 +60,27 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(s => s.PayrollId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
+            //Acumulado de ir, devengado en la quincena
             builder.HasMany(c => c.IncomeTaxAccruals)
                 .WithOne(s => s.Payroll)
                 .HasForeignKey(s => s.PayrollId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(c => c.AssignedTravelExpensesHistories)
+            //Acumulado de vacaciones
+            builder.HasMany(c => c.VacationAccruals)
+                .WithOne(s => s.Payroll)
+                .HasForeignKey(s => s.PayrollId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            //Registro de pago de viaticos de la quincena
+            builder.HasMany(c => c.RecordsTravelExpensePayments)
+                .WithOne(s => s.Payroll)
+                .HasForeignKey(s => s.PayrollId)
+                .OnDelete(DeleteBehavior.Cascade);        
+
+            //Acumulado de aguinaldo
+            builder.HasMany(c => c.ChristmasBonusAccruals)
                 .WithOne(s => s.Payroll)
                 .HasForeignKey(s => s.PayrollId)
                 .OnDelete(DeleteBehavior.Cascade);        

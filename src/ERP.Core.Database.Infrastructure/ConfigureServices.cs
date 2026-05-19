@@ -85,9 +85,11 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ITypesIncomeRepository, TypesIncomeRepository>();
             services.AddScoped<IIncomeTaxAccrualRepository, IncomeTaxAccrualRepository>();
             services.AddScoped<IAssignedTravelExpensesRepository, AssignedTravelExpensesRepository>();
-            services.AddScoped<IAssignedTravelExpensesHistoryRepository, AssignedTravelExpensesHistoryRepository>();
             services.AddScoped<IProfessionalServicesPayrollsRepository, ProfessionalServicesPayrollsRepository>();
             services.AddScoped<IDeductionPaymentHistoryRepository, DeductionPaymentHistoryRepository>();
+            services.AddScoped<IVacationAccrualRepository, VacationAccrualRepository>();
+            services.AddScoped<IChristmasBonusAccrualRepository, ChristmasBonusAccrualRepository>();
+            services.AddScoped<IRecordsTravelExpensePaymentsRepository, RecordsTravelExpensePaymentsRepository>();
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 

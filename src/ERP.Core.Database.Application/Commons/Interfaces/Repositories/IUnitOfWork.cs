@@ -32,9 +32,13 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesIncomeRepository TypesIncome { get; }
         IIncomeTaxAccrualRepository IncomeTaxAccrual { get;}
         IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
-        IAssignedTravelExpensesHistoryRepository AssignedTravelExpensesHistories { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
         IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
+
+        IChristmasBonusAccrualRepository ChristmasBonusAccruals { get; }
+        IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments { get; }
+        IVacationAccrualRepository VacationAccruals { get; }
+
         
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }

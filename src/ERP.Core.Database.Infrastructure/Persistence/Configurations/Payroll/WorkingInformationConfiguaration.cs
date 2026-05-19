@@ -57,9 +57,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.HasOne(d => d.WorkArea)
-                    .WithMany()
-                    .HasForeignKey(d => d.WorkAreaId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                .WithMany()
+                .HasForeignKey(d => d.WorkAreaId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.WorkPosition)
                 .WithMany()
