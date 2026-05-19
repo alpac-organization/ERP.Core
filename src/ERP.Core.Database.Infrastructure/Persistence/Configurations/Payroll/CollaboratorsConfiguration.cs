@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Payrolls;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -128,6 +129,30 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             //Registrar el control de salarios
             builder.HasMany(c => c.Salaries)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Historial de viaticos asignados que se le ha brindado.
+            builder.HasMany(c => c.AssignedTravelExpenses)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Reporte de acumulador de vacaciones
+            builder.HasMany(c => c.VacationAccruals)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Reporte de acumulador de aguinaldo
+            builder.HasMany(c => c.ChristmasBonusAccruals)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Reporte de Ingresos pagados, en este caso viaticos pagados
+            builder.HasMany(c => c.RecordsTravelExpensePayments)
                 .WithOne(s => s.Collaborator)
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Cascade);

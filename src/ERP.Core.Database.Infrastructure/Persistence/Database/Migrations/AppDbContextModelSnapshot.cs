@@ -749,13 +749,23 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("assigned_travel_expenses", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpensesHistory", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAccrual", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("assigned_travel_id")
+                        .HasColumnName("christmas_bonus_accrual_id")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("BaseSalary")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("base_salary");
+
+                    b.Property<decimal>("ChristmasBonusDays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("christmas_bonus_days");
 
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
@@ -771,40 +781,29 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<decimal>("Feeding")
+                    b.Property<decimal>("EquivalentQuantity")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
-                        .HasColumnName("feeding");
+                        .HasColumnName("equivalent_quantity");
 
-                    b.Property<decimal>("Lodging")
+                    b.Property<decimal>("EquivalentQuantityInDollars")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
-                        .HasColumnName("lodging");
-
-                    b.Property<int>("NumberDaysPaid")
-                        .HasColumnType("integer");
+                        .HasColumnName("equivalent_quantity_in_dollars");
 
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
 
-                    b.Property<decimal>("TotalAmountPaid")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("total_amount_paid");
-
-                    b.Property<decimal>("Transport")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("transport");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CollaboratorId");
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_christmas_bonus_collaborator_id");
 
                     b.HasIndex("PayrollId");
 
-                    b.ToTable("assigned_travel_expenses_histories", "public");
+                    b.ToTable("christmas_bonus_accruals", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
@@ -1655,6 +1654,62 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("professional_services_payrolls", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.RecordsTravelExpensePayments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("records_travel_expense_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("Feeding")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("feeding");
+
+                    b.Property<decimal>("Lodging")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("lodging");
+
+                    b.Property<int>("PaidDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("paid_days");
+
+                    b.Property<Guid>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<decimal>("Transport")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("transport");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_record_travel_expense_collaborator_id");
+
+                    b.HasIndex("PayrollId");
+
+                    b.ToTable("records_travel_expense_payments", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Salary", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1809,6 +1864,57 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("vacations", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.VacationAccrual", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("vacation_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AvailableVacations")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("available_vacations");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("EquivalentQuantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("equivalent_quantity");
+
+                    b.Property<decimal>("EquivalentQuantityInDollars")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("equivalent_quantity_in_dollars");
+
+                    b.Property<Guid>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique();
+
+                    b.HasIndex("PayrollId");
+
+                    b.ToTable("vacations_accruals", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.WorkPositionHistory", b =>
@@ -2033,7 +2139,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany("AssignedTravelExpenses")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.TypesIncome", "TypeIncome")
@@ -2047,16 +2153,16 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("TypeIncome");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpensesHistory", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAccrual", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
-                        .WithMany()
+                        .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
-                        .WithMany("AssignedTravelExpensesHistories")
+                        .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("PayrollId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2235,6 +2341,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Payroll");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.RecordsTravelExpensePayments", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("RecordsTravelExpensePayments")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("RecordsTravelExpensePayments")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Salary", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -2255,6 +2380,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Collaborator");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.VacationAccrual", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("VacationAccruals")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("VacationAccruals")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.WorkPositionHistory", b =>
@@ -2360,6 +2504,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("AssignedTravelExpenses");
 
+                    b.Navigation("ChristmasBonusAccruals");
+
                     b.Navigation("Deductions");
 
                     b.Navigation("IncomeTaxAccruals");
@@ -2375,10 +2521,14 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("ProfessionalServicesPayrolls");
 
+                    b.Navigation("RecordsTravelExpensePayments");
+
                     b.Navigation("Salaries");
 
                     b.Navigation("Vacation")
                         .IsRequired();
+
+                    b.Navigation("VacationAccruals");
 
                     b.Navigation("WorkPositionHistory");
 
@@ -2393,11 +2543,15 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", b =>
                 {
-                    b.Navigation("AssignedTravelExpensesHistories");
+                    b.Navigation("ChristmasBonusAccruals");
 
                     b.Navigation("IncomeTaxAccruals");
 
                     b.Navigation("OrdinaryPayrolls");
+
+                    b.Navigation("RecordsTravelExpensePayments");
+
+                    b.Navigation("VacationAccruals");
                 });
 #pragma warning restore 612, 618
         }

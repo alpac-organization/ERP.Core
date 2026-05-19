@@ -44,8 +44,20 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
         public virtual ICollection<ProfessionalServicesPayroll> ProfessionalServicesPayrolls { get; set; } = [];
 
-        //Acumulador de salario devengado e impuesto sobre renta
+
+        //Acumulador de vacaciones por quincena
+        public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
+
+        //Acumulador de ir y devengado
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
+
+        //Acumulador de aguinaldo
+        public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
+
+        //Registro de historial de viaticos
         public virtual ICollection<AssignedTravelExpenses> AssignedTravelExpenses { get; set; } = [];
+
+        //Control de pagos de ingresos de viaticos por periodos
+        public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = []; 
     }
 }

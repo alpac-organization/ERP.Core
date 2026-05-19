@@ -32,10 +32,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IIncomesRepository incomesRepository,
         ITypesIncomeRepository typesIncomeRepository,
         IIncomeTaxAccrualRepository incomeTaxAccrualRepository,
-        IAssignedTravelExpensesHistoryRepository assignedTravelExpensesHistoryRepository,
         IAssignedTravelExpensesRepository assignedTravelExpensesRepository,
         IProfessionalServicesPayrollsRepository professionalServicesPayrollsRepository,
-        IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository
+        IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository,
+        IChristmasBonusAccrualRepository christmasBonusAccrualRepository,
+        IRecordsTravelExpensePaymentsRepository recordsTravelExpensePaymentsRepository,
+        IVacationAccrualRepository vacationAccrualRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -64,10 +66,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IIncomesRepository Incomes => incomesRepository;
         public ITypesIncomeRepository TypesIncome => typesIncomeRepository;
         public IIncomeTaxAccrualRepository IncomeTaxAccrual => incomeTaxAccrualRepository;
-        public IAssignedTravelExpensesHistoryRepository AssignedTravelExpensesHistories => assignedTravelExpensesHistoryRepository;
         public IAssignedTravelExpensesRepository AssignedTravelExpenses => assignedTravelExpensesRepository;
         public IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls => professionalServicesPayrollsRepository;
         public IDeductionPaymentHistoryRepository DeductionPaymentHistories => deductionPaymentHistoryRepository;
+        public IVacationAccrualRepository VacationAccruals => vacationAccrualRepository;
+        public IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments => recordsTravelExpensePaymentsRepository;
+        public IChristmasBonusAccrualRepository ChristmasBonusAccruals => christmasBonusAccrualRepository;
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
