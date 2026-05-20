@@ -17,6 +17,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal? FortnightlyAmount { get; set; }          //Monto a deducir quincenalmente.
         public decimal? FortnightlyAmountInDollars { get; set; } //Monto Quincenal a deducir en dolares
 
+        public decimal? Amount { get; set; } // Cantidad Minutos / Otras unidades de medidas
+        public int? Percentage { get; set; } // Esto para embargos, Judiciales y alimenticios
+
+
         public decimal? TotalBalance { get; set; }          //Saldo restante que tiene el colaborador por pagar.
         public decimal? TotalBalanceInDollars { get; set; } //Saldo restante que tiene el colaborador por pagar.
 
@@ -28,9 +32,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public Guid CollaboratorId { get; set;}
         public virtual Collaborator Collaborator { get; set; } = null!;
-        
-        public Guid PayrollId { get; set; }
-        public virtual Payroll Payroll { get; set; } = default!; 
+
 
         public virtual ICollection<DeductionPaymentHistory> PaymentHistories { get; set; } = [];
     }

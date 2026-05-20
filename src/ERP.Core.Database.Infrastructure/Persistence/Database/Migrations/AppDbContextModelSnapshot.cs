@@ -24,7 +24,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status", new[] { "paid", "pending" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
@@ -386,6 +387,12 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("does_generate_seniority");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
@@ -743,13 +750,23 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("assigned_travel_expenses", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpensesHistory", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAccrual", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("assigned_travel_id")
+                        .HasColumnName("christmas_bonus_accrual_id")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("BaseSalary")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("base_salary");
+
+                    b.Property<decimal>("ChristmasBonusDays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("christmas_bonus_days");
 
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
@@ -765,40 +782,29 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<decimal>("Feeding")
+                    b.Property<decimal>("EquivalentQuantity")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
-                        .HasColumnName("feeding");
+                        .HasColumnName("equivalent_quantity");
 
-                    b.Property<decimal>("Lodging")
+                    b.Property<decimal>("EquivalentQuantityInDollars")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
-                        .HasColumnName("lodging");
-
-                    b.Property<int>("NumberDaysPaid")
-                        .HasColumnType("integer");
+                        .HasColumnName("equivalent_quantity_in_dollars");
 
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
 
-                    b.Property<decimal>("TotalAmountPaid")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("total_amount_paid");
-
-                    b.Property<decimal>("Transport")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("transport");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CollaboratorId");
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_christmas_bonus_collaborator_id");
 
                     b.HasIndex("PayrollId");
 
-                    b.ToTable("assigned_travel_expenses_histories", "public");
+                    b.ToTable("christmas_bonus_accruals", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
@@ -827,6 +833,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
+
+                    b.Property<bool>("DoesWorkSaturdays")
+                        .HasColumnType("boolean")
+                        .HasColumnName("does_work_saturdays");
 
                     b.Property<string>("FirstLastname")
                         .IsRequired()
@@ -902,6 +912,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("deduction_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<decimal?>("Amount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
+
                     b.Property<decimal?>("AmountPaid")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -952,9 +966,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("number_fortnights_paid");
 
-                    b.Property<Guid>("PayrollId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("payroll_id");
+                    b.Property<int?>("Percentage")
+                        .HasColumnType("integer")
+                        .HasColumnName("percentage");
 
                     b.Property<int>("Status")
                         .HasColumnType("deduction_status_enum")
@@ -992,8 +1006,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_deduction_id");
 
-                    b.HasIndex("PayrollId");
-
                     b.ToTable("deductions", "public");
                 });
 
@@ -1010,11 +1022,20 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("amount_paid");
 
+                    b.Property<decimal>("AmountPaidInDollars")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("amount_paid_in_dollars");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency");
 
                     b.Property<Guid>("DeductionId")
                         .HasColumnType("uuid")
@@ -1035,6 +1056,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("deduction_payment_status")
+                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
@@ -1121,18 +1146,15 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("income_tax_accrual_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<decimal?>("AccumulatedChristmasBonus")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("accumulated_christmas_bonus");
-
                     b.Property<decimal>("AccumulatedIR")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("accumulated_ir");
 
-                    b.Property<decimal?>("AccumulatedSeniority")
-                        .HasColumnType("numeric");
+                    b.Property<decimal>("AccumulatedSeniority")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("accumulated_seniority");
 
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
@@ -1148,6 +1170,20 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<decimal>("FlagAccumulatedIR")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("flag_accumulated_ir");
+
+                    b.Property<int>("FlagNumberOfFortnights")
+                        .HasColumnType("integer")
+                        .HasColumnName("flag_number_of_fortnights");
+
+                    b.Property<decimal>("FlagSalaryEarned")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("flag_salary_earned");
+
                     b.Property<int>("NumberOfFortnights")
                         .HasColumnType("integer")
                         .HasColumnName("number_of_fortnights");
@@ -1155,10 +1191,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
-
-                    b.Property<DateTime>("RegisterDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("register_date");
 
                     b.Property<decimal>("SalaryEarned")
                         .HasPrecision(18, 2)
@@ -1630,6 +1662,62 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("professional_services_payrolls", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.RecordsTravelExpensePayments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("records_travel_expense_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("Feeding")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("feeding");
+
+                    b.Property<decimal>("Lodging")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("lodging");
+
+                    b.Property<int>("PaidDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("paid_days");
+
+                    b.Property<Guid>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<decimal>("Transport")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("transport");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_record_travel_expense_collaborator_id");
+
+                    b.HasIndex("PayrollId");
+
+                    b.ToTable("records_travel_expense_payments", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Salary", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1841,6 +1929,57 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("vacations", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.VacationAccrual", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("vacation_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AvailableVacations")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("available_vacations");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("EquivalentQuantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("equivalent_quantity");
+
+                    b.Property<decimal>("EquivalentQuantityInDollars")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("equivalent_quantity_in_dollars");
+
+                    b.Property<Guid>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique();
+
+                    b.HasIndex("PayrollId");
+
+                    b.ToTable("vacations_accruals", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.WorkPositionHistory", b =>
@@ -2065,7 +2204,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany("AssignedTravelExpenses")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.TypesIncome", "TypeIncome")
@@ -2079,16 +2218,16 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("TypeIncome");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpensesHistory", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAccrual", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
-                        .WithMany()
+                        .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
-                        .WithMany("AssignedTravelExpensesHistories")
+                        .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("PayrollId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2117,15 +2256,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
-                        .WithMany()
-                        .HasForeignKey("PayrollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Collaborator");
-
-                    b.Navigation("Payroll");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DeductionPaymentHistory", b =>
@@ -2275,6 +2406,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Payroll");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.RecordsTravelExpensePayments", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("RecordsTravelExpensePayments")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("RecordsTravelExpensePayments")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Salary", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -2306,6 +2456,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Collaborator");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.VacationAccrual", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("VacationAccruals")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("VacationAccruals")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.WorkPositionHistory", b =>
@@ -2411,6 +2580,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("AssignedTravelExpenses");
 
+                    b.Navigation("ChristmasBonusAccruals");
+
                     b.Navigation("Deductions");
 
                     b.Navigation("IncomeTaxAccruals");
@@ -2426,10 +2597,14 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("ProfessionalServicesPayrolls");
 
+                    b.Navigation("RecordsTravelExpensePayments");
+
                     b.Navigation("Salaries");
 
                     b.Navigation("Vacation")
                         .IsRequired();
+
+                    b.Navigation("VacationAccruals");
 
                     b.Navigation("WorkPositionHistory");
 
@@ -2444,11 +2619,15 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", b =>
                 {
-                    b.Navigation("AssignedTravelExpensesHistories");
+                    b.Navigation("ChristmasBonusAccruals");
 
                     b.Navigation("IncomeTaxAccruals");
 
                     b.Navigation("OrdinaryPayrolls");
+
+                    b.Navigation("RecordsTravelExpensePayments");
+
+                    b.Navigation("VacationAccruals");
                 });
 #pragma warning restore 612, 618
         }

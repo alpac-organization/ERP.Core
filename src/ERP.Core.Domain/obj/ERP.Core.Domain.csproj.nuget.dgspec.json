@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj": {}
   },
   "projects": {
@@ -12,12 +13,25 @@
         "projectPath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
         "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Domain\\obj\\",
+=======
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
+        "projectName": "ERP.Core.Domain",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Domain\\ERP.Core.Domain.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Domain\\obj\\",
+>>>>>>> 283f021be5e01df3fd5e3217d442639834a8b16b
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desarrollo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -65,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

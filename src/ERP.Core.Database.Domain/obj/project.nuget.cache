@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "RaJ8zCHPtjw=",
+  "dgSpecHash": "gaXYu3udHb8=",
   "success": true,
+<<<<<<< HEAD
   "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
+=======
+  "projectFilePath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
+>>>>>>> 283f021be5e01df3fd5e3217d442639834a8b16b
   "expectedPackageFiles": [],
   "logs": []
 }
