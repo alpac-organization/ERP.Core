@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "MRMIHK0uD9w=",
+  "dgSpecHash": "LqGgDHpOrhM=",
   "success": true,
-<<<<<<< HEAD
-  "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Desarrollo\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
-=======
-  "projectFilePath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
->>>>>>> 283f021be5e01df3fd5e3217d442639834a8b16b
+  "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.7\\microsoft.extensions.dependencyinjection.10.0.7.nupkg.sha512",
-    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.7\\microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg.sha512"
+    "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.7\\microsoft.extensions.dependencyinjection.10.0.7.nupkg.sha512",
+    "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.7\\microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg.sha512"
   ],
   "logs": []
 }

@@ -32,7 +32,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesIncomeRepository TypesIncome { get; }
         IIncomeTaxAccrualRepository IncomeTaxAccrual { get;}
         IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
-        IAssignedTravelExpensesRepository AssignedTravelExpenses { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
         IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
         ISubsidyRepository Subsidies { get; }
