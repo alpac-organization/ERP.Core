@@ -30,8 +30,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("payroll_id")
                 .IsRequired();
 
+            builder.Property(e => e.AccumulatedSeniority)
+                .HasPrecision(18,2)
+                .HasColumnName("accumulated_seniority")
+                .IsRequired();
+
             builder.Property(e => e.NumberOfFortnights)
                 .HasColumnName("number_of_fortnights")
+                .IsRequired();
+
+            builder.Property(e => e.FlagNumberOfFortnights)
+                .HasColumnName("flag_number_of_fortnights")
                 .IsRequired();
 
             builder.Property(e => e.SalaryEarned)
@@ -39,18 +48,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("salary_earned")
                 .IsRequired();
 
+            builder.Property(e => e.FlagSalaryEarned)
+                .HasPrecision(18,2)
+                .HasColumnName("flag_salary_earned")
+                .IsRequired();
+
             builder.Property(e => e.AccumulatedIR)
                 .HasPrecision(18,2)
                 .HasColumnName("accumulated_ir")
                 .IsRequired();
 
-            builder.Property(e => e.AccumulatedChristmasBonus)
+            builder.Property(e => e.FlagAccumulatedIR)
                 .HasPrecision(18,2)
-                .HasColumnName("accumulated_christmas_bonus")
-                .IsRequired(false);
-
-            builder.Property(e => e.RegisterDate)
-                .HasColumnName("register_date")
+                .HasColumnName("flag_accumulated_ir")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)

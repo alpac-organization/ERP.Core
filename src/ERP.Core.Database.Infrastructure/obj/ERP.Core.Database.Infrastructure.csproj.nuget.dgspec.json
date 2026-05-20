@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj": {}
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj": {
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
         "projectName": "ERP.Core.Database.Application",
-        "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
-        "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desarrollo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,15 +26,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj": {
-                "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj"
+              "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj"
               }
             }
           }
@@ -76,24 +75,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj": {
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
         "projectName": "ERP.Core.Database.Domain",
-        "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
-        "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Domain\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\ERP.Core.Database.Domain.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desarrollo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -102,7 +101,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -142,24 +140,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj": {
+    "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj",
         "projectName": "ERP.Core.Database.Infrastructure",
-        "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Infrastructure\\ERP.Core.Database.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desarrollo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -168,15 +166,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj": {
-                "projectPath": "C:\\Users\\desarrollo\\Desktop\\Back-End\\Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj"
+              "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Desktop\\ALPAC\\ERP.Core\\src\\ERP.Core.Database.Application\\ERP.Core.Database.Application.csproj"
               }
             }
           }
@@ -252,7 +249,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
