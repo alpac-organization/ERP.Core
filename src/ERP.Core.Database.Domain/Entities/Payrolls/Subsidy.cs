@@ -5,14 +5,16 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     public class Subsidy : BaseEntity<Guid>
     {
         public DateTime StartDate { get; set; }
-
         public DateTime EndDate { get; set; }
-
-        public string? ReferenceNumber { get; set; } // Número de boleta
-
-        public decimal Percentage { get; set; } // Campo se agrega por trazabilidad
-
+        
+        public int AmountDays { get; set; }
+        public decimal Percentage { get; set; }     
+        public string? ReferenceNumber { get; set; }
         public string? Observations { get; set; }
+
+
+        public Guid PayrollId { get; set; }
+        public virtual Payroll Payroll { get; set; } = null!;
 
         public Guid TypeSubsidyId { get; set; }
         public virtual TypesSubsidy TypesSubsidy { get; set; } = null!;

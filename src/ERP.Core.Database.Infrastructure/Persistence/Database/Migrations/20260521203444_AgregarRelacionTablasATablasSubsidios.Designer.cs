@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260521203444_AgregarRelacionTablasATablasSubsidios")]
+    partial class AgregarRelacionTablasATablasSubsidios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1356,6 +1359,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("company_branch_id");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1385,6 +1391,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -1786,8 +1794,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<int>("AmountDays")
-                        .HasColumnType("integer")
-                        .HasColumnName("amount_days");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
@@ -1813,8 +1820,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("observations");
 
                     b.Property<Guid>("PayrollId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("payroll_id");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Percentage")
                         .HasPrecision(5, 2)
@@ -2400,6 +2406,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", null)
+                        .WithMany("Payrolls")
+                        .HasForeignKey("CompanyId");
+
                     b.Navigation("Branch");
                 });
 
@@ -2628,6 +2638,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Catalogs");
 
                     b.Navigation("Collaborators");
+
+                    b.Navigation("Payrolls");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>

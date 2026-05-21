@@ -17,7 +17,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public virtual ICollection<Branch> Branches { get; set; } = [];
         public virtual ICollection<Catalog> Catalogs { get; set; } = [];
-        public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<Collaborator> Collaborators { get; set; } = [];
     }
 }

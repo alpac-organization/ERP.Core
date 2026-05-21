@@ -40,7 +40,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.EndDate)
                 .HasColumnName("end_date")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -55,11 +55,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(s => s.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);    
 
+            //Reporte de nomina ordinaria.
             builder.HasMany(c => c.OrdinaryPayrolls)
                 .WithOne(s => s.Payroll)
                 .HasForeignKey(s => s.PayrollId)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             //Acumulado de ir, devengado en la quincena
             builder.HasMany(c => c.IncomeTaxAccruals)

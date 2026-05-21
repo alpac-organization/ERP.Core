@@ -48,6 +48,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("observations")
                 .HasMaxLength(500);
 
+            builder.Property(e => e.AmountDays)
+                .HasColumnName("amount_days");
+
+            builder.Property(e => e.PayrollId)
+                .HasColumnName("payroll_id");
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -55,6 +61,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
+                
+            builder.HasOne(d => d.TypesSubsidy)
+                .WithMany()
+                .HasForeignKey(d => d.TypeSubsidyId)
+                .OnDelete(DeleteBehavior.Restrict);
                 
             builder.HasOne(c => c.Collaborator)
                 .WithMany(c => c.Subsidies)

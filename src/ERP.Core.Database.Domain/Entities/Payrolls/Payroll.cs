@@ -7,7 +7,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     public class Payroll : BaseEntity<Guid>
     {
         public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         public PayrollStatus Status { get; set; }
         public PayrollType PayrollType { get; set; }
 
