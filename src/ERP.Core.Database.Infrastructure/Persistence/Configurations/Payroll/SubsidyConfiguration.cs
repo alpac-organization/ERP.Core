@@ -22,6 +22,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.TypeSubsidyId)
+                .HasColumnName("type_subsidy_id")
+                .IsRequired();
+
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
                 .IsRequired();
