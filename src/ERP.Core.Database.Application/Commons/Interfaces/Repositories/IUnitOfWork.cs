@@ -35,6 +35,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
         IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
         ISubsidyRepository Subsidies { get; }
+        ITypesSubsidyRepository TypesSubsidies { get; }
 
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }

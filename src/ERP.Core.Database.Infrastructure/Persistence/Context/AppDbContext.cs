@@ -38,6 +38,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         public DbSet<Subsidy> Subsidies => Set<Subsidy>();
+        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -89,6 +89,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IChristmasBonusAccrualRepository, ChristmasBonusAccrualRepository>();
             services.AddScoped<IRecordsTravelExpensePaymentsRepository, RecordsTravelExpensePaymentsRepository>();
             services.AddScoped<ISubsidyRepository, SubsidyRepository>();
+            services.AddScoped<ITypesSubsidyRepository, TypeSubsidyRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
