@@ -14,7 +14,6 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
-using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -55,8 +54,6 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<SourceDeductionPayment>("source_deduction_payment_enum");
                     npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
                     npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status");
-
-                    npgsqlOptions.MapEnum<SubsidyType>("subsidy_type_enum");
                 })  
             );
 
@@ -91,7 +88,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IVacationAccrualRepository, VacationAccrualRepository>();
             services.AddScoped<IChristmasBonusAccrualRepository, ChristmasBonusAccrualRepository>();
             services.AddScoped<IRecordsTravelExpensePaymentsRepository, RecordsTravelExpensePaymentsRepository>();
-            
             services.AddScoped<ISubsidyRepository, SubsidyRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           

@@ -34,7 +34,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
-
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
@@ -66,8 +65,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
             modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
-
-            modelBuilder.HasPostgresEnum<SubsidyType>("public", "subsidy_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

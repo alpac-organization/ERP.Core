@@ -133,6 +133,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //Subsidio Medico
+            builder.HasMany(c => c.Subsidies)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Historial de viaticos asignados que se le ha brindado.
             builder.HasMany(c => c.AssignedTravelExpenses)
                 .WithOne(s => s.Collaborator)

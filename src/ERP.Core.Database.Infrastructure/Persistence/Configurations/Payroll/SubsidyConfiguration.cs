@@ -40,10 +40,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(5, 2)
                 .IsRequired();
 
-            builder.Property(e => e.SubsidyType)
-                .HasColumnName("subsidy_type")
-                .IsRequired();
-
             builder.Property(e => e.Observations)
                 .HasColumnName("observations")
                 .HasMaxLength(500);
@@ -55,9 +51,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
-
+                
             builder.HasOne(c => c.Collaborator)
-                .WithMany()
+                .WithMany(c => c.Subsidies)
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
