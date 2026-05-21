@@ -13,7 +13,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("validity_deduction_id")
+                .HasColumnName("type_income_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();

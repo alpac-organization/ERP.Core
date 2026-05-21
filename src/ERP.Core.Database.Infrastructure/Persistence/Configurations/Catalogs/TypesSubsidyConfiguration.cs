@@ -9,12 +9,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
     {
         public void Configure(EntityTypeBuilder<TypesSubsidy> builder)
         {
-            builder.ToTable("types_income");
+            builder.ToTable("types_subsidy");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("validity_deduction_id")
+                .HasColumnName("type_subsidy_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
