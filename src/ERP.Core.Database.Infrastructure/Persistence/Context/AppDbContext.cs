@@ -34,10 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
-
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
+        public DbSet<Subsidy> Subsidies => Set<Subsidy>();
+        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,24 +46,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasDefaultSchema("public");
             modelBuilder.HasPostgresExtension("uuid-ossp");
 
-            modelBuilder.HasPostgresEnum<CatalogType>("public","catalog_type_enum");            
-            modelBuilder.HasPostgresEnum<RoleType>("public","role_type_enum");
-            modelBuilder.HasPostgresEnum<PermissionType>("public","permission_type_enum");
-            modelBuilder.HasPostgresEnum<UserType>("public","user_type_enum");            
-            modelBuilder.HasPostgresEnum<UserStatus>("public","user_status_enum");
-            modelBuilder.HasPostgresEnum<GenderType>("public","gender_type_enum");
-            modelBuilder.HasPostgresEnum<IdentificationType>("public","identification_type_enum");
-            modelBuilder.HasPostgresEnum<CollaboratorStatus>("public","collaborator_status_enum");
-            modelBuilder.HasPostgresEnum<SalaryType>("public","salary_type_enum");
-            modelBuilder.HasPostgresEnum<Currency>("public","currency_enum");
-            modelBuilder.HasPostgresEnum<MaritalStatus>("public","marital_status_enum");
-            modelBuilder.HasPostgresEnum<PermitApplicationStatus>("public","permit_application_status_enum");
-            modelBuilder.HasPostgresEnum<PermitApplicationType>("public","permit_application_type_enum");
-            modelBuilder.HasPostgresEnum<DeductionType>("public","deduction_type_enum");
-            modelBuilder.HasPostgresEnum<PayrollStatus>("public","payroll_status_enum");
-            modelBuilder.HasPostgresEnum<PayrollType>("public","payroll_type_enum");
-            modelBuilder.HasPostgresEnum<TaxType>("public","tax_type_enum");
-            modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public","source_deduction_payment_enum");
+            modelBuilder.HasPostgresEnum<CatalogType>("public", "catalog_type_enum");
+            modelBuilder.HasPostgresEnum<RoleType>("public", "role_type_enum");
+            modelBuilder.HasPostgresEnum<PermissionType>("public", "permission_type_enum");
+            modelBuilder.HasPostgresEnum<UserType>("public", "user_type_enum");
+            modelBuilder.HasPostgresEnum<UserStatus>("public", "user_status_enum");
+            modelBuilder.HasPostgresEnum<GenderType>("public", "gender_type_enum");
+            modelBuilder.HasPostgresEnum<IdentificationType>("public", "identification_type_enum");
+            modelBuilder.HasPostgresEnum<CollaboratorStatus>("public", "collaborator_status_enum");
+            modelBuilder.HasPostgresEnum<SalaryType>("public", "salary_type_enum");
+            modelBuilder.HasPostgresEnum<Currency>("public", "currency_enum");
+            modelBuilder.HasPostgresEnum<MaritalStatus>("public", "marital_status_enum");
+            modelBuilder.HasPostgresEnum<PermitApplicationStatus>("public", "permit_application_status_enum");
+            modelBuilder.HasPostgresEnum<PermitApplicationType>("public", "permit_application_type_enum");
+            modelBuilder.HasPostgresEnum<DeductionType>("public", "deduction_type_enum");
+            modelBuilder.HasPostgresEnum<PayrollStatus>("public", "payroll_status_enum");
+            modelBuilder.HasPostgresEnum<PayrollType>("public", "payroll_type_enum");
+            modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
+            modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
             modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
 

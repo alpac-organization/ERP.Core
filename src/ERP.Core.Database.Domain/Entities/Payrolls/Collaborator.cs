@@ -35,11 +35,11 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         //Multiples datos
         public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
-        public virtual ICollection<Deduction> Deductions { get; set; } = [];  
-        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];  
-        public virtual ICollection<PermitApplication> PermitApplications { get; set; } = []; 
+        public virtual ICollection<Deduction> Deductions { get; set; } = [];
+        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
+        public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
+        public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
 
-        
         //Registros de ciclos de nominas
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
         public virtual ICollection<ProfessionalServicesPayroll> ProfessionalServicesPayrolls { get; set; } = [];

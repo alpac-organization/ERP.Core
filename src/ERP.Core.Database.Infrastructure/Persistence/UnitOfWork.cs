@@ -33,11 +33,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ITypesIncomeRepository typesIncomeRepository,
         IIncomeTaxAccrualRepository incomeTaxAccrualRepository,
         IAssignedTravelExpensesRepository assignedTravelExpensesRepository,
+        ISubsidyRepository subsidyRepository,
         IProfessionalServicesPayrollsRepository professionalServicesPayrollsRepository,
         IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository,
         IChristmasBonusAccrualRepository christmasBonusAccrualRepository,
         IRecordsTravelExpensePaymentsRepository recordsTravelExpensePaymentsRepository,
-        IVacationAccrualRepository vacationAccrualRepository
+        IVacationAccrualRepository vacationAccrualRepository,
+        ITypesSubsidyRepository typesSubsidyRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -72,6 +74,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IVacationAccrualRepository VacationAccruals => vacationAccrualRepository;
         public IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments => recordsTravelExpensePaymentsRepository;
         public IChristmasBonusAccrualRepository ChristmasBonusAccruals => christmasBonusAccrualRepository;
+        public ISubsidyRepository Subsidies => subsidyRepository;
+        public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
