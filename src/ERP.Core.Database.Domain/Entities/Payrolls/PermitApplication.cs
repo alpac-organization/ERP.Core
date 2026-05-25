@@ -7,8 +7,13 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class PermitApplication : BaseEntity<Guid>
     {
-        public Guid CollaboratorId { get; set; }
         public string? CollaboratorCode { get; set; }
+        
+        public Guid CollaboratorId { get; set; }
+        public virtual Collaborator Collaborator { get; set; } = null!;
+
+        public Guid PayrolId { get; set; }
+        public virtual Payroll Payroll { get; set; } = null!;
 
         public PermitApplicationType Type { get; set; }
         public PermitApplicationStatus Status { get; set; }
@@ -17,8 +22,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         [Column(TypeName = "jsonb")] 
         public string AdditionalData { get; set; } = "{}";
 
-        public bool? FirtsStepApproved { get; set; } = null;    
-        public bool? SecondStepApproved { get; set; } = null;        
+        public bool? FirtsStepApproved { get; set; } = null;
+        public bool? SecondStepApproved { get; set; } = null;
+
         public string? ManagerFullname { get; set; }
         public string? AdministratorFullName { get; set; }
 
@@ -28,12 +34,11 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? RequestedBy { get; set; }
         public string? Description { get; set; }
 
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public TimeOnly? StartTime { get; set; }
         public TimeOnly? EndTime { get; set; }
 
-        public virtual Collaborator Collaborator { get; set; } = null!;
     }
 }

@@ -61,6 +61,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(s => s.PayrollId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(c => c.PermitApplications)
+                .WithOne(s => s.Payroll)
+                .HasForeignKey(s => s.PayrolId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Acumulado de ir, devengado en la quincena
             builder.HasMany(c => c.IncomeTaxAccruals)
                 .WithOne(s => s.Payroll)

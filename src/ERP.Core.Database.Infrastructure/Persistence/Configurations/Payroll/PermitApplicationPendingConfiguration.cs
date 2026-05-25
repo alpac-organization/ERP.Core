@@ -4,28 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
-    public class PermitApplicationConfiguration : IEntityTypeConfiguration<PermitApplication>
+    public class PermitApplicationPendingConfiguration : IEntityTypeConfiguration<PermitApplicationPending>
     {
-        public void Configure(EntityTypeBuilder<PermitApplication> builder)
+        public void Configure(EntityTypeBuilder<PermitApplicationPending> builder)
         {
-            builder.ToTable("permit_applications");
+            builder.ToTable("permit_applications_pending");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("permit_application_id")
+                .HasColumnName("permit_application_pending_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.HasIndex(e => e.Id)
                 .IsUnique()
-                .HasDatabaseName("ix_permit_application_id");
-            
-            builder.Property(e => e.Status)
-                .HasColumnName("status")
-                .HasColumnType("permit_application_status_enum")
-                .IsRequired();
+                .HasDatabaseName("ix_permit_application_pending_id");
 
             builder.Property(e => e.Type)
                 .HasColumnName("permit_application_type")
@@ -35,19 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
-
-
-            builder.Property(e => e.FirtsStepApproved)
-                .HasColumnName("first_step_approved");
-
-            builder.Property(e => e.SecondStepApproved)
-                .HasColumnName("second_step_approved");
-
-            builder.Property(e => e.ManagerFullname)
-                .HasColumnName("manager_fullname");
-
-            builder.Property(e => e.AdministratorFullName)
-                .HasColumnName("administrator_fullname");
 
             builder.Property(e => e.StartTime)
                 .HasColumnName("start_time")
@@ -61,9 +43,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("additional_data")
                 .HasColumnType("jsonb");
             
-            builder.Property(e => e.IdentificationCollaboratorToReceive)
-                .HasColumnName("identification_collaborator_to_receive");
-
             builder.Property(e => e.RequestedBy)
                 .HasColumnName("requested_by")
                 .IsRequired();
@@ -71,17 +50,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.Description)
                 .HasColumnName("description");
 
-            builder.Property(e => e.AmountDays)
-                .HasColumnName("amount_days")
-                .HasColumnType("decimal(18,4)")
-                .IsRequired();
 
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
-                .IsRequired();
-
-            builder.Property(e => e.CollaboratorCode)
-                .HasColumnName("collaborator_code")
                 .IsRequired();
 
             builder.Property(e => e.EndDate)
@@ -97,13 +68,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("deleted_at");         
 
             builder.HasOne(c => c.Collaborator)
-                .WithMany(s => s.PermitApplications)
+                .WithMany(s => s.PermitApplicationsPending)
                 .HasForeignKey(s => s.CollaboratorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(c => c.Payroll)
-                .WithMany(s => s.PermitApplications)
-                .HasForeignKey(s => s.PayrolId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

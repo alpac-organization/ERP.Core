@@ -10,11 +10,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("""
-                ALTER TYPE public.subsidy_type_enum
-                ADD VALUE IF NOT EXISTS 'common_illness'
-                BEFORE 'common_disease';
-            """);
+            
         }
 
         /// <inheritdoc />

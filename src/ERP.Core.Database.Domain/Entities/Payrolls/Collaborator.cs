@@ -37,7 +37,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<Deduction> Deductions { get; set; } = [];
         public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
+        
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
+        public virtual ICollection<PermitApplicationPending> PermitApplicationsPending { get; set; } = [];
+
         public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
 
         //Registros de ciclos de nominas
