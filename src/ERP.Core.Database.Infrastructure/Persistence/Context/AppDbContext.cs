@@ -39,6 +39,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         public DbSet<Subsidy> Subsidies => Set<Subsidy>();
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
+        public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

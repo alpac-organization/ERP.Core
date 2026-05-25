@@ -15,11 +15,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = null!;
 
+        public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
+
         // Sub divisiones de nominas.
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
-
-        // Agregar nomina servicios profesionales.
-
 
         //Acumulados de los colaboradores
         public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
