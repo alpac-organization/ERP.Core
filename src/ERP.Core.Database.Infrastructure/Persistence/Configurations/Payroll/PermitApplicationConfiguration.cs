@@ -36,6 +36,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.PayrolId)
+                .HasColumnName("payroll_id")
+                .IsRequired();
 
             builder.Property(e => e.FirtsStepApproved)
                 .HasColumnName("first_step_approved");
