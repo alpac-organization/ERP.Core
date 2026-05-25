@@ -38,6 +38,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesSubsidyRepository TypesSubsidies { get; }
         IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments { get; }
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
+        IHolidaysRepository Holidays { get; }
 
 
 
