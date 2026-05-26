@@ -34,8 +34,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? RequestedBy { get; set; }
         public string? Description { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
 
         public TimeOnly? StartTime { get; set; }
         public TimeOnly? EndTime { get; set; }
