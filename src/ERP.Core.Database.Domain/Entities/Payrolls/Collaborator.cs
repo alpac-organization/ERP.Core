@@ -29,19 +29,20 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Relacionar tablas para acceso a  ellas
         public virtual Company Company { get; set; } = default!;
         public virtual Vacation Vacation { get; set; } = default!;
-        public virtual PersonalInformation PersonalInformation { get; set; } = default!;
         public virtual WorkingInformation WorkingInformation { get; set; } = default!;
+        public virtual PersonalInformation PersonalInformation { get; set; } = default!;
 
-        //Multiples datos
+        //Multiples ingresos
         public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<Deduction> Deductions { get; set; } = [];
         public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
         
+        //Solicitudes pendientes, activas en proceso.
+        public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
         public virtual ICollection<PermitApplicationPending> PermitApplicationsPending { get; set; } = [];
 
-        public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
 
         //Registros de ciclos de nominas
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
@@ -51,14 +52,18 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         //Acumulador de vacaciones por quincena
         public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
 
+
         //Acumulador de ir y devengado
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
+
 
         //Acumulador de aguinaldo
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
 
+
         //Registro de historial de viaticos
         public virtual ICollection<AssignedTravelExpenses> AssignedTravelExpenses { get; set; } = [];
+
 
         //Control de pagos de ingresos de viaticos por periodos
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = []; 

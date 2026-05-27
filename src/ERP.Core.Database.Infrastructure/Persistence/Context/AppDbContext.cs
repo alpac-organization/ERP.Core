@@ -10,37 +10,55 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Module> Modules => Set<Module>();
-        public DbSet<Company> Companies => Set<Company>();
         public DbSet<UserProfile> Profiles => Set<UserProfile>();
         public DbSet<Session> Sessions => Set<Session>();
         public DbSet<UserModuleRoles> ModulesWithRoles => Set<UserModuleRoles>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserModuleRoles> UserModuleRoles => Set<UserModuleRoles>();
-        public DbSet<Collaborator> Collaborators => Set<Collaborator>();
-        public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
-        public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
+
+        #region MOD:Nomina
+        public DbSet<Salary> Salaries => Set<Salary>();
         public DbSet<Vacation> Vacations => Set<Vacation>();
+        public DbSet<Collaborator> Collaborators => Set<Collaborator>();
         public DbSet<PermitApplication> PermitApplications => Set<PermitApplication>();
+        public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
+        public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
+        public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
+        #endregion
+
+        #region MOD:Nomina:Reportes
+        public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
+        public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
+        public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
+        #endregion
+
+        #region MOD:Nomina:Ingreso y deducciones
+        public DbSet<Income> Incomes => Set<Income>();
+        public DbSet<Deduction> Deductions => Set<Deduction>();
+        #endregion
+
         public DbSet<Catalog> Catalogs => Set<Catalog>();
         public DbSet<SubCatalog> SubCatalogs => Set<SubCatalog>();
-        public DbSet<Salary> Salaries => Set<Salary>();
-        public DbSet<Deduction> Deductions => Set<Deduction>();
-        public DbSet<Income> Incomes => Set<Income>();
+
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
-        public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
-        public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
-        public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
-        public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
-        public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         public DbSet<Subsidy> Subsidies => Set<Subsidy>();
-        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
+        
+        #region Catologos
+        public DbSet<Branch> Branches => Set<Branch>();
+        public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
+        public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
+        public DbSet<CostCenter> CostCenters => Set<CostCenter>();
+        public DbSet<JobPosition> JobPositions => Set<JobPosition>();
+        public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
+        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

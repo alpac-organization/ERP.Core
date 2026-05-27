@@ -14,7 +14,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public DeductionPaymentStatus Status { get; set; }
         public SourceDeductionPayment Origin { get; set; }
         
-        //Nos ayuda a lograr identificar en que periodo de nomina se dedujo esa cantidad al colaborador.
         public Guid PayrollId { get; set; }
         public virtual Payroll Payroll { get; set; } = null!;
         
