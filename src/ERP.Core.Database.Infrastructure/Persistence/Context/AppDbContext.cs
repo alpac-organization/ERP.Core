@@ -30,7 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
-        public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
@@ -38,13 +37,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         public DbSet<Subsidy> Subsidies => Set<Subsidy>();
-        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         
         #region Catologos
+        public DbSet<Branch> Branches => Set<Branch>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
         public DbSet<CostCenter> CostCenters => Set<CostCenter>();
+        public DbSet<JobPosition> JobPositions => Set<JobPosition>();
+        public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
+        public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
