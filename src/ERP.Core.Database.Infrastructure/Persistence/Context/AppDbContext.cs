@@ -41,6 +41,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
+        
+        #region Catologos
+        public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
+        
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

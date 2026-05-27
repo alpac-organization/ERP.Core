@@ -40,6 +40,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
         IHolidaysRepository Holidays { get; }
 
+        IWorkAreasRepository WorkAreas { get; }
+
 
 
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
