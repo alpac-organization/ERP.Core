@@ -91,7 +91,9 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ISubsidyRepository, SubsidyRepository>();
             services.AddScoped<ITypesSubsidyRepository, TypeSubsidyRepository>();
             services.AddScoped<IPermitApplicationsPendingRepository, PermitApplicationsPendingRepository>();
-            services.AddScoped<IHolidaysRepository, HolidaysRepository>();
+            services.AddScoped<IWorkAreasRepository, WorkAreasRepository>();
+            services.AddScoped<IJobPositionsRepository, JobPositionsRepository>();
+            services.AddScoped<ICostCentersRepository, CostCentersRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
