@@ -22,6 +22,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("cost_center_name")
                 .HasMaxLength(100);
 
+            builder.Property(e => e.WorkAreaId)
+                .HasColumnName("work_area_id")
+                .IsRequired();
+
             builder.Property(e => e.Description)
                 .HasColumnName("description")
                 .HasMaxLength(150);
@@ -52,7 +56,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.HasIndex(e => e.WorkAreaId)
                 .IsUnique()
                 .HasDatabaseName("IX_cc_work_area_id");
-                
+
             #endregion
         }
     }

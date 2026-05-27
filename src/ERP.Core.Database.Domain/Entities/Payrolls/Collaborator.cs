@@ -29,7 +29,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Relacionar tablas para acceso a  ellas
         public virtual Company Company { get; set; } = default!;
         public virtual Vacation Vacation { get; set; } = default!;
-        public virtual CostCenter CostCenter { get; set; } = default!;
         public virtual WorkingInformation WorkingInformation { get; set; } = default!;
         public virtual PersonalInformation PersonalInformation { get; set; } = default!;
 
