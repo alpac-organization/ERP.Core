@@ -43,6 +43,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IHolidaysRepository Holidays { get; }
         IWorkAreasRepository WorkAreas { get; }
         ICostCentersRepository CostCenters { get; }
+        IJobPositionsRepository JobPositions { get; }
         #endregion
 
 
