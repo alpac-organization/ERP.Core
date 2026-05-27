@@ -41,7 +41,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IVacationAccrualRepository vacationAccrualRepository,
         ITypesSubsidyRepository typesSubsidyRepository,
         IPermitApplicationsPendingRepository permitApplicationsPendingRepository,
-        IHolidaysRepository holidaysRepository
+        IHolidaysRepository holidaysRepository,
+        IWorkAreasRepository workAreasRepository,
+        ICostCentersRepository costCentersRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -79,7 +81,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
+        
+        #region Catalogos
         public IHolidaysRepository Holidays  => holidaysRepository;
+        public IWorkAreasRepository WorkAreas => workAreasRepository;
+        public ICostCentersRepository CostCenters => costCentersRepository;
+        #endregion
+
+
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {

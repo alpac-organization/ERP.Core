@@ -76,11 +76,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.AmountDays)
                 .HasColumnName("amount_days")
-                .HasColumnType("decimal(18,4)")
+                .HasPrecision(18, 4)
                 .IsRequired();
 
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.Property(e => e.CollaboratorCode)
@@ -89,6 +90,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.EndDate)
                 .HasColumnName("end_date")
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)

@@ -38,7 +38,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "source_deduction_payment_enum", new[] { "payroll", "cash" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
@@ -527,6 +527,117 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("companies", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CostCenterName")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("cost_center_name");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("WorkAreaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("work_area_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_cost_center_id");
+
+                    b.HasIndex("WorkAreaId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_cc_work_area_id");
+
+                    b.ToTable("cost_centers", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("job_position_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("JobPositionName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("job_position_name");
+
+                    b.Property<Guid>("WorkAreaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("work_area_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostCenterId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_jb_cost_center_id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_job_position_id");
+
+                    b.HasIndex("WorkAreaId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_jb_work_area_id");
+
+                    b.ToTable("job_positions", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>
                 {
                     b.Property<Guid>("Id")
@@ -682,6 +793,58 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("validity_deductions", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("work_area_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("WorkAreaName")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("work_area_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_wa_company_id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_work_area_id");
+
+                    b.ToTable("work_areas", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
@@ -1469,7 +1632,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("administrator_fullname");
 
                     b.Property<decimal>("AmountDays")
-                        .HasColumnType("decimal(18,4)")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
                         .HasColumnName("amount_days");
 
                     b.Property<string>("CollaboratorCode")
@@ -1495,8 +1659,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date")
                         .HasColumnName("end_date");
 
                     b.Property<TimeOnly?>("EndTime")
@@ -1528,8 +1692,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("second_step_approved");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date")
                         .HasColumnName("start_date");
 
                     b.Property<TimeOnly?>("StartTime")
@@ -2371,6 +2535,36 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
+                        .WithMany("CostCenters")
+                        .HasForeignKey("WorkAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("WorkArea");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany("JobPositions")
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
+                        .WithMany("JobPositions")
+                        .HasForeignKey("WorkAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CostCenter");
+
+                    b.Navigation("WorkArea");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Catalog", "Catalog")
@@ -2380,6 +2574,17 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Catalog");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("WorkAreas")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
@@ -2781,11 +2986,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Catalogs");
 
                     b.Navigation("Collaborators");
+
+                    b.Navigation("WorkAreas");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
+                {
+                    b.Navigation("JobPositions");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>
                 {
                     b.Navigation("UserModuleRoles");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
+                {
+                    b.Navigation("CostCenters");
+
+                    b.Navigation("JobPositions");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
