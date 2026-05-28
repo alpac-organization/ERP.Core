@@ -18,6 +18,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public PermitApplicationType Type { get; set; }
         public PermitApplicationStatus Status { get; set; }
 
+        public bool IsWithRangeDate { get; set; }
+        
 
         [Column(TypeName = "jsonb")] 
         public string AdditionalData { get; set; } = "{}";

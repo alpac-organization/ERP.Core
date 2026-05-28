@@ -74,6 +74,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.Description)
                 .HasColumnName("description");
 
+            builder.Property(e => e.IsWithRangeDate)
+                .HasColumnName("is_with_range_date")
+                .HasDefaultValue(true);
+
             builder.Property(e => e.AmountDays)
                 .HasColumnName("amount_days")
                 .HasPrecision(18, 4)
