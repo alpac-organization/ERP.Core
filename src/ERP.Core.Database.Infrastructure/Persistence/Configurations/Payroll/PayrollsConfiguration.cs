@@ -36,10 +36,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.Property(e => e.EndDate)
                 .HasColumnName("end_date")
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
