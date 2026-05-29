@@ -24,10 +24,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
-            builder.HasIndex(e => e.CollaboratorId)
-                .IsUnique()
-                .HasDatabaseName("ix_record_travel_expense_collaborator_id");
-
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id")
                 .IsRequired();
