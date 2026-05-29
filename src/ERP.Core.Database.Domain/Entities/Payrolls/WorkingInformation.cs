@@ -23,7 +23,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Branch BranchInfo { get; set; } = null!;
         
         //Fecha de inicio a trabajar
-        public DateTime EntryDate { get; set; }
+        public DateOnly EntryDate { get; set; }
 
         public virtual Collaborator Collaborator { get; set; } = null!;
     }
