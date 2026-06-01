@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
     /// Job positions define the roles, responsibilities, and hierarchical
     /// assignments used across the ERP and payroll modules.
     /// </summary>
-    public interface IJobPositionsRepository : IRepository<CostCenter>
+    public interface IJobPositionsRepository : IRepository<JobPosition>
     {
         /// <summary>
         /// Registers a new job position in the system.
