@@ -8,7 +8,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
     /// Cost centers are used to organize, classify, and track operational
     /// and financial expenses within the organization.
     /// </summary>
-    public interface ICostCentersRepository
+    public interface ICostCentersRepository : IRepository<CostCenter>
     {
         /// <summary>
         /// Registers a new cost center in the system.
