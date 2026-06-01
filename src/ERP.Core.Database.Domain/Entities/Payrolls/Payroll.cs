@@ -24,6 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = []; 
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
+        public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
     }
 }
