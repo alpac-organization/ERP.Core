@@ -8,6 +8,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal Inatec { get; set; }
         public decimal InssLabor { get; set; }
         public decimal InssPatronal { get; set; }
+        
+        public bool IsTheEndMonth { get; set; } = false;
 
         public Guid PayrollId { get; set; }
         public virtual Payroll Payroll { get; set; } = default!;
