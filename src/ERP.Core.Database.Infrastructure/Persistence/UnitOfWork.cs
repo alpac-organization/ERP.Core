@@ -44,7 +44,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IHolidaysRepository holidaysRepository,
         IWorkAreasRepository workAreasRepository,
         ICostCentersRepository costCentersRepository,
-        IJobPositionsRepository jobPositionsRepository
+        IJobPositionsRepository jobPositionsRepository,
+        IInssAccountingInformationRepository inssAccountingInformationRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -82,6 +83,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
+        public IInssAccountingInformationRepository InssAccountingInformation => inssAccountingInformationRepository;
         
         #region Catalogos
         public IHolidaysRepository Holidays  => holidaysRepository;
