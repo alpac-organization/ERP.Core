@@ -67,5 +67,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Control de pagos de ingresos de viaticos por periodos
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = []; 
+
+        
+        //Informe del inss por periodos
+        public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];         
     }
 }

@@ -27,8 +27,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region MOD:Nomina:Reportes
-        public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
+        public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
+        public DbSet<InssAccountingInformation> InssAccountingInformation => Set<InssAccountingInformation>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         #endregion
 
