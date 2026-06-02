@@ -53,10 +53,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .IsUnique()
                 .HasDatabaseName("IX_cost_center_id");
 
-            builder.HasIndex(e => e.WorkAreaId)
-                .IsUnique()
-                .HasDatabaseName("IX_cc_work_area_id");
-
             #endregion
         }
     }
