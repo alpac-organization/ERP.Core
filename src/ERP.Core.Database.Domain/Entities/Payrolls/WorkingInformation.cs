@@ -16,7 +16,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual SubCatalog WorkArea { get; set; } = null!;
         public int WorkPositionId { get; set; }
         public virtual SubCatalog WorkPosition { get; set; } = null!;
-
         public Guid CompanyBranchId { get; set; }   
         public virtual Branch BranchInfo { get; set; } = null!;
 
