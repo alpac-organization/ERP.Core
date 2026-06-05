@@ -22,9 +22,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
 
         //Nuevas Relaciones
-        public Guid AreaId { get; set; }
-        public Guid BranchId { get; set; }    
-        public Guid JobPositionId { get; set; }
+        public Guid? AreaId { get; set; }
+        public Guid? BranchId { get; set; }    
+        public Guid? JobPositionId { get; set; }
 
         public DateOnly EntryDate { get; set; } //Fecha de entrada del colaborador a la empresa.
         public DateOnly? DepartureDate { get; set; } //Fecha de baja del colaborador.
