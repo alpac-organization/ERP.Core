@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
+    //✅Reporte de pago de viaticos, Quincenal
     public class RecordsTravelExpensePayments : BaseEntity<Guid>
     {
         public int PaidDays { get; set; }
@@ -15,4 +16,4 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public Guid CollaboratorId { get; set; }
         public virtual Collaborator Collaborator { get; set; } = default!;
     }
-}   
+}
