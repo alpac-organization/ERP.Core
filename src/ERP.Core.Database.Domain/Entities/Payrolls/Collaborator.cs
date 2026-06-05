@@ -31,12 +31,13 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Vacation Vacation { get; set; } = default!;
         public virtual WorkingInformation WorkingInformation { get; set; } = default!;
         public virtual PersonalInformation PersonalInformation { get; set; } = default!;
+        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
+
 
         //Multiples ingresos
         public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<Deduction> Deductions { get; set; } = [];
-        public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
         
         //Solicitudes pendientes, activas en proceso.
         public virtual ICollection<Subsidy> Subsidies { get; set; } = [];

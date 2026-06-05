@@ -18,9 +18,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(e => e.CoilCode)
+                .HasColumnName("coil_code")
+                .IsRequired();
+
             builder.Property(e => e.CostCenterName)
                 .HasColumnName("cost_center_name")
                 .HasMaxLength(100);
+
+            builder.Property(e => e.CostCenterCode)
+                .HasColumnName("cost_center_code")
+                .IsRequired();
 
             builder.Property(e => e.WorkAreaId)
                 .HasColumnName("work_area_id")
@@ -40,11 +48,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .ValueGeneratedOnAdd();
 
             builder.Property(e => e.DeletedAt)
-                .HasColumnName("deleted_at");
+                .HasColumnName("deleted_at")
+                .IsRequired(false);
 
-            builder.HasMany(c => c.JobPositions)
-                .WithOne(m => m.CostCenter)
-                .HasForeignKey(m => m.CostCenterId)
+            builder.HasOne(c => c.WorkArea)
+                .WithMany(s => s.CostCenters)
+                .HasForeignKey(s => s.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             #region Indices de la tabla

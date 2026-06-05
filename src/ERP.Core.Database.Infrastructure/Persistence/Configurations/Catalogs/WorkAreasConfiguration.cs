@@ -47,11 +47,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasForeignKey(m => m.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(c => c.JobPositions)
-                .WithOne(m => m.WorkArea)
-                .HasForeignKey(m => m.WorkAreaId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasMany(c => c.CostCenters)
                 .WithOne(m => m.WorkArea)
                 .HasForeignKey(m => m.WorkAreaId)

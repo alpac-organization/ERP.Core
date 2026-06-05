@@ -9,6 +9,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public int WorkPositionId { get; set; }
         public virtual SubCatalog WorkPosition { get; set; } = null!;
+
+        public Guid JobPositionId { get; set; }
  
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; } = null;
