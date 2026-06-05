@@ -1,9 +1,11 @@
-using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 {
+
+    //✅Catalogo de cargos
     public class JobPositionsConfiguration : IEntityTypeConfiguration<JobPosition>
     {
         public void Configure(EntityTypeBuilder<JobPosition> builder)
@@ -16,14 +18,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("job_position_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
-                .IsRequired();
-
-            builder.Property(e => e.WorkAreaId)
-                .HasColumnName("work_area_id")
-                .IsRequired();
-
-            builder.Property(e => e.CostCenterId)
-                .HasColumnName("cost_center_id")
                 .IsRequired();
 
             builder.Property(e => e.JobPositionName)
@@ -49,16 +43,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .IsRequired(false)
                 .HasDefaultValue(null)
                 .HasColumnName("deleted_at");
-
-            builder.HasOne(c => c.CostCenter)
-                .WithMany(m => m.JobPositions)
-                .HasForeignKey(m => m.CostCenterId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(c => c.WorkArea)
-                .WithMany(m => m.JobPositions)
-                .HasForeignKey(m => m.WorkAreaId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             #region Indices de la tabla
             

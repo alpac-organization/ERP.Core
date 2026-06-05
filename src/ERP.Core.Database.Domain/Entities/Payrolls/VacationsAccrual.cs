@@ -4,6 +4,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class VacationAccrual : BaseEntity<Guid>
     {
+        public decimal FinalBalance { get; set; }
+        public decimal BeginningBalance { get; set; }
+        
         public decimal AvailableVacations { get; set; }
         public decimal EquivalentQuantity { get; set; }
         public decimal EquivalentQuantityInDollars { get; set; }

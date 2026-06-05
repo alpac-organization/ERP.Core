@@ -43,11 +43,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("company_branch_id")
                 .IsRequired();
 
-            builder.HasOne(d => d.BranchInfo)
-                .WithMany()
-                .HasForeignKey(d => d.CompanyBranchId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(e => e.WorkAreaId)
                 .HasColumnName("work_area_id")
                 .IsRequired();
@@ -56,15 +51,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("work_position_id")
                 .IsRequired();
 
-            builder.HasOne(d => d.WorkArea)
-                .WithMany()
-                .HasForeignKey(d => d.WorkAreaId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(d => d.WorkPosition)
-                .WithMany()
-                .HasForeignKey(d => d.WorkPositionId)
-                .OnDelete(DeleteBehavior.Restrict);
+            #region Nuevas relaciones pendientes
+            builder.Property(e => e.AreaId)
+                .HasColumnName("area_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.JobPositionId)
+                .HasColumnName("job_position_id")
+                .IsRequired(false);
+            #endregion
 
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
@@ -90,7 +90,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasOne(p => p.Collaborator)
                 .WithOne(c => c.WorkingInformation)
                 .HasForeignKey<WorkingInformation>(p => p.CollaboratorId) 
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(d => d.WorkArea)
+                .WithMany()
+                .HasForeignKey(d => d.WorkAreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(d => d.WorkPosition)
+                .WithMany()
+                .HasForeignKey(d => d.WorkPositionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(d => d.BranchInfo)
+                .WithMany()
+                .HasForeignKey(d => d.CompanyBranchId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(p => p.CollaboratorId)
                 .IsUnique();

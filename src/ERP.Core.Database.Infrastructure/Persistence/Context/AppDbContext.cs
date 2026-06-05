@@ -23,19 +23,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<PermitApplication> PermitApplications => Set<PermitApplication>();
         public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
         public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
+        public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
+        public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         #endregion
 
         #region MOD:Nomina:Reportes
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
+        public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
         public DbSet<InssAccountingInformation> InssAccountingInformation => Set<InssAccountingInformation>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         #endregion
 
         #region MOD:Nomina:Ingreso y deducciones
         public DbSet<Income> Incomes => Set<Income>();
+        public DbSet<Subsidy> Subsidies => Set<Subsidy>();
         public DbSet<Deduction> Deductions => Set<Deduction>();
+        public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
         #endregion
 
         public DbSet<Catalog> Catalogs => Set<Catalog>();
@@ -44,11 +49,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
-        public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
-        public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
-        public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
-        public DbSet<Subsidy> Subsidies => Set<Subsidy>();
-        public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         
         #region Catologos
         public DbSet<Branch> Branches => Set<Branch>();
@@ -87,6 +87,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
             modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
+            modelBuilder.HasPostgresEnum<PayrollPeriod>("public","payroll_period_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
