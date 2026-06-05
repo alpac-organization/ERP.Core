@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
+    //✅Reporte del inss quincenal y mensual
     public class InssAccountingInformationConfiguration : IEntityTypeConfiguration<InssAccountingInformation>
     {
         public void Configure(EntityTypeBuilder<InssAccountingInformation> builder)
@@ -35,6 +36,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("inatec")
                 .IsRequired();
 
+            builder.Property(e => e.DaysAbsence)
+                .HasColumnName("days_absence")
+                .IsRequired();
+
             builder.Property(e => e.InssLabor)
                 .HasPrecision(18,2)
                 .HasColumnName("inss_labor")
@@ -45,9 +50,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("inss_patronal")
                 .IsRequired(); 
 
-            builder.Property(e => e.IsTheEndMonth)
-                .HasColumnName("is_the_end_month")
-                .IsRequired();
+            builder.Property(e => e.Absence)
+                .HasPrecision(18,2)
+                .HasColumnName("absence")
+                .IsRequired(); 
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
