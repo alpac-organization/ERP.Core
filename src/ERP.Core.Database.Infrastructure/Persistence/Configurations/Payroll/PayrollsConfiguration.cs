@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -33,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.PayrollType)
                 .HasColumnName("payroll_type")
                 .HasColumnType("payroll_type_enum");
+
+            builder.Property(e => e.Period)
+                .HasColumnName("period")
+                .HasDefaultValue(PayrollPeriod.FirstPeriod)
+                .HasColumnType("payroll_period_enum");
 
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
