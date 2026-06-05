@@ -8,7 +8,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
     {
         public PayrollType PayrollType { get; set; }
         public PayrollStatus Status { get; set; }
-        public PayrollPeriod Period { get; set; }
 
         public DateOnly EndDate { get; set; }
         public DateOnly StartDate { get; set; }
