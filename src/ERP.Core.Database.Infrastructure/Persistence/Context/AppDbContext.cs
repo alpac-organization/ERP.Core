@@ -59,6 +59,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
+        public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -22,6 +22,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? SecondLastname { get; set; }
         public string? RegisteredBy { get; set; }
 
+        public Guid? AccountingPayrollId { get; set; }
+
         public GenderType Gender { get; set; }
         public CollaboratorStatus Status { get; set; }
         public IdentificationType IdentificationType { get; set; }

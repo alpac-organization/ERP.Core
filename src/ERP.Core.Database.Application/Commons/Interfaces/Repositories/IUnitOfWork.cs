@@ -29,22 +29,24 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IValidityDeductionsRepository ValidityDeductions { get; }
         IIncomesRepository Incomes { get; }
         IBranchesRepository Branches { get; }
-        ITypesIncomeRepository TypesIncome { get; }
         IIncomeTaxAccrualRepository IncomeTaxAccrual { get;}
         IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
         IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
         ISubsidyRepository Subsidies { get; }
-        ITypesSubsidyRepository TypesSubsidies { get; }
         IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments { get; }
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
         IInssAccountingInformationRepository InssAccountingInformation { get; }
+        IVacationAccrualRepository VacationAccruals { get; }
 
         #region Catalogos
         IHolidaysRepository Holidays { get; }
         IWorkAreasRepository WorkAreas { get; }
         ICostCentersRepository CostCenters { get; }
+        ITypesIncomeRepository TypesIncome { get; }
         IJobPositionsRepository JobPositions { get; }
+        ITypesSubsidyRepository TypesSubsidies { get; }
+        ITypesAccountingPayrollRepository TypesAccountingPayroll { get; }
         #endregion
 
 

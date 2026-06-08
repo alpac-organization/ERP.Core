@@ -19,6 +19,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(e => e.BeginningBalance)
+                .HasColumnName("beginning_balance")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.FinalBalance)
+                .HasColumnName("final_balance")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.AvailableVacations)
                 .HasColumnName("available_vacations")
                 .HasPrecision(18, 2)
