@@ -78,6 +78,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("company_id")
                 .IsRequired();
 
+            builder.Property(e => e.AccountingPayrollId)
+                .HasColumnName("accounting_payroll_id")
+                .IsRequired(false);
+
             builder.Property(e => e.RegisteredBy)
                 .HasColumnName("registered_by")
                 .IsRequired();

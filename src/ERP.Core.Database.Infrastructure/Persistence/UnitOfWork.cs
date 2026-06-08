@@ -45,7 +45,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWorkAreasRepository workAreasRepository,
         ICostCentersRepository costCentersRepository,
         IJobPositionsRepository jobPositionsRepository,
-        IInssAccountingInformationRepository inssAccountingInformationRepository
+        IInssAccountingInformationRepository inssAccountingInformationRepository,
+        ITypesAccountingPayrollRepository typesAccountingPayrollRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -90,9 +91,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWorkAreasRepository WorkAreas => workAreasRepository;
         public ICostCentersRepository CostCenters => costCentersRepository;
         public IJobPositionsRepository JobPositions => jobPositionsRepository;
+        public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         #endregion
-
-
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
