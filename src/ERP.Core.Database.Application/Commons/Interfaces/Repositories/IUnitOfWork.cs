@@ -37,6 +37,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments { get; }
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
         IInssAccountingInformationRepository InssAccountingInformation { get; }
+        IVacationAccrualRepository VacationAccruals { get; }
 
         #region Catalogos
         IHolidaysRepository Holidays { get; }

@@ -46,7 +46,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICostCentersRepository costCentersRepository,
         IJobPositionsRepository jobPositionsRepository,
         IInssAccountingInformationRepository inssAccountingInformationRepository,
-        ITypesAccountingPayrollRepository typesAccountingPayrollRepository
+        ITypesAccountingPayrollRepository typesAccountingPayrollRepository 
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
