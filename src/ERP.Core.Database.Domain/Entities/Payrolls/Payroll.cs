@@ -6,6 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
     public class Payroll : BaseEntity<Guid>
     {
+        public PayrollPeriod Period { get; set; }
         public PayrollType PayrollType { get; set; }
         public PayrollStatus Status { get; set; }
 
