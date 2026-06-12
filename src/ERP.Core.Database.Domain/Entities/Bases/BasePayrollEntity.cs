@@ -10,13 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public decimal ChristmasBonus { get; set; }
         public decimal TotalLegalDeductions { get; set; }
 
-        public decimal Bonus { get; set; }
-        public decimal Overtime { get; set; }
-        public decimal NumberOvertime { get; set; }
-
-        public decimal Commissions { get; set; }
         public decimal GrossSalary { get; set; }
-
         public decimal TotalToPay { get; set; }
 
         public Guid PayrollId { get; set; }
