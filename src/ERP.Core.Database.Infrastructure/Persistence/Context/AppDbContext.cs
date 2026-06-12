@@ -48,6 +48,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
+        public DbSet<AssistanceControl> AssistanceControls => Set<AssistanceControl>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         
         #region Catologos

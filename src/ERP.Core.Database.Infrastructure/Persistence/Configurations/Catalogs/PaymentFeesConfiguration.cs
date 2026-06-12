@@ -1,7 +1,7 @@
-using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Payrolls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 {
@@ -29,9 +29,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnType("currency_enum")
                 .IsRequired();
 
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .HasMaxLength(255)
+                .HasDefaultValue("Sin descripción")
+                .IsRequired(false);
+
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
                 .IsRequired();
+
+            builder.Property(e => e.StartDate)
+                .HasColumnName("start_date")
+                .IsRequired();
+
+            builder.Property(e => e.EndDate)
+                .HasColumnName("end_date")
+                .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")

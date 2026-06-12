@@ -47,6 +47,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IJobPositionsRepository JobPositions { get; }
         ITypesSubsidyRepository TypesSubsidies { get; }
         ITypesAccountingPayrollRepository TypesAccountingPayroll { get; }
+        IAssistanceControlRepository AssistanceControls { get; }
         #endregion
 
 
