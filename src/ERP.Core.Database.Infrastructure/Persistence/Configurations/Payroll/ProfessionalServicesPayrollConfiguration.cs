@@ -25,27 +25,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
-
-            builder.Property(e => e.NumberOvertime)
-                .HasColumnName("number_overtime")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
-            builder.Property(e => e.Overtime)
-                .HasColumnName("overtimes")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
-            builder.Property(e => e.Bonus)
-                .HasColumnName("bonus")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
-            builder.Property(e => e.Commissions)
-                .HasColumnName("commissions")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
+                
             builder.Property(e => e.GrossSalary)
                 .HasColumnName("gross_salary")
                 .HasPrecision(18, 2)
