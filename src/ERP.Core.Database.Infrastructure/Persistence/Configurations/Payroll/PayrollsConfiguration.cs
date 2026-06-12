@@ -31,6 +31,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("company_branch_id")
                 .IsRequired();
 
+            builder.Property(e => e.TypeAccountingId)
+                .HasColumnName("type_accounting_id")
+                .IsRequired(false);
+
             builder.Property(e => e.PayrollType)
                 .HasColumnName("payroll_type")
                 .HasColumnType("payroll_type_enum");

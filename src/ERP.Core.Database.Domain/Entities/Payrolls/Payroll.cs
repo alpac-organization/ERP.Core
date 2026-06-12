@@ -19,6 +19,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Branch Branch { get; set; } = null!;
 
 
+        public Guid? TypeAccountingId { get; set; }
+
+
         //Solicitudes realizadas el durante el proceso de nomina, (Vacacaciones, Citas Medicas, Pagos de vacaciones, etc..)
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
 
