@@ -2,18 +2,26 @@ name: Build and Publish NuGet
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
   pull_request:
-    branches: ["master"]
+    branches:
+      - master
+  workflow_dispatch:
 
 permissions:
   contents: write
   packages: write
 
+concurrency:
+  group: nuget-release-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
+
     outputs:
       version: ${{ steps.version.outputs.version }}
       should_publish: ${{ steps.version.outputs.should_publish }}
@@ -22,30 +30,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necesario para leer todos los tags y commits
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: "9.x"
 
       - name: Calculate semantic version
         id: version
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        shell: bash
         run: |
-          # Obtiene el último tag semántico, si no existe parte desde 0.0.0
-          LAST_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' \
-            | sort -V | tail -n1)
+          LAST_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -n1)
 
           if [ -z "$LAST_TAG" ]; then
-            LAST_TAG="v0.0.0"
-            COMMITS=$(git log --pretty=format:"%s" HEAD)
+            LAST_TAG="v1.0.0"
+            COMMITS=$(git log --pretty=format:"%s")
           else
             COMMITS=$(git log --pretty=format:"%s" "${LAST_TAG}..HEAD")
           fi
 
           if [ -z "$COMMITS" ]; then
-            echo "No new commits since last tag. Skipping publish."
+            echo "No new commits since last tag."
             echo "should_publish=false" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -54,25 +61,23 @@ jobs:
           MINOR=$(echo "$LAST_TAG" | sed 's/v//' | cut -d. -f2)
           PATCH=$(echo "$LAST_TAG" | sed 's/v//' | cut -d. -f3)
 
-          # Detecta el tipo de cambio según Conventional Commits
-          # BREAKING CHANGE o "!" -> MAJOR
-          # feat:                 -> MINOR
-          # fix: / chore: / etc  -> PATCH
-          if echo "$COMMITS" | grep -qiE "^(feat|fix|refactor|perf|chore)(\(.+\))?!:|BREAKING CHANGE:"; then
+          if echo "$COMMITS" | grep -qiE 'BREAKING CHANGE|!:'; then
             MAJOR=$((MAJOR + 1))
             MINOR=0
             PATCH=0
-          elif echo "$COMMITS" | grep -qE "^feat(\(.+\))?:"; then
+          elif echo "$COMMITS" | grep -qE '^feat(\(.+\))?:'; then
             MINOR=$((MINOR + 1))
             PATCH=0
           else
             PATCH=$((PATCH + 1))
           fi
 
-          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
-          echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-          echo "should_publish=true"    >> $GITHUB_OUTPUT
-          echo "Calculated version: ${NEW_VERSION}"
+          VERSION="${MAJOR}.${MINOR}.${PATCH}"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "should_publish=true" >> $GITHUB_OUTPUT
+
+          echo "Calculated version: $VERSION"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -92,7 +97,7 @@ jobs:
           dotnet pack \
             --configuration Release \
             --no-build \
-            -o out \
+            --output out \
             /p:PackageVersion=${{ steps.version.outputs.version }} \
             /p:IncludeSymbols=true \
             /p:SymbolPackageFormat=snupkg
@@ -112,10 +117,16 @@ jobs:
     name: Publish to GitHub Packages
     runs-on: ubuntu-latest
     needs: build-and-test
+
     if: >
       github.event_name == 'push' &&
       github.ref == 'refs/heads/master' &&
       needs.build-and-test.outputs.should_publish == 'true'
+
+    permissions:
+      contents: write
+      packages: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -125,7 +136,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: "9.x"
 
       - name: Download package artifact
         uses: actions/download-artifact@v4
@@ -133,32 +144,74 @@ jobs:
           name: nuget-package
           path: out/
 
-      - name: Push to GitHub Packages
+      - name: Configure GitHub Packages
         run: |
-          dotnet nuget push "./out/*.nupkg" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --skip-duplicate
+          dotnet nuget add source \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text \
+            --name github \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+      - name: Push package
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          find ./out -name "*.nupkg" ! -name "*.symbols.nupkg" -print0 | while IFS= read -r -d '' file
+          do
+            dotnet nuget push "$file" \
+              --source github \
+              --api-key $NUGET_AUTH_TOKEN \
+              --skip-duplicate
+          done
+
+      - name: Push symbols package
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          shopt -s nullglob
+
+          for file in ./out/*.snupkg
+          do
+            dotnet nuget push "$file" \
+              --source github \
+              --api-key $NUGET_AUTH_TOKEN \
+              --skip-duplicate
+          done
 
       - name: Create Git tag and GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
-          VERSION=${{ needs.build-and-test.outputs.version }}
+          VERSION="${{ needs.build-and-test.outputs.version }}"
           TAG="v${VERSION}"
 
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git tag "$TAG" -m "Release $TAG"
-          git push origin "$TAG"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag already exists."
+          else
+            git tag "$TAG" -m "Release $TAG"
+            git push origin "$TAG"
+          fi
 
-          # Genera el changelog automático desde los commits
-          NOTES=$(git log \
-            $(git tag --list 'v[0-9]*' | sort -V | tail -n2 | head -n1)..HEAD \
-            --pretty=format:"- %s (%h)" \
-            | grep -v "^$")
+          PREV_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | grep -v "^${TAG}$" | tail -n1)
 
-          gh release create "$TAG" ./out/*.nupkg ./out/*.snupkg \
-            --title "Release $TAG" \
-            --notes "${NOTES:-No changelog available}"
+          if [ -z "$PREV_TAG" ]; then
+            NOTES=$(git log --pretty=format:"- %s (%h)")
+          else
+            NOTES=$(git log --pretty=format:"- %s (%h)" "${PREV_TAG}..HEAD")
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release already exists."
+          else
+            FILES=$(find ./out \( -name "*.nupkg" -o -name "*.snupkg" \))
+
+            gh release create "$TAG" $FILES \
+              --title "Release $TAG" \
+              --notes "${NOTES:-No changelog available}" \
+              --verify-tag
+          fi
