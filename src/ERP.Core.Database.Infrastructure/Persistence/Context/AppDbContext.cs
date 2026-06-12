@@ -48,6 +48,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         public DbSet<Payroll> Payrolls => Set<Payroll>();
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
+        public DbSet<AssistanceControl> AssistanceControls => Set<AssistanceControl>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
         
         #region Catologos
@@ -59,6 +60,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
+        public DbSet<Location> Locations => Set<Location>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         #endregion
 

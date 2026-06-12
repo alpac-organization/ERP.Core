@@ -29,5 +29,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Validamos todos sus colaboradores
         public virtual ICollection<Collaborator> Collaborators { get; set; } = [];
+
+        //Control de ubicación de guardas de seguridad
+        public virtual ICollection<Location> Locations { get; set; } = [];
     }
 }

@@ -74,13 +74,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("vigemsa_additional_data")
                 .HasColumnType("jsonb");
 
-            builder.Property(e => e.AlpacAdditionalData)
-                .HasColumnName("alpac_additional_data")
-                .HasColumnType("jsonb");
-
-            builder.Property(e => e.AvasaAdditionalData)
-                .HasColumnName("avasa_additional_data")
-                .HasColumnType("jsonb");
 
             builder.Property(e => e.TotalToPay)
                 .HasColumnName("total_to_pay")
@@ -98,6 +91,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
+
+            builder.HasMany(c => c.AssistanceControls)
+                .WithOne(s => s.ProfessionalServicesPayroll)
+                .HasForeignKey(s => s.ProfessionalPayrollId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(c => c.Collaborator)
                 .WithMany(s => s.ProfessionalServicesPayrolls)
