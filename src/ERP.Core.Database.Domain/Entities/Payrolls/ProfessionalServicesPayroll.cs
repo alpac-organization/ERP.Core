@@ -19,5 +19,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Total de turnos realizados
         public decimal TotalNumberShiftsPerformed { get; set; }
+
+        public decimal NetToPay { get; set; }
     } 
 }
