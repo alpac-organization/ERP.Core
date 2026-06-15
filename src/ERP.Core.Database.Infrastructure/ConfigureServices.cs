@@ -98,6 +98,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IHolidaysRepository, HolidaysRepository>();
             services.AddScoped<IInssAccountingInformationRepository, InssAccountingInformationRepository>();
             services.AddScoped<ITypesAccountingPayrollRepository, TypesAccountingPayrollRepository>();
+            services.AddScoped<ILocationsRepository, LocationsRepository>();
+            services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
