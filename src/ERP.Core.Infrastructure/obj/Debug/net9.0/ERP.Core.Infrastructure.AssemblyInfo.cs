@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Core Infrastructure layer for Alpac ERP system.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+686c10a59a64105fcf7c12fe9fb56982c120c81b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78b336e97b38e4f1180473d332a7a9386a6c6a3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ERP.Core.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ERP.Core.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
