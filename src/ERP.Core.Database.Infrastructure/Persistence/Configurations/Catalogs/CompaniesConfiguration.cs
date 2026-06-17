@@ -58,6 +58,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasForeignKey(m => m.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(c => c.TypesAccountingPayroll)
+                .WithOne(m => m.Company)
+                .HasForeignKey(m => m.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(c => c.JobPositions)
                 .WithOne(m => m.Company)
                 .HasForeignKey(m => m.CompanyId)

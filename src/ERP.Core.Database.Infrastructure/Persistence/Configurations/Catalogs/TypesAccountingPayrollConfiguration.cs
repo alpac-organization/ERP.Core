@@ -18,6 +18,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(e => e.CompanyId)
+                .HasColumnName("company_id")
+                .IsRequired();
+
             builder.Property(e => e.AccountingPayrollCode)
                 .HasColumnName("accounting_payroll_code")
                 .IsRequired();
@@ -30,6 +34,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("description")
                 .IsRequired();
 
+            builder.Property(e => e.DoesGenerateSeniority)
+                .HasColumnName("does_generate_seniority")
+                .IsRequired();
+
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true)
@@ -39,6 +47,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
+
+
+            builder.HasOne(c => c.Company)
+                .WithMany(s => s.TypesAccountingPayroll)
+                .HasForeignKey(s => s.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");

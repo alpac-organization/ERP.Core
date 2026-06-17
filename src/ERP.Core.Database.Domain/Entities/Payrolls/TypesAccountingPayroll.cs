@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 //Nominas Contables
 namespace ERP.Core.Database.Domain.Entities.Payrolls
@@ -11,5 +12,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? Description { get; set; }
         public string? AccountingPayrollName  { get; set; }
         public string? AccountingPayrollCode { get; set; }
+        public bool DoesGenerateSeniority { get; set; } = false;
+
+
+        public Guid CompanyId { get; set; }
+        public virtual Company Company { get; set; } = default!;
     }
 }
