@@ -5,7 +5,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
     public class Branch : BaseEntity<Guid>
     {
-        public string BranchCode { get; set; } = null!;
+        public string? BranchCode { get; set; }
         public string? PhoneNumber { get; set; }
         public string? BranchName { get; set; }
         public string? CompanyAlias { get; set; }

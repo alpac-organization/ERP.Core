@@ -361,7 +361,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("branch_address");
 
                     b.Property<string>("BranchCode")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("branch_code");
@@ -413,10 +412,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("phone_number");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BranchCode")
-                        .IsUnique()
-                        .HasDatabaseName("IX_branches_branch_code");
 
                     b.HasIndex("CompanyId")
                         .HasDatabaseName("IX_branches_company_id");

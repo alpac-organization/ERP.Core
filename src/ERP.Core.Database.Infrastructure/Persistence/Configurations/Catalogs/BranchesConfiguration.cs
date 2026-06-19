@@ -20,7 +20,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 
             builder.Property(e => e.BranchCode)
                 .HasColumnName("branch_code")
-                .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(e => e.BranchName)
@@ -72,10 +71,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");         
-
-            builder.HasIndex(e => e.BranchCode)
-                .IsUnique()
-                .HasDatabaseName("IX_branches_branch_code");
 
             builder.HasIndex(e => e.CompanyId)
                 .HasDatabaseName("IX_branches_company_id");

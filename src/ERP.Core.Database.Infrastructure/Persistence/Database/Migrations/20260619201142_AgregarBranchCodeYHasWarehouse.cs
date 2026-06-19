@@ -16,7 +16,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "branches",
                 type: "character varying(50)",
                 maxLength: 50,
-                nullable: false);
+                nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "has_warehouse",
@@ -25,20 +25,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 type: "boolean",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_branches_branch_code",
-                schema: "public",
-                table: "branches",
-                column: "branch_code",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"DROP INDEX IF EXISTS public.""IX_branches_branch_code"";");
-
             migrationBuilder.DropColumn(
                 name: "branch_code",
                 schema: "public",
