@@ -3,6 +3,10 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
+using ERP.Core.Database.Domain.Entities.Warehouse;
+//using ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
+using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -64,6 +68,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         #endregion
 
+        #region MOD: Bodegas y Clientes
+        public DbSet<CustomerType> CustomerTypes => Set<CustomerType>();
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<ProductType> ProductTypes => Set<ProductType>();
+        public DbSet<Product> Products => Set<Product>();
+        public DbSet<Warehouses> Warehouses => Set<Warehouses>();
+        #endregion
+                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -111,6 +123,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
                 foreach (var property in entityType.GetProperties())
                 {
                     var type = Nullable.GetUnderlyingType(property.ClrType) ?? property.ClrType;
+                }
+            }
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var baseType = entityType.ClrType.BaseType;
+                if (baseType != null && baseType.IsGenericType &&
+                    baseType.GetGenericTypeDefinition() == typeof(BaseEntity<>))
+                {
+                    modelBuilder.Entity(entityType.ClrType).Property("CreatedAt").ValueGeneratedOnAdd();
+                    modelBuilder.Entity(entityType.ClrType).Property("DeletedAt").IsRequired(false);
                 }
             }
 

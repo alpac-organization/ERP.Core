@@ -12,20 +12,33 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.HasKey(c => c.Id);
 
+        builder.Property(c => c.Id)
+            .HasColumnName("customer_id")
+            .HasDefaultValueSql("gen_random_uuid()")
+            .ValueGeneratedOnAdd()
+            .IsRequired();
+
+        builder.HasIndex(c => c.Id)
+            .IsUnique()
+            .HasDatabaseName("ix_customer_id");
+
         builder.Property(c => c.DNI_RUC)
+            .HasColumnName("dni_ruc")
             .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(c => c.LegalName)
+            .HasColumnName("legal_name")
             .HasMaxLength(150)
             .IsRequired();
 
         builder.Property(c => c.IsActive)
+            .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
 
         builder.HasIndex(c => c.DNI_RUC)
-            .HasFilter("[DeletedAt] IS NULL")
+            .HasFilter("\"DeletedAt\" IS NULL")
             .IsUnique();
 
         builder.HasQueryFilter(c => c.DeletedAt == null);
