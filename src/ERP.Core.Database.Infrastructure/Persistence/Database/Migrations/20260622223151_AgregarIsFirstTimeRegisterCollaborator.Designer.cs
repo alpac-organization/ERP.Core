@@ -3,17 +3,20 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260622223151_AgregarIsFirstTimeRegisterCollaborator")]
+    partial class AgregarIsFirstTimeRegisterCollaborator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,11 +360,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("branch_address");
 
-                    b.Property<string>("BranchCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("branch_code");
-
                     b.Property<string>("BranchName")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
@@ -391,12 +389,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("does_generate_seniority");
-
-                    b.Property<bool>("HasWarehouse")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("has_warehouse");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
