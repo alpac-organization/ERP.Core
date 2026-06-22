@@ -68,7 +68,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         #region MOD: Bodegas y Clientes
         public DbSet<Customer> Customers => Set<Customer>();
-        public DbSet<CatalogWarehouse> CatalogWarehouses => Set<CatalogWarehouse>();
+        public DbSet<CustomerType> CustomersTypes => Set<CustomerType>();
+        public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         #endregion

@@ -37,9 +37,9 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasOne(c => c.CatalogWarehouse)
+        builder.HasOne(c => c.CustomerType)
             .WithOne()
-            .HasForeignKey<Customer>(c => c.CatalogWarehouseId)
+            .HasForeignKey<Customer>(c => c.CustomerTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
     }

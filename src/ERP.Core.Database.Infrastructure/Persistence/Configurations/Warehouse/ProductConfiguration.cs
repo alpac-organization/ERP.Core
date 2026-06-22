@@ -8,7 +8,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        builder.ToTable("Product");
+        builder.ToTable("product");
 
         builder.HasKey(p => p.Id);
 
@@ -46,14 +46,38 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(true)
             .IsRequired();
 
+        ///==============================
+        /// Mapeo
+        /// =============================
+        builder.Property(p => p.CustomerId)
+            .HasColumnName("customer_id")
+            .IsRequired();
+
+        builder.Property(p => p.CategoryProductsId)
+            .HasColumnName("category_products_id")
+            .IsRequired();
+
+        builder.Property(p => p.ParentId)
+            .HasColumnName("parent_id")
+            .IsRequired(false);
+
+        ///==============================
+        /// Relaciones
+        /// =============================
+
         builder.HasOne(p => p.Customer)
             .WithMany()
             .HasForeignKey(p => p.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(p => p.CatalogWarehouse)
+        builder.HasOne(p => p.CategoryProducts)
             .WithMany()
-            .HasForeignKey(p => p.CatalogWarehouseId)
+            .HasForeignKey(p => p.CategoryProductsId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(p => p.Parent)
+            .WithMany(p => p.Children)
+            .HasForeignKey(p => p.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
