@@ -12,7 +12,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? IdentificationNumber { get; set; }
         public string? CollaboratorCode { get; set; }
         public bool DoesWorkSaturdays { get; set; } = false;
-        
+
         //Id de la empresa a la que pertenece este colaborador.
         public Guid CompanyId { get; set; }
 
@@ -26,6 +26,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public GenderType Gender { get; set; }
         public CollaboratorStatus Status { get; set; }
+
+        public bool IsFirstTimeRegister { get; set; } = true;
         public IdentificationType IdentificationType { get; set; }
 
         // Relacionar tablas para acceso a  ellas
@@ -40,7 +42,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<Deduction> Deductions { get; set; } = [];
-        
+
         //Solicitudes pendientes, activas en proceso.
         public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
@@ -69,10 +71,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
 
         //Control de pagos de ingresos de viaticos por periodos
-        public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = []; 
+        public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
 
-        
+
         //Informe del inss por periodos
-        public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];         
+        public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
     }
 }
