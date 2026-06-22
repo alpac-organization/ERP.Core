@@ -56,9 +56,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
-
-        builder.HasQueryFilter(w => w.IsActive && w.DeletedAt == null);
-
         builder.HasOne(w => w.Branch)
             .WithMany()
             .HasForeignKey(w => w.BranchId)
@@ -67,7 +64,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
         builder.HasOne(w => w.CustomerType)
             .WithMany()
             .HasForeignKey(w => w.AllowedCustomerTypeId)
-            .IsRequired(false)
+            .IsRequired()
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -27,7 +27,5 @@ public class ProductTypesConfiguration : IEntityTypeConfiguration<ProductType>
             .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
-
-        builder.HasQueryFilter(pt => pt.DeletedAt == null);
     }
 }

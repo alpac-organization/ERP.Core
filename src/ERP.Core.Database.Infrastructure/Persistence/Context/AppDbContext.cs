@@ -5,7 +5,6 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-//using ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context

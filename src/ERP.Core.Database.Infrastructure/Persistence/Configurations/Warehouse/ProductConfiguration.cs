@@ -46,9 +46,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(true)
             .IsRequired();
 
-
-        builder.HasQueryFilter(p => p.DeletedAt == null);
-
         builder.HasOne(p => p.Customer)
             .WithMany()
             .HasForeignKey(p => p.CustomerId)

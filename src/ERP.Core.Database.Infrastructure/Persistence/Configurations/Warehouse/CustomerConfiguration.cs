@@ -37,8 +37,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasQueryFilter(c => c.DeletedAt == null);
-
         builder.HasOne(c => c.CustomerType)
             .WithMany()
             .HasForeignKey(c => c.CustomerTypeId)
