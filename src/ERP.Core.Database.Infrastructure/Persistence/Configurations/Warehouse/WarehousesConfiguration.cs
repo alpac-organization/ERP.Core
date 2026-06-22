@@ -56,10 +56,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasIndex(w => w.Code)
-            .HasFilter("\"IsActive\" = 1 AND \"DeletedAt\" IS NULL")
-            .IsUnique()
-            .HasDatabaseName("ix_warehouse_code");
 
         builder.HasQueryFilter(w => w.IsActive && w.DeletedAt == null);
 

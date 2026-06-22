@@ -33,10 +33,16 @@ public class CustomerTypeConfiguration : IEntityTypeConfiguration<CustomerType>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasIndex(ct => ct.Code)
-            .HasFilter("\"DeletedA\" IS NULL")
-            .IsUnique();
+         builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
 
-        builder.HasQueryFilter(ct => ct.DeletedAt == null);
+        builder.Property(e => e.DeletedAt)
+            .IsRequired(false)
+            .HasDefaultValue(null)
+            .HasColumnName("deleted_at");
+
+        
     }
 }

@@ -46,10 +46,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasIndex(p => p.SKU)
-            .HasFilter("\"DeletedAt\" IS NULL")
-            .IsUnique()
-            .HasDatabaseName("ix_product_sku");
 
         builder.HasQueryFilter(p => p.DeletedAt == null);
 

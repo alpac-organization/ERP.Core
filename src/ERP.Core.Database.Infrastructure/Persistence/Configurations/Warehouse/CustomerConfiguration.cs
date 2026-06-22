@@ -37,10 +37,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasIndex(c => c.DNI_RUC)
-            .HasFilter("\"DeletedAt\" IS NULL")
-            .IsUnique();
-
         builder.HasQueryFilter(c => c.DeletedAt == null);
 
         builder.HasOne(c => c.CustomerType)
