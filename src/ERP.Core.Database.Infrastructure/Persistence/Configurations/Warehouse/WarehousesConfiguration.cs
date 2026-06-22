@@ -56,15 +56,15 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(w => w.IsOwner)
+            .HasColumnName("is_owner")
+            .HasDefaultValue(true)
+            .IsRequired();
+
         builder.HasOne(w => w.Branch)
-            .WithMany()
+            .WithMany(e => e.Warehouses)
             .HasForeignKey(w => w.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(w => w.CustomerType)
-            .WithMany()
-            .HasForeignKey(w => w.AllowedCustomerTypeId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.SetNull);
     }
 }

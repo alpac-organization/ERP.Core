@@ -3,7 +3,6 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Bases;
 
@@ -68,9 +67,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region MOD: Bodegas y Clientes
-        public DbSet<CustomerType> CustomerTypes => Set<CustomerType>();
         public DbSet<Customer> Customers => Set<Customer>();
-        public DbSet<ProductType> ProductTypes => Set<ProductType>();
+        public DbSet<CatalogWarehouse> CatalogWarehouses => Set<CatalogWarehouse>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         #endregion
