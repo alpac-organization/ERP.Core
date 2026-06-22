@@ -6,3 +6,6 @@ src/ERP.Core.Database.Infrastructure/appsettings.json
 
 **/bin/
 **/obj/
+
+[Bb]in/
+[Oo]bj/

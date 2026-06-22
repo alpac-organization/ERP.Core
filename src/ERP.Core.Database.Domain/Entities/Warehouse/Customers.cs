@@ -5,7 +5,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class Customer : BaseEntity<Guid>
 {
-    public int CustomerTypeId {get; set;}
+    public Guid CustomerTypeId {get; set;}
     public string DNI_RUC {get; set;} = null!;
     public string LegalName {get; set;} = null!;
     public bool IsActive {get; set;} = true;

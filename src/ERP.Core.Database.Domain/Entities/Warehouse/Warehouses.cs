@@ -9,9 +9,11 @@ public class Warehouses : BaseEntity<Guid>
     public Guid BranchId {get; set;}
     public string Code {get; set;} = null!;
     public string Name {get; set;} = null!;
-    public int? AllowedCustomerTypeId {get; set;}
+    public Guid? AllowedCustomerTypeId {get; set;}
     public decimal TotalCubicCapacity {get; set;}
     public decimal TotalWeightCapacity {get; set;}
+    public bool IsActive {get; set;} = true;
+
 
     public virtual Branch Branch {get; set;} = default!;
     public virtual CustomerType? CustomerType {get; set;}
