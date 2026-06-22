@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
     public partial class AgregarBranchCodeYHasWarehouse : Migration

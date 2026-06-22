@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260619201142_AgregarBranchCodeYHasWarehouse")]
+    [Migration("20260622172431_AgregarBranchCodeYHasWarehouse")]
     partial class AgregarBranchCodeYHasWarehouse
     {
         /// <inheritdoc />
