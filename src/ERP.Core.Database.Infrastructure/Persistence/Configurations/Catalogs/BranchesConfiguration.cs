@@ -18,6 +18,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(e => e.BranchCode)
+                .HasColumnName("branch_code")
+                .HasMaxLength(50);
+
             builder.Property(e => e.BranchName)
                 .HasColumnName("branch_name")
                 .HasMaxLength(100);
@@ -42,6 +46,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValue(true)
                 .IsRequired();
 
+            builder.Property(e => e.HasWarehouse)
+                .HasColumnName("has_warehouse")
+                .HasDefaultValue(false);
+
             builder.Property(e => e.CompanyAlias)
                 .HasColumnName("company_alias")
                 .IsRequired();
@@ -65,7 +73,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("deleted_at");         
 
             builder.HasIndex(e => e.CompanyId)
-                .HasDatabaseName("IX_branches_company_id");   
+                .HasDatabaseName("IX_branches_company_id");
         }
     }
 }
