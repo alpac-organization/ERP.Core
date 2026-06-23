@@ -8,6 +8,7 @@ using ERP.Core.Database.Infrastructure.Persistence;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
@@ -15,7 +16,6 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Infrastructure
 {
