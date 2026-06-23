@@ -3,6 +3,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -48,7 +50,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IInssAccountingInformationRepository inssAccountingInformationRepository,
         ITypesAccountingPayrollRepository typesAccountingPayrollRepository,
         IAssistanceControlRepository assistanceControlRepository,
-        ILocationsRepository locationRepository
+        ILocationsRepository locationRepository,
+        ICategoryProductsRepository categoryProductsRepository,
+        ICustomerTypeRepository customerTypeRepository,
+        ICustomerRepository customerRepository,
+        IProductsRepository productsRepository,
+        WarehousesRepository warehouseRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -96,7 +103,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         public IAssistanceControlRepository AssistanceControls => assistanceControlRepository;
         public ILocationsRepository Locations => locationRepository;
+
+        public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
+        public ICustomerTypeRepository CustomerType => customerTypeRepository;
         #endregion
+
+        #region warehouse
+        public ICustomerRepository Customer => customerRepository;
+        public IProductsRepository Products => productsRepository;
+        public IWarehousesRepository warehouses => warehouseRepository;
+        #endregion
+
+
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
