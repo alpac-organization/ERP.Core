@@ -4,7 +4,6 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -55,7 +54,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerTypeRepository customerTypeRepository,
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
-        WarehousesRepository warehouseRepository
+        IWarehousesRepository warehouseRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -111,7 +110,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region warehouse
         public ICustomerRepository Customer => customerRepository;
         public IProductsRepository Products => productsRepository;
-        public IWarehousesRepository warehouses => warehouseRepository;
+        public IWarehousesRepository Warehouses => warehouseRepository;
         #endregion
 
 
