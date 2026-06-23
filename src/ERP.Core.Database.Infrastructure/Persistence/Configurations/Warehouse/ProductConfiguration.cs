@@ -46,37 +46,21 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(true)
             .IsRequired();
 
-        ///==============================
-        /// Mapeo
-        /// =============================
         builder.Property(p => p.CustomerId)
             .HasColumnName("customer_id")
             .IsRequired();
 
-        builder.Property(p => p.CategoryProductsId)
-            .HasColumnName("category_products_id")
-            .IsRequired();
-
         builder.Property(p => p.CategoryId)
             .HasColumnName("category_id")
-            .IsRequired(false);
-
-        ///==============================
-        /// Relaciones
-        /// =============================
+            .IsRequired();
 
         builder.HasOne(p => p.Customer)
-            .WithMany()
+            .WithMany(p => p.Products)
             .HasForeignKey(p => p.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(p => p.CategoryProducts)
-            .WithMany()
-            .HasForeignKey(p => p.CategoryProductsId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasOne(p => p.Category)
-            .WithMany()
+            .WithMany(p => p.Products)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
     }

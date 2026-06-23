@@ -5,10 +5,12 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class Customer : BaseEntity<Guid>
 {
-    public Guid CustomerTypeId {get; set;}
-    public string DNI_RUC {get; set;} = null!;
-    public string LegalName {get; set;} = null!;
+    public string? DNI_RUC {get; set;}
+    public string? LegalName {get; set;}
     public bool IsActive {get; set;} = true;
 
+    public Guid CustomerTypeId {get; set;}
     public virtual CustomerType CustomerType {get; set;} = default!;
+
+    public virtual ICollection<Product> Products { get; set; } = [];
 }

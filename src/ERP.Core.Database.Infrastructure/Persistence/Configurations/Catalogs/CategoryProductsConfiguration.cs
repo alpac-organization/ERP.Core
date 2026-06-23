@@ -14,7 +14,7 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Id)
-            .HasColumnName("category_products_id")
+            .HasColumnName("category_product_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();
@@ -34,9 +34,9 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.HasOne(c => c.Category)
-            .WithMany(c => c.SubCategory)
-            .HasForeignKey(c => c.CategoryId)
+        builder.HasOne(c => c.Parent)
+            .WithMany(c => c.Children)
+            .HasForeignKey(c => c.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
     } 
 }
