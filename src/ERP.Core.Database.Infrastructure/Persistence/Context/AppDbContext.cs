@@ -124,17 +124,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
                 }
             }
 
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                var baseType = entityType.ClrType.BaseType;
-                if (baseType != null && baseType.IsGenericType &&
-                    baseType.GetGenericTypeDefinition() == typeof(BaseEntity<>))
-                {
-                    modelBuilder.Entity(entityType.ClrType).Property("CreatedAt").ValueGeneratedOnAdd();
-                    modelBuilder.Entity(entityType.ClrType).Property("DeletedAt").IsRequired(false);
-                }
-            }
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ErpDbContext).Assembly);
         }
     }

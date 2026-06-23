@@ -16,9 +16,8 @@ public class Product : BaseEntity<Guid>
     /// <summary>
     /// Recursividad
     /// </summary>
-    public Guid? ParentId {get; set;}
-    public virtual Product? Parent {get; set;}
-    public virtual ICollection<Product> Children {get; set;} = new List<Product>();
+    public Guid? CategoryId {get; set;}
+    public virtual Product? Category {get; set;}
 
     /// <summary>
     /// Relaciones externas

@@ -8,7 +8,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
-        builder.ToTable("Customers");
+        builder.ToTable("customers");
 
         builder.HasKey(c => c.Id);
 
@@ -37,9 +37,13 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(c => c.CustomerTypeId)
+            .HasColumnName("customer_type_id")
+            .IsRequired();
+
         builder.HasOne(c => c.CustomerType)
-            .WithOne()
-            .HasForeignKey<Customer>(c => c.CustomerTypeId)
+            .WithMany(t => t.Customers)
+            .HasForeignKey(c => c.CustomerTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
     }

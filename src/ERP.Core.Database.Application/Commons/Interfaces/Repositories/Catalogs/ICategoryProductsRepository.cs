@@ -4,5 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
 
 public interface ICategoryProductsRepository : IRepository<CategoryProducts>
 {
-    Task<List<CategoryProducts>> GetRootCategoriesWithChildrenAsync(CancellationToken cancellationToken);
+    Task<CategoryProducts> CreateCategoryProduct(CategoryProducts payload);
 }

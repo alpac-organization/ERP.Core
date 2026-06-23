@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,5 +28,15 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasColumnName("name")
             .HasMaxLength(100)
             .IsRequired();
+
+        builder.Property(c => c.IsActive)
+            .HasColumnName("is_active")
+            .HasDefaultValue(true)
+            .IsRequired();
+
+        builder.HasOne(c => c.Category)
+            .WithMany(c => c.SubCategory)
+            .HasForeignKey(c => c.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
     } 
 }

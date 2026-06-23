@@ -32,5 +32,11 @@ public class CustomerTypeConfiguraton : IEntityTypeConfiguration<CustomerType>
             .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
+
+
+        builder.HasMany(ct => ct.Customers)
+            .WithOne(c => c.CustomerType)
+            .HasForeignKey(c => c.CustomerTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -8,7 +8,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
 {
     public void Configure(EntityTypeBuilder<Warehouses> builder)
     {
-        builder.ToTable("Warehouses");
+        builder.ToTable("warehouses");
 
         builder.HasKey(w => w.Id);
 

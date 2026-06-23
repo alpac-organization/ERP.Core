@@ -57,8 +57,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("category_products_id")
             .IsRequired();
 
-        builder.Property(p => p.ParentId)
-            .HasColumnName("parent_id")
+        builder.Property(p => p.CategoryId)
+            .HasColumnName("category_id")
             .IsRequired(false);
 
         ///==============================
@@ -75,9 +75,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasForeignKey(p => p.CategoryProductsId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(p => p.Parent)
-            .WithMany(p => p.Children)
-            .HasForeignKey(p => p.ParentId)
+        builder.HasOne(p => p.Category)
+            .WithMany()
+            .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

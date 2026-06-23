@@ -4,5 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface ICustomerRepository : IRepository<Customer>
 {
-    
+    Task<Customer> RegisterCustomer(Customer payload);
 }

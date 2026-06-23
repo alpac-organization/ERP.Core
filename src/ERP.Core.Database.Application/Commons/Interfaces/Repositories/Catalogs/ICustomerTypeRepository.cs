@@ -4,5 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
 
 public interface ICustomerTypeRepository : IRepository<CustomerType>
 {
-    
+    Task<CustomerType> RegisterCustomerType(CustomerType payload);
 }

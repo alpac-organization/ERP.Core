@@ -4,5 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IWarehousesRepository : IRepository<Warehouses>
 {
-    
+    Task<Warehouses> RegisterWarehouse(Warehouses payload);
 }

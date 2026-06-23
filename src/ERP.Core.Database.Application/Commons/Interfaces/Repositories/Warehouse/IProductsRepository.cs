@@ -4,5 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IProductsRepository : IRepository<Product>
 {
-    Task<List<Product>> GetRootProductsWithDetailsAsync(CancellationToken cancellationToken);
+    Task<Product> InsertProduct(Product payload);
 }
