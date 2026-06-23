@@ -2,6 +2,7 @@
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 {
@@ -29,8 +30,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IValidityDeductionsRepository ValidityDeductions { get; }
         IIncomesRepository Incomes { get; }
         IBranchesRepository Branches { get; }
-        IIncomeTaxAccrualRepository IncomeTaxAccrual { get;}
-        IAssignedTravelExpensesRepository AssignedTravelExpenses  { get; }
+        IIncomeTaxAccrualRepository IncomeTaxAccrual { get; }
+        IAssignedTravelExpensesRepository AssignedTravelExpenses { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
         IDeductionPaymentHistoryRepository DeductionPaymentHistories { get; }
         ISubsidyRepository Subsidies { get; }
@@ -49,8 +50,15 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesAccountingPayrollRepository TypesAccountingPayroll { get; }
         IAssistanceControlRepository AssistanceControls { get; }
         ILocationsRepository Locations { get; }
+        ICategoryProductsRepository CategoryProducts { get; }
+        ICustomerTypeRepository CustomerType { get; }
         #endregion
 
+        #region Warehouse
+        ICustomerRepository Customer { get; }
+        IProductsRepository Products { get; }
+        IWarehousesRepository warehouses { get; }
+        #endregion
 
 
         Task SaveChangesAsync(CancellationToken cancellationToken = default);

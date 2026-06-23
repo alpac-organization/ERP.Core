@@ -14,6 +14,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -100,6 +102,12 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ITypesAccountingPayrollRepository, TypesAccountingPayrollRepository>();
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
+            services.AddScoped<ICategoryProductsRepository, CategoryProductsRepository>();
+            services.AddScoped<ICustomerTypeRepository, CustomerTyperpository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IWarehousesRepository, WarehousesRepository>();
+
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
