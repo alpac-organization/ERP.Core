@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 //Areas o departamentos de la empresa
 namespace ERP.Core.Database.Domain.Entities.Catalogs
@@ -14,5 +15,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual Company Company { get; set; } = default!;
 
         public virtual ICollection<CostCenter> CostCenters { get; set; } = [];
+        public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
 }

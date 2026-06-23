@@ -3,17 +3,20 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260623201526_AgregarCorreccionDeRelaciones")]
+    partial class AgregarCorreccionDeRelaciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2736,7 +2739,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("working_information_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("AreaId")
+                    b.Property<Guid?>("AreaId")
                         .HasColumnType("uuid")
                         .HasColumnName("area_id");
 
@@ -2786,6 +2789,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("job_position_id");
 
+                    b.Property<int>("WorkAreaId")
+                        .HasColumnType("integer")
+                        .HasColumnName("work_area_id");
+
                     b.Property<string>("WorkEmail")
                         .HasColumnType("text")
                         .HasColumnName("work_email");
@@ -2800,12 +2807,12 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaId");
-
                     b.HasIndex("CollaboratorId")
                         .IsUnique();
 
                     b.HasIndex("CompanyBranchId");
+
+                    b.HasIndex("WorkAreaId");
 
                     b.HasIndex("WorkPositionId");
 
@@ -3533,21 +3540,21 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.WorkingInformation", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "Area")
-                        .WithMany("WorkingInformations")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithOne("WorkingInformation")
                         .HasForeignKey("ERP.Core.Database.Domain.Entities.Payrolls.WorkingInformation", "CollaboratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "BranchInfo")
                         .WithMany()
                         .HasForeignKey("CompanyBranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "WorkArea")
+                        .WithMany()
+                        .HasForeignKey("WorkAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -3557,11 +3564,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Area");
-
                     b.Navigation("BranchInfo");
 
                     b.Navigation("Collaborator");
+
+                    b.Navigation("WorkArea");
 
                     b.Navigation("WorkPosition");
                 });
@@ -3675,8 +3682,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
                 {
                     b.Navigation("CostCenters");
-
-                    b.Navigation("WorkingInformations");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>

@@ -5,23 +5,15 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class Product : BaseEntity<Guid>
 {
-    public Guid CustomerId {get; set;}
-    public Guid CategoryProductsId {get; set;}
-    public string SKU {get; set;} = null!;
-    public string Name {get; set;} = null!;
-    public string Description {get; set;} = null!;
-    public string UnitOfMeasure {get; set;} = null!;
+    public string? SKU {get; set;}
+    public string? Name {get; set;}
+    public string? Description {get; set;}
+    public string? UnitOfMeasure {get; set;}
     public bool IsActive {get; set;}
 
-    /// <summary>
-    /// Recursividad
-    /// </summary>
-    public Guid? CategoryId {get; set;}
-    public virtual Product? Category {get; set;}
+    public Guid CategoryId {get; set;}
+    public virtual CategoryProducts Category {get; set;} = default!;
 
-    /// <summary>
-    /// Relaciones externas
-    /// </summary>
+    public Guid CustomerId {get; set;}
     public virtual Customer Customer {get; set;} = default!;
-    public virtual CategoryProducts CategoryProducts {get; set;} = default!;
 }

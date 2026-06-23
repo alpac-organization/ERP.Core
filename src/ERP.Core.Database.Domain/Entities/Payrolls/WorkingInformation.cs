@@ -11,18 +11,17 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? WorkPhoneNumber { get; set; }
         public string? BankAccountNumber { get; set; }
         
-        
-        public int WorkAreaId { get; set; }
-        public virtual SubCatalog WorkArea { get; set; } = null!;
+    
         public int WorkPositionId { get; set; }
         public virtual SubCatalog WorkPosition { get; set; } = null!;
         public Guid CompanyBranchId { get; set; }   
         public virtual Branch BranchInfo { get; set; } = null!;
 
 
-
         //Nuevas Relaciones
-        public Guid? AreaId { get; set; }
+        public Guid AreaId { get; set; }
+        public virtual WorkArea Area { get; set; } = default!;
+
         public Guid? BranchId { get; set; }    
         public Guid? JobPositionId { get; set; }
 
