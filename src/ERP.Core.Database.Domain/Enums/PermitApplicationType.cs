@@ -35,6 +35,11 @@ namespace ERP.Core.Database.Domain.Enums
         /// <summary>
         /// Vacaciones cedidas o donadas por otro colaborador (Donated Vacations).
         /// </summary>
-        DonatedVacations = 7
+        DonatedVacations = 7,
+
+        /// <summary>
+        /// Solicitud de pago correspondiente al saldo de vacaciones acumuladas del colaborador.
+        /// </summary>
+        VacationPay = 8
     }
 }
