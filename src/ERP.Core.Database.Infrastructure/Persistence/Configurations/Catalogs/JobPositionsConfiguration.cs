@@ -44,6 +44,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValue(null)
                 .HasColumnName("deleted_at");
 
+            builder.HasOne(c => c.Company)
+                .WithMany(s => s.JobPositions)
+                .HasForeignKey(s => s.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             #region Indices de la tabla
             
             builder.HasIndex(e => e.Id)

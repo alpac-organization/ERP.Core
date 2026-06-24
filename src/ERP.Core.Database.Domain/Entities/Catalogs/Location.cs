@@ -10,8 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
         
-
-        public Guid AssistanceControlId { get; set; }
-        public virtual AssistanceControl AssistanceControl { get; set; } = default!;
+        // public Guid AssistanceControlId { get; set; }
+        // public virtual AssistanceControl AssistanceControl { get; set; } = default!;
     }
 }

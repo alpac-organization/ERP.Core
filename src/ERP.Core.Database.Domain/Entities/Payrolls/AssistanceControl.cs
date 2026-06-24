@@ -12,11 +12,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         //Cantidad de horas trabajadas
         public decimal AmountHours { get; set; }
 
-
-        //Donde estuvo durante la jornada laboral
-        public Guid LocationId { get; set; }
-        public virtual Location Location { get; set; } = default!;
-
         public Guid ProfessionalPayrollId { get; set; }
         public virtual ProfessionalServicesPayroll ProfessionalServicesPayroll { get; set; } = default!;
     }

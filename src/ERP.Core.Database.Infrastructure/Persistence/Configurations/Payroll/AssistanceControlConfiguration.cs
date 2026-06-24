@@ -32,15 +32,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("date")
                 .IsRequired();
 
-            builder.Property(e => e.LocationId)
-                .HasColumnName("location_id")
-                .IsRequired();
+            // builder.Property(e => e.LocationId)
+            //     .HasColumnName("location_id")
+            //     .IsRequired();
 
-            //Relación de las tablas de locations
-            builder.HasOne(d => d.Location)
-                .WithMany()
-                .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // //Relación de las tablas de locations
+            // builder.HasOne(d => d.Location)
+            //     .WithMany()
+            //     .HasForeignKey(d => d.LocationId)
+            //     .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
