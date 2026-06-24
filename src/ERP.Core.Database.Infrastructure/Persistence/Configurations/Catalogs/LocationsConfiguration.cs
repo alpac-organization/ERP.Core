@@ -33,7 +33,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .ValueGeneratedOnAdd();
 
             builder.Property(e => e.DeletedAt)
-                .HasColumnName("deleted_at");
+                .HasColumnName("deleted_at");     
 
             builder.HasIndex(e => e.Id)
                 .HasDatabaseName("ix_location_id");
