@@ -122,6 +122,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("vacations")
                 .HasPrecision(18, 2);
 
+            builder.Property(e => e.AmountDaysVacation)
+                .HasColumnName("amount_days_vacation")
+                .HasDefaultValue(0.0m)
+                .HasPrecision(18, 2);
+
             builder.Property(e => e.TotalToPay)
                 .HasColumnName("total_to_pay")
                 .HasPrecision(18, 2)
