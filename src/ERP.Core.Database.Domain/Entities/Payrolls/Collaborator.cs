@@ -12,6 +12,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? IdentificationNumber { get; set; }
         public string? CollaboratorCode { get; set; }
         public bool DoesWorkSaturdays { get; set; } = false;
+        public bool HasBeenFired { get; set; } = false;
 
         //Id de la empresa a la que pertenece este colaborador.
         public Guid CompanyId { get; set; }

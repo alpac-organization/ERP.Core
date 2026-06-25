@@ -5,193 +5,197 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
-   public class CollaboratorsConfiguration : IEntityTypeConfiguration<Collaborator>
-   {
-      public void Configure(EntityTypeBuilder<Collaborator> builder)
-      {
-         builder.ToTable("collaborators");
+    public class CollaboratorsConfiguration : IEntityTypeConfiguration<Collaborator>
+    {
+        public void Configure(EntityTypeBuilder<Collaborator> builder)
+        {
+            builder.ToTable("collaborators");
 
-         builder.HasKey(e => e.Id);
+            builder.HasKey(e => e.Id);
 
-         builder.Property(e => e.Id)
-             .HasColumnName("collaborator_id")
-             .HasDefaultValueSql("gen_random_uuid()")
-             .ValueGeneratedOnAdd()
+            builder.Property(e => e.Id)
+                .HasColumnName("collaborator_id")
+                .HasDefaultValueSql("gen_random_uuid()")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            builder.HasIndex(e => e.Id)
+                .IsUnique()
+                .HasDatabaseName("IX_collaborator_id");
+
+            builder.Property(e => e.PictureUrl)
+                .HasColumnName("picture_url")
+                .HasDefaultValue(null)
+                .IsRequired(false);
+
+            builder.Property(e => e.FirstName)
+                .HasColumnName("first_name")
+                .IsRequired();
+
+            builder.Property(e => e.SecondName)
+                .HasColumnName("second_name")
+                .IsRequired(false);
+
+            builder.Property(e => e.ThirdName)
+                .HasColumnName("third_name")
+                .IsRequired(false);
+
+            builder.Property(e => e.FirstLastname)
+                .HasColumnName("first_lastname")
+                .IsRequired();
+
+            builder.Property(e => e.SecondLastname)
+                .HasColumnName("second_lastname")
+                .IsRequired(false);
+
+            builder.Property(e => e.IdentificationNumber)
+                .HasColumnName("identification_number")
+                .IsRequired();
+
+            builder.Property(e => e.DoesWorkSaturdays)
+                .HasColumnName("does_work_saturdays")
+                .IsRequired();
+
+            builder.Property(e => e.HasBeenFired)
+             .HasColumnName("has_been_fired")
              .IsRequired();
 
-         builder.HasIndex(e => e.Id)
-             .IsUnique()
-             .HasDatabaseName("IX_collaborator_id");
+            builder.Property(e => e.IsFirstTimeRegister)
+                .HasColumnName("is_first_time_register")
+                .HasDefaultValue(true)
+                .IsRequired();
 
-         builder.Property(e => e.PictureUrl)
-             .HasColumnName("picture_url")
-             .HasDefaultValue(null)
-             .IsRequired(false);
+            builder.HasIndex(e => e.IdentificationNumber)
+                .HasDatabaseName("IX_collaborators_identification_number");
 
-         builder.Property(e => e.FirstName)
-             .HasColumnName("first_name")
-             .IsRequired();
+            builder.Property(e => e.IdentificationType)
+                .HasColumnName("identification_type")
+                .HasColumnType("identification_type_enum")
+                .IsRequired();
 
-         builder.Property(e => e.SecondName)
-             .HasColumnName("second_name")
-             .IsRequired(false);
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("collaborator_status_enum")
+                .IsRequired();
 
-         builder.Property(e => e.ThirdName)
-             .HasColumnName("third_name")
-             .IsRequired(false);
+            builder.Property(e => e.Gender)
+                .HasColumnName("gender")
+                .HasColumnType("gender_type_enum")
+                .IsRequired();
 
-         builder.Property(e => e.FirstLastname)
-             .HasColumnName("first_lastname")
-             .IsRequired();
+            builder.Property(e => e.CompanyId)
+                .HasColumnName("company_id")
+                .IsRequired();
 
-         builder.Property(e => e.SecondLastname)
-             .HasColumnName("second_lastname")
-             .IsRequired(false);
+            builder.Property(e => e.AccountingPayrollId)
+                .HasColumnName("accounting_payroll_id")
+                .IsRequired(false);
 
-         builder.Property(e => e.IdentificationNumber)
-             .HasColumnName("identification_number")
-             .IsRequired();
+            builder.Property(e => e.RegisteredBy)
+                .HasColumnName("registered_by")
+                .IsRequired();
 
-         builder.Property(e => e.DoesWorkSaturdays)
-             .HasColumnName("does_work_saturdays")
-             .IsRequired();
+            builder.Property(e => e.CollaboratorCode)
+                .HasColumnName("collaborator_code")
+                .IsRequired();
 
-         builder.Property(e => e.IsFirstTimeRegister)
-             .HasColumnName("is_first_time_register")
-             .HasDefaultValue(true)
-             .IsRequired();
+            builder.HasIndex(e => e.CollaboratorCode)
+                .IsUnique()
+                .HasDatabaseName("IX_collaborators_collaborator_code");
 
-         builder.HasIndex(e => e.IdentificationNumber)
-             .HasDatabaseName("IX_collaborators_identification_number");
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
 
-         builder.Property(e => e.IdentificationType)
-             .HasColumnName("identification_type")
-             .HasColumnType("identification_type_enum")
-             .IsRequired();
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
 
-         builder.Property(e => e.Status)
-             .HasColumnName("status")
-             .HasColumnType("collaborator_status_enum")
-             .IsRequired();
+            builder.HasOne(c => c.Company)
+                .WithMany(s => s.Collaborators)
+                .HasForeignKey(s => s.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-         builder.Property(e => e.Gender)
-             .HasColumnName("gender")
-             .HasColumnType("gender_type_enum")
-             .IsRequired();
+            //Relacionar la información personal.
+            builder.HasOne(c => c.PersonalInformation)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey<PersonalInformation>(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.CompanyId)
-             .HasColumnName("company_id")
-             .IsRequired();
+            //Relacionar la informacion de trabajo.
+            builder.HasOne(c => c.WorkingInformation)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey<WorkingInformation>(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.AccountingPayrollId)
-             .HasColumnName("accounting_payroll_id")
-             .IsRequired(false);
+            //Relacionar el control de vacaciones.
+            builder.HasOne(c => c.Vacation)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey<Vacation>(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.RegisteredBy)
-             .HasColumnName("registered_by")
-             .IsRequired();
+            //Registrar el control de solicitudes de vacaciones
+            builder.HasMany(c => c.PermitApplications)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.CollaboratorCode)
-             .HasColumnName("collaborator_code")
-             .IsRequired();
+            //Registrar el control de salarios
+            builder.HasMany(c => c.Salaries)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.HasIndex(e => e.CollaboratorCode)
-             .IsUnique()
-             .HasDatabaseName("IX_collaborators_collaborator_code");
+            //Subsidio Medico
+            builder.HasMany(c => c.Subsidies)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.CreatedAt)
-             .HasColumnName("created_at")
-             .HasDefaultValueSql("CURRENT_TIMESTAMP")
-             .ValueGeneratedOnAdd();
+            //Historial de viaticos asignados que se le ha brindado.
+            builder.HasMany(c => c.AssignedTravelExpenses)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.Property(e => e.DeletedAt)
-             .HasColumnName("deleted_at");
+            //Reporte de acumulador de vacaciones
+            builder.HasMany(c => c.VacationAccruals)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         builder.HasOne(c => c.Company)
-             .WithMany(s => s.Collaborators)
-             .HasForeignKey(s => s.CompanyId)
-             .OnDelete(DeleteBehavior.Restrict);
+            //Reporte de acumulador de aguinaldo
+            builder.HasMany(c => c.ChristmasBonusAccruals)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         //Relacionar la información personal.
-         builder.HasOne(c => c.PersonalInformation)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey<PersonalInformation>(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
+            //Reporte de Ingresos pagados, en este caso viaticos pagados
+            builder.HasMany(c => c.RecordsTravelExpensePayments)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         //Relacionar la informacion de trabajo.
-         builder.HasOne(c => c.WorkingInformation)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey<WorkingInformation>(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(c => c.WorkPositionHistory)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         //Relacionar el control de vacaciones.
-         builder.HasOne(c => c.Vacation)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey<Vacation>(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
+            //Control de sus nominas quincenales
+            builder.HasMany(c => c.OrdinaryPayrolls)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         //Registrar el control de solicitudes de vacaciones
-         builder.HasMany(c => c.PermitApplications)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(c => c.ProfessionalServicesPayrolls)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-         //Registrar el control de salarios
-         builder.HasMany(c => c.Salaries)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Subsidio Medico
-         builder.HasMany(c => c.Subsidies)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Historial de viaticos asignados que se le ha brindado.
-         builder.HasMany(c => c.AssignedTravelExpenses)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Reporte de acumulador de vacaciones
-         builder.HasMany(c => c.VacationAccruals)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Reporte de acumulador de aguinaldo
-         builder.HasMany(c => c.ChristmasBonusAccruals)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Reporte de Ingresos pagados, en este caso viaticos pagados
-         builder.HasMany(c => c.RecordsTravelExpensePayments)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         builder.HasMany(c => c.WorkPositionHistory)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         //Control de sus nominas quincenales
-         builder.HasMany(c => c.OrdinaryPayrolls)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         builder.HasMany(c => c.ProfessionalServicesPayrolls)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-         builder.HasMany(c => c.Deductions)
-             .WithOne(s => s.Collaborator)
-             .HasForeignKey(s => s.CollaboratorId)
-             .OnDelete(DeleteBehavior.Cascade);
-      }
-   }
+            builder.HasMany(c => c.Deductions)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
 }
