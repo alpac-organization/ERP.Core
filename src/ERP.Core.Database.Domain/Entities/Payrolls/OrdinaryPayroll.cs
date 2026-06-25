@@ -17,6 +17,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal Overtime { get; set; }
         public decimal Commissions { get; set; }
         public decimal NumberOvertime { get; set; }
+        public decimal AmountDaysVacation { get; set; }
         
         public decimal TotalIncome { get; set; }
 
