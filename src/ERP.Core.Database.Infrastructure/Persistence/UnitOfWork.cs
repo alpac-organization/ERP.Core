@@ -5,6 +5,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -59,7 +60,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region 
         IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
         IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
-        IRecordEntranceManaguaRepository recordEntranceManaguaRepository
+        IRecordEntranceManaguaRepository recordEntranceManaguaRepository,
+        IStepExecutionLogsManaguaRepository stepExecutionLogsManaguaRepository
         #endregion
     ) : IUnitOfWork
     {
@@ -119,10 +121,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehousesRepository Warehouses => warehouseRepository;
         #endregion
 
-        #region Bodegas Managua
+        #region Warehouse Managua
         public IEntranceDucatsManaguaRepository EntranceDucatsManaguaRepository => entranceDucatsManaguaRepository;
         public IReceptionDetailsManaguaRepository ReceptionDetailsManaguaRepository => receptiondDetailsManaguaRepository;
         public IRecordEntranceManaguaRepository RecordEntranceManaguaRepository => recordEntranceManaguaRepository;
+        public IStepExecutionLogsManaguaRepository StepExecutionLogsManaguaRepository => stepExecutionLogsManaguaRepository;
         #endregion
 
 

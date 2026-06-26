@@ -114,6 +114,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
             services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
             services.AddScoped<IEntranceDucatsManaguaRepository, EntranceDucatsManaguaRepository>();
+            services.AddScoped<IStepExecutionLogsManaguaRepository, StepExecutionLogsManaguaRepository>();
             #endregion
 
 
