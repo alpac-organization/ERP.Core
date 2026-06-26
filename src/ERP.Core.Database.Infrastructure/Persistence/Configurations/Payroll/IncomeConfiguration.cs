@@ -45,7 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.PayrollId)
-                .HasColumnName("payroll_id ")
+                .HasColumnName("payroll_id")
                 .IsRequired();
             
             builder.Property(e => e.IncomeTypeId)
