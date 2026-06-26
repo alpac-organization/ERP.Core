@@ -16,6 +16,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -107,6 +109,12 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
+
+            #region 
+            services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
+            services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
+            services.AddScoped<IEntranceDucatsManaguaRepository, EntranceDucatsManaguaRepository>();
+            #endregion
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           

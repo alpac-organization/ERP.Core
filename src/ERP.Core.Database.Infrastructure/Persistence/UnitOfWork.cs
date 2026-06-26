@@ -4,6 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -54,7 +55,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerTypeRepository customerTypeRepository,
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
-        IWarehousesRepository warehouseRepository
+        IWarehousesRepository warehouseRepository,
+        #region 
+        IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
+        IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
+        IRecordEntranceManaguaRepository recordEntranceManaguaRepository
+        #endregion
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -114,6 +120,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #endregion
 
         #region Bodegas Managua
+        public IEntranceDucatsManaguaRepository EntranceDucatsManaguaRepository => entranceDucatsManaguaRepository;
+        public IReceptionDetailsManaguaRepository ReceptionDetailsManaguaRepository => receptiondDetailsManaguaRepository;
+        public IRecordEntranceManaguaRepository RecordEntranceManaguaRepository => recordEntranceManaguaRepository;
         #endregion
 
 

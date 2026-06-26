@@ -7,11 +7,50 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class TablasWarehouseManagua : Migration
+    public partial class AgregarTablasAlmacenManagua : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_product_category_products_category_id",
+                schema: "public",
+                table: "product");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_product_customers_customer_id",
+                schema: "public",
+                table: "product");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_product",
+                schema: "public",
+                table: "product");
+
+            migrationBuilder.RenameTable(
+                name: "product",
+                schema: "public",
+                newName: "products",
+                newSchema: "public");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_product_customer_id",
+                schema: "public",
+                table: "products",
+                newName: "IX_products_customer_id");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_product_category_id",
+                schema: "public",
+                table: "products",
+                newName: "IX_products_category_id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_products",
+                schema: "public",
+                table: "products",
+                column: "product_id");
+
             migrationBuilder.CreateTable(
                 name: "workflow_step_definitions",
                 schema: "public",
@@ -94,10 +133,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_stocks_managua", x => x.stock_id);
                     table.ForeignKey(
-                        name: "FK_stocks_managua_product_product_id",
+                        name: "FK_stocks_managua_products_product_id",
                         column: x => x.product_id,
                         principalSchema: "public",
-                        principalTable: "product",
+                        principalTable: "products",
                         principalColumn: "product_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -128,10 +167,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_discrepancies_managua", x => x.discrepancy_id);
                     table.ForeignKey(
-                        name: "FK_discrepancies_managua_product_product_id",
+                        name: "FK_discrepancies_managua_products_product_id",
                         column: x => x.product_id,
                         principalSchema: "public",
-                        principalTable: "product",
+                        principalTable: "products",
                         principalColumn: "product_id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -513,6 +552,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_products_category_products_category_id",
+                schema: "public",
+                table: "products",
+                column: "category_id",
+                principalSchema: "public",
+                principalTable: "category_products",
+                principalColumn: "category_product_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_products_customers_customer_id",
+                schema: "public",
+                table: "products",
+                column: "customer_id",
+                principalSchema: "public",
+                principalTable: "customers",
+                principalColumn: "customer_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_discrepancies_managua_record_entrances_managua_RecordEntran~",
                 schema: "public",
                 table: "discrepancies_managua",
@@ -604,6 +663,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_products_category_products_category_id",
+                schema: "public",
+                table: "products");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_products_customers_customer_id",
+                schema: "public",
+                table: "products");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_manifest_cancellations_managua_record_entrances_managua_rec~",
                 schema: "public",
                 table: "manifest_cancellations_managua");
@@ -677,6 +746,55 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             migrationBuilder.DropTable(
                 name: "workflow_step_definitions",
                 schema: "public");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_products",
+                schema: "public",
+                table: "products");
+
+            migrationBuilder.RenameTable(
+                name: "products",
+                schema: "public",
+                newName: "product",
+                newSchema: "public");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_products_customer_id",
+                schema: "public",
+                table: "product",
+                newName: "IX_product_customer_id");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_products_category_id",
+                schema: "public",
+                table: "product",
+                newName: "IX_product_category_id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_product",
+                schema: "public",
+                table: "product",
+                column: "product_id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_product_category_products_category_id",
+                schema: "public",
+                table: "product",
+                column: "category_id",
+                principalSchema: "public",
+                principalTable: "category_products",
+                principalColumn: "category_product_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_product_customers_customer_id",
+                schema: "public",
+                table: "product",
+                column: "customer_id",
+                principalSchema: "public",
+                principalTable: "customers",
+                principalColumn: "customer_id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

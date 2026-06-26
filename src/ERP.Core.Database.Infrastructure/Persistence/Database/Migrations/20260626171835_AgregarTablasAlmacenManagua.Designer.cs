@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260626144241_TablasWarehouseManagua")]
-    partial class TablasWarehouseManagua
+    [Migration("20260626171835_AgregarTablasAlmacenManagua")]
+    partial class AgregarTablasAlmacenManagua
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3591,7 +3591,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_product_id");
 
-                    b.ToTable("product", "public");
+                    b.ToTable("products", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>

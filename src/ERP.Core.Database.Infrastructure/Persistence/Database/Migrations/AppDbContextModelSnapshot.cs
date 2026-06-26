@@ -3588,7 +3588,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_product_id");
 
-                    b.ToTable("product", "public");
+                    b.ToTable("products", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>
