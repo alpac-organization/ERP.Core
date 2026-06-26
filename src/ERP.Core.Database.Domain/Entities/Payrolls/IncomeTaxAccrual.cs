@@ -9,7 +9,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal AccumulatedIR { get; set; }
         public decimal? AccumulatedSeniority { get; set; }
 
-
+        public decimal IrMonthly { get; set; }
+        public decimal IrFortnight { get; set; }
+        public decimal SalaryEarnedMonthly { get; set; }
+        public decimal SalaryEarnedFortnight { get; set; }
         //Valor que tomamos para el siguiente periodo de nomina
         public decimal? FlagSalaryEarned { get; set; }
         public decimal? FlagAccumulatedIR { get; set; }
