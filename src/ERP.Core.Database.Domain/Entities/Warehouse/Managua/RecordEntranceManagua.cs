@@ -9,7 +9,7 @@ public class RecordEntranceManagua : BaseEntity<Guid>
     public Guid WarehouseId { get; set; }
     public int CurrentStepId { get; set; }
     public string Status { get; set; } = null!;
-    public DateTime ClosedAt { get; set; }
+    public DateTime? ClosedAt { get; set; }
 
     //Navegaciones
     public virtual Warehouses Warehouse { get; set; } = null!;

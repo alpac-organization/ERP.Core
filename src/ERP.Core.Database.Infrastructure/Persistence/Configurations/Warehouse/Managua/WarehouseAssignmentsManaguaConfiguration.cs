@@ -31,8 +31,8 @@ public class WarehouseAssignmentsManaguaConfiguration : IEntityTypeConfiguration
             .IsRequired();
 
         builder.HasOne(e => e.RecordEntranceManagua)
-            .WithOne()
-            .HasForeignKey<UnloadingDetailsManagua>(e => e.RecordEntranceManaguaId)
+            .WithOne(r => r.Assignment)
+            .HasForeignKey<WarehouseAssignmentsManagua>(e => e.RecordEntranceManaguaId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

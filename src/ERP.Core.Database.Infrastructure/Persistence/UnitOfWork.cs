@@ -113,6 +113,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehousesRepository Warehouses => warehouseRepository;
         #endregion
 
+        #region Bodegas Managua
+        #endregion
+
 
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
