@@ -32,7 +32,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.Inatec)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("inatec")
                 .IsRequired();
 
@@ -41,19 +41,29 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.InssLabor)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("inss_labor")
                 .IsRequired();
 
             builder.Property(e => e.InssPatronal)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("inss_patronal")
-                .IsRequired(); 
+                .IsRequired();
+
+            builder.Property(e => e.Income)
+            .HasPrecision(18, 2)
+            .HasColumnName("income")
+            .IsRequired();
+
+            builder.Property(e => e.Total)
+            .HasPrecision(18, 2)
+            .HasColumnName("total")
+            .IsRequired();
 
             builder.Property(e => e.Absence)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("absence")
-                .IsRequired(); 
+                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
