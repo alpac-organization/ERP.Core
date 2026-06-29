@@ -54,7 +54,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerTypeRepository customerTypeRepository,
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
-        IWarehousesRepository warehouseRepository
+        IWarehousesRepository warehouseRepository,
+        IServiceOrdersRepository serviceOrdersRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -111,6 +112,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customer => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
+        public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         #endregion
 
 

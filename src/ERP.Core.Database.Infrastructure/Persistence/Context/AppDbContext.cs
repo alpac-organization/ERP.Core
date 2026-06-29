@@ -72,6 +72,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
+        public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

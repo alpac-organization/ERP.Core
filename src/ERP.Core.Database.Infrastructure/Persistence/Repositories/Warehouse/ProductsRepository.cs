@@ -4,8 +4,7 @@ using ERP.Core.Database.Infrastructure.Persistence.Context;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
-public class ProductsRepository(ErpDbContext context)
-    : Repository<Product>(context), IProductsRepository
+public class ProductsRepository(ErpDbContext context): Repository<Product>(context), IProductsRepository
 {
     public async Task<Product> InsertProduct(Product payload)
     {
