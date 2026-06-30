@@ -59,13 +59,14 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomerRepository Customer { get; }
         IProductsRepository Products { get; }
         IWarehousesRepository Warehouses { get; }
+        IServiceOrdersRepository ServiceOrders { get; }
         #endregion
 
         #region Warehouse Managua
-        IEntranceDucatsManaguaRepository EntranceDucatsManaguaRepository { get; }
-        IReceptionDetailsManaguaRepository ReceptionDetailsManaguaRepository { get; }
-        IRecordEntranceManaguaRepository RecordEntranceManaguaRepository { get; }
-        IStepExecutionLogsManaguaRepository StepExecutionLogsManaguaRepository { get; }
+        IEntranceDucatsManaguaRepository EntranceDucatsManagua { get; }
+        IReceptionDetailsManaguaRepository ReceptionDetailsManagua{ get; }
+        IRecordEntranceManaguaRepository RecordEntranceManagua { get; }
+        IStepExecutionLogsManaguaRepository StepExecutionLogsManagua { get; }
         #endregion
 
 

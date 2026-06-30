@@ -6,6 +6,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authenticati
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
 using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -57,6 +58,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
+        IServiceOrdersRepository serviceOrdersRepository,
         #region 
         IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
         IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
@@ -119,13 +121,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customer => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
-        #endregion
-
-        #region Warehouse Managua
-        public IEntranceDucatsManaguaRepository EntranceDucatsManaguaRepository => entranceDucatsManaguaRepository;
-        public IReceptionDetailsManaguaRepository ReceptionDetailsManaguaRepository => receptiondDetailsManaguaRepository;
-        public IRecordEntranceManaguaRepository RecordEntranceManaguaRepository => recordEntranceManaguaRepository;
-        public IStepExecutionLogsManaguaRepository StepExecutionLogsManaguaRepository => stepExecutionLogsManaguaRepository;
+        public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
+        public IEntranceDucatsManaguaRepository EntranceDucatsManagua => entranceDucatsManaguaRepository;
+        public IReceptionDetailsManaguaRepository ReceptionDetailsManagua => receptiondDetailsManaguaRepository;
+        public IRecordEntranceManaguaRepository RecordEntranceManagua => recordEntranceManaguaRepository;
+        public IStepExecutionLogsManaguaRepository StepExecutionLogsManagua => stepExecutionLogsManaguaRepository;
         #endregion
 
 

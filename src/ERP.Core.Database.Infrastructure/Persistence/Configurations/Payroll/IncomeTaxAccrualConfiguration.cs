@@ -31,9 +31,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.AccumulatedSeniority)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("accumulated_seniority")
                 .IsRequired();
+
+            builder.Property(e => e.AccumulatedIrByFornight)
+            .HasPrecision(18, 2)
+            .HasColumnName("accumulated_ir_by_fornight")
+            .IsRequired();
+
+
+            builder.Property(e => e.SalaryEarnedByFornight)
+            .HasPrecision(18, 2)
+            .HasColumnName("salary_earned_by_fornight")
+            .IsRequired();
 
             builder.Property(e => e.NumberOfFortnights)
                 .HasColumnName("number_of_fortnights")
@@ -44,22 +55,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.SalaryEarned)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("salary_earned")
                 .IsRequired();
 
             builder.Property(e => e.FlagSalaryEarned)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("flag_salary_earned")
                 .IsRequired();
 
             builder.Property(e => e.AccumulatedIR)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("accumulated_ir")
                 .IsRequired();
 
             builder.Property(e => e.FlagAccumulatedIR)
-                .HasPrecision(18,2)
+                .HasPrecision(18, 2)
                 .HasColumnName("flag_accumulated_ir")
                 .IsRequired();
 

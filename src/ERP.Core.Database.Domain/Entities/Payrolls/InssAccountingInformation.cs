@@ -11,6 +11,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal Absence { get; set; }
         public decimal InssLabor { get; set; }
         public decimal InssPatronal { get; set; }
+        public decimal Income { get; set; }
         public int DaysAbsence { get; set; }
 
         public Guid PayrollId { get; set; }

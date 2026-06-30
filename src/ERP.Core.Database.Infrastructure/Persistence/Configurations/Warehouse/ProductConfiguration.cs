@@ -54,12 +54,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("category_id")
             .IsRequired();
 
-        builder.Property(p => p.CreatedAt)
+        builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
-            .HasDefaultValue("CURRENT_TIMESTAMP")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
-        builder.Property(p => p.DeletedAt)
+        builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
         builder.HasOne(p => p.Customer)
