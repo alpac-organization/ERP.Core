@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260630223818_ActualizacionEntidadesWarehouse")]
-    partial class ActualizacionEntidadesWarehouse
+    [Migration("20260630231902_AgregarEntidadeAlmacenManagua")]
+    partial class AgregarEntidadeAlmacenManagua
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
