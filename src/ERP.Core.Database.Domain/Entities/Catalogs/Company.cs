@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -33,8 +34,9 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         //Control de ubicación de guardas de seguridad
         public virtual ICollection<Location> Locations { get; set; } = [];
 
-
         //Control de nominas contables o descriptions
         public virtual ICollection<TypesAccountingPayroll> TypesAccountingPayroll { get; set; } = [];
+
+        public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
     }
 }

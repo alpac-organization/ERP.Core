@@ -41,6 +41,15 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasColumnName("customer_type_id")
             .IsRequired();
 
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
         builder.HasOne(c => c.CustomerType)
             .WithMany(t => t.Customers)
             .HasForeignKey(c => c.CustomerTypeId)
