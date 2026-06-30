@@ -20,10 +20,11 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
         
         builder.HasIndex(w => w.Id)
             .IsUnique()
-            .HasDatabaseName("ix_warehuose_id");
+            .HasDatabaseName("ix_warehouse_id");
 
         builder.Property(w => w.CreatedAt)
             .HasColumnName("created_at")
+            .HasDefaultValue("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd()
             .IsRequired();
 
@@ -46,11 +47,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(w => w.TotalWeightCapacity)
-            .HasColumnName("total_wight_capacity")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
@@ -61,9 +57,61 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(w => w.WarehouseType)
+            .HasColumnName("warehouse_type")
+            .HasConversion<int>()
+            .IsRequired();
+
+        builder.Property(w => w.TotalArea)
+            .HasColumnName("total_area")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(w => w.NetStorageArea)
+            .HasColumnName("net_storage_area")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(w => w.UnusableArea)
+            .HasColumnName("unusable_area")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(w => w.MaxHeight)
+            .HasColumnName("max_height")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(w => w.MinHeight)
+            .HasColumnName("min_height")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(w => w.RampasCount)
+            .HasColumnName("rampas_count")
+            .HasPrecision(5, 1)
+            .IsRequired();
+
+        builder.Property(w => w.ParkingSpacesCount)
+            .HasColumnName("parking_spaces_count")
+            .HasPrecision(5, 1)
+            .IsRequired();
+
+        builder.Property(w => w.ParentWarehouseId)
+            .HasColumnName("parent_warehouse_id");
+
+        builder.Property(w => w.BranchId)
+            .HasColumnName("branch_id")
+            .IsRequired();
+
         builder.HasOne(w => w.Branch)
             .WithMany(e => e.Warehouses)
             .HasForeignKey(w => w.BranchId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(w => w.ParentWarehouse)
+            .WithMany(w => w.SubWarehouses)
+            .HasForeignKey(w => w.ParentWarehouseId)
             .OnDelete(DeleteBehavior.Restrict);
 
     }

@@ -24,7 +24,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(c => c.DNI_RUC)
             .HasColumnName("dni_ruc")
-            .HasMaxLength(20)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(c => c.LegalName)
@@ -40,6 +40,14 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.CustomerTypeId)
             .HasColumnName("customer_type_id")
             .IsRequired();
+
+        builder.Property(c => c.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValue("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(c => c.DeletedAt)
+            .HasColumnName("deleted_at");
 
         builder.HasOne(c => c.CustomerType)
             .WithMany(t => t.Customers)

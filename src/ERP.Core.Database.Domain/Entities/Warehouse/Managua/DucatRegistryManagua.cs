@@ -6,6 +6,7 @@ public class DucatRegistryManagua
     public virtual RecordEntranceManagua RecordEntrance { get; set; } = null!;
 
     public DateTime RegistryDate { get; set; }
+    
     public DateTime EntryTime { get; set; }
     public string TrailerIdentifier { get; set; } = null!;
     public string Empresa { get; set; } = null!; 
@@ -14,5 +15,5 @@ public class DucatRegistryManagua
     public string Consignee { get; set; } = null!;
 
     // Relación al detalle de los DUCATs desglosados
-    public virtual ICollection<DucatRegistryDetailsManagua> Details { get; set; } = new List<DucatRegistryDetailsManagua>();
+    public virtual ICollection<DucatRegistryDetailsManagua> Details { get; set; } = [];
 }
