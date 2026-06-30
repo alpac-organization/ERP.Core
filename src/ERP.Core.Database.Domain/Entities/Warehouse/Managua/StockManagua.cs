@@ -16,5 +16,5 @@ public class StocksManagua
 
     // Propiedades de navegación
     public virtual RacksManagua Rack { get; set; } = null!;
-    public virtual Product Product { get; set; } = null!;
+    public virtual Products Product { get; set; } = null!;
 }

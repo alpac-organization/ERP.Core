@@ -2,7 +2,7 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 
-public interface IProductsRepository : IRepository<Product>
+public interface IProductsRepository : IRepository<Products>
 {
-    Task<Product> InsertProduct(Product payload);
+    Task<Products> InsertProduct(Products payload);
 }

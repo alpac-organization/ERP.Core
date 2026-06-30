@@ -24,7 +24,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
 
         builder.Property(w => w.CreatedAt)
             .HasColumnName("created_at")
-            .HasDefaultValue("CURRENT_TIMESTAMP")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd()
             .IsRequired();
 

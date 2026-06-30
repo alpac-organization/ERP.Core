@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
-public class ProductConfiguration : IEntityTypeConfiguration<Product>
+public class ProductsConfiguration : IEntityTypeConfiguration<Products>
 {
-    public void Configure(EntityTypeBuilder<Product> builder)
+    public void Configure(EntityTypeBuilder<Products> builder)
     {
         builder.ToTable("products");
 
