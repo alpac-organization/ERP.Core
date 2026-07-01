@@ -3,7 +3,7 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
-public class Product : BaseEntity<Guid>
+public class Products : BaseEntity<Guid>
 {
     public string? SKU {get; set;}
     public string? Name {get; set;}

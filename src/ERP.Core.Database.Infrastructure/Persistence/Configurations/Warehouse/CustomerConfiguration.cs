@@ -24,7 +24,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(c => c.DNI_RUC)
             .HasColumnName("dni_ruc")
-            .HasMaxLength(20)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(c => c.LegalName)

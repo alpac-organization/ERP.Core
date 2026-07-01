@@ -3,6 +3,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 {
@@ -59,6 +60,13 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IProductsRepository Products { get; }
         IWarehousesRepository Warehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
+        #endregion
+
+        #region Warehouse Managua
+        IEntranceDucatsManaguaRepository EntranceDucatsManagua { get; }
+        IReceptionDetailsManaguaRepository ReceptionDetailsManagua{ get; }
+        IRecordEntranceManaguaRepository RecordEntranceManagua { get; }
+        IStepExecutionLogsManaguaRepository StepExecutionLogsManagua { get; }
         #endregion
 
 

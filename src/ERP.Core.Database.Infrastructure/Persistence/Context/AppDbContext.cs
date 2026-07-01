@@ -4,7 +4,8 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -70,9 +71,27 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<CustomerType> CustomersTypes => Set<CustomerType>();
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
-        public DbSet<Product> Products => Set<Product>();
+        public DbSet<Products> Products => Set<Products>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
+        #endregion
+
+        #region MOD: Bodegas Managua
+        public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
+        public DbSet<ZonesManagua> ZonesManagua => Set<ZonesManagua>();
+        public DbSet<RacksManagua> RacksManagua => Set<RacksManagua>();
+        public DbSet<StocksManagua> StocksManagua => Set<StocksManagua>(); // Corregido el nombre quitando la 's' final
+        public DbSet<RecordEntranceManagua> RecordEntrancesManagua => Set<RecordEntranceManagua>();
+        public DbSet<ReceptionDetailsManagua> ReceptionDetailsManagua => Set<ReceptionDetailsManagua>();
+        public DbSet<EntranceDucatsManagua> EntranceDucatsManagua => Set<EntranceDucatsManagua>();
+        public DbSet<WarehouseAssignmentsManagua> WarehouseAssignmentsManagua => Set<WarehouseAssignmentsManagua>();
+        public DbSet<DucatRegistryManagua> DucatRegistryHeadersManagua => Set<DucatRegistryManagua>();
+        public DbSet<DucatRegistryDetailsManagua> DucatRegistryDetailsManagua => Set<DucatRegistryDetailsManagua>();
+        public DbSet<UnloadingDetailsManagua> UnloadingDetailsManagua => Set<UnloadingDetailsManagua>();
+        public DbSet<DiscrepanciesManagua> DiscrepanciesManagua => Set<DiscrepanciesManagua>();
+        public DbSet<ManifestCancellationsManagua> ManifestCancellationsManagua => Set<ManifestCancellationsManagua>();
+        public DbSet<WarehouseReceiptsManagua> WarehouseReceiptsManagua => Set<WarehouseReceiptsManagua>();
+        public DbSet<StepExecutionLogsManagua> StepExecutionLogsManagua => Set<StepExecutionLogsManagua>();
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

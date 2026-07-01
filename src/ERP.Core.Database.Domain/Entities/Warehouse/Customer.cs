@@ -14,7 +14,8 @@ public class Customer : BaseEntity<Guid>
     public Guid CustomerTypeId {get; set;}
     public virtual CustomerType CustomerType {get; set;} = default!;
 
-    public virtual ICollection<Product> Products { get; set; } = [];
+    public virtual ICollection<Products> Products { get; set; } = [];
+    public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
 
     //Codigos QR Generados para que este cliente acceda.
     public virtual ICollection<InboundAppointment> InboundAppointments { get; set; } = [];
