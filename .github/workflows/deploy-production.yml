@@ -1,0 +1,56 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (ej: 1.2.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy-production:
+    name: Deploy Migrations (Production)
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: "v${{ github.event.inputs.version }}"
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Apply pending migrations
+        run: |
+          dotnet ef database update \
+            --project src/ERP.Core.Database.Infrastructure \
+            --startup-project src/ERP.Core.Database.Infrastructure \
+            --connection "${{ secrets.DB_CONNECTION_STRING_PRODUCTION }}"
+
+      - name: Deployment Summary
+        run: |
+          echo "## ✅ Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** v${{ github.event.inputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Success" >> $GITHUB_STEP_SUMMARY
