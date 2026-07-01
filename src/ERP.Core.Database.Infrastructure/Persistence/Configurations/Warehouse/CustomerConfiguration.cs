@@ -27,6 +27,10 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.HasIndex(c => c.DNI_RUC)
+            .IsUnique()
+            .HasDatabaseName("ux_customer_dni_ruc");
+
         builder.Property(c => c.LegalName)
             .HasColumnName("legal_name")
             .HasMaxLength(150)
@@ -40,7 +44,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.CustomerTypeId)
             .HasColumnName("customer_type_id")
             .IsRequired();
-
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
