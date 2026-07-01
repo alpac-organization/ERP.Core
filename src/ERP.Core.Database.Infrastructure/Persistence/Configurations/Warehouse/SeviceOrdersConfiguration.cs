@@ -45,8 +45,8 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
-            .HasColumnName("create_at")
-            .HasDefaultValueSql("CurrentDbContext_TIMESTAMP")
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.DeletedAt)
