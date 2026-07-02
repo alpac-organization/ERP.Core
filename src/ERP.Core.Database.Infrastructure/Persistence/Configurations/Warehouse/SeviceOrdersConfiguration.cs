@@ -65,15 +65,5 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
             .WithMany(e => e.ServiceOrders)
             .HasForeignKey(e => e.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Property(p => p.CompanyId)
-            .HasColumnName("company_id")
-            .IsRequired();
-
-        builder.HasOne(p => p.Company)
-            .WithMany(p => p.ServiceOrders)
-            .HasForeignKey(p => p.CompanyId)
-            .OnDelete(DeleteBehavior.Restrict);
-
     }
 }
