@@ -118,7 +118,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #endregion
 
         #region warehouse
-        public ICustomerRepository Customer => customerRepository;
+        public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
