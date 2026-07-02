@@ -45,7 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Deduction> Deductions => Set<Deduction>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
         #endregion
-
+        public DbSet<PendingDeductionBalance> PendingDeductionBalances => Set<PendingDeductionBalance>();
         public DbSet<Catalog> Catalogs => Set<Catalog>();
         public DbSet<SubCatalog> SubCatalogs => Set<SubCatalog>();
 
@@ -53,7 +53,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<AssistanceControl> AssistanceControls => Set<AssistanceControl>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
-        
+
         #region Catologos
         public DbSet<Branch> Branches => Set<Branch>();
         public DbSet<Company> Companies => Set<Company>();
@@ -93,7 +93,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseReceiptsManagua> WarehouseReceiptsManagua => Set<WarehouseReceiptsManagua>();
         public DbSet<StepExecutionLogsManagua> StepExecutionLogsManagua => Set<StepExecutionLogsManagua>();
         #endregion
-                
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -118,9 +118,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollType>("public", "payroll_type_enum");
             modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
-            modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
-            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
-            modelBuilder.HasPostgresEnum<PayrollPeriod>("public","payroll_period_enum");
+            modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
+            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status");
+            modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
