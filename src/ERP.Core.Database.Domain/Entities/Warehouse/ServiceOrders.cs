@@ -6,8 +6,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
     public class ServiceOrder : BaseEntity<Guid>
     {
-        public Guid CompanyId { get; set; }
-        public virtual Company Company { get; set; } = default!;
         public string Code { get; set; } = null!;
         public bool IsCreatedFromPortal { get; set; } //true, por el cliente, false, por el colaborador
         public OSStatus Status { get; set; } = OSStatus.Pendiente;

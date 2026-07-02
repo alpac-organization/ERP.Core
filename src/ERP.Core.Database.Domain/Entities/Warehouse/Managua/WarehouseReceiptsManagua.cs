@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Entities.Bases;
+
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class WarehouseReceiptsManagua
+public class WarehouseReceiptsManagua : BaseEntity<Guid>
 {
-    // Relación 1:1 - Llave primaria y foránea al mismo tiempo
     public Guid RecordEntranceManaguaId { get; set; }
     public string ReceiptNumber { get; set; } = null!;
     public string ResaNumber { get; set; } = null!;

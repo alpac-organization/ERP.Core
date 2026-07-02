@@ -12,7 +12,7 @@ public class RacksManaguaConfiguration : IEntityTypeConfiguration<RacksManagua>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("racks_managua_id")
+            .HasColumnName("racks_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
 
@@ -22,7 +22,7 @@ public class RacksManaguaConfiguration : IEntityTypeConfiguration<RacksManagua>
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
-            .HasMaxLength(20)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.RowNumber)
@@ -35,17 +35,27 @@ public class RacksManaguaConfiguration : IEntityTypeConfiguration<RacksManagua>
         
         builder.Property(e => e.CostPerPosition)
             .HasColumnName("cost_per_position")
-            .HasColumnType("decimal(18,2)")
+            .HasPrecision(12, 4)
             .IsRequired();
 
-        builder.Property(e => e.IsOccupied)
-            .HasColumnName("is_occupied")
-            .HasDefaultValue(false);
+        builder.Property(e => e.IsAvailable)
+            .HasColumnName("is_available")
+            .HasDefaultValue(true);
+        
+        builder.Property(e => e.MaxWeightKg)
+            .HasColumnName("max_weight_kg")
+            .HasPrecision(12, 2)
+            .IsRequired();
+        
+        builder.Property(e => e.MaxHeightMetres)
+            .HasColumnName("max_height_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
 
         // Relación 1:N con Zonas
         builder.HasOne(e => e.Zone)
             .WithMany(z => z.Racks)
             .HasForeignKey(e => e.ZoneId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
