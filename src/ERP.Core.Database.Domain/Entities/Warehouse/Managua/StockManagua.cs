@@ -1,20 +1,27 @@
 using System.ComponentModel.DataAnnotations;
+using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class StocksManagua
+public class StocksManagua : BaseEntity<Guid>
 {
-    public Guid Id { get; set; }
-    public Guid RackId { get; set; }
-    public Guid ProductId { get; set; }
-    public decimal Quantity { get; set; }
+    public Guid WarehouseId { get; set; }
+    public Guid EntranceDucatsManaguaId { get; set; }
+    public Guid ZonesManaguaId { get; set; }
+    public Guid RacksManaguaId { get; set; }
+    public Guid CategoryProductId { get; set; }
+    public int CurrentBultos { get; set; }
+    public decimal CurrentWeightKg { get; set; }
     public DateTime StoredAt { get; set; }
-    
+
     [Timestamp]
     public byte[] RowVersion { get; set; } = null!;
 
     // Propiedades de navegación
+    public virtual EntranceDucatsManagua EntranceDucat { get; set; } = null!;
     public virtual RacksManagua Rack { get; set; } = null!;
-    public virtual Products Product { get; set; } = null!;
+    public virtual CategoryProducts Product { get; set; } = null!;
+    public virtual ZonesManagua Zone { get; set; } = null!;
 }

@@ -1,19 +1,18 @@
+using ERP.Core.Database.Domain.Entities.Bases;
+
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class DucatRegistryManagua
+public class DucatRegistryManagua : BaseEntity<Guid>
 {
     public Guid RecordEntranceManaguaId { get; set; }
-    public virtual RecordEntranceManagua RecordEntrance { get; set; } = null!;
 
     public DateTime RegistryDate { get; set; }
-    
-    public DateTime EntryTime { get; set; }
     public string TrailerIdentifier { get; set; } = null!;
-    public string Empresa { get; set; } = null!; 
-    public string Transportista { get; set; } = null!;
-    public string Aduana { get; set; } = null!;
-    public string Consignee { get; set; } = null!;
+    public string Empresa { get; set; } = null!; //naviera
+    public string RegisteredByUserId { get; set; } = null!;
+    public string? GeneralObservations { get; set; }
+    public bool IsInTransit { get; set; }
 
-    // Relación al detalle de los DUCATs desglosados
+    public virtual RecordEntranceManagua RecordEntrance { get; set; } = null!;
     public virtual ICollection<DucatRegistryDetailsManagua> Details { get; set; } = [];
 }

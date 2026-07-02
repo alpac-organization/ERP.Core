@@ -8,18 +8,18 @@ public class DucatRegistryManaguaConfiguration : IEntityTypeConfiguration<DucatR
 {
     public void Configure(EntityTypeBuilder<DucatRegistryManagua> builder)
     {
-        builder.ToTable("ducat_registry_headers_managua");
-        builder.HasKey(e => e.RecordEntranceManaguaId); 
+        builder.ToTable("ducat_registry_managua");
+        builder.HasKey(e => e.Id); 
 
+        builder.Property(e => e.Id)
+          .HasColumnName("ducat_registtry_id");
+        
         builder.Property(e => e.RecordEntranceManaguaId)
-          .HasColumnName("record_entrance_id");
+            .HasColumnName("record_entrance_managua_id")
+            .IsRequired();
         
         builder.Property(e => e.RegistryDate)
             .HasColumnName("registry_date")
-            .IsRequired();
-        
-        builder.Property(e => e.EntryTime)
-            .HasColumnName("entry_time")
             .IsRequired();
             
         builder.Property(e => e.TrailerIdentifier)
@@ -32,20 +32,28 @@ public class DucatRegistryManaguaConfiguration : IEntityTypeConfiguration<DucatR
             .HasMaxLength(150)
             .IsRequired();
         
-        builder.Property(e => e.Transportista)
-            .HasColumnName("transportista")
-            .HasMaxLength(100)
+        builder.Property(e => e.RegisteredByUserId)
+            .HasColumnName("registered_by_user_id")
+            .HasMaxLength(450)
             .IsRequired();
         
-        builder.Property(e => e.Aduana)
-            .HasColumnName("aduana")
-            .HasMaxLength(100)
-            .IsRequired();
+        builder.Property(e => e.GeneralObservations)
+            .HasColumnName("general_observations")
+            .HasMaxLength(1000)
+            .IsRequired(false);
         
-        builder.Property(e => e.Consignee)
-            .HasColumnName("consignee")
-            .HasMaxLength(150)
+        builder.Property(e => e.IsInTransit)
+            .HasColumnName("is_in_transit")
             .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
 
         // Relación 1:1 con la entrada principal
         builder.HasOne(e => e.RecordEntrance)
