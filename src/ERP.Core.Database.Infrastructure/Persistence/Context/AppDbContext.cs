@@ -123,9 +123,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
 
-            modelBuilder.HasPostgresEnum<OSStatus>("os_status_enum");
-            modelBuilder.HasPostgresEnum<WarehouseType>("warehouse_type_enum");
-            modelBuilder.HasPostgresEnum<WarehouseMgaStatus>("warehouse_mga_status_enum");
+            modelBuilder.HasPostgresEnum<OSStatus>("public","os_status_enum");
+            modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
+            modelBuilder.HasPostgresEnum<WarehouseMgaStatus>("public","warehouse_mga_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
