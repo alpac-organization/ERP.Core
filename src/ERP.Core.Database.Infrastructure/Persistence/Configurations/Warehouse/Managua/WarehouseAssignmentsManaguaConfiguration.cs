@@ -40,6 +40,15 @@ public class WarehouseAssignmentsManaguaConfiguration : IEntityTypeConfiguration
             .HasMaxLength(450)
             .IsRequired();
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+
         // Relación 1:1 con la entrada principal
         builder.HasOne(x => x.RecordEntranceManagua)
             .WithOne(x => x.Assignment)
