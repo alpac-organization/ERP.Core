@@ -12,7 +12,7 @@ public class UnloadingMachineryAssignmentsManaguaConfiguration : IEntityTypeConf
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnName("id")
+            .HasColumnName("unloading_machinery_assignment_id")
             .IsRequired();
         
         builder.Property(x => x.UnloadingDetailsManaguaId)
@@ -41,6 +41,15 @@ public class UnloadingMachineryAssignmentsManaguaConfiguration : IEntityTypeConf
             .HasColumnName("assigned_by_user_id")
             .HasMaxLength(450)
             .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
 
         // Relación
         builder.HasOne(x => x.UnloadingDetailsManagua)

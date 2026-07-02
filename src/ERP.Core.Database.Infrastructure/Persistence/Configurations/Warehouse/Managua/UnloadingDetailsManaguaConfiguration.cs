@@ -23,7 +23,7 @@ public class UnloadingDetailsManaguaConfiguration : IEntityTypeConfiguration<Unl
             .HasColumnName("warehouse_assignments_managua_id")
             .IsRequired();
         
-        builder.Property(e => e.UnloadingEndTime)
+        builder.Property(e => e.UnloadingStartTime)
             .HasColumnName("unloading_start_time")
             .IsRequired();
         
@@ -37,8 +37,19 @@ public class UnloadingDetailsManaguaConfiguration : IEntityTypeConfiguration<Unl
             .IsRequired();
         
         builder.Property(e => e.PreparedPallets)
-            .HasPrecision(2)
+            .HasColumnName("prepared_pallets")
+            .HasPrecision(2, 0)
             .IsRequired();
+        
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+
 
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithOne(e => e.UnloadingDetails)
