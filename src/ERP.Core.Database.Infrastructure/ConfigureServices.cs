@@ -27,17 +27,17 @@ namespace ERP.Core.Database.Infrastructure
         {
             var connectionString = configuration.GetConnectionString("ErpConnectionDatabase");
 
-            if(string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException("No se encontró la cadena 'ErpConnectionDatabase'.");
             }
 
-            services.AddDbContext<ErpDbContext>(options => 
+            services.AddDbContext<ErpDbContext>(options =>
                 options.UseNpgsql(connectionString, npgsqlOptions =>
                 {
 
                     npgsqlOptions.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
-                    
+
                     npgsqlOptions.MapEnum<CatalogType>("catalog_type_enum");
                     npgsqlOptions.MapEnum<RoleType>("role_type_enum");
                     npgsqlOptions.MapEnum<PermissionType>("permission_type_enum");
@@ -59,7 +59,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
                     npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status");
                     npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
-                })  
+                })
             );
 
             //Repositories
@@ -110,7 +110,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
-
+            services.AddScoped<IPendingDeductionBalancesRepository, PendingDeductionBalancesRepository>();
             #region 
             services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
             services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
@@ -119,7 +119,7 @@ namespace ERP.Core.Database.Infrastructure
             #endregion
 
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();           
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

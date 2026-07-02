@@ -51,15 +51,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            builder.Property(d => d.DeductionId)
-                .HasColumnName("deduction_id")
-                .IsRequired();
-
-            builder.HasOne(c => c.Deduction)
-                    .WithMany(d => d.PendingDeductionBalances)
-                    .HasForeignKey(s => s.DeductionId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(c => c.Collaborator)
                 .WithMany(collab => collab.PendingDeductionBalances)
                 .HasForeignKey(s => s.CollaboratorId)

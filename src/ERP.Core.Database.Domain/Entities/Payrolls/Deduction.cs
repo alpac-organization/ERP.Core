@@ -33,6 +33,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public Guid CollaboratorId { get; set; }
         public virtual Collaborator Collaborator { get; set; } = null!;
         public virtual ICollection<DeductionPaymentHistory> PaymentHistories { get; set; } = [];
-        public virtual ICollection<PendingDeductionBalance> PendingDeductionBalances { get; set; } = [];
     }
 }
