@@ -13,7 +13,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
         {
             return await _context.PendingDeductionBalances
                 .Include(x => x.OriginPayroll)
-                .Include(x => x.Deduction)
                 .Where(x => x.CollaboratorId == collaboratorId && !x.IsRecovered)
                 .ToListAsync();
         }
@@ -22,7 +21,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
         {
             return await _context.PendingDeductionBalances
                 .Include(x => x.Collaborator)
-                .Include(x => x.Deduction)
                 .Where(x => x.OriginPayrollId == originPayrollId)
                 .ToListAsync();
         }
