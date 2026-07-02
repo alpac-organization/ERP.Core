@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Entities.Bases;
+
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class UnloadingDetailsManagua
+public class UnloadingDetailsManagua : BaseEntity<Guid>
 {
-    // Relación 1:1 - Llave primaria y foránea al mismo tiempo
     public Guid RecordEntranceManaguaId { get; set; }
     public Guid WarehouseAssignmentsManaguaId { get; set; }
     public DateTime UnloadingStartTime { get; set; }

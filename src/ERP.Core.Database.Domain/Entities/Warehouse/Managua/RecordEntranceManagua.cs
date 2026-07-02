@@ -6,7 +6,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 public class RecordEntranceManagua : BaseEntity<Guid>
 {
-    public string MovementNumber { get; set; } = null!;
     public Guid ServiceOrderId { get; set; }
     public Guid WarehouseId { get; set; }
     public int CurrentStepId { get; set; }

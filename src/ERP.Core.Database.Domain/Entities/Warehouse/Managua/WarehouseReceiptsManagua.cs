@@ -1,6 +1,8 @@
+using ERP.Core.Database.Domain.Entities.Bases;
+
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class WarehouseReceiptsManagua
+public class WarehouseReceiptsManagua : BaseEntity<Guid>
 {
     public Guid RecordEntranceManaguaId { get; set; }
     public string ReceiptNumber { get; set; } = null!;

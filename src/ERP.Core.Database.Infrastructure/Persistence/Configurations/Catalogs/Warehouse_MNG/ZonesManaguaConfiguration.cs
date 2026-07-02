@@ -12,7 +12,7 @@ public class ZonesManaguaConfiguration : IEntityTypeConfiguration<ZonesManagua>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("zones_managua_id")
+            .HasColumnName("id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
 
@@ -22,20 +22,47 @@ public class ZonesManaguaConfiguration : IEntityTypeConfiguration<ZonesManagua>
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
-            .HasMaxLength(20)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.Name)
             .HasColumnName("zone_name")
-            .HasMaxLength(100)
+            .HasMaxLength(150)
             .IsRequired();
 
-        // Relación con tabla maestra de Bodegas
-        builder.HasOne(e => e.Warehouses)
-            .WithMany() 
-            .HasForeignKey(e => e.WarehouseId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(e => e.WidthMetres)
+            .HasColumnName("width_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
 
-        builder.HasIndex(e => new { e.WarehouseId, e.Code }).IsUnique();
+        builder.Property(e => e.LengthMetres)
+            .HasColumnName("length_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        builder.Property(e => e.HeightMetres)
+            .HasColumnName("heigth_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        builder.Property(e => e.TotalVolumeCapacityM3)
+            .HasColumnName("total_colume_capacity_m3")
+            .HasPrecision(12, 3)
+            .IsRequired();
+
+        builder.Property(e => e.MaxWeightCapacityKg)
+            .HasColumnName("max_weight_capacity_kg")
+            .HasPrecision(14, 2)
+            .IsRequired();
+
+        builder.Property(e => e.IsActive)
+            .HasColumnName("is_active")
+            .IsRequired();
+
+        // Relación con el almacén inmutable central
+        builder.HasOne(x => x.Warehouses)
+            .WithMany()
+            .HasForeignKey(x => x.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

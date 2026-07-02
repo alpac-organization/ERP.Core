@@ -21,7 +21,21 @@ public class EntranceDucatsManaguaConfiguration : IEntityTypeConfiguration<Entra
         
         builder.Property(e => e.DucatNumber)
             .HasColumnName("ducat_number")
-            .HasMaxLength(50)
+            .HasMaxLength(100)
             .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+
+        builder.HasOne(e => e.RecordEntrance)
+            .WithMany(h => h.EntranceDucats)
+            .HasForeignKey(e => e.RecordEntranceManaguaId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

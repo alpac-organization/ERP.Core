@@ -12,7 +12,7 @@ public class StepExecutionLogsManaguaConfiguration : IEntityTypeConfiguration<St
         builder.HasKey(e => e.Id);
         
         builder.Property(e => e.Id)
-            .HasColumnName("log_id")
+            .HasColumnName("step_execution_logs_id")
             .HasDefaultValueSql("gen_random_uuid()");
         
         builder.Property(e => e.RecordEntranceManaguaId)
@@ -23,16 +23,27 @@ public class StepExecutionLogsManaguaConfiguration : IEntityTypeConfiguration<St
             .HasColumnName("workflow_step_definition_id")
             .IsRequired();
         
-        builder.Property(e => e.UserId)
-            .HasColumnName("user_id")
-            .HasMaxLength(100)
-            .IsRequired();
-        
         builder.Property(e => e.StartTime)
             .HasColumnName("start_time")
             .IsRequired();
         
         builder.Property(e => e.EndTime)
-            .HasColumnName("end_time");
+            .HasColumnName("end_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.ProcessedByUserId)
+            .HasColumnName("processed_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired();
+
+        builder.HasOne(e => e.RecordEntranceManagua)
+            .WithMany(e => e.ExecutionLogs)
+            .HasForeignKey(e => e.RecordEntranceManaguaId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.WorkflowStepDefinition)
+            .WithMany()
+            .HasForeignKey(e => e.WorkflowStepDefinitionId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

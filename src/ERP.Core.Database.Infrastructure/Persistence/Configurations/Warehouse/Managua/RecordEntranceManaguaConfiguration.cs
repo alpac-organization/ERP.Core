@@ -15,13 +15,9 @@ public class RecordEntranceManaguaConfiguration : IEntityTypeConfiguration<Recor
             .HasColumnName("record_entrance_managua_id")
             .HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(e => e.MovementNumber)
-            .HasColumnName("movement_number")
-            .HasMaxLength(50)
+        builder.Property(e => e.ServiceOrderId)
+            .HasColumnName("service_order_id")
             .IsRequired();
-        
-        builder.HasIndex(e => e.MovementNumber)
-            .IsUnique();
 
         builder.Property(e => e.WarehouseId)
             .HasColumnName("warehouse_id")
@@ -29,31 +25,39 @@ public class RecordEntranceManaguaConfiguration : IEntityTypeConfiguration<Recor
 
         builder.Property(e => e.CurrentStepId)
             .HasColumnName("current_step_id")
-            .HasDefaultValue(1);
+            .IsRequired();
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasMaxLength(30)
+            .HasConversion<int>()
             .IsRequired();
 
         builder.Property(e => e.ClosedAt)
             .HasColumnName("closed_at")
-            .IsRequired(false);
+            .IsRequired();
+
+        builder.Property(e => e.IsConsolidated)
+            .HasColumnName("is_consolidated")
+            .IsRequired();
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
 
         // Relaciones 1:1 y 1:N
-        builder.HasOne(e => e.ReceptionDetails)
-            .WithOne(d => d.RecordEntrance)
-            .HasForeignKey<ReceptionDetailsManagua>(d => d.RecordEntranceManaguaId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(e => e.Warehouse)
+            .WithMany()
+            .HasForeignKey(d => d.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(e => e.EntranceDucats)
-            .WithOne(d => d.RecordEntrance)
-            .HasForeignKey(d => d.RecordEntranceManaguaId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(e => e.CurrentStep)
+            .WithMany(d => d.RecordEntrances)
+            .HasForeignKey(d => d.CurrentStepId)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

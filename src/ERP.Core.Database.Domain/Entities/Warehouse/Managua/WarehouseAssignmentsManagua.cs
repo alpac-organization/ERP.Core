@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class WarehouseAssignmentsManagua
+public class WarehouseAssignmentsManagua : BaseEntity<Guid>
 {
     // Relación 1:1 - Llave primaria y foránea al mismo tiempo
     public Guid RecordEntranceManaguaId { get; set; }

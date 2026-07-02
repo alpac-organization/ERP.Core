@@ -1,7 +1,9 @@
 
+using ERP.Core.Database.Domain.Entities.Bases;
+
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class ManifestCancellationsManagua
+public class ManifestCancellationsManagua : BaseEntity<Guid>
 {
     public Guid ServiceOrdersId { get; set; }
     public Guid RecordEntranceManaguaId { get; set; }
