@@ -36,6 +36,15 @@ public class StepExecutionLogsManaguaConfiguration : IEntityTypeConfiguration<St
             .HasMaxLength(450)
             .IsRequired();
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithMany(e => e.ExecutionLogs)
             .HasForeignKey(e => e.RecordEntranceManaguaId)

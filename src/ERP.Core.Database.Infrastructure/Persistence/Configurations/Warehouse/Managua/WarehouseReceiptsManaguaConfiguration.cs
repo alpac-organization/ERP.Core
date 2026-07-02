@@ -49,6 +49,15 @@ public class WarehouseReceiptsManaguaConfiguration : IEntityTypeConfiguration<Wa
         builder.Property(e => e.ReceiptCancellationDate)
             .HasColumnName("receipt_cancellation_date");
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithOne(e => e.WarehouseReceipt)
             .HasForeignKey<WarehouseReceiptsManagua>(e => e.RecordEntranceManaguaId)
