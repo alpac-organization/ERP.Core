@@ -36,6 +36,4 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<ZonesManagua> Zones { get; set; } = [];
-
-
 }

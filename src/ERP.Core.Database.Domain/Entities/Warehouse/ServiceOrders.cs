@@ -7,7 +7,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     public class ServiceOrder : BaseEntity<Guid>
     {
         public string Code { get; set; } = null!;
-        public bool IsCreatedFromPortal { get; set; } //true, por el cliente, false, por el colaborador
+        public bool IsCreatedFromPortal { get; set; }
         public OSStatus Status { get; set; } = OSStatus.Pendiente;
         public string? Observations {get; set;}
 
