@@ -56,7 +56,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #endregion
 
         #region Warehouse
-        ICustomerRepository Customer { get; }
+        ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
         IWarehousesRepository Warehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
