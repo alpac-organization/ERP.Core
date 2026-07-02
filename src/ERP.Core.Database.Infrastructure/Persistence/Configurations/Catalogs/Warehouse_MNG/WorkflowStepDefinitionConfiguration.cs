@@ -13,12 +13,12 @@ public class WorkflowStepDefinitionConfiguration : IEntityTypeConfiguration<Work
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("workflow_step_definition_id")
+            .HasColumnName("id")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
-            .HasMaxLength(30)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.Name)

@@ -15,17 +15,21 @@ public class DiscrepanciesManaguaConfiguration : IEntityTypeConfiguration<Discre
             .HasColumnName("discrepancy_id")
             .HasDefaultValueSql("gen_random_uuid()");
         
+        builder.HasIndex(e => e.Id)
+            .IsUnique()
+            .HasDatabaseName("ix_discrepancy_id");
+        
         builder.Property(e => e.RecordEntranceManaguaId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
         
-        builder.Property(e => e.ProductId)
-            .HasColumnName("product_id")
+        builder.Property(e => e.EntranceDucatsManaguaId)
+            .HasColumnName("entrance_ducats_id")
             .IsRequired();
         
         builder.Property(e => e.DiscrepancyType)
             .HasColumnName("discrepancy_type")
-            .HasMaxLength(30).IsRequired();
+            .HasMaxLength(50).IsRequired();
         
         builder.Property(e => e.DeclaredQuantity)
             .HasColumnName("declared_quantity")
@@ -43,12 +47,29 @@ public class DiscrepanciesManaguaConfiguration : IEntityTypeConfiguration<Discre
         
         builder.Property(e => e.Description)
             .HasColumnName("description")
-            .HasMaxLength(500)
+            .HasMaxLength(1000)
             .IsRequired();
+
+        builder.Property(e => e.IsDamage)
+            .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
 
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithMany()
             .HasForeignKey(e => e.RecordEntranceManaguaId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.EntranceDucat)
+            .WithMany()
+            .HasForeignKey(e => e.EntranceDucatsManaguaId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
