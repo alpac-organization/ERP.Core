@@ -10,7 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public DeductionStatus Status { get; set; }
 
         public string? Description { get; set; }
-        
+
         public int? NumberFortnights { get; set; }
         public int? NumberFortnightsPaid { get; set; }
 
@@ -30,10 +30,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal TotalAmount { get; set; }          // Monto total de la deducción que se le aplico al colaborador.
         public decimal TotalAmountInDollars { get; set; } // Monto total de la dedución en dolares
 
-        public Guid CollaboratorId { get; set;}
+        public Guid CollaboratorId { get; set; }
         public virtual Collaborator Collaborator { get; set; } = null!;
-
-
         public virtual ICollection<DeductionPaymentHistory> PaymentHistories { get; set; } = [];
+        public virtual ICollection<PendingDeductionBalance> PendingDeductionBalances { get; set; } = [];
     }
 }
