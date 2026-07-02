@@ -28,6 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IVacationsRepository vacationsRepository,
         IPermitApplicationsRepository permitApplicationsRepository,
         IDeductionsRepository deductionsRepository,
+        IPendingDeductionBalancesRepository pendingDeductionBalancesRepository,
         IPayrollsRepository payrollsRepository,
         IOrdinaryPayrollsRepository ordinaryPayrollsRepository,
         IWorkPositionsHistoryRepository workPositionsHistoryRepository,
@@ -59,12 +60,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
         IServiceOrdersRepository serviceOrdersRepository,
-        #region 
+    #region 
         IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
         IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
         IRecordEntranceManaguaRepository recordEntranceManaguaRepository,
         IStepExecutionLogsManaguaRepository stepExecutionLogsManaguaRepository
-        #endregion
+    #endregion
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -85,6 +86,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IVacationsRepository Vacations => vacationsRepository;
         public IPermitApplicationsRepository PermitApplications => permitApplicationsRepository;
         public IDeductionsRepository Deductions => deductionsRepository;
+        public IPendingDeductionBalancesRepository PendingDeductionBalances => pendingDeductionBalancesRepository;
         public IPayrollsRepository Payrolls => payrollsRepository;
         public IOrdinaryPayrollsRepository OrdinaryPayrolls => ordinaryPayrollsRepository;
         public IWorkPositionsHistoryRepository WorkPositionHistories => workPositionsHistoryRepository;
@@ -103,9 +105,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
         public IInssAccountingInformationRepository InssAccountingInformation => inssAccountingInformationRepository;
-        
+
         #region Catalogos
-        public IHolidaysRepository Holidays  => holidaysRepository;
+        public IHolidaysRepository Holidays => holidaysRepository;
         public IWorkAreasRepository WorkAreas => workAreasRepository;
         public ICostCentersRepository CostCenters => costCentersRepository;
         public IJobPositionsRepository JobPositions => jobPositionsRepository;

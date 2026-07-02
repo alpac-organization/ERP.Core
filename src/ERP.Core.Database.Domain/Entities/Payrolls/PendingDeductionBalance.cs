@@ -11,10 +11,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public virtual Payroll OriginPayroll { get; set; } = null!;
 
-        public Guid DeductionId { get; set; }
-
-        public virtual Deduction Deduction { get; set; } = null!;
-
         public decimal AmountOwed { get; set; }
 
         public string? Reason { get; set; }
