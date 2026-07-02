@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class ConfigsWarehouseMNG : Migration
+    public partial class AgregarTablaParaAlmacenesManagua : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -262,12 +262,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 newName: "record_entrance_managua_id");
 
             migrationBuilder.RenameColumn(
-                name: "unloading_start_time",
-                schema: "public",
-                table: "unloading_details_managua",
-                newName: "UnloadingStartTime");
-
-            migrationBuilder.RenameColumn(
                 name: "record_entrance_id",
                 schema: "public",
                 table: "unloading_details_managua",
@@ -375,6 +369,55 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "ducat_registry_managua",
                 newName: "record_entrance_managua_id");
 
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:os_status_enum.os_status", "pendiente,en_proceso,completada,cancelada")
+                .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
+                .Annotation("Npgsql:Enum:public.currency_enum", "nio,usd")
+                .Annotation("Npgsql:Enum:public.deduction_payment_status", "paid,pending")
+                .Annotation("Npgsql:Enum:public.deduction_status_enum", "progress,completed,pending,canceled")
+                .Annotation("Npgsql:Enum:public.deduction_type_enum", "loans,advance_christmas_bonus,late_arrivals,salary_advance,sanction,purisima,other_deductions")
+                .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
+                .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
+                .Annotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .Annotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
+                .Annotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
+                .Annotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
+                .Annotation("Npgsql:Enum:public.permission_type_enum", "read,create,update,delete")
+                .Annotation("Npgsql:Enum:public.permit_application_status_enum", "pending,approved,rejected,cancelled")
+                .Annotation("Npgsql:Enum:public.permit_application_type_enum", "vacation,medical_appointment,compensatory_time,paid_leave,unpaid_leave,special_leave,donated_vacations,vacation_pay")
+                .Annotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
+                .Annotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
+                .Annotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
+                .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
+                .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
+                .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
+                .Annotation("Npgsql:Enum:warehouse_mga_status_enum.warehouse_mga_status", "in_tail,in_unloading,completed,abandoned")
+                .Annotation("Npgsql:Enum:warehouse_type_enum.warehouse_type", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
+                .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
+                .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
+                .OldAnnotation("Npgsql:Enum:public.currency_enum", "nio,usd")
+                .OldAnnotation("Npgsql:Enum:public.deduction_payment_status", "paid,pending")
+                .OldAnnotation("Npgsql:Enum:public.deduction_status_enum", "progress,completed,pending,canceled")
+                .OldAnnotation("Npgsql:Enum:public.deduction_type_enum", "loans,advance_christmas_bonus,late_arrivals,salary_advance,sanction,purisima,other_deductions")
+                .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
+                .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
+                .OldAnnotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .OldAnnotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
+                .OldAnnotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
+                .OldAnnotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
+                .OldAnnotation("Npgsql:Enum:public.permission_type_enum", "read,create,update,delete")
+                .OldAnnotation("Npgsql:Enum:public.permit_application_status_enum", "pending,approved,rejected,cancelled")
+                .OldAnnotation("Npgsql:Enum:public.permit_application_type_enum", "vacation,medical_appointment,compensatory_time,paid_leave,unpaid_leave,special_leave,donated_vacations,vacation_pay")
+                .OldAnnotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
+                .OldAnnotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
+                .OldAnnotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
+                .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
+                .OldAnnotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
+                .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
+                .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
             migrationBuilder.AlterColumn<string>(
                 name: "zone_name",
                 schema: "public",
@@ -466,6 +509,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldType: "character varying(30)",
                 oldMaxLength: 30);
 
+            migrationBuilder.AlterColumn<int>(
+                name: "warehouse_type",
+                schema: "public",
+                table: "warehouses",
+                type: "warehouse_type_enum",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "integer");
+
             migrationBuilder.AlterColumn<string>(
                 name: "resa_number",
                 schema: "public",
@@ -521,7 +573,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "DeletedAt",
+                name: "created_at",
+                schema: "public",
+                table: "warehouse_receipts_managua",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValueSql: "CURRENT_TIMESTAMP");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "deleted_at",
                 schema: "public",
                 table: "warehouse_receipts_managua",
                 type: "timestamp with time zone",
@@ -546,13 +606,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
-            migrationBuilder.AddColumn<DateTime>(
-                name: "DeletedAt",
-                schema: "public",
-                table: "warehouse_assignments_managua",
-                type: "timestamp with time zone",
-                nullable: true);
-
             migrationBuilder.AddColumn<string>(
                 name: "assigned_by_user_id",
                 schema: "public",
@@ -561,6 +614,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 maxLength: 450,
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "created_at",
+                schema: "public",
+                table: "warehouse_assignments_managua",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValueSql: "CURRENT_TIMESTAMP");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "deleted_at",
+                schema: "public",
+                table: "warehouse_assignments_managua",
+                type: "timestamp with time zone",
+                nullable: true);
 
             migrationBuilder.AlterColumn<string>(
                 name: "warehouse_chief_user_id",
@@ -593,18 +661,27 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "DeletedAt",
+                name: "created_at",
+                schema: "public",
+                table: "unloading_details_managua",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValueSql: "CURRENT_TIMESTAMP");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "deleted_at",
                 schema: "public",
                 table: "unloading_details_managua",
                 type: "timestamp with time zone",
                 nullable: true);
 
             migrationBuilder.AddColumn<decimal>(
-                name: "PreparedPallets",
+                name: "prepared_pallets",
                 schema: "public",
                 table: "unloading_details_managua",
-                type: "numeric(2)",
+                type: "numeric(2,0)",
                 precision: 2,
+                scale: 0,
                 nullable: false,
                 defaultValue: 0m);
 
@@ -674,7 +751,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "DeletedAt",
+                name: "created_at",
+                schema: "public",
+                table: "step_execution_logs_managua",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValueSql: "CURRENT_TIMESTAMP");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "deleted_at",
                 schema: "public",
                 table: "step_execution_logs_managua",
                 type: "timestamp with time zone",
@@ -692,8 +777,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             migrationBuilder.AlterColumn<int>(
                 name: "status",
                 schema: "public",
+                table: "service_orders",
+                type: "os_status_enum",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "integer");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "status",
+                schema: "public",
                 table: "record_entrances_managua",
-                type: "integer",
+                type: "warehouse_mga_status_enum",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "character varying(30)",
@@ -904,6 +998,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "racks_managua",
                 type: "numeric(12,2)",
                 precision: 12,
+                scale: 2,
+                nullable: false,
+                defaultValue: 0m);
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "holiday_pay",
+                schema: "public",
+                table: "ordinary_payrolls",
+                type: "numeric(18,2)",
+                precision: 18,
+                scale: 2,
+                nullable: false,
+                defaultValue: 0m);
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "number_of_holidays",
+                schema: "public",
+                table: "ordinary_payrolls",
+                type: "numeric(18,2)",
+                precision: 18,
                 scale: 2,
                 nullable: false,
                 defaultValue: 0m);
@@ -1197,6 +1311,39 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "ducat_registtry_id");
 
             migrationBuilder.CreateTable(
+                name: "pending_deduction_balances",
+                schema: "public",
+                columns: table => new
+                {
+                    pending_deduction_balance_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    collaborator_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    origin_payroll_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    amount_owed = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    reason = table.Column<string>(type: "text", nullable: true),
+                    is_recovered = table.Column<bool>(type: "boolean", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_pending_deduction_balances", x => x.pending_deduction_balance_id);
+                    table.ForeignKey(
+                        name: "FK_pending_deduction_balances_collaborators_collaborator_id",
+                        column: x => x.collaborator_id,
+                        principalSchema: "public",
+                        principalTable: "collaborators",
+                        principalColumn: "collaborator_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_pending_deduction_balances_payrolls_origin_payroll_id",
+                        column: x => x.origin_payroll_id,
+                        principalSchema: "public",
+                        principalTable: "payrolls",
+                        principalColumn: "payroll_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "unloading_crew_assignments_managua",
                 schema: "public",
                 columns: table => new
@@ -1225,18 +1372,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    unloading_machinery_assignment_id = table.Column<Guid>(type: "uuid", nullable: false),
                     unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     machinery_code = table.Column<Guid>(type: "uuid", maxLength: 100, nullable: false),
                     machinery_type = table.Column<Guid>(type: "uuid", maxLength: 150, nullable: false),
                     start_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     end_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     assigned_by_user_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnloadingMachineryAssignmentsManagua", x => x.id);
+                    table.PrimaryKey("PK_UnloadingMachineryAssignmentsManagua", x => x.unloading_machinery_assignment_id);
                     table.ForeignKey(
                         name: "FK_UnloadingMachineryAssignmentsManagua_unloading_details_mana~",
                         column: x => x.unloading_details_managua_id,
@@ -1350,6 +1498,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "ducat_registry_managua",
                 column: "record_entrance_managua_id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_pending_deduction_balance_id",
+                schema: "public",
+                table: "pending_deduction_balances",
+                column: "pending_deduction_balance_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_pending_deduction_balances_collaborator_id",
+                schema: "public",
+                table: "pending_deduction_balances",
+                column: "collaborator_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_pending_deduction_balances_origin_payroll_id",
+                schema: "public",
+                table: "pending_deduction_balances",
+                column: "origin_payroll_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_unloading_crew_assignments_managua_unloading_details_managu~",
@@ -1683,6 +1850,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "warehouse_assignments_managua");
 
             migrationBuilder.DropTable(
+                name: "pending_deduction_balances",
+                schema: "public");
+
+            migrationBuilder.DropTable(
                 name: "unloading_crew_assignments_managua",
                 schema: "public");
 
@@ -1836,7 +2007,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "warehouse_receipts_managua");
 
             migrationBuilder.DropColumn(
-                name: "DeletedAt",
+                name: "created_at",
+                schema: "public",
+                table: "warehouse_receipts_managua");
+
+            migrationBuilder.DropColumn(
+                name: "deleted_at",
                 schema: "public",
                 table: "warehouse_receipts_managua");
 
@@ -1846,12 +2022,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "warehouse_assignments_managua");
 
             migrationBuilder.DropColumn(
-                name: "DeletedAt",
+                name: "assigned_by_user_id",
                 schema: "public",
                 table: "warehouse_assignments_managua");
 
             migrationBuilder.DropColumn(
-                name: "assigned_by_user_id",
+                name: "created_at",
+                schema: "public",
+                table: "warehouse_assignments_managua");
+
+            migrationBuilder.DropColumn(
+                name: "deleted_at",
                 schema: "public",
                 table: "warehouse_assignments_managua");
 
@@ -1861,12 +2042,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "unloading_details_managua");
 
             migrationBuilder.DropColumn(
-                name: "DeletedAt",
+                name: "created_at",
                 schema: "public",
                 table: "unloading_details_managua");
 
             migrationBuilder.DropColumn(
-                name: "PreparedPallets",
+                name: "deleted_at",
+                schema: "public",
+                table: "unloading_details_managua");
+
+            migrationBuilder.DropColumn(
+                name: "prepared_pallets",
                 schema: "public",
                 table: "unloading_details_managua");
 
@@ -1911,7 +2097,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "stocks_managua");
 
             migrationBuilder.DropColumn(
-                name: "DeletedAt",
+                name: "created_at",
+                schema: "public",
+                table: "step_execution_logs_managua");
+
+            migrationBuilder.DropColumn(
+                name: "deleted_at",
                 schema: "public",
                 table: "step_execution_logs_managua");
 
@@ -1959,6 +2150,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "max_weight_kg",
                 schema: "public",
                 table: "racks_managua");
+
+            migrationBuilder.DropColumn(
+                name: "holiday_pay",
+                schema: "public",
+                table: "ordinary_payrolls");
+
+            migrationBuilder.DropColumn(
+                name: "number_of_holidays",
+                schema: "public",
+                table: "ordinary_payrolls");
 
             migrationBuilder.DropColumn(
                 name: "manifest_cancellation_id",
@@ -2092,12 +2293,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 newName: "record_entrance_id");
 
             migrationBuilder.RenameColumn(
-                name: "UnloadingStartTime",
-                schema: "public",
-                table: "unloading_details_managua",
-                newName: "unloading_start_time");
-
-            migrationBuilder.RenameColumn(
                 name: "zone_managua_id",
                 schema: "public",
                 table: "stocks_managua",
@@ -2199,6 +2394,55 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "ducat_registry_headers_managua",
                 newName: "record_entrance_id");
 
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
+                .Annotation("Npgsql:Enum:public.currency_enum", "nio,usd")
+                .Annotation("Npgsql:Enum:public.deduction_payment_status", "paid,pending")
+                .Annotation("Npgsql:Enum:public.deduction_status_enum", "progress,completed,pending,canceled")
+                .Annotation("Npgsql:Enum:public.deduction_type_enum", "loans,advance_christmas_bonus,late_arrivals,salary_advance,sanction,purisima,other_deductions")
+                .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
+                .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
+                .Annotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .Annotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
+                .Annotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
+                .Annotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
+                .Annotation("Npgsql:Enum:public.permission_type_enum", "read,create,update,delete")
+                .Annotation("Npgsql:Enum:public.permit_application_status_enum", "pending,approved,rejected,cancelled")
+                .Annotation("Npgsql:Enum:public.permit_application_type_enum", "vacation,medical_appointment,compensatory_time,paid_leave,unpaid_leave,special_leave,donated_vacations,vacation_pay")
+                .Annotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
+                .Annotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
+                .Annotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
+                .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
+                .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
+                .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
+                .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
+                .OldAnnotation("Npgsql:Enum:os_status_enum.os_status", "pendiente,en_proceso,completada,cancelada")
+                .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
+                .OldAnnotation("Npgsql:Enum:public.currency_enum", "nio,usd")
+                .OldAnnotation("Npgsql:Enum:public.deduction_payment_status", "paid,pending")
+                .OldAnnotation("Npgsql:Enum:public.deduction_status_enum", "progress,completed,pending,canceled")
+                .OldAnnotation("Npgsql:Enum:public.deduction_type_enum", "loans,advance_christmas_bonus,late_arrivals,salary_advance,sanction,purisima,other_deductions")
+                .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
+                .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
+                .OldAnnotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .OldAnnotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
+                .OldAnnotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
+                .OldAnnotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
+                .OldAnnotation("Npgsql:Enum:public.permission_type_enum", "read,create,update,delete")
+                .OldAnnotation("Npgsql:Enum:public.permit_application_status_enum", "pending,approved,rejected,cancelled")
+                .OldAnnotation("Npgsql:Enum:public.permit_application_type_enum", "vacation,medical_appointment,compensatory_time,paid_leave,unpaid_leave,special_leave,donated_vacations,vacation_pay")
+                .OldAnnotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
+                .OldAnnotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
+                .OldAnnotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
+                .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
+                .OldAnnotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
+                .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
+                .OldAnnotation("Npgsql:Enum:warehouse_mga_status_enum.warehouse_mga_status", "in_tail,in_unloading,completed,abandoned")
+                .OldAnnotation("Npgsql:Enum:warehouse_type_enum.warehouse_type", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
+                .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
             migrationBuilder.AlterColumn<string>(
                 name: "zone_name",
                 schema: "public",
@@ -2231,6 +2475,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldClrType: typeof(string),
                 oldType: "character varying(50)",
                 oldMaxLength: 50);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "warehouse_type",
+                schema: "public",
+                table: "warehouses",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "warehouse_type_enum");
 
             migrationBuilder.AlterColumn<string>(
                 name: "resa_number",
@@ -2335,6 +2588,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValue: "");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "status",
+                schema: "public",
+                table: "service_orders",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "os_status_enum");
+
             migrationBuilder.AlterColumn<string>(
                 name: "status",
                 schema: "public",
@@ -2343,7 +2605,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 maxLength: 30,
                 nullable: false,
                 oldClrType: typeof(int),
-                oldType: "integer");
+                oldType: "warehouse_mga_status_enum");
 
             migrationBuilder.AlterColumn<int>(
                 name: "current_step_id",

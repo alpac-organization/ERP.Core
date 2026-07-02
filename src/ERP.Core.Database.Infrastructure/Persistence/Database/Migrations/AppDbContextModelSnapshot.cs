@@ -21,6 +21,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "os_status_enum", "os_status", new[] { "pendiente", "en_proceso", "completada", "cancelada" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
@@ -42,6 +43,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "warehouse_mga_status_enum", "warehouse_mga_status", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "warehouse_type_enum", "warehouse_type", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -1908,6 +1911,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("gross_salary");
 
+                    b.Property<decimal>("HolidayPay")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("holiday_pay");
+
                     b.Property<decimal>("Inss")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1922,6 +1930,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("lodging");
+
+                    b.Property<decimal>("NumberOfHolidays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("number_of_holidays");
 
                     b.Property<decimal>("NumberOvertime")
                         .HasPrecision(18, 2)
@@ -2102,6 +2115,58 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_payroll_id");
 
                     b.ToTable("payrolls", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PendingDeductionBalance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("pending_deduction_balance_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AmountOwed")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("amount_owed");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsRecovered")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_recovered");
+
+                    b.Property<Guid>("OriginPayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("origin_payroll_id");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_pending_deduction_balance_id");
+
+                    b.HasIndex("OriginPayrollId");
+
+                    b.ToTable("pending_deduction_balances", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitApplication", b =>
@@ -3475,7 +3540,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("service_order_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("warehouse_mga_status_enum")
                         .HasColumnName("status");
 
                     b.Property<Guid>("WarehouseId")
@@ -3980,7 +4045,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("observations");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("os_status_enum")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
@@ -4124,7 +4189,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("unusable_area");
 
                     b.Property<int>("WarehouseType")
-                        .HasColumnType("integer")
+                        .HasColumnType("warehouse_type_enum")
                         .HasColumnName("warehouse_type");
 
                     b.HasKey("Id");
@@ -4514,6 +4579,25 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PendingDeductionBalance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("PendingDeductionBalances")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "OriginPayroll")
+                        .WithMany("PendingDeductionBalances")
+                        .HasForeignKey("OriginPayrollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("OriginPayroll");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitApplication", b =>
@@ -5190,6 +5274,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("OrdinaryPayrolls");
 
+                    b.Navigation("PendingDeductionBalances");
+
                     b.Navigation("PermitApplications");
 
                     b.Navigation("PermitApplicationsPending");
@@ -5230,6 +5316,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InssAccountingInformation");
 
                     b.Navigation("OrdinaryPayrolls");
+
+                    b.Navigation("PendingDeductionBalances");
 
                     b.Navigation("PermitApplications");
 

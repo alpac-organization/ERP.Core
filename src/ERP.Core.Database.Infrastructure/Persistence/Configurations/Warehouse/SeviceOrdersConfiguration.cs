@@ -29,7 +29,7 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasConversion<int>()
+            .HasColumnType("os_status_enum")
             .IsRequired();
 
         builder.Property(e => e.Observations)
