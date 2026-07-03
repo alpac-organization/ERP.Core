@@ -13,8 +13,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
         {
             return await _context.PendingDeductionBalances
                 .Include(x => x.OriginPayroll)
-                .Where(x => x.CollaboratorId == collaboratorId && !x.IsRecovered)
-                .ToListAsync();
+                .Where(x => x.CollaboratorId == collaboratorId && !x.IsRecovered).ToListAsync();
         }
 
         public async Task<List<PendingDeductionBalance>> GetBalancesByOriginPayrollAsync(Guid originPayrollId)
