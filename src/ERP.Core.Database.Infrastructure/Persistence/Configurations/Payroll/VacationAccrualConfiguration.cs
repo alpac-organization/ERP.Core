@@ -60,9 +60,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            builder.HasIndex(p => p.CollaboratorId)
-                .IsUnique();
-
             builder.HasOne(d => d.Payroll)
                 .WithMany(p => p.VacationAccruals)
                 .HasForeignKey(d => d.PayrollId)
