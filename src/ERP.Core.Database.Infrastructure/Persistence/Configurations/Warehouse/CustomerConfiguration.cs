@@ -58,5 +58,10 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasForeignKey(c => c.CustomerTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(c => c.Company)
+            .WithMany(co => co.Customers)
+            .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
