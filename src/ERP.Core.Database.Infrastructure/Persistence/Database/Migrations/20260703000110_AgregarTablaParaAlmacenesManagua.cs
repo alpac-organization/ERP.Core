@@ -370,7 +370,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 newName: "record_entrance_managua_id");
 
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:os_status_enum.os_status", "pendiente,en_proceso,completada,cancelada")
                 .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .Annotation("Npgsql:Enum:public.currency_enum", "nio,usd")
@@ -380,6 +379,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
                 .Annotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .Annotation("Npgsql:Enum:public.os_status_enum", "pendding,in_progress,completed,canceled")
                 .Annotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
                 .Annotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
                 .Annotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
@@ -392,8 +392,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
                 .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
-                .Annotation("Npgsql:Enum:warehouse_mga_status_enum.warehouse_mga_status", "in_tail,in_unloading,completed,abandoned")
-                .Annotation("Npgsql:Enum:warehouse_type_enum.warehouse_type", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
+                .Annotation("Npgsql:Enum:public.warehouse_mga_status_enum", "in_tail,in_unloading,completed,abandoned")
+                .Annotation("Npgsql:Enum:public.warehouse_type_enum", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
                 .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
@@ -2417,7 +2417,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
-                .OldAnnotation("Npgsql:Enum:os_status_enum.os_status", "pendiente,en_proceso,completada,cancelada")
                 .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .OldAnnotation("Npgsql:Enum:public.currency_enum", "nio,usd")
@@ -2427,6 +2426,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
                 .OldAnnotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .OldAnnotation("Npgsql:Enum:public.os_status_enum", "pendding,in_progress,completed,canceled")
                 .OldAnnotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
                 .OldAnnotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
                 .OldAnnotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
@@ -2439,8 +2439,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2")
                 .OldAnnotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
-                .OldAnnotation("Npgsql:Enum:warehouse_mga_status_enum.warehouse_mga_status", "in_tail,in_unloading,completed,abandoned")
-                .OldAnnotation("Npgsql:Enum:warehouse_type_enum.warehouse_type", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
+                .OldAnnotation("Npgsql:Enum:public.warehouse_mga_status_enum", "in_tail,in_unloading,completed,abandoned")
+                .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
             migrationBuilder.AlterColumn<string>(

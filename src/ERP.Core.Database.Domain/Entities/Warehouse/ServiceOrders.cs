@@ -8,7 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     {
         public string Code { get; set; } = null!;
         public bool IsCreatedFromPortal { get; set; }
-        public OSStatus Status { get; set; } = OSStatus.Pendiente;
+        public OSStatus Status { get; set; } = OSStatus.Pendding;
         public string? Observations {get; set;}
 
         public Guid BranchId { get; set; }

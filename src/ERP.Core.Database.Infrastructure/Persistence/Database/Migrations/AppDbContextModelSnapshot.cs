@@ -21,7 +21,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "os_status_enum", "os_status", new[] { "pendiente", "en_proceso", "completada", "cancelada" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
@@ -31,6 +30,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "os_status_enum", new[] { "pendding", "in_progress", "completed", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services" });
@@ -43,8 +43,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "warehouse_mga_status_enum", "warehouse_mga_status", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "warehouse_type_enum", "warehouse_type", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_mga_status_enum", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
