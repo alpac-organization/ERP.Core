@@ -509,14 +509,37 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldType: "character varying(30)",
                 oldMaxLength: 30);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "warehouse_type",
-                schema: "public",
-                table: "warehouses",
-                type: "warehouse_type_enum",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
+            // --- FIX APLICADO AQUI ---
+            // Se agrega DROP DEFAULT antes de la conversion de tipo y SET DEFAULT despues,
+            // porque Postgres no puede castear automaticamente el DEFAULT entero (integer)
+            // hacia el nuevo tipo warehouse_type_enum (error 42804).
+            migrationBuilder.Sql("""
+                ALTER TABLE public.warehouses
+                ALTER COLUMN warehouse_type DROP DEFAULT;
+
+                ALTER TABLE public.warehouses
+                ALTER COLUMN warehouse_type
+                TYPE warehouse_type_enum
+                USING (
+                    CASE warehouse_type
+                        WHEN 1 THEN 'general'
+                        WHEN 2 THEN 'fiscal'
+                        WHEN 3 THEN 'galeron_techado'
+                        WHEN 4 THEN 'patio_contenedores'
+                        WHEN 5 THEN 'predio_abierto'
+                        WHEN 6 THEN 'granel'
+                    END
+                )::warehouse_type_enum;
+
+                ALTER TABLE public.warehouses
+                ALTER COLUMN warehouse_type SET DEFAULT 'general'::warehouse_type_enum;
+                """);
+            // --- FIN DEL FIX ---
+            // NOTA: los valores del enum warehouse_type_enum son snake_case en minusculas
+            // (general, fiscal, galeron_techado, patio_contenedores, predio_abierto, granel),
+            // segun la anotacion Npgsql:Enum:public.warehouse_type_enum definida mas arriba
+            // en este mismo metodo Up(). Si el default numerico original no era 1 ("general"),
+            // reemplaza 'general' arriba por el valor correcto del enum.
 
             migrationBuilder.AlterColumn<string>(
                 name: "resa_number",
@@ -774,24 +797,47 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "status",
-                schema: "public",
-                table: "service_orders",
-                type: "os_status_enum",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "status",
-                schema: "public",
-                table: "record_entrances_managua",
-                type: "warehouse_mga_status_enum",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "character varying(30)",
-                oldMaxLength: 30);
+            migrationBuilder.Sql("""
+                ALTER TABLE public.service_orders
+                ALTER COLUMN status DROP DEFAULT;
+
+                ALTER TABLE public.service_orders    
+                ALTER COLUMN status
+                TYPE os_status_enum
+                USING (
+                    CASE status
+                        WHEN 1 THEN 'pendding'
+                        WHEN 2 THEN 'in_progress'
+                        WHEN 3 THEN 'completed'
+                        WHEN 4 THEN 'canceled'
+                    END
+                )::os_status_enum;
+
+                ALTER TABLE public.service_orders
+                ALTER COLUMN status SET DEFAULT 'pendding'::os_status_enum;
+            """);
+
+          migrationBuilder.Sql("""
+                ALTER TABLE public.record_entrances_managua
+                ALTER COLUMN status DROP DEFAULT;
+
+                ALTER TABLE public.record_entrances_managua
+                ALTER COLUMN status
+                TYPE warehouse_mga_status_enum
+                USING (
+                    CASE status
+                        WHEN 'InTail' THEN 'in_tail'
+                        WHEN 'InUnloading' THEN 'in_unloading'
+                        WHEN 'Completed' THEN 'completed'
+                        WHEN 'Abandoned' THEN 'abandoned'
+                    END
+                )::warehouse_mga_status_enum;
+
+                ALTER TABLE public.record_entrances_managua
+                ALTER COLUMN status SET DEFAULT 'in_tail'::warehouse_mga_status_enum;
+            """);
+
 
             migrationBuilder.AlterColumn<int>(
                 name: "current_step_id",
