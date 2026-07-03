@@ -77,5 +77,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Informe del inss por periodos
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
+
+        //Saldos de deducciones pendientes de recuperar
+        public virtual ICollection<PendingDeductionBalance> PendingDeductionBalances { get; set; } = [];
     }
 }

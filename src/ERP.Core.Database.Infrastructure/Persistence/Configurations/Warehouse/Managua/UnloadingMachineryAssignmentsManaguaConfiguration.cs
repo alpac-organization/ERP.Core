@@ -12,7 +12,7 @@ public class UnloadingMachineryAssignmentsManaguaConfiguration : IEntityTypeConf
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnName("unloading_machinery_assignment_ id")
+            .HasColumnName("unloading_machinery_assignment_id")
             .IsRequired();
         
         builder.Property(x => x.UnloadingDetailsManaguaId)

@@ -59,7 +59,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
 
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
-            .HasConversion<int>()
+            .HasColumnType("warehouse_type_enum")
             .IsRequired();
 
         builder.Property(w => w.TotalArea)

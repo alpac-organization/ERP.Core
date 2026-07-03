@@ -3,17 +3,20 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260703010821_AgregarTiposEmbargosDeduccion")]
+    partial class AgregarTiposEmbargosDeduccion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3057,9 +3060,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3096,8 +3096,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerTypeId");
 
@@ -4024,6 +4022,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -4057,6 +4058,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_os_code");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerId");
 
@@ -4821,19 +4824,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Customer", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
-                        .WithMany("Customers")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", "CustomerType")
                         .WithMany("Customers")
                         .HasForeignKey("CustomerTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Company");
 
                     b.Navigation("CustomerType");
                 });
@@ -5127,6 +5122,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", null)
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Customer", "Customer")
                         .WithMany("ServiceOrders")
                         .HasForeignKey("CustomerId")
@@ -5213,11 +5212,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Collaborators");
 
-                    b.Navigation("Customers");
-
                     b.Navigation("JobPositions");
 
                     b.Navigation("Locations");
+
+                    b.Navigation("ServiceOrders");
 
                     b.Navigation("TypesAccountingPayroll");
 

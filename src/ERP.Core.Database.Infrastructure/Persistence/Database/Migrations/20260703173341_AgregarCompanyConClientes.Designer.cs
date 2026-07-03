@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260702220752_ConfigsWarehouseMNG")]
-    partial class ConfigsWarehouseMNG
+    [Migration("20260703173341_AgregarCompanyConClientes")]
+    partial class AgregarCompanyConClientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,10 +29,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status", new[] { "paid", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions", "judicial_seizures", "child_support_garnishment" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "os_status_enum", new[] { "pendding", "in_progress", "completed", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services" });
@@ -45,6 +46,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_mga_status_enum", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -1911,6 +1914,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("gross_salary");
 
+                    b.Property<decimal>("HolidayPay")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("holiday_pay");
+
                     b.Property<decimal>("Inss")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1925,6 +1933,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("lodging");
+
+                    b.Property<decimal>("NumberOfHolidays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("number_of_holidays");
 
                     b.Property<decimal>("NumberOvertime")
                         .HasPrecision(18, 2)
@@ -2105,6 +2118,58 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_payroll_id");
 
                     b.ToTable("payrolls", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PendingDeductionBalance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("pending_deduction_balance_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AmountOwed")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("amount_owed");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsRecovered")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_recovered");
+
+                    b.Property<Guid>("OriginPayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("origin_payroll_id");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_pending_deduction_balance_id");
+
+                    b.HasIndex("OriginPayrollId");
+
+                    b.ToTable("pending_deduction_balances", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitApplication", b =>
@@ -2995,6 +3060,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3031,6 +3099,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerTypeId");
 
@@ -3478,7 +3548,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("service_order_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("warehouse_mga_status_enum")
                         .HasColumnName("status");
 
                     b.Property<Guid>("WarehouseId")
@@ -3502,8 +3572,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("step_execution_logs_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("timestamp with time zone")
@@ -3645,12 +3722,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("unloading_details_managua_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<decimal>("PreparedPallets")
                         .HasPrecision(2)
-                        .HasColumnType("numeric(2)");
+                        .HasColumnType("numeric(2,0)")
+                        .HasColumnName("prepared_pallets");
 
                     b.Property<Guid>("RecordEntranceManaguaId")
                         .HasColumnType("uuid")
@@ -3661,7 +3746,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("unloading_end_time");
 
                     b.Property<DateTime>("UnloadingStartTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("unloading_start_time");
 
                     b.Property<Guid>("WarehouseAssignmentsManaguaId")
                         .HasColumnType("uuid")
@@ -3689,7 +3775,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("unloading_machinery_assignment_id");
 
                     b.Property<string>("AssignedByUserId")
                         .IsRequired()
@@ -3697,8 +3783,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(450)")
                         .HasColumnName("assigned_by_user_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone")
@@ -3746,8 +3839,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(450)")
                         .HasColumnName("assigned_by_user_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<Guid>("RackId")
                         .HasColumnType("uuid")
@@ -3786,6 +3886,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<string>("CustomsBrokerage")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -3798,7 +3904,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customs_cif_value");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime?>("ReceiptCancellationDate")
                         .HasColumnType("timestamp with time zone")
@@ -3920,9 +4027,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
-                    b.Property<Guid?>("CompanyId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3946,7 +4050,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("observations");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("os_status_enum")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
@@ -3956,8 +4060,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_os_code");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerId");
 
@@ -4090,7 +4192,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("unusable_area");
 
                     b.Property<int>("WarehouseType")
-                        .HasColumnType("integer")
+                        .HasColumnType("warehouse_type_enum")
                         .HasColumnName("warehouse_type");
 
                     b.HasKey("Id");
@@ -4482,6 +4584,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Branch");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PendingDeductionBalance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("PendingDeductionBalances")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "OriginPayroll")
+                        .WithMany("PendingDeductionBalances")
+                        .HasForeignKey("OriginPayrollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("OriginPayroll");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitApplication", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -4703,11 +4824,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Customer", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("Customers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", "CustomerType")
                         .WithMany("Customers")
                         .HasForeignKey("CustomerTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Company");
 
                     b.Navigation("CustomerType");
                 });
@@ -5001,10 +5130,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", null)
-                        .WithMany("ServiceOrders")
-                        .HasForeignKey("CompanyId");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Customer", "Customer")
                         .WithMany("ServiceOrders")
                         .HasForeignKey("CustomerId")
@@ -5091,11 +5216,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Collaborators");
 
+                    b.Navigation("Customers");
+
                     b.Navigation("JobPositions");
 
                     b.Navigation("Locations");
-
-                    b.Navigation("ServiceOrders");
 
                     b.Navigation("TypesAccountingPayroll");
 
@@ -5156,6 +5281,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("OrdinaryPayrolls");
 
+                    b.Navigation("PendingDeductionBalances");
+
                     b.Navigation("PermitApplications");
 
                     b.Navigation("PermitApplicationsPending");
@@ -5196,6 +5323,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InssAccountingInformation");
 
                     b.Navigation("OrdinaryPayrolls");
+
+                    b.Navigation("PendingDeductionBalances");
 
                     b.Navigation("PermitApplications");
 

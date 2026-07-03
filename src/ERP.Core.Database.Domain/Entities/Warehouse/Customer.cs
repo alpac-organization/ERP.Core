@@ -14,6 +14,9 @@ public class Customer : BaseEntity<Guid>
     public Guid CustomerTypeId {get; set;}
     public virtual CustomerType CustomerType {get; set;} = default!;
 
+    public Guid CompanyId { get; set; }
+    public virtual Company Company { get; set; } = default!;
+
     public virtual ICollection<Products> Products { get; set; } = [];
     public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
 
