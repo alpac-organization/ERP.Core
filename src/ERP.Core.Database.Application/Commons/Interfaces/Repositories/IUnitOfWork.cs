@@ -25,7 +25,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IVacationsRepository Vacations { get; }
         IPermitApplicationsRepository PermitApplications { get; }
         IDeductionsRepository Deductions { get; }
-        IPendingDeductionBalancesRepository PendingDeductionBalances { get; }
         IPayrollsRepository Payrolls { get; }
         IOrdinaryPayrollsRepository OrdinaryPayrolls { get; }
         IWorkPositionsHistoryRepository WorkPositionHistories { get; }

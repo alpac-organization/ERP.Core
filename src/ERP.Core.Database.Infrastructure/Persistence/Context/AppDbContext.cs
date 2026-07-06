@@ -46,7 +46,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Deduction> Deductions => Set<Deduction>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
         #endregion
-        public DbSet<PendingDeductionBalance> PendingDeductionBalances => Set<PendingDeductionBalance>();
         public DbSet<Catalog> Catalogs => Set<Catalog>();
         public DbSet<SubCatalog> SubCatalogs => Set<SubCatalog>();
 
@@ -123,9 +122,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
 
-            modelBuilder.HasPostgresEnum<OSStatus>("public","os_status_enum");
-            modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
-            modelBuilder.HasPostgresEnum<WarehouseMgaStatus>("public","warehouse_mga_status_enum");
+            modelBuilder.HasPostgresEnum<OSStatus>("public", "os_status_enum");
+            modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
+            modelBuilder.HasPostgresEnum<WarehouseMgaStatus>("public", "warehouse_mga_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
