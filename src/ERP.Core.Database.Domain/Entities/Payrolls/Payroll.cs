@@ -40,5 +40,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Saldos pendientes generados en esta nomina
         public virtual ICollection<PendingDeductionBalance> PendingDeductionBalances { get; set; } = [];
+        public virtual ICollection<PendingDeductionBalance> RecoveredPendingDeductionBalances { get; set; } = [];
     }
 }

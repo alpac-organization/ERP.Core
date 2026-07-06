@@ -9,6 +9,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
         : Repository<PendingDeductionBalance>(context), IPendingDeductionBalancesRepository
     {
 
+        public async Task<PendingDeductionBalance> RegisterPendingDeductionBalance(PendingDeductionBalance balance)
+        {
+            var registerPendingBalance = await _context.PendingDeductionBalances.AddAsync(balance);
+            return registerPendingBalance.Entity;
+        }
+
         public async Task<List<PendingDeductionBalance>> GetUnrecoveredBalancesByCollaboratorAsync(Guid collaboratorId)
         {
             return await _context.PendingDeductionBalances
@@ -21,6 +27,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
             return await _context.PendingDeductionBalances
                 .Include(x => x.Collaborator)
                 .Where(x => x.OriginPayrollId == originPayrollId)
+                .ToListAsync();
+        }
+        public async Task<List<PendingDeductionBalance>> GetBalancesByRecoveredPayrollAsync(Guid payrollId)
+        {
+            return await _context.PendingDeductionBalances
+                .Include(x => x.Collaborator)
+                .Include(x => x.OriginPayroll)
+                .Where(x => x.RecoveredPayrollId == payrollId)
                 .ToListAsync();
         }
     }

@@ -30,6 +30,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("origin_payroll_id")
                 .IsRequired();
 
+            builder.Property(e => e.RecoveredPayrollId)
+            .HasColumnName("recovered_payroll_id")
+            .IsRequired(false);
+
             builder.Property(e => e.AmountOwed)
                 .HasColumnName("amount_owed")
                 .HasPrecision(18, 2)
@@ -42,6 +46,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.IsRecovered)
                 .HasColumnName("is_recovered")
                 .IsRequired();
+
+            builder.HasIndex(e => new { e.CollaboratorId, e.IsRecovered })
+            .HasDatabaseName("ix_pending_deduction_balances_collaborator_is_recovered");
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -60,6 +67,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .WithMany(payroll => payroll.PendingDeductionBalances)
                 .HasForeignKey(s => s.OriginPayrollId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(c => c.RecoveredPayroll)
+                .WithMany(p => p.RecoveredPendingDeductionBalances)
+                .HasForeignKey(s => s.RecoveredPayrollId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
         }
     }
 }

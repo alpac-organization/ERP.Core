@@ -8,9 +8,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Collaborator Collaborator { get; set; } = null!;
 
         public Guid OriginPayrollId { get; set; }
-
         public virtual Payroll OriginPayroll { get; set; } = null!;
-
+        public Guid? RecoveredPayrollId { get; set; }
+        public virtual Payroll? RecoveredPayroll { get; set; }
         public decimal AmountOwed { get; set; }
 
         public string? Reason { get; set; }
