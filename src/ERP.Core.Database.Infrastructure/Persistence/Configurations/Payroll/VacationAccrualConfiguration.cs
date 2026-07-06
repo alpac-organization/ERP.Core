@@ -44,6 +44,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.IndemnificationYears)
+                .HasColumnName("indemnification_years")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.IndemnificationValue)
+                .HasColumnName("indemnification_value")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
@@ -68,7 +78,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasOne(c => c.Collaborator)
                 .WithMany(s => s.VacationAccruals)
                 .HasForeignKey(s => s.CollaboratorId)
-                .OnDelete(DeleteBehavior.Restrict);    
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
