@@ -4,5 +4,4 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IUnloadingDetailsManaguaRepository : IRepository<UnloadingDetailsManagua>
 {
-    Task<UnloadingDetailsManagua> GetUnloadingDetailsManagua(UnloadingDetailsManagua unloadingDetails);
 }

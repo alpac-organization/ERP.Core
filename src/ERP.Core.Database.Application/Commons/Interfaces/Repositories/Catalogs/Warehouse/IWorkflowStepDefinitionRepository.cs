@@ -4,5 +4,4 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
 
 public interface IWorkflowStepDefinitionRepository : IRepository<WorkflowStepDefinition>
 {
-    Task<WorkflowStepDefinition> GetWorkflowStepDefinition(WorkflowStepDefinition workflowStep);
 }

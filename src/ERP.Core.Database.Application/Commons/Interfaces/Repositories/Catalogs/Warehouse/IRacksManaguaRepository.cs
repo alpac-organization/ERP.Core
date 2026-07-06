@@ -4,5 +4,4 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
 
 public interface IRacksManaguaRepository : IRepository<RacksManagua>
 {
-    Task<RacksManagua> GetRacksManagua(RacksManagua racks);
 }

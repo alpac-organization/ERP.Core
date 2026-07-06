@@ -4,5 +4,4 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
 
 public interface IZonesManaguaRepository : IRepository<ZonesManagua>
 {
-    Task<ZonesManagua> GetZonesManagua(ZonesManagua zones);
 }

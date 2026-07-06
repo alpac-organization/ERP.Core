@@ -4,5 +4,4 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IStockManaguaRepository : IRepository<StocksManagua>
 {
-    Task<StocksManagua> GetStocksManagua(StocksManagua stocks);
 }
