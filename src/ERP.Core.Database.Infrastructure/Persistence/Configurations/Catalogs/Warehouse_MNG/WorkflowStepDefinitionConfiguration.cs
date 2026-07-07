@@ -1,4 +1,4 @@
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

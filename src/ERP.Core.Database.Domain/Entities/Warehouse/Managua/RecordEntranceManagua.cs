@@ -1,6 +1,6 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 

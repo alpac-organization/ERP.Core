@@ -113,11 +113,21 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
-            #region 
-            services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
-            services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
+            #region Bodegas Managua
+            services.AddScoped<IDiscrepanciesManaguaRepository, DiscrepanciesManaguaRepository>();
+            services.AddScoped<IDucatRegistryDetailsManaguaRepository, DucatRegistryDetailsManaguaRepository>();
+            services.AddScoped<IDucatRegistryManaguaRepository, DucatRegistryManaguaRepository>();
             services.AddScoped<IEntranceDucatsManaguaRepository, EntranceDucatsManaguaRepository>();
+            services.AddScoped<IManifestCancellationsManaguaRepository, ManifestCancellationManaguaRepository>();
+            services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
+            services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
             services.AddScoped<IStepExecutionLogsManaguaRepository, StepExecutionLogsManaguaRepository>();
+            services.AddScoped<IStockManaguaRepository, StockManaguaRepository>();
+            services.AddScoped<IUnloadingCrewAssignmentsManaguaRepository, UnloadingCrewAssignmentsManaguaRepository>();
+            services.AddScoped<IUnloadingDetailsManaguaRepository, UnloadingDetailsManaguaRepository>();
+            services.AddScoped<IUnloadingMachineryAssignmentsManaguaRepository, UnloadingMachineryAssignmentsManaguaRepository>();
+            services.AddScoped<IWarehouseAssignmentsManaguaRepository, WarehouseAssignmentsManaguaRepository>();
+            services.AddScoped<IWarehouseReceiptsManaguaRepository, WarehouseReceiptsManaguaRepository>();
             #endregion
 
 

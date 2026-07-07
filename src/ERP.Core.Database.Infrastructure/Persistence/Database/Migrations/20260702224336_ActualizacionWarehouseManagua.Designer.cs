@@ -3,17 +3,20 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
+namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702224336_ActualizacionWarehouseManagua")]
+    partial class ActualizacionWarehouseManagua
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +29,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status", new[] { "paid", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions", "judicial_seizures", "child_support_garnishment" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "os_status_enum", new[] { "pendding", "in_progress", "completed", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services" });
@@ -43,8 +45,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_mga_status_enum", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -915,7 +915,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("validity_deductions", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.RacksManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.RacksManagua", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -972,7 +972,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("racks_managua", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.WorkflowStepDefinition", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.WorkflowStepDefinition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1005,7 +1005,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("workflow_step_definitions", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1707,11 +1707,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("accumulated_ir_by_fornight");
 
-                    b.Property<decimal?>("AccumulatedIrMonthly")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("accumulated_ir_monthly");
-
                     b.Property<decimal>("AccumulatedSeniority")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1762,11 +1757,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("salary_earned_by_fornight");
-
-                    b.Property<decimal?>("SalaryEarnedMonthly")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("salary_earned_by_monthly");
 
                     b.HasKey("Id");
 
@@ -1921,11 +1911,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("gross_salary");
 
-                    b.Property<decimal>("HolidayPay")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("holiday_pay");
-
                     b.Property<decimal>("Inss")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1940,11 +1925,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("lodging");
-
-                    b.Property<decimal>("NumberOfHolidays")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("number_of_holidays");
 
                     b.Property<decimal>("NumberOvertime")
                         .HasPrecision(18, 2)
@@ -2865,23 +2845,14 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("final_balance");
 
-                    b.Property<decimal>("IndemnificationValue")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("indemnification_value");
-
-                    b.Property<decimal>("IndemnificationYears")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("indemnification_years");
-
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CollaboratorId");
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique();
 
                     b.HasIndex("PayrollId");
 
@@ -3024,9 +2995,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3063,8 +3031,6 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerTypeId");
 
@@ -3512,7 +3478,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("service_order_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("warehouse_mga_status_enum")
+                        .HasColumnType("integer")
                         .HasColumnName("status");
 
                     b.Property<Guid>("WarehouseId")
@@ -3783,7 +3749,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("UnloadingDetailsManaguaId");
 
-                    b.ToTable("unloading_machinery_assignments_managua", "public");
+                    b.ToTable("UnloadingMachineryAssignmentsManagua", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.WarehouseAssignmentsManagua", b =>
@@ -3991,6 +3957,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -4014,7 +3983,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("observations");
 
                     b.Property<int>("Status")
-                        .HasColumnType("os_status_enum")
+                        .HasColumnType("integer")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
@@ -4024,6 +3993,8 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_os_code");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerId");
 
@@ -4156,7 +4127,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("unusable_area");
 
                     b.Property<int>("WarehouseType")
-                        .HasColumnType("warehouse_type_enum")
+                        .HasColumnType("integer")
                         .HasColumnName("warehouse_type");
 
                     b.HasKey("Id");
@@ -4315,9 +4286,9 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Catalog");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.RacksManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.RacksManagua", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", "Zone")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", "Zone")
                         .WithMany("Racks")
                         .HasForeignKey("ZoneId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4326,7 +4297,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Zone");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouses")
                         .WithMany()
@@ -4769,19 +4740,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Customer", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
-                        .WithMany("Customers")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", "CustomerType")
                         .WithMany("Customers")
                         .HasForeignKey("CustomerTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Company");
 
                     b.Navigation("CustomerType");
                 });
@@ -4890,7 +4853,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.WorkflowStepDefinition", "CurrentStep")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.WorkflowStepDefinition", "CurrentStep")
                         .WithMany("RecordEntrances")
                         .HasForeignKey("CurrentStepId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4915,7 +4878,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.WorkflowStepDefinition", "WorkflowStepDefinition")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.WorkflowStepDefinition", "WorkflowStepDefinition")
                         .WithMany()
                         .HasForeignKey("WorkflowStepDefinitionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4940,13 +4903,13 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.RacksManagua", "Rack")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.RacksManagua", "Rack")
                         .WithMany("CurrentStock")
                         .HasForeignKey("RacksManaguaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", "Zone")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", "Zone")
                         .WithMany("CurrentStock")
                         .HasForeignKey("ZonesManaguaId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -5004,7 +4967,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.WarehouseAssignmentsManagua", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.RacksManagua", "Rack")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.RacksManagua", "Rack")
                         .WithMany("Assignments")
                         .HasForeignKey("RackId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -5022,7 +4985,7 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", "Zone")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", "Zone")
                         .WithMany("Assignments")
                         .HasForeignKey("ZoneId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -5074,6 +5037,10 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", null)
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Customer", "Customer")
                         .WithMany("ServiceOrders")
@@ -5161,11 +5128,11 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Collaborators");
 
-                    b.Navigation("Customers");
-
                     b.Navigation("JobPositions");
 
                     b.Navigation("Locations");
+
+                    b.Navigation("ServiceOrders");
 
                     b.Navigation("TypesAccountingPayroll");
 
@@ -5182,19 +5149,19 @@ namespace ERP.Core.Manager.Api.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UserModuleRoles");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.RacksManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.RacksManagua", b =>
                 {
                     b.Navigation("Assignments");
 
                     b.Navigation("CurrentStock");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.WorkflowStepDefinition", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.WorkflowStepDefinition", b =>
                 {
                     b.Navigation("RecordEntrances");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse.ZonesManagua", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG.ZonesManagua", b =>
                 {
                     b.Navigation("Assignments");
 
