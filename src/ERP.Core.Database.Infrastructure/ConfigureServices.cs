@@ -113,7 +113,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
-            services.AddScoped<IPendingDeductionBalancesRepository, PendingDeductionBalancesRepository>();
             #region 
             services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
             services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();

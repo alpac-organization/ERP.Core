@@ -38,7 +38,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
 
-        //Saldos pendientes generados en esta nomina
-        public virtual ICollection<PendingDeductionBalance> PendingDeductionBalances { get; set; } = [];
     }
 }
