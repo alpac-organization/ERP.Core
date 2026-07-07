@@ -113,7 +113,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
-            services.AddScoped<IPendingDeductionBalancesRepository, PendingDeductionBalancesRepository>();
             #region Bodegas Managua
             services.AddScoped<IDiscrepanciesManaguaRepository, DiscrepanciesManaguaRepository>();
             services.AddScoped<IDucatRegistryDetailsManaguaRepository, DucatRegistryDetailsManaguaRepository>();
