@@ -29,7 +29,7 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasColumnType("os_status_enum")
+            .HasConversion<int>()
             .IsRequired();
 
         builder.Property(e => e.Observations)
@@ -42,7 +42,7 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
 
         builder.Property(e => e.CustomerId)
             .HasColumnName("customer_id")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")

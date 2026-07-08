@@ -29,7 +29,7 @@ public class RecordEntranceManaguaConfiguration : IEntityTypeConfiguration<Recor
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasColumnType("warehouse_mga_status_enum")
+            .HasConversion<int>()
             .IsRequired();
 
         builder.Property(e => e.ClosedAt)

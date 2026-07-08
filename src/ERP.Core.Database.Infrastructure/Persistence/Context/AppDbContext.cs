@@ -2,10 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
 using ERP.Core.Database.Domain.Entities.Payrolls;
-
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
@@ -46,6 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Deduction> Deductions => Set<Deduction>();
         public DbSet<DeductionPaymentHistory> DeductionPaymentHistories => Set<DeductionPaymentHistory>();
         #endregion
+
         public DbSet<Catalog> Catalogs => Set<Catalog>();
         public DbSet<SubCatalog> SubCatalogs => Set<SubCatalog>();
 
@@ -53,7 +53,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<AssistanceControl> AssistanceControls => Set<AssistanceControl>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
-
+        
         #region Catologos
         public DbSet<Branch> Branches => Set<Branch>();
         public DbSet<Company> Companies => Set<Company>();
@@ -77,25 +77,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region MOD: Bodegas Managua
-        public DbSet<RacksManagua> RacksManagua => Set<RacksManagua>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<ZonesManagua> ZonesManagua => Set<ZonesManagua>();
-        public DbSet<DiscrepanciesManagua> DiscrepanciesManagua => Set<DiscrepanciesManagua>();
-        public DbSet<DucatRegistryDetailsManagua> DucatRegistryDetailsManagua => Set<DucatRegistryDetailsManagua>();
-        public DbSet<DucatRegistryManagua> DucatRegistryManagua => Set<DucatRegistryManagua>();
-        public DbSet<EntranceDucatsManagua> EntranceDucatsManagua => Set<EntranceDucatsManagua>();
-        public DbSet<ManifestCancellationsManagua> ManifestCancellationsManagua => Set<ManifestCancellationsManagua>();
-        public DbSet<ReceptionDetailsManagua> ReceptionDetailsManagua => Set<ReceptionDetailsManagua>();
-        public DbSet<RecordEntranceManagua> RecordEntrancesManagua => Set<RecordEntranceManagua>();
-        public DbSet<StepExecutionLogsManagua> StepExecutionLogsManagua => Set<StepExecutionLogsManagua>();
+        public DbSet<RacksManagua> RacksManagua => Set<RacksManagua>();
         public DbSet<StocksManagua> StocksManagua => Set<StocksManagua>(); // Corregido el nombre quitando la 's' final
-        public DbSet<UnloadingCrewAssignmentsManagua> UnloadingCrewAssignmentsManagua => Set<UnloadingCrewAssignmentsManagua>();
-        public DbSet<UnloadingDetailsManagua> UnloadingDetailsManagua => Set<UnloadingDetailsManagua>();
-        public DbSet<UnloadingMachineryAssignmentsManagua> UnloadingMachineryAssignmentsManagua => Set<UnloadingMachineryAssignmentsManagua>();
+        public DbSet<RecordEntranceManagua> RecordEntrancesManagua => Set<RecordEntranceManagua>();
+        public DbSet<ReceptionDetailsManagua> ReceptionDetailsManagua => Set<ReceptionDetailsManagua>();
+        public DbSet<EntranceDucatsManagua> EntranceDucatsManagua => Set<EntranceDucatsManagua>();
         public DbSet<WarehouseAssignmentsManagua> WarehouseAssignmentsManagua => Set<WarehouseAssignmentsManagua>();
+        public DbSet<DucatRegistryManagua> DucatRegistryHeadersManagua => Set<DucatRegistryManagua>();
+        public DbSet<DucatRegistryDetailsManagua> DucatRegistryDetailsManagua => Set<DucatRegistryDetailsManagua>();
+        public DbSet<UnloadingDetailsManagua> UnloadingDetailsManagua => Set<UnloadingDetailsManagua>();
+        public DbSet<DiscrepanciesManagua> DiscrepanciesManagua => Set<DiscrepanciesManagua>();
+        public DbSet<ManifestCancellationsManagua> ManifestCancellationsManagua => Set<ManifestCancellationsManagua>();
         public DbSet<WarehouseReceiptsManagua> WarehouseReceiptsManagua => Set<WarehouseReceiptsManagua>();
+        public DbSet<StepExecutionLogsManagua> StepExecutionLogsManagua => Set<StepExecutionLogsManagua>();
         #endregion
-
+                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -120,13 +118,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollType>("public", "payroll_type_enum");
             modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
-            modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
-            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status");
-            modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
-
-            modelBuilder.HasPostgresEnum<OSStatus>("public", "os_status_enum");
-            modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
-            modelBuilder.HasPostgresEnum<WarehouseMgaStatus>("public", "warehouse_mga_status_enum");
+            modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
+            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
+            modelBuilder.HasPostgresEnum<PayrollPeriod>("public","payroll_period_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

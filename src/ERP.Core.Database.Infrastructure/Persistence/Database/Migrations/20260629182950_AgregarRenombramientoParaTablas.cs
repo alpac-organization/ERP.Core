@@ -14,6 +14,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             migrationBuilder.RenameColumn(
                 name: "DeletedAt",
                 schema: "public",
+                table: "product",
+                newName: "deleted_at");
+
+            migrationBuilder.RenameColumn(
+                name: "DeletedAt",
+                schema: "public",
                 table: "customers",
                 newName: "deleted_at");
 
@@ -27,6 +33,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone");
 
+            migrationBuilder.AddColumn<DateTime>(
+                name: "created_at",
+                schema: "public",
+                table: "product",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValueSql: "CURRENT_TIMESTAMP");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "created_at",
@@ -79,12 +92,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "service_orders",
                 schema: "public");
 
+            migrationBuilder.DropColumn(
+                name: "created_at",
+                schema: "public",
+                table: "product");
 
             migrationBuilder.DropColumn(
                 name: "created_at",
                 schema: "public",
                 table: "customers");
 
+            migrationBuilder.RenameColumn(
+                name: "deleted_at",
+                schema: "public",
+                table: "product",
+                newName: "DeletedAt");
 
             migrationBuilder.RenameColumn(
                 name: "deleted_at",

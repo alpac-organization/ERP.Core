@@ -29,7 +29,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.BiweeklySalary)
                 .HasColumnName("biweekly_salary")
                 .HasPrecision(18, 2)
-                .IsRequired();
+                .IsRequired();      
 
             builder.Property(e => e.NumberOvertime)
                 .HasColumnName("number_overtime")
@@ -127,16 +127,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasDefaultValue(0.0m)
                 .HasPrecision(18, 2);
 
-            builder.Property(e => e.HolidayPay)
-            .HasColumnName("holiday_pay")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-            builder.Property(e => e.NumberOfHolidays)
-            .HasColumnName("number_of_holidays")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
             builder.Property(e => e.TotalToPay)
                 .HasColumnName("total_to_pay")
                 .HasPrecision(18, 2)
@@ -157,7 +147,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasOne(c => c.Collaborator)
                 .WithMany(s => s.OrdinaryPayrolls)
                 .HasForeignKey(s => s.CollaboratorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);    
         }
     }
 }

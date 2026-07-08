@@ -37,6 +37,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         //Control de nominas contables o descriptions
         public virtual ICollection<TypesAccountingPayroll> TypesAccountingPayroll { get; set; } = [];
 
-        public virtual ICollection<Customer> Customers { get; set; } = [];
+        public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
     }
 }
