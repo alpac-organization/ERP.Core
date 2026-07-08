@@ -46,14 +46,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasColumnName("salary_earned_by_fornight")
             .IsRequired();
 
-            builder.Property(e => e.AccumulatedIrMonthly)
-            .HasPrecision(18, 2)
-            .HasColumnName("accumulated_ir_monthly");
-
-            builder.Property(e => e.SalaryEarnedMonthly)
-            .HasPrecision(18, 2)
-            .HasColumnName("salary_earned_by_monthly");
-
             builder.Property(e => e.NumberOfFortnights)
                 .HasColumnName("number_of_fortnights")
                 .IsRequired();

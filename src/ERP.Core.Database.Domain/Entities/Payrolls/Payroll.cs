@@ -28,15 +28,14 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Sub divisiones de nominas.
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
 
-
+        
         //Reporteria de los periodos de nominas
         public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
 
         //Acumulados de ir y acumulados devengados
-        public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
+        public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = []; 
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
-
     }
 }

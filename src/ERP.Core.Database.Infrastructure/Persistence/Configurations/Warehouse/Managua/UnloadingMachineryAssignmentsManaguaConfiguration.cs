@@ -8,11 +8,11 @@ public class UnloadingMachineryAssignmentsManaguaConfiguration : IEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<UnloadingMachineryAssignmentsManagua> builder)
     {
-        builder.ToTable("unloading_machinery_assignments_managua");
+        builder.ToTable("UnloadingMachineryAssignmentsManagua");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnName("unloading_machinery_assignment_id")
+            .HasColumnName("unloading_machinery_assignment_ id")
             .IsRequired();
         
         builder.Property(x => x.UnloadingDetailsManaguaId)

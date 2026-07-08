@@ -27,17 +27,17 @@ namespace ERP.Core.Database.Infrastructure
         {
             var connectionString = configuration.GetConnectionString("ErpConnectionDatabase");
 
-            if (string.IsNullOrEmpty(connectionString))
+            if(string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException("No se encontró la cadena 'ErpConnectionDatabase'.");
             }
 
-            services.AddDbContext<ErpDbContext>(options =>
+            services.AddDbContext<ErpDbContext>(options => 
                 options.UseNpgsql(connectionString, npgsqlOptions =>
                 {
 
                     npgsqlOptions.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
-
+                    
                     npgsqlOptions.MapEnum<CatalogType>("catalog_type_enum");
                     npgsqlOptions.MapEnum<RoleType>("role_type_enum");
                     npgsqlOptions.MapEnum<PermissionType>("permission_type_enum");
@@ -59,10 +59,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
                     npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status");
                     npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
-                    npgsqlOptions.MapEnum<WarehouseMgaStatus>("warehouse_mga_status_enum");
-                    npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum");
-                    npgsqlOptions.MapEnum<OSStatus>("os_status_enum");
-                })
+                })  
             );
 
             //Repositories
@@ -113,25 +110,16 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
-            #region Bodegas Managua
-            services.AddScoped<IDiscrepanciesManaguaRepository, DiscrepanciesManaguaRepository>();
-            services.AddScoped<IDucatRegistryDetailsManaguaRepository, DucatRegistryDetailsManaguaRepository>();
-            services.AddScoped<IDucatRegistryManaguaRepository, DucatRegistryManaguaRepository>();
-            services.AddScoped<IEntranceDucatsManaguaRepository, EntranceDucatsManaguaRepository>();
-            services.AddScoped<IManifestCancellationsManaguaRepository, ManifestCancellationManaguaRepository>();
-            services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
+
+            #region 
             services.AddScoped<IRecordEntranceManaguaRepository, RecordEntranceManaguaRepository>();
+            services.AddScoped<IReceptionDetailsManaguaRepository, ReceptionDetailsManaguaReporitory>();
+            services.AddScoped<IEntranceDucatsManaguaRepository, EntranceDucatsManaguaRepository>();
             services.AddScoped<IStepExecutionLogsManaguaRepository, StepExecutionLogsManaguaRepository>();
-            services.AddScoped<IStockManaguaRepository, StockManaguaRepository>();
-            services.AddScoped<IUnloadingCrewAssignmentsManaguaRepository, UnloadingCrewAssignmentsManaguaRepository>();
-            services.AddScoped<IUnloadingDetailsManaguaRepository, UnloadingDetailsManaguaRepository>();
-            services.AddScoped<IUnloadingMachineryAssignmentsManaguaRepository, UnloadingMachineryAssignmentsManaguaRepository>();
-            services.AddScoped<IWarehouseAssignmentsManaguaRepository, WarehouseAssignmentsManaguaRepository>();
-            services.AddScoped<IWarehouseReceiptsManaguaRepository, WarehouseReceiptsManaguaRepository>();
             #endregion
 
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
             return services;
         }

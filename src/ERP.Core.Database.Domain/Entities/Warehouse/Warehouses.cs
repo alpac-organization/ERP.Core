@@ -1,6 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
+using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
@@ -36,4 +36,6 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<ZonesManagua> Zones { get; set; } = [];
+
+
 }

@@ -40,7 +40,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
         IInssAccountingInformationRepository InssAccountingInformation { get; }
         IVacationAccrualRepository VacationAccruals { get; }
-        IChristmasBonusAccrualRepository ChristmasBonusAccruals { get; }
 
         #region Catalogos
         IHolidaysRepository Holidays { get; }
@@ -65,7 +64,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Warehouse Managua
         IEntranceDucatsManaguaRepository EntranceDucatsManagua { get; }
-        IReceptionDetailsManaguaRepository ReceptionDetailsManagua { get; }
+        IReceptionDetailsManaguaRepository ReceptionDetailsManagua{ get; }
         IRecordEntranceManaguaRepository RecordEntranceManagua { get; }
         IStepExecutionLogsManaguaRepository StepExecutionLogsManagua { get; }
         #endregion

@@ -1,4 +1,4 @@
-namespace ERP.Core.Database.Domain.Enums;
+namespace ERP.Core.Database.Domain.Enums.Warehouse_MNG;
 
 public enum WarehouseMgaStatus
 {

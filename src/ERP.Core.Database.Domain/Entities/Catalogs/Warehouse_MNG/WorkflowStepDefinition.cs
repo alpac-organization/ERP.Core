@@ -1,7 +1,7 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-namespace ERP.Core.Database.Domain.Entities.Catalogs.Warehouse;
+namespace ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 
 public class WorkflowStepDefinition : BaseEntity<int>
 {
