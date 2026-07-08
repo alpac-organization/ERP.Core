@@ -40,6 +40,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IPermitApplicationsPendingRepository PermitApplicationsPending { get; }
         IInssAccountingInformationRepository InssAccountingInformation { get; }
         IVacationAccrualRepository VacationAccruals { get; }
+        IChristmasBonusAccrualRepository ChristmasBonusAccruals { get; }
 
         #region Catalogos
         IHolidaysRepository Holidays { get; }
