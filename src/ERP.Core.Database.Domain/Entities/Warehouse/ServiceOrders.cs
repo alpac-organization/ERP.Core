@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public Guid BranchId { get; set; }
         public virtual Branch Branch {get; set;} = default!;
 
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; } = default!;
     }
 }
