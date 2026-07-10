@@ -35,6 +35,10 @@ public class ZonesManaguaConfiguration : IEntityTypeConfiguration<ZonesManagua>
             .HasPrecision(10, 2)
             .IsRequired();
 
+        builder.Property(e => e.WarehouseId)
+            .HasColumnName("warehouse_id")
+            .IsRequired();
+
         builder.Property(e => e.LengthMetres)
             .HasColumnName("length_metres")
             .HasPrecision(10, 2)
@@ -59,9 +63,17 @@ public class ZonesManaguaConfiguration : IEntityTypeConfiguration<ZonesManagua>
             .HasColumnName("is_active")
             .IsRequired();
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
         // Relación con el almacén inmutable central
         builder.HasOne(x => x.Warehouses)
-            .WithMany()
+            .WithMany(x => x.Zones)
             .HasForeignKey(x => x.WarehouseId)
             .OnDelete(DeleteBehavior.Restrict);
     }

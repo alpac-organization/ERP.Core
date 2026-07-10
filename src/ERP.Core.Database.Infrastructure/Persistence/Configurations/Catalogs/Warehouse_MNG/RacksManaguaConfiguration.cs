@@ -52,6 +52,14 @@ public class RacksManaguaConfiguration : IEntityTypeConfiguration<RacksManagua>
             .HasPrecision(10, 2)
             .IsRequired();
 
+         builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
         // Relación 1:N con Zonas
         builder.HasOne(e => e.Zone)
             .WithMany(z => z.Racks)

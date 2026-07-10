@@ -27,17 +27,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("end_date");
 
             builder.Property(e => e.TitleTax)
-                .IsRequired(false)
-                .HasColumnName("title_tax");
+                .HasColumnName("title_tax")
+                .IsRequired(false);
+
+            builder.Property(e => e.Type)
+                .HasColumnName("tax_type")
+                .HasColumnType("tax_type_enum")
+                .IsRequired();
 
             builder.Property(e => e.Description)
-                .IsRequired(false)
-                .HasColumnName("description");
+                .HasColumnName("description")
+                .IsRequired(false);
 
             builder.Property(e => e.Value)
-                .IsRequired()
+                .HasColumnName("value")
                 .HasPrecision(18, 4)
-                .HasColumnName("value");
+                .IsRequired();
 
             builder.Property(e => e.Status)
                 .HasDefaultValue(true)

@@ -4,7 +4,6 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
@@ -119,8 +118,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
             modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
-            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status");
+            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status_enum");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public","payroll_period_enum");
+            modelBuilder.HasPostgresEnum<OSStatus>("public","oss_status_enum");
+            modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public","record_entrance_status_enum");
+
+            
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

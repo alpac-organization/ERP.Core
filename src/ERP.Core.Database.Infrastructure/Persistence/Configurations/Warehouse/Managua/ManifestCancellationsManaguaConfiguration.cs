@@ -31,7 +31,11 @@ public class ManifestCancellationsManaguaConfiguration : IEntityTypeConfiguratio
         builder.Property(e => e.ContainerCount)
             .HasColumnName("container_count")
             .IsRequired();
-            
+        
+        builder.Property(e => e.ContainerDimension)
+            .HasColumnName("container_dimension")
+            .IsRequired();
+
         builder.Property(e => e.PersonalType)
             .HasColumnName("personal_type")
             .HasMaxLength(500)

@@ -30,6 +30,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .IsRequired(false)
                 .HasMaxLength(150);
 
+            builder.Property(e => e.CompanyId)
+                .HasColumnName("company_id")
+                .IsRequired();
+
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true);

@@ -31,6 +31,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .IsRequired();
+
             builder.Property(e => e.StartTime)
                 .HasColumnName("start_time")
                 .IsRequired(false);

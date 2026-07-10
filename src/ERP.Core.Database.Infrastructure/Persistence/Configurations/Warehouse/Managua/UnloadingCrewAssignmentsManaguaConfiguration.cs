@@ -9,10 +9,13 @@ public class UnloadingCrewAssignmentsManaguaConfiguration : IEntityTypeConfigura
     public void Configure(EntityTypeBuilder<UnloadingCrewAssignmentsManagua> builder)
     {
         builder.ToTable("unloading_crew_assignments_managua");
+        
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.UnloadingDetailsManaguaId)
-            .HasColumnName("unloading_details_managua_id")
+        builder.Property(e => e.Id)
+            .HasColumnName("unloading_crew_assignment_id")
+            .HasDefaultValueSql("gen_random_uuid()")
+            .ValueGeneratedOnAdd()
             .IsRequired();
 
         builder.Property(x => x.AssignedAt)
@@ -25,6 +28,18 @@ public class UnloadingCrewAssignmentsManaguaConfiguration : IEntityTypeConfigura
 
         builder.Property(x => x.Tecerizada)
             .HasColumnName("tercerizada")
+            .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
+        builder.Property(x => x.Id)
+            .HasColumnName("unloading_details_managua_id")
             .IsRequired();
 
         builder.HasOne(x => x.UnloadingDetails)

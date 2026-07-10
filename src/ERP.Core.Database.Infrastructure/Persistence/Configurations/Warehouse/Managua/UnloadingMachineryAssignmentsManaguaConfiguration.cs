@@ -11,8 +11,10 @@ public class UnloadingMachineryAssignmentsManaguaConfiguration : IEntityTypeConf
         builder.ToTable("UnloadingMachineryAssignmentsManagua");
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Id)
-            .HasColumnName("unloading_machinery_assignment_ id")
+        builder.Property(c => c.Id)
+            .HasColumnName("unloading_machinery_assignment_id")
+            .HasDefaultValueSql("gen_random_uuid()")
+            .ValueGeneratedOnAdd()
             .IsRequired();
         
         builder.Property(x => x.UnloadingDetailsManaguaId)

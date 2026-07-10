@@ -9,10 +9,13 @@ public class UnloadingDetailsManaguaConfiguration : IEntityTypeConfiguration<Unl
     public void Configure(EntityTypeBuilder<UnloadingDetailsManagua> builder)
     {
         builder.ToTable("unloading_details_managua");
-        builder.HasKey(e => e.Id);
         
+        builder.HasKey(e => e.Id);
+
         builder.Property(e => e.Id)
             .HasColumnName("unloading_details_managua_id")
+            .HasDefaultValueSql("gen_random_uuid()")
+            .ValueGeneratedOnAdd()
             .IsRequired();
         
         builder.Property(e => e.RecordEntranceManaguaId)
@@ -48,8 +51,6 @@ public class UnloadingDetailsManaguaConfiguration : IEntityTypeConfiguration<Unl
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-
-
 
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithOne(e => e.UnloadingDetails)

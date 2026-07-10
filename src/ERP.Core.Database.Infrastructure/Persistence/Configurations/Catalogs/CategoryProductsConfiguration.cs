@@ -29,10 +29,22 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasMaxLength(100)
             .IsRequired();
 
+        builder.Property(c => c.ParentId)
+            .HasColumnName("parent_id")
+            .IsRequired(false);
+
         builder.Property(c => c.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
 
         builder.HasOne(c => c.Parent)
             .WithMany(c => c.Children)

@@ -25,6 +25,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia")
                 .Annotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
+                .Annotation("Npgsql:Enum:public.oss_status_enum", "pending,in_progress,completed,canceled")
                 .Annotation("Npgsql:Enum:public.payroll_period_enum", "first_period,second_period")
                 .Annotation("Npgsql:Enum:public.payroll_status_enum", "progress,closed,cancelled,completed")
                 .Annotation("Npgsql:Enum:public.payroll_type_enum", "none,ordinary,provided,professional_services")
@@ -48,15 +49,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     code = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    parent_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_category_products", x => x.category_product_id);
                     table.ForeignKey(
-                        name: "FK_category_products_category_products_ParentId",
-                        column: x => x.ParentId,
+                        name: "FK_category_products_category_products_parent_id",
+                        column: x => x.parent_id,
                         principalSchema: "public",
                         principalTable: "category_products",
                         principalColumn: "category_product_id",
@@ -93,7 +95,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -106,7 +109,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     holiday_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    BranchId = table.Column<Guid>(type: "uuid", nullable: true),
+                    branch_id = table.Column<Guid>(type: "uuid", nullable: true),
                     holiday_name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     day = table.Column<int>(type: "integer", nullable: false),
@@ -149,7 +152,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     role_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     role_name = table.Column<string>(type: "character varying(180)", maxLength: 180, nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
-                    role_type_Enum = table.Column<int>(type: "integer", nullable: false),
+                    role_type = table.Column<int>(type: "role_type_enum", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -205,7 +208,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     fullname = table.Column<string>(type: "text", nullable: false),
                     password_hash = table.Column<string>(type: "text", nullable: false),
                     identification_number = table.Column<string>(type: "text", nullable: false),
-                    AreaId = table.Column<int>(type: "integer", nullable: false),
+                    area_id = table.Column<int>(type: "integer", nullable: false),
                     user_type = table.Column<int>(type: "user_type_enum", nullable: false),
                     user_status = table.Column<int>(type: "user_status_enum", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -228,7 +231,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     value = table.Column<decimal>(type: "numeric(18,4)", precision: 18, scale: 4, nullable: false),
                     title_tax = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false),
+                    tax_type = table.Column<int>(type: "tax_type_enum", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -247,7 +250,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     execution_order = table.Column<int>(type: "integer", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -359,7 +363,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     description = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     job_position_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    company_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -367,8 +371,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_job_positions", x => x.job_position_id);
                     table.ForeignKey(
-                        name: "FK_job_positions_companies_CompanyId",
-                        column: x => x.CompanyId,
+                        name: "FK_job_positions_companies_company_id",
+                        column: x => x.company_id,
                         principalSchema: "public",
                         principalTable: "companies",
                         principalColumn: "company_id",
@@ -433,7 +437,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     type_income_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     description = table.Column<string>(type: "text", nullable: false),
-                    accounting_payroll_name = table.Column<string>(name: "accounting_payroll_name ", type: "text", nullable: true),
+                    accounting_payroll_name = table.Column<string>(type: "text", nullable: true),
                     accounting_payroll_code = table.Column<string>(type: "text", nullable: false),
                     does_generate_seniority = table.Column<bool>(type: "boolean", nullable: false),
                     company_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -459,7 +463,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     work_area_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    WorkAreaCode = table.Column<int>(type: "integer", nullable: false),
+                    work_area_code = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     work_area_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     company_id = table.Column<Guid>(type: "uuid", maxLength: 100, nullable: false),
@@ -487,7 +491,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     dni_ruc = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     legal_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    PictureUrl = table.Column<string>(type: "text", nullable: true),
+                    picture_url = table.Column<string>(type: "text", nullable: false),
                     customer_type_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -539,7 +543,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     device = table.Column<string>(type: "text", nullable: true),
                     ip_address = table.Column<string>(type: "text", nullable: true),
                     refresh_token = table.Column<string>(type: "text", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
                     company_code = table.Column<string>(type: "text", nullable: false),
                     expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -594,7 +598,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     payroll_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    payroll_period = table.Column<int>(type: "integer", nullable: false),
+                    payroll_period = table.Column<int>(type: "payroll_period_enum", nullable: false),
                     payroll_type = table.Column<int>(type: "payroll_type_enum", nullable: false),
                     payroll_status = table.Column<int>(type: "payroll_status_enum", nullable: false),
                     end_date = table.Column<DateOnly>(type: "date", nullable: false),
@@ -767,7 +771,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     permit_application_pending_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     collaborator_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
                     start_date = table.Column<DateOnly>(type: "date", nullable: false),
                     end_date = table.Column<DateOnly>(type: "date", nullable: false),
@@ -875,31 +879,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InboundAppointment",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RequestCode = table.Column<int>(type: "integer", nullable: false),
-                    GeneratedBy = table.Column<string>(type: "text", nullable: true),
-                    QrCodeCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InboundAppointment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InboundAppointment_customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "public",
-                        principalTable: "customers",
-                        principalColumn: "customer_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "products",
                 schema: "public",
                 columns: table => new
@@ -939,33 +918,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    os_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    service_order_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    IsCreatedFromPortal = table.Column<bool>(type: "boolean", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    oos_status = table.Column<int>(type: "oss_status_enum", nullable: false),
                     observations = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    branch_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    customer_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    customer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_service_orders", x => x.os_id);
-                    table.ForeignKey(
-                        name: "FK_service_orders_branches_branch_id",
-                        column: x => x.branch_id,
-                        principalSchema: "public",
-                        principalTable: "branches",
-                        principalColumn: "branch_id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_service_orders_companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalSchema: "public",
-                        principalTable: "companies",
-                        principalColumn: "company_id");
+                    table.PrimaryKey("PK_service_orders", x => x.service_order_id);
                     table.ForeignKey(
                         name: "FK_service_orders_customers_customer_id",
                         column: x => x.customer_id,
@@ -1060,6 +1023,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     accumulated_seniority = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     accumulated_ir_by_fornight = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     salary_earned_by_fornight = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    accumulated_ir_monthly = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    salary_earned_monthly = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     flag_salary_earned = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     flag_accumulated_ir = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     number_of_fortnights = table.Column<int>(type: "integer", nullable: false),
@@ -1194,7 +1159,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     ir = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     inss = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     vacations = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    ChristmasBonus = table.Column<decimal>(type: "numeric", nullable: false),
+                    christmas_bonus = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     total_legal_deductions = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     gross_salary = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     total_to_pay = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
@@ -1279,7 +1244,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     ir = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     inss = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     vacations = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    ChristmasBonus = table.Column<decimal>(type: "numeric", nullable: false),
+                    christmas_bonus = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     total_legal_deductions = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     gross_salary = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     total_to_pay = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
@@ -1458,7 +1423,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    warehouse_id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     zone_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     width_metres = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
@@ -1467,18 +1431,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     total_colume_capacity_m3 = table.Column<decimal>(type: "numeric(12,3)", precision: 12, scale: 3, nullable: false),
                     max_weight_capacity_kg = table.Column<decimal>(type: "numeric(14,2)", precision: 14, scale: 2, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false),
-                    WarehousesId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    warehouse_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_zones_managua", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_zones_managua_warehouses_WarehousesId",
-                        column: x => x.WarehousesId,
-                        principalSchema: "public",
-                        principalTable: "warehouses",
-                        principalColumn: "warehouse_id");
                     table.ForeignKey(
                         name: "FK_zones_managua_warehouses_warehouse_id",
                         column: x => x.warehouse_id,
@@ -1531,9 +1490,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     work_position_history_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     collaborator_id = table.Column<Guid>(type: "uuid", nullable: false),
                     work_position_id = table.Column<int>(type: "integer", nullable: false),
-                    JobPositionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    job_position_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    start_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    end_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -1732,7 +1691,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     record_entrance_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     manifest_number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     container_count = table.Column<int>(type: "integer", nullable: false),
-                    ContainerDimension = table.Column<string>(type: "text", nullable: false),
+                    container_dimension = table.Column<string>(type: "text", nullable: false),
                     personal_type = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     customs_officer_signature = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     warehouse_chief_signature = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
@@ -1754,7 +1713,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         column: x => x.service_orders_id,
                         principalSchema: "public",
                         principalTable: "service_orders",
-                        principalColumn: "os_id",
+                        principalColumn: "service_order_id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1866,7 +1825,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     is_available = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     max_weight_kg = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false),
                     max_height_metres = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -1891,7 +1851,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     found_quantity = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     customs_letter_reference = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    IsDamage = table.Column<bool>(type: "boolean", nullable: false),
+                    is_damage = table.Column<bool>(type: "boolean", nullable: false),
                     record_entrance_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entrance_ducats_id = table.Column<Guid>(type: "uuid", nullable: false),
                     RecordEntranceManaguaId1 = table.Column<Guid>(type: "uuid", nullable: true),
@@ -1980,7 +1940,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     current_bultos = table.Column<int>(type: "integer", nullable: false),
                     current_weight_kg = table.Column<decimal>(type: "numeric(18,4)", precision: 18, scale: 4, nullable: false),
                     stored_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
+                    row_version = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -2070,7 +2030,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     record_entrance_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     warehouse_assignments_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     unloading_start_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -2104,19 +2064,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     assigned_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     persona_count = table.Column<int>(type: "integer", nullable: false),
                     tercerizada = table.Column<bool>(type: "boolean", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    UnloadingDetailsManaguaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_unloading_crew_assignments_managua", x => x.Id);
+                    table.PrimaryKey("PK_unloading_crew_assignments_managua", x => x.unloading_details_managua_id);
                     table.ForeignKey(
                         name: "FK_unloading_crew_assignments_managua_unloading_details_managu~",
-                        column: x => x.unloading_details_managua_id,
+                        column: x => x.UnloadingDetailsManaguaId,
                         principalSchema: "public",
                         principalTable: "unloading_details_managua",
                         principalColumn: "unloading_details_managua_id",
@@ -2128,7 +2089,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    unloading_machinery_assignment_id = table.Column<Guid>(name: "unloading_machinery_assignment_ id", type: "uuid", nullable: false),
+                    unloading_machinery_assignment_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     unloading_details_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     machinery_code = table.Column<Guid>(type: "uuid", maxLength: 100, nullable: false),
                     machinery_type = table.Column<Guid>(type: "uuid", maxLength: 150, nullable: false),
@@ -2182,10 +2143,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_category_products_ParentId",
+                name: "IX_category_products_parent_id",
                 schema: "public",
                 table: "category_products",
-                column: "ParentId");
+                column: "parent_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_christmas_bonus_accruals_payroll_id",
@@ -2370,12 +2331,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_InboundAppointment_CustomerId",
-                schema: "public",
-                table: "InboundAppointment",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_income_tax_accrual_collaborator_id",
                 schema: "public",
                 table: "income_tax_accrual",
@@ -2446,10 +2401,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_job_positions_CompanyId",
+                name: "IX_job_positions_company_id",
                 schema: "public",
                 table: "job_positions",
-                column: "CompanyId");
+                column: "company_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_location_id",
@@ -2679,28 +2634,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_service_orders_branch_id",
-                schema: "public",
-                table: "service_orders",
-                column: "branch_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_service_orders_CompanyId",
-                schema: "public",
-                table: "service_orders",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_service_orders_customer_id",
                 schema: "public",
                 table: "service_orders",
                 column: "customer_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_service_orders_id)",
+                name: "ix_service_orders_id",
                 schema: "public",
                 table: "service_orders",
-                column: "os_id",
+                column: "service_order_id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2782,10 +2725,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "company_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_unloading_crew_assignments_managua_unloading_details_managu~",
+                name: "IX_unloading_crew_assignments_managua_UnloadingDetailsManaguaId",
                 schema: "public",
                 table: "unloading_crew_assignments_managua",
-                column: "unloading_details_managua_id");
+                column: "UnloadingDetailsManaguaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_unloading_details_managua_record_entrance_managua_id",
@@ -2971,12 +2914,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "zones_managua",
                 column: "warehouse_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_zones_managua_WarehousesId",
-                schema: "public",
-                table: "zones_managua",
-                column: "WarehousesId");
         }
 
         /// <inheritdoc />
@@ -3012,10 +2949,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "holidays",
-                schema: "public");
-
-            migrationBuilder.DropTable(
-                name: "InboundAppointment",
                 schema: "public");
 
             migrationBuilder.DropTable(

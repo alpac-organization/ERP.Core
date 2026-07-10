@@ -29,7 +29,7 @@ public class RecordEntranceManaguaConfiguration : IEntityTypeConfiguration<Recor
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasConversion<int>()
+            .HasColumnType("status")
             .IsRequired();
 
         builder.Property(e => e.ClosedAt)

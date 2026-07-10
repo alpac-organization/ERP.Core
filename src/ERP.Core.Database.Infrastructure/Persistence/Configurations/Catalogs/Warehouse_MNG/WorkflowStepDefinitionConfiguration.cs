@@ -30,6 +30,14 @@ public class WorkflowStepDefinitionConfiguration : IEntityTypeConfiguration<Work
             .HasColumnName("execution_order")
             .IsRequired();
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
         // Configuración de la relación 1 a muchos con el proceso de entrada
         builder.HasMany(e => e.RecordEntrances)
             .WithOne(r => r.CurrentStep)

@@ -9,11 +9,14 @@ public class EntranceDucatsManaguaConfiguration : IEntityTypeConfiguration<Entra
     public void Configure(EntityTypeBuilder<EntranceDucatsManagua> builder)
     {
         builder.ToTable("entrance_ducats_managua");
+        
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
             .HasColumnName("entrance_ducat_id")
-            .HasDefaultValueSql("gen_random_uuid()");
+            .HasDefaultValueSql("gen_random_uuid()")
+            .ValueGeneratedOnAdd()
+            .IsRequired();
         
         builder.Property(e => e.RecordEntranceManaguaId)
             .HasColumnName("record_entrance_managua_id")

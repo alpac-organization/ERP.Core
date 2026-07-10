@@ -14,6 +14,7 @@ CREATE TYPE public.deduction_type_enum AS ENUM ('loans', 'advance_christmas_bonu
 CREATE TYPE public.gender_type_enum AS ENUM ('man', 'women');
 CREATE TYPE public.identification_type_enum AS ENUM ('cedula', 'pasaporte', 'cedula_residencia');
 CREATE TYPE public.marital_status_enum AS ENUM ('none', 'single', 'married', 'divorced', 'widowed', 'domestic_partner', 'separated', 'other');
+CREATE TYPE public.oss_status_enum AS ENUM ('pending', 'in_progress', 'completed', 'canceled');
 CREATE TYPE public.payroll_period_enum AS ENUM ('first_period', 'second_period');
 CREATE TYPE public.payroll_status_enum AS ENUM ('progress', 'closed', 'cancelled', 'completed');
 CREATE TYPE public.payroll_type_enum AS ENUM ('none', 'ordinary', 'provided', 'professional_services');
@@ -33,10 +34,11 @@ CREATE TABLE public.category_products (
     name character varying(100) NOT NULL,
     code character varying(500),
     is_active boolean NOT NULL DEFAULT TRUE,
-    "ParentId" uuid,
-    "DeletedAt" timestamp with time zone,
+    parent_id uuid,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_category_products" PRIMARY KEY (category_product_id),
-    CONSTRAINT "FK_category_products_category_products_ParentId" FOREIGN KEY ("ParentId") REFERENCES public.category_products (category_product_id) ON DELETE RESTRICT
+    CONSTRAINT "FK_category_products_category_products_parent_id" FOREIGN KEY (parent_id) REFERENCES public.category_products (category_product_id) ON DELETE RESTRICT
 );
 
 CREATE TABLE public.companies (
@@ -58,13 +60,14 @@ CREATE TABLE public.customer_types (
     code character varying(20) NOT NULL,
     name character varying(100) NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
-    "DeletedAt" timestamp with time zone,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_customer_types" PRIMARY KEY (customer_type_id)
 );
 
 CREATE TABLE public.holidays (
     holiday_id uuid NOT NULL DEFAULT (gen_random_uuid()),
-    "BranchId" uuid,
+    branch_id uuid,
     holiday_name text NOT NULL,
     description text NOT NULL,
     day integer NOT NULL,
@@ -93,7 +96,7 @@ CREATE TABLE public.roles (
     role_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     role_name character varying(180) NOT NULL,
     description text,
-    "role_type_Enum" integer NOT NULL,
+    role_type role_type_enum NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_roles" PRIMARY KEY (role_id)
@@ -128,7 +131,7 @@ CREATE TABLE public.users (
     fullname text NOT NULL,
     password_hash text NOT NULL,
     identification_number text NOT NULL,
-    "AreaId" integer NOT NULL,
+    area_id integer NOT NULL,
     user_type user_type_enum NOT NULL,
     user_status user_status_enum NOT NULL,
     deleted_at timestamp with time zone,
@@ -144,7 +147,7 @@ CREATE TABLE public.validity_deductions (
     value numeric(18,4) NOT NULL,
     title_tax text,
     description text,
-    "Type" integer NOT NULL,
+    tax_type tax_type_enum NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_validity_deductions" PRIMARY KEY (validity_deduction_id)
@@ -155,7 +158,8 @@ CREATE TABLE public.workflow_step_definitions (
     code character varying(50) NOT NULL,
     name character varying(100) NOT NULL,
     execution_order integer NOT NULL,
-    "DeletedAt" timestamp with time zone,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_workflow_step_definitions" PRIMARY KEY (id)
 );
 
@@ -220,11 +224,11 @@ CREATE TABLE public.job_positions (
     is_active boolean NOT NULL DEFAULT TRUE,
     description character varying(150),
     job_position_name character varying(100) NOT NULL,
-    "CompanyId" uuid NOT NULL,
+    company_id uuid NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_job_positions" PRIMARY KEY (job_position_id),
-    CONSTRAINT "FK_job_positions_companies_CompanyId" FOREIGN KEY ("CompanyId") REFERENCES public.companies (company_id) ON DELETE RESTRICT
+    CONSTRAINT "FK_job_positions_companies_company_id" FOREIGN KEY (company_id) REFERENCES public.companies (company_id) ON DELETE RESTRICT
 );
 
 CREATE TABLE public.locations (
@@ -255,7 +259,7 @@ CREATE TABLE public.types_accounting_payroll (
     type_income_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     is_active boolean NOT NULL DEFAULT TRUE,
     description text NOT NULL,
-    "accounting_payroll_name " text,
+    accounting_payroll_name text,
     accounting_payroll_code text NOT NULL,
     does_generate_seniority boolean NOT NULL,
     company_id uuid NOT NULL,
@@ -268,7 +272,7 @@ CREATE TABLE public.types_accounting_payroll (
 CREATE TABLE public.work_areas (
     work_area_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     is_active boolean NOT NULL DEFAULT TRUE,
-    "WorkAreaCode" integer NOT NULL,
+    work_area_code integer NOT NULL,
     description character varying(150),
     work_area_name character varying(100),
     company_id uuid NOT NULL,
@@ -283,7 +287,7 @@ CREATE TABLE public.customers (
     dni_ruc character varying(50) NOT NULL,
     legal_name character varying(150) NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
-    "PictureUrl" text,
+    picture_url text NOT NULL,
     customer_type_id uuid NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
@@ -309,7 +313,7 @@ CREATE TABLE public.sessions (
     device text,
     ip_address text,
     refresh_token text NOT NULL,
-    "IsActive" boolean NOT NULL,
+    is_active boolean NOT NULL,
     company_code text NOT NULL,
     expires_at timestamp with time zone NOT NULL,
     deleted_at timestamp with time zone,
@@ -332,7 +336,7 @@ CREATE TABLE public.users_profiles (
 
 CREATE TABLE public.payrolls (
     payroll_id uuid NOT NULL DEFAULT (gen_random_uuid()),
-    payroll_period integer NOT NULL,
+    payroll_period payroll_period_enum NOT NULL,
     payroll_type payroll_type_enum NOT NULL,
     payroll_status payroll_status_enum NOT NULL,
     end_date date NOT NULL,
@@ -427,7 +431,7 @@ CREATE TABLE public.deductions (
 CREATE TABLE public.permit_applications_pending (
     permit_application_pending_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     collaborator_id uuid NOT NULL,
-    "IsActive" boolean NOT NULL,
+    is_active boolean NOT NULL,
     description text,
     start_date date NOT NULL,
     end_date date NOT NULL,
@@ -486,18 +490,6 @@ CREATE TABLE public.cost_centers (
     CONSTRAINT "FK_cost_centers_work_areas_work_area_id" FOREIGN KEY (work_area_id) REFERENCES public.work_areas (work_area_id) ON DELETE RESTRICT
 );
 
-CREATE TABLE public."InboundAppointment" (
-    "Id" uuid NOT NULL,
-    "RequestCode" integer NOT NULL,
-    "GeneratedBy" text,
-    "QrCodeCreationDate" date NOT NULL,
-    "Status" integer NOT NULL,
-    "CustomerId" uuid NOT NULL,
-    "DeletedAt" timestamp with time zone,
-    CONSTRAINT "PK_InboundAppointment" PRIMARY KEY ("Id"),
-    CONSTRAINT "FK_InboundAppointment_customers_CustomerId" FOREIGN KEY ("CustomerId") REFERENCES public.customers (customer_id) ON DELETE CASCADE
-);
-
 CREATE TABLE public.products (
     product_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     product_sku character varying(50) NOT NULL,
@@ -515,19 +507,14 @@ CREATE TABLE public.products (
 );
 
 CREATE TABLE public.service_orders (
-    os_id uuid NOT NULL DEFAULT (gen_random_uuid()),
+    service_order_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     code character varying(50) NOT NULL,
-    "IsCreatedFromPortal" boolean NOT NULL,
-    status integer NOT NULL,
+    oos_status oss_status_enum NOT NULL,
     observations character varying(500),
-    branch_id uuid NOT NULL,
-    customer_id uuid,
-    "CompanyId" uuid,
+    customer_id uuid NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    CONSTRAINT "PK_service_orders" PRIMARY KEY (os_id),
-    CONSTRAINT "FK_service_orders_branches_branch_id" FOREIGN KEY (branch_id) REFERENCES public.branches (branch_id) ON DELETE RESTRICT,
-    CONSTRAINT "FK_service_orders_companies_CompanyId" FOREIGN KEY ("CompanyId") REFERENCES public.companies (company_id),
+    CONSTRAINT "PK_service_orders" PRIMARY KEY (service_order_id),
     CONSTRAINT "FK_service_orders_customers_customer_id" FOREIGN KEY (customer_id) REFERENCES public.customers (customer_id) ON DELETE RESTRICT
 );
 
@@ -568,6 +555,8 @@ CREATE TABLE public.income_tax_accrual (
     accumulated_seniority numeric(18,2) NOT NULL,
     accumulated_ir_by_fornight numeric(18,2) NOT NULL,
     salary_earned_by_fornight numeric(18,2) NOT NULL,
+    accumulated_ir_monthly numeric(18,2) NOT NULL,
+    salary_earned_monthly numeric(18,2) NOT NULL,
     flag_salary_earned numeric(18,2) NOT NULL,
     flag_accumulated_ir numeric(18,2) NOT NULL,
     number_of_fortnights integer NOT NULL,
@@ -639,7 +628,7 @@ CREATE TABLE public.ordinary_payrolls (
     ir numeric(18,2) NOT NULL,
     inss numeric(18,2) NOT NULL,
     vacations numeric(18,2) NOT NULL,
-    "ChristmasBonus" numeric NOT NULL,
+    christmas_bonus numeric(18,2) NOT NULL,
     total_legal_deductions numeric(18,2) NOT NULL,
     gross_salary numeric(18,2) NOT NULL,
     total_to_pay numeric(18,2) NOT NULL,
@@ -686,7 +675,7 @@ CREATE TABLE public.professional_services_payrolls (
     ir numeric(18,2) NOT NULL,
     inss numeric(18,2) NOT NULL,
     vacations numeric(18,2) NOT NULL,
-    "ChristmasBonus" numeric NOT NULL,
+    christmas_bonus numeric(18,2) NOT NULL,
     total_legal_deductions numeric(18,2) NOT NULL,
     gross_salary numeric(18,2) NOT NULL,
     total_to_pay numeric(18,2) NOT NULL,
@@ -764,7 +753,6 @@ CREATE TABLE public.record_entrances_managua (
 
 CREATE TABLE public.zones_managua (
     id uuid NOT NULL DEFAULT (gen_random_uuid()),
-    warehouse_id uuid NOT NULL,
     code character varying(50) NOT NULL,
     zone_name character varying(150) NOT NULL,
     width_metres numeric(10,2) NOT NULL,
@@ -773,10 +761,10 @@ CREATE TABLE public.zones_managua (
     total_colume_capacity_m3 numeric(12,3) NOT NULL,
     max_weight_capacity_kg numeric(14,2) NOT NULL,
     is_active boolean NOT NULL,
-    "WarehousesId" uuid,
-    "DeletedAt" timestamp with time zone,
+    warehouse_id uuid NOT NULL,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_zones_managua" PRIMARY KEY (id),
-    CONSTRAINT "FK_zones_managua_warehouses_WarehousesId" FOREIGN KEY ("WarehousesId") REFERENCES public.warehouses (warehouse_id),
     CONSTRAINT "FK_zones_managua_warehouses_warehouse_id" FOREIGN KEY (warehouse_id) REFERENCES public.warehouses (warehouse_id) ON DELETE RESTRICT
 );
 
@@ -800,9 +788,9 @@ CREATE TABLE public.work_position_histories (
     work_position_history_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     collaborator_id uuid NOT NULL,
     work_position_id integer NOT NULL,
-    "JobPositionId" uuid NOT NULL,
-    "StartDate" timestamp with time zone NOT NULL,
-    "EndDate" timestamp with time zone,
+    job_position_id uuid NOT NULL,
+    start_date timestamp with time zone NOT NULL,
+    end_date timestamp with time zone,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_work_position_histories" PRIMARY KEY (work_position_history_id),
@@ -893,7 +881,7 @@ CREATE TABLE public.manifest_cancellations_managua (
     record_entrance_managua_id uuid NOT NULL,
     manifest_number character varying(100) NOT NULL,
     container_count integer NOT NULL,
-    "ContainerDimension" text NOT NULL,
+    container_dimension text NOT NULL,
     personal_type character varying(500) NOT NULL,
     customs_officer_signature character varying(250) NOT NULL,
     warehouse_chief_signature character varying(250) NOT NULL,
@@ -901,7 +889,7 @@ CREATE TABLE public.manifest_cancellations_managua (
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_manifest_cancellations_managua" PRIMARY KEY (manifest_cancellation_id),
     CONSTRAINT "FK_manifest_cancellations_managua_record_entrances_managua_rec~" FOREIGN KEY (record_entrance_managua_id) REFERENCES public.record_entrances_managua (record_entrance_managua_id) ON DELETE RESTRICT,
-    CONSTRAINT "FK_manifest_cancellations_managua_service_orders_service_order~" FOREIGN KEY (service_orders_id) REFERENCES public.service_orders (os_id) ON DELETE RESTRICT
+    CONSTRAINT "FK_manifest_cancellations_managua_service_orders_service_order~" FOREIGN KEY (service_orders_id) REFERENCES public.service_orders (service_order_id) ON DELETE RESTRICT
 );
 
 CREATE TABLE public.reception_details_managua (
@@ -963,7 +951,8 @@ CREATE TABLE public.racks_managua (
     is_available boolean NOT NULL DEFAULT TRUE,
     max_weight_kg numeric(12,2) NOT NULL,
     max_height_metres numeric(10,2) NOT NULL,
-    "DeletedAt" timestamp with time zone,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_racks_managua" PRIMARY KEY (racks_id),
     CONSTRAINT "FK_racks_managua_zones_managua_zone_id" FOREIGN KEY (zone_id) REFERENCES public.zones_managua (id) ON DELETE RESTRICT
 );
@@ -975,7 +964,7 @@ CREATE TABLE public.discrepancies_managua (
     found_quantity numeric(18,2) NOT NULL,
     customs_letter_reference character varying(100),
     description character varying(1000) NOT NULL,
-    "IsDamage" boolean NOT NULL,
+    is_damage boolean NOT NULL,
     record_entrance_id uuid NOT NULL,
     entrance_ducats_id uuid NOT NULL,
     "RecordEntranceManaguaId1" uuid,
@@ -1015,7 +1004,7 @@ CREATE TABLE public.stocks_managua (
     current_bultos integer NOT NULL,
     current_weight_kg numeric(18,4) NOT NULL,
     stored_at timestamp with time zone NOT NULL,
-    "RowVersion" bytea NOT NULL,
+    row_version bytea NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_stocks_managua" PRIMARY KEY (stock_id),
@@ -1043,7 +1032,7 @@ CREATE TABLE public.warehouse_assignments_managua (
 );
 
 CREATE TABLE public.unloading_details_managua (
-    unloading_details_managua_id uuid NOT NULL,
+    unloading_details_managua_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     record_entrance_managua_id uuid NOT NULL,
     warehouse_assignments_managua_id uuid NOT NULL,
     unloading_start_time timestamp with time zone NOT NULL,
@@ -1058,18 +1047,19 @@ CREATE TABLE public.unloading_details_managua (
 );
 
 CREATE TABLE public.unloading_crew_assignments_managua (
-    "Id" uuid NOT NULL,
-    unloading_details_managua_id uuid NOT NULL,
+    unloading_details_managua_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     assigned_at timestamp with time zone NOT NULL,
     persona_count integer NOT NULL,
     tercerizada boolean NOT NULL,
-    "DeletedAt" timestamp with time zone,
-    CONSTRAINT "PK_unloading_crew_assignments_managua" PRIMARY KEY ("Id"),
-    CONSTRAINT "FK_unloading_crew_assignments_managua_unloading_details_managu~" FOREIGN KEY (unloading_details_managua_id) REFERENCES public.unloading_details_managua (unloading_details_managua_id) ON DELETE RESTRICT
+    "UnloadingDetailsManaguaId" uuid NOT NULL,
+    deleted_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+    CONSTRAINT "PK_unloading_crew_assignments_managua" PRIMARY KEY (unloading_details_managua_id),
+    CONSTRAINT "FK_unloading_crew_assignments_managua_unloading_details_managu~" FOREIGN KEY ("UnloadingDetailsManaguaId") REFERENCES public.unloading_details_managua (unloading_details_managua_id) ON DELETE RESTRICT
 );
 
 CREATE TABLE public."UnloadingMachineryAssignmentsManagua" (
-    "unloading_machinery_assignment_ id" uuid NOT NULL,
+    unloading_machinery_assignment_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     unloading_details_managua_id uuid NOT NULL,
     machinery_code uuid NOT NULL,
     machinery_type uuid NOT NULL,
@@ -1078,7 +1068,7 @@ CREATE TABLE public."UnloadingMachineryAssignmentsManagua" (
     assigned_by_user_id character varying(450) NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    CONSTRAINT "PK_UnloadingMachineryAssignmentsManagua" PRIMARY KEY ("unloading_machinery_assignment_ id"),
+    CONSTRAINT "PK_UnloadingMachineryAssignmentsManagua" PRIMARY KEY (unloading_machinery_assignment_id),
     CONSTRAINT "FK_UnloadingMachineryAssignmentsManagua_unloading_details_mana~" FOREIGN KEY (unloading_details_managua_id) REFERENCES public.unloading_details_managua (unloading_details_managua_id) ON DELETE RESTRICT
 );
 
@@ -1092,7 +1082,7 @@ CREATE INDEX "IX_branches_company_id" ON public.branches (company_id);
 
 CREATE UNIQUE INDEX "IX_catalogs_company_type" ON public.catalogs (company_id, catalog_name, catalog_type);
 
-CREATE INDEX "IX_category_products_ParentId" ON public.category_products ("ParentId");
+CREATE INDEX "IX_category_products_parent_id" ON public.category_products (parent_id);
 
 CREATE INDEX "IX_christmas_bonus_accruals_payroll_id" ON public.christmas_bonus_accruals (payroll_id);
 
@@ -1150,8 +1140,6 @@ CREATE INDEX "IX_entrance_ducats_managua_record_entrance_managua_id" ON public.e
 
 CREATE UNIQUE INDEX ix_holiday_id ON public.holidays (holiday_id);
 
-CREATE INDEX "IX_InboundAppointment_CustomerId" ON public."InboundAppointment" ("CustomerId");
-
 CREATE INDEX "IX_income_tax_accrual_collaborator_id" ON public.income_tax_accrual (collaborator_id);
 
 CREATE INDEX "IX_income_tax_accrual_payroll_id" ON public.income_tax_accrual (payroll_id);
@@ -1174,7 +1162,7 @@ CREATE UNIQUE INDEX ix_inss_information_id ON public.inss_accounting_information
 
 CREATE UNIQUE INDEX "IX_job_position_id" ON public.job_positions (job_position_id);
 
-CREATE INDEX "IX_job_positions_CompanyId" ON public.job_positions ("CompanyId");
+CREATE INDEX "IX_job_positions_company_id" ON public.job_positions (company_id);
 
 CREATE INDEX ix_location_id ON public.locations (location_id);
 
@@ -1248,13 +1236,9 @@ CREATE UNIQUE INDEX "IX_salaries_collaborator_id" ON public.salaries (collaborat
 
 CREATE UNIQUE INDEX ix_os_code ON public.service_orders (code);
 
-CREATE INDEX "IX_service_orders_branch_id" ON public.service_orders (branch_id);
-
-CREATE INDEX "IX_service_orders_CompanyId" ON public.service_orders ("CompanyId");
-
 CREATE INDEX "IX_service_orders_customer_id" ON public.service_orders (customer_id);
 
-CREATE UNIQUE INDEX "ix_service_orders_id)" ON public.service_orders (os_id);
+CREATE UNIQUE INDEX ix_service_orders_id ON public.service_orders (service_order_id);
 
 CREATE INDEX ix_session_id ON public.sessions (session_id);
 
@@ -1282,7 +1266,7 @@ CREATE INDEX "IX_subsidies_type_subsidy_id" ON public.subsidies (type_subsidy_id
 
 CREATE INDEX "IX_types_accounting_payroll_company_id" ON public.types_accounting_payroll (company_id);
 
-CREATE INDEX "IX_unloading_crew_assignments_managua_unloading_details_managu~" ON public.unloading_crew_assignments_managua (unloading_details_managua_id);
+CREATE INDEX "IX_unloading_crew_assignments_managua_UnloadingDetailsManaguaId" ON public.unloading_crew_assignments_managua ("UnloadingDetailsManaguaId");
 
 CREATE UNIQUE INDEX "IX_unloading_details_managua_record_entrance_managua_id" ON public.unloading_details_managua (record_entrance_managua_id);
 
@@ -1342,10 +1326,8 @@ CREATE INDEX "IX_working_information_work_position_id" ON public.working_informa
 
 CREATE INDEX "IX_zones_managua_warehouse_id" ON public.zones_managua (warehouse_id);
 
-CREATE INDEX "IX_zones_managua_WarehousesId" ON public.zones_managua ("WarehousesId");
-
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20260710173442_InitialMigrations', '9.0.0');
+VALUES ('20260710204033_InitialMigrations', '9.0.0');
 
 COMMIT;
 

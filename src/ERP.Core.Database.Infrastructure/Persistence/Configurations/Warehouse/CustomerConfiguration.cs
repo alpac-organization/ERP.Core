@@ -27,6 +27,10 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(c => c.PictureUrl)
+            .HasColumnName("picture_url")
+            .IsRequired();
+
         builder.HasIndex(c => c.DNI_RUC)
             .IsUnique()
             .HasDatabaseName("ux_customer_dni_ruc");
