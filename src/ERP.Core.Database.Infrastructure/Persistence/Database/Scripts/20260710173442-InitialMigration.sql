@@ -1345,7 +1345,7 @@ CREATE INDEX "IX_zones_managua_warehouse_id" ON public.zones_managua (warehouse_
 CREATE INDEX "IX_zones_managua_WarehousesId" ON public.zones_managua ("WarehousesId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20260710172056_InitialMigrations', '9.0.0');
+VALUES ('20260710173442_InitialMigrations', '9.0.0');
 
 COMMIT;
 
