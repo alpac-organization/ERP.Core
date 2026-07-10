@@ -56,6 +56,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasDefaultValue(0)
                 .IsRequired();
 
+            builder.Property(e => e.PercentAntique)
+                .HasColumnName("percent_antique")
+                .HasDefaultValue(0)
+                .IsRequired();
+
             builder.Property(e => e.Commissions)
                 .HasColumnName("commissions")
                 .HasPrecision(18, 2)
