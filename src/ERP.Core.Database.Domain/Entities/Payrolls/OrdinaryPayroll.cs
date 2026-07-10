@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         
         public decimal Antique { get; set; }
         public int YearAntique { get; set; }
+        public int PercentAntique { get; set; }
         public decimal Bonus { get; set; }
         public decimal Overtime { get; set; }
         public decimal Commissions { get; set; }
