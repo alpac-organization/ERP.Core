@@ -1,6 +1,6 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
-using ERP.Core.Database.Domain.Enums.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
@@ -9,7 +9,7 @@ public class RecordEntranceManagua : BaseEntity<Guid>
     public Guid ServiceOrderId { get; set; }
     public Guid WarehouseId { get; set; }
     public int CurrentStepId { get; set; }
-    public WarehouseMgaStatus Status { get; set; }
+    public RecordEntranceStatus Status { get; set; }
     public DateTime? ClosedAt { get; set; }
 
     public bool IsConsolidated {get; set;} = false;

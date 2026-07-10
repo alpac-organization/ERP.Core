@@ -1,8 +1,9 @@
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Catalogs;
+
+namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs;
 
 public class ZonesManaguaConfiguration : IEntityTypeConfiguration<ZonesManagua>
 {

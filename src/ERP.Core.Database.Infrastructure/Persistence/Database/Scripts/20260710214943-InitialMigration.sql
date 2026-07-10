@@ -8,7 +8,7 @@ START TRANSACTION;
 CREATE TYPE public.catalog_type_enum AS ENUM ('branches', 'work_areas', 'job_positions', 'document_types', 'banks', 'exchange_rates', 'departaments');
 CREATE TYPE public.collaborator_status_enum AS ENUM ('active', 'inactive', 'vacation', 'subsidy', 'suspended', 'terminated', 'testing_process');
 CREATE TYPE public.currency_enum AS ENUM ('nio', 'usd');
-CREATE TYPE public.deduction_payment_status AS ENUM ('paid', 'pending');
+CREATE TYPE public.deduction_payment_status_enum AS ENUM ('paid', 'pending');
 CREATE TYPE public.deduction_status_enum AS ENUM ('progress', 'completed', 'pending', 'canceled');
 CREATE TYPE public.deduction_type_enum AS ENUM ('loans', 'advance_christmas_bonus', 'late_arrivals', 'salary_advance', 'sanction', 'purisima', 'other_deductions');
 CREATE TYPE public.gender_type_enum AS ENUM ('man', 'women');
@@ -21,6 +21,7 @@ CREATE TYPE public.payroll_type_enum AS ENUM ('none', 'ordinary', 'provided', 'p
 CREATE TYPE public.permission_type_enum AS ENUM ('read', 'create', 'update', 'delete');
 CREATE TYPE public.permit_application_status_enum AS ENUM ('pending', 'approved', 'rejected', 'cancelled');
 CREATE TYPE public.permit_application_type_enum AS ENUM ('vacation', 'medical_appointment', 'compensatory_time', 'paid_leave', 'unpaid_leave', 'special_leave', 'donated_vacations', 'vacation_pay');
+CREATE TYPE public.record_entrance_status_enum AS ENUM ('in_tail', 'in_unloading', 'completed', 'abandoned');
 CREATE TYPE public.role_type_enum AS ENUM ('administrator', 'supervisor', 'manager', 'operator');
 CREATE TYPE public.salary_type_enum AS ENUM ('fixed', 'variable', 'professional_services');
 CREATE TYPE public.source_deduction_payment_enum AS ENUM ('payroll', 'cash');
@@ -741,7 +742,7 @@ CREATE TABLE public.record_entrances_managua (
     service_order_id uuid NOT NULL,
     warehouse_id uuid NOT NULL,
     current_step_id integer NOT NULL,
-    status integer NOT NULL,
+    status record_entrance_status_enum NOT NULL,
     closed_at timestamp with time zone NOT NULL,
     is_consolidated boolean NOT NULL,
     deleted_at timestamp with time zone,
@@ -828,7 +829,7 @@ CREATE TABLE public.deductions_payment_histories (
     currency currency_enum NOT NULL,
     amount_paid numeric(18,2) NOT NULL,
     amount_paid_in_dollars numeric(18,2) NOT NULL,
-    status deduction_payment_status NOT NULL,
+    status deduction_payment_status_enum NOT NULL,
     origin source_deduction_payment_enum NOT NULL,
     payroll_id uuid NOT NULL,
     deduction_id uuid NOT NULL,
@@ -867,8 +868,8 @@ CREATE TABLE public.ducat_registry_managua (
 
 CREATE TABLE public.entrance_ducats_managua (
     entrance_ducat_id uuid NOT NULL DEFAULT (gen_random_uuid()),
-    record_entrance_managua_id uuid NOT NULL,
     ducat_number character varying(100) NOT NULL,
+    record_entrance_managua_id uuid NOT NULL,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_entrance_ducats_managua" PRIMARY KEY (entrance_ducat_id),
@@ -967,10 +968,12 @@ CREATE TABLE public.discrepancies_managua (
     is_damage boolean NOT NULL,
     record_entrance_id uuid NOT NULL,
     entrance_ducats_id uuid NOT NULL,
+    "EntranceDucatsManaguaId1" uuid,
     "RecordEntranceManaguaId1" uuid,
     deleted_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     CONSTRAINT "PK_discrepancies_managua" PRIMARY KEY (discrepancy_id),
+    CONSTRAINT "FK_discrepancies_managua_entrance_ducats_managua_EntranceDucat~" FOREIGN KEY ("EntranceDucatsManaguaId1") REFERENCES public.entrance_ducats_managua (entrance_ducat_id),
     CONSTRAINT "FK_discrepancies_managua_entrance_ducats_managua_entrance_duca~" FOREIGN KEY (entrance_ducats_id) REFERENCES public.entrance_ducats_managua (entrance_ducat_id) ON DELETE RESTRICT,
     CONSTRAINT "FK_discrepancies_managua_record_entrances_managua_RecordEntran~" FOREIGN KEY ("RecordEntranceManaguaId1") REFERENCES public.record_entrances_managua (record_entrance_managua_id),
     CONSTRAINT "FK_discrepancies_managua_record_entrances_managua_record_entra~" FOREIGN KEY (record_entrance_id) REFERENCES public.record_entrances_managua (record_entrance_managua_id) ON DELETE RESTRICT
@@ -1121,6 +1124,8 @@ CREATE INDEX "IX_deductions_payment_histories_payroll_id" ON public.deductions_p
 CREATE UNIQUE INDEX ix_payment_id ON public.deductions_payment_histories (payment_history_id);
 
 CREATE INDEX "IX_discrepancies_managua_entrance_ducats_id" ON public.discrepancies_managua (entrance_ducats_id);
+
+CREATE UNIQUE INDEX "IX_discrepancies_managua_EntranceDucatsManaguaId1" ON public.discrepancies_managua ("EntranceDucatsManaguaId1");
 
 CREATE INDEX "IX_discrepancies_managua_record_entrance_id" ON public.discrepancies_managua (record_entrance_id);
 
@@ -1327,7 +1332,7 @@ CREATE INDEX "IX_working_information_work_position_id" ON public.working_informa
 CREATE INDEX "IX_zones_managua_warehouse_id" ON public.zones_managua (warehouse_id);
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20260710204033_InitialMigrations', '9.0.0');
+VALUES ('20260710214943_InitialMigrations', '9.0.0');
 
 COMMIT;
 

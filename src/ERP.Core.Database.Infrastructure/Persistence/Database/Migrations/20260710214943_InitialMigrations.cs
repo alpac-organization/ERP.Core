@@ -19,7 +19,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .Annotation("Npgsql:Enum:public.currency_enum", "nio,usd")
-                .Annotation("Npgsql:Enum:public.deduction_payment_status", "paid,pending")
+                .Annotation("Npgsql:Enum:public.deduction_payment_status_enum", "paid,pending")
                 .Annotation("Npgsql:Enum:public.deduction_status_enum", "progress,completed,pending,canceled")
                 .Annotation("Npgsql:Enum:public.deduction_type_enum", "loans,advance_christmas_bonus,late_arrivals,salary_advance,sanction,purisima,other_deductions")
                 .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
@@ -32,6 +32,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.permission_type_enum", "read,create,update,delete")
                 .Annotation("Npgsql:Enum:public.permit_application_status_enum", "pending,approved,rejected,cancelled")
                 .Annotation("Npgsql:Enum:public.permit_application_type_enum", "vacation,medical_appointment,compensatory_time,paid_leave,unpaid_leave,special_leave,donated_vacations,vacation_pay")
+                .Annotation("Npgsql:Enum:public.record_entrance_status_enum", "in_tail,in_unloading,completed,abandoned")
                 .Annotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
                 .Annotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
                 .Annotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
@@ -1392,7 +1393,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     service_order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     warehouse_id = table.Column<Guid>(type: "uuid", nullable: false),
                     current_step_id = table.Column<int>(type: "integer", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<int>(type: "record_entrance_status_enum", nullable: false),
                     closed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_consolidated = table.Column<bool>(type: "boolean", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -1580,7 +1581,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     currency = table.Column<int>(type: "currency_enum", nullable: false),
                     amount_paid = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     amount_paid_in_dollars = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    status = table.Column<int>(type: "deduction_payment_status", nullable: false),
+                    status = table.Column<int>(type: "deduction_payment_status_enum", nullable: false),
                     origin = table.Column<int>(type: "source_deduction_payment_enum", nullable: false),
                     payroll_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deduction_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -1664,8 +1665,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     entrance_ducat_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    record_entrance_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     ducat_number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    record_entrance_managua_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -1854,6 +1855,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     is_damage = table.Column<bool>(type: "boolean", nullable: false),
                     record_entrance_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entrance_ducats_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EntranceDucatsManaguaId1 = table.Column<Guid>(type: "uuid", nullable: true),
                     RecordEntranceManaguaId1 = table.Column<Guid>(type: "uuid", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -1861,6 +1863,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_discrepancies_managua", x => x.discrepancy_id);
+                    table.ForeignKey(
+                        name: "FK_discrepancies_managua_entrance_ducats_managua_EntranceDucat~",
+                        column: x => x.EntranceDucatsManaguaId1,
+                        principalSchema: "public",
+                        principalTable: "entrance_ducats_managua",
+                        principalColumn: "entrance_ducat_id");
                     table.ForeignKey(
                         name: "FK_discrepancies_managua_entrance_ducats_managua_entrance_duca~",
                         column: x => x.entrance_ducats_id,
@@ -2271,6 +2279,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "discrepancies_managua",
                 column: "entrance_ducats_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_discrepancies_managua_EntranceDucatsManaguaId1",
+                schema: "public",
+                table: "discrepancies_managua",
+                column: "EntranceDucatsManaguaId1",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_discrepancies_managua_record_entrance_id",

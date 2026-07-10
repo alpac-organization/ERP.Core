@@ -1,6 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCorinto;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -16,7 +15,4 @@ public class Customer : BaseEntity<Guid>
 
     public virtual ICollection<Products> Products { get; set; } = [];
     public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
-
-    //Codigos QR Generados para que este cliente acceda.
-    public virtual ICollection<InboundAppointment> InboundAppointments { get; set; } = [];
 }
