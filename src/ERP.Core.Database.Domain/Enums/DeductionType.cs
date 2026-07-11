@@ -8,6 +8,7 @@ namespace ERP.Core.Database.Domain.Enums
         SalaryAdvance = 4, // Adelato de salario
         Sanction = 5, //Sanciones
         Purisima = 6, //Celebración de la purisima
-        OtherDeductions  = 7  //Otras deducciones,
+        OtherDeductions  = 7,  //Otras deducciones,
+        JudicialSeizures = 8
     }
 }
