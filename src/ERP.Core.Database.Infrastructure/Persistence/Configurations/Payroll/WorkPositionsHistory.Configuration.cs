@@ -21,19 +21,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.WorkPositionId)
                 .HasColumnName("work_position_id")
                 .IsRequired();
-
-            builder.HasOne(d => d.WorkPosition)
-                .WithMany()
-                .HasForeignKey(d => d.WorkPositionId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+                
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
-            builder.Property(e => e.CreatedAt)
-                .HasColumnName("created_at")
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.JobPositionId)
+                .HasColumnName("job_position_id")
+                .IsRequired();
+
+            builder.Property(e => e.StartDate)
+                .HasColumnName("start_date")
+                .IsRequired();
+
+            builder.Property(e => e.EndDate)
+                .HasColumnName("end_date")
+                .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -47,6 +50,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .WithMany(s => s.WorkPositionHistory)
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Cascade); 
+
+            builder.HasOne(d => d.WorkPosition)
+                .WithMany()
+                .HasForeignKey(d => d.WorkPositionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

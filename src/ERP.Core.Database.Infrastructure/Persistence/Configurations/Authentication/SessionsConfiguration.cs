@@ -34,6 +34,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("device")
                 .ValueGeneratedNever();
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .ValueGeneratedNever();
+
             builder.Property(e => e.CompanyCode)
                 .HasColumnName("company_code")
                 .IsRequired();

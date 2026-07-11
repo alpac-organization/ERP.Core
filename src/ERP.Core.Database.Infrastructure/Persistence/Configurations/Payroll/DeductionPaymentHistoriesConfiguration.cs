@@ -44,7 +44,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.Status)
                 .HasColumnName("status")
-                .HasColumnType("deduction_payment_status")
+                .HasColumnType("deduction_payment_status_enum")
                 .IsRequired();
 
             builder.Property(e => e.PaymentDate)

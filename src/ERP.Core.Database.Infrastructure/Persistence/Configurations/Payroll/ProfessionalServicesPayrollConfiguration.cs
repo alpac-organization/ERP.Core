@@ -50,10 +50,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("vacations")
                 .HasPrecision(18, 2);
 
+            builder.Property(e => e.ChristmasBonus)
+                .HasColumnName("christmas_bonus")
+                .HasPrecision(18, 2);
+
             builder.Property(e => e.VigemsaAdditionalData)
                 .HasColumnName("vigemsa_additional_data")
                 .HasColumnType("jsonb");
-
 
             builder.Property(e => e.TotalToPay)
                 .HasColumnName("total_to_pay")

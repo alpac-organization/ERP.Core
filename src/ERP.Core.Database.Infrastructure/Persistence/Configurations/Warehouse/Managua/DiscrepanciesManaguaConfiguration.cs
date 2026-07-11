@@ -22,6 +22,10 @@ public class DiscrepanciesManaguaConfiguration : IEntityTypeConfiguration<Discre
         builder.Property(e => e.RecordEntranceManaguaId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
+
+        builder.Property(e => e.IsDamage)
+            .HasColumnName("is_damage")
+            .IsRequired();
         
         builder.Property(e => e.EntranceDucatsManaguaId)
             .HasColumnName("entrance_ducats_id")
@@ -60,7 +64,6 @@ public class DiscrepanciesManaguaConfiguration : IEntityTypeConfiguration<Discre
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-
 
         builder.HasOne(e => e.RecordEntranceManagua)
             .WithMany()

@@ -48,6 +48,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.IndemnificationValue)
+                .HasColumnName("indemnification_value")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.IndemnificationYears)
+                .HasColumnName("indemnification_years")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id")
                 .IsRequired();

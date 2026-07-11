@@ -19,20 +19,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .IsRequired();
 
             builder.Property(e => e.UserName)
-                .IsRequired()
-                .HasColumnName("user_name");
+                .HasColumnName("user_name")
+                .IsRequired();
 
             builder.Property(e => e.Fullname)
-                .IsRequired()
-                .HasColumnName("fullname");
+                .HasColumnName("fullname")
+                .IsRequired();
 
             builder.Property(e => e.Email)
-                .IsRequired()
-                .HasColumnName("email");
+                .HasColumnName("email")
+                .IsRequired();
 
+            builder.Property(e => e.AreaId)
+                .HasColumnName("area_id");
+                
             builder.Property(e => e.IdentificationNumber)
-                .IsRequired()
-                .HasColumnName("identification_number");
+                .HasColumnName("identification_number")
+                .IsRequired();
 
             builder.Property(u => u.UserType)
                 .HasColumnName("user_type")

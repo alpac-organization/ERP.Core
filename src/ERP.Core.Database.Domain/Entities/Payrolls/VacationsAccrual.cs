@@ -19,6 +19,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         //Cantidad equivalente en dolares
         public decimal EquivalentQuantityInDollars { get; set; }
 
+        public decimal IndemnificationYears { get; set; }
+        
+        public decimal IndemnificationValue { get; set; }
+
         public Guid CollaboratorId { get; set; }
         public virtual Collaborator Collaborator { get; set; } = default!;
 

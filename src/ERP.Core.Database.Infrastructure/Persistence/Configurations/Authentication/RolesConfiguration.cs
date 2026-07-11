@@ -28,7 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
 
             builder.Property(e => e.RoleType)
                 .HasColumnName("role_type")
-                .HasColumnName("role_type_Enum")
+                .HasColumnType("role_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)

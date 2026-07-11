@@ -26,6 +26,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("holiday_name")
                 .IsRequired();
 
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired(false);
+
             builder.Property(e => e.Day)
                 .HasColumnName("day")
                 .IsRequired();

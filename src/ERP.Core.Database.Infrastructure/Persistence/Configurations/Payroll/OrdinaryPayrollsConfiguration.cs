@@ -56,8 +56,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasDefaultValue(0)
                 .IsRequired();
 
+            builder.Property(e => e.PercentAntique)
+                .HasColumnName("percent_antique")
+                .HasDefaultValue(0)
+                .IsRequired();
+
             builder.Property(e => e.Commissions)
                 .HasColumnName("commissions")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.ChristmasBonus)
+                .HasColumnName("christmas_bonus")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
@@ -129,6 +139,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.TotalToPay)
                 .HasColumnName("total_to_pay")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            builder.Property(e => e.HolidayPay)
+                .HasColumnName("holiday_pay")
+                .HasPrecision(18, 2)
+                .IsRequired();
+                
+            builder.Property(e => e.NumberOfHolidays)
+                .HasColumnName("number_of_holidays")
                 .HasPrecision(18, 2)
                 .IsRequired();
 

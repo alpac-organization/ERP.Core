@@ -26,6 +26,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("work_area_name")
                 .HasMaxLength(100);
 
+            builder.Property(e => e.WorkAreaCode)
+                .HasColumnName("work_area_code")
+                .HasMaxLength(100);
+
             builder.Property(e => e.Description)
                 .HasColumnName("description")
                 .HasMaxLength(150);

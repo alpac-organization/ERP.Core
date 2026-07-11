@@ -1,5 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Catalogs.Warehouse_MNG;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 

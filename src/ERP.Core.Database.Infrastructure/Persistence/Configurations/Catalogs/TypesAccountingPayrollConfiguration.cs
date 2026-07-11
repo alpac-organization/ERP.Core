@@ -27,7 +27,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .IsRequired();
 
             builder.Property(e => e.AccountingPayrollName)
-                .HasColumnName("accounting_payroll_name ")
+                .HasColumnName("accounting_payroll_name")
                 .IsRequired(false);
 
             builder.Property(e => e.Description)
@@ -48,14 +48,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
 
             builder.HasOne(c => c.Company)
                 .WithMany(s => s.TypesAccountingPayroll)
                 .HasForeignKey(s => s.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Property(e => e.DeletedAt)
-                .HasColumnName("deleted_at");
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Factory
 {
@@ -17,7 +18,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Factory
 
             var connection = configuration.GetConnectionString("ErpConnectionDatabase");
 
-            var optionsBuilder = new DbContextOptionsBuilder<ErpDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<ErpDbContext>()
+            .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
 
             optionsBuilder.UseNpgsql(connection);
 

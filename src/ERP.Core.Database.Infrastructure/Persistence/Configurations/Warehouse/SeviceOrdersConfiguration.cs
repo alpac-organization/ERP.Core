@@ -13,14 +13,14 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("os_id")
+            .HasColumnName("service_order_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();
 
         builder.HasIndex(e => e.Id)
             .IsUnique()
-            .HasDatabaseName("ix_service_orders_id)");
+            .HasDatabaseName("ix_service_orders_id");
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
@@ -28,21 +28,17 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
             .IsRequired();
 
         builder.Property(e => e.Status)
-            .HasColumnName("status")
-            .HasConversion<int>()
+            .HasColumnName("oos_status")
+            .HasColumnType("oss_status_enum")
             .IsRequired();
 
         builder.Property(e => e.Observations)
             .HasColumnName("observations")
             .HasMaxLength(500);
 
-        builder.Property(e => e.BranchId)
-            .HasColumnName("branch_id")
-            .IsRequired();
-
         builder.Property(e => e.CustomerId)
             .HasColumnName("customer_id")
-            .IsRequired(false);
+            .IsRequired();
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
@@ -55,11 +51,6 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
         builder.HasIndex(e => e.Code)
             .IsUnique()
             .HasDatabaseName("ix_os_code");
-
-        builder.HasOne(e => e.Branch)
-            .WithMany()
-            .HasForeignKey(e => e.BranchId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.Customer)
             .WithMany(e => e.ServiceOrders)

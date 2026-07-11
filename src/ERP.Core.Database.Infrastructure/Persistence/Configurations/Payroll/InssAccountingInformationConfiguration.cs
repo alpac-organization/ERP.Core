@@ -51,14 +51,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsRequired();
 
             builder.Property(e => e.Income)
-            .HasPrecision(18, 2)
-            .HasColumnName("income")
-            .IsRequired();
+                .HasPrecision(18, 2)
+                .HasColumnName("income")
+                .IsRequired();
 
             builder.Property(e => e.Total)
-            .HasPrecision(18, 2)
-            .HasColumnName("total")
-            .IsRequired();
+                .HasPrecision(18, 2)
+                .HasColumnName("total")
+                .IsRequired();
 
             builder.Property(e => e.Absence)
                 .HasPrecision(18, 2)

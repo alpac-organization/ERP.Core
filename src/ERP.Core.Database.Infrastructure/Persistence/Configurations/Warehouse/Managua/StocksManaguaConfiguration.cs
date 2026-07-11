@@ -30,7 +30,11 @@ public class StocksManaguaConfiguration : IEntityTypeConfiguration<StocksManagua
         builder.Property(e => e.RacksManaguaId)
             .HasColumnName("racks_managua_id")
             .IsRequired();
-        
+
+        builder.Property(e => e.RowVersion)
+            .HasColumnName("row_version")
+            .IsRequired();
+
         builder.Property(e => e.CategoryProductId)
             .HasColumnName("category_product_id")
             .IsRequired();
