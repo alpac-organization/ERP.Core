@@ -142,6 +142,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.HolidayPay)
+                .HasColumnName("holiday_pay")
+                .HasPrecision(18, 2)
+                .IsRequired();
+                
+            builder.Property(e => e.NumberOfHolidays)
+                .HasColumnName("number_of_holidays")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id")
                 .IsRequired();

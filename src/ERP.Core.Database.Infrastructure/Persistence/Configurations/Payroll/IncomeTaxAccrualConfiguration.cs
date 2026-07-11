@@ -48,12 +48,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.AccumulatedIrMonthly)
                 .HasColumnName("accumulated_ir_monthly")
                 .HasPrecision(18, 2)
-                .IsRequired();
+                .IsRequired(false);
             
             builder.Property(e => e.SalaryEarnedMonthly)
                 .HasColumnName("salary_earned_monthly")
                 .HasPrecision(18, 2)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.NumberOfFortnights)
                 .HasColumnName("number_of_fortnights")

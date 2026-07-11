@@ -42,6 +42,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.Currency)
                 .HasColumnName("currency")
+                .HasColumnType("currency_enum")
                 .IsRequired();
 
             builder.Property(e => e.PayrollId)

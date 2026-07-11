@@ -390,7 +390,7 @@ CREATE TABLE public.assigned_travel_expenses (
     assigned_travel_expense_id uuid NOT NULL DEFAULT (gen_random_uuid()),
     amount_in_dollars numeric(18,2) NOT NULL,
     amount_in_local_currency numeric(18,2) NOT NULL,
-    currency integer NOT NULL,
+    currency currency_enum NOT NULL,
     collaborator_id uuid NOT NULL,
     type_income_id uuid NOT NULL,
     start_date timestamp with time zone NOT NULL,
@@ -556,8 +556,8 @@ CREATE TABLE public.income_tax_accrual (
     accumulated_seniority numeric(18,2) NOT NULL,
     accumulated_ir_by_fornight numeric(18,2) NOT NULL,
     salary_earned_by_fornight numeric(18,2) NOT NULL,
-    accumulated_ir_monthly numeric(18,2) NOT NULL,
-    salary_earned_monthly numeric(18,2) NOT NULL,
+    accumulated_ir_monthly numeric(18,2),
+    salary_earned_monthly numeric(18,2),
     flag_salary_earned numeric(18,2) NOT NULL,
     flag_accumulated_ir numeric(18,2) NOT NULL,
     number_of_fortnights integer NOT NULL,
@@ -576,7 +576,7 @@ CREATE TABLE public.incomes (
     amount_in_local numeric(18,2) NOT NULL,
     amount_in_dollars numeric(18,2) NOT NULL,
     description text NOT NULL,
-    currency integer NOT NULL,
+    currency currency_enum NOT NULL,
     collaborator_id uuid NOT NULL,
     income_type_id uuid NOT NULL,
     payroll_id uuid NOT NULL,
@@ -614,6 +614,8 @@ CREATE TABLE public.ordinary_payrolls (
     antique numeric(18,2) NOT NULL,
     year_antique integer NOT NULL DEFAULT 0,
     percent_antique integer NOT NULL DEFAULT 0,
+    holiday_pay numeric(18,2) NOT NULL,
+    number_of_holidays numeric(18,2) NOT NULL,
     bonus numeric(18,2) NOT NULL,
     overtimes numeric(18,2) NOT NULL,
     commissions numeric(18,2) NOT NULL,
@@ -728,6 +730,8 @@ CREATE TABLE public.vacations_accruals (
     available_vacations numeric(18,2) NOT NULL,
     equivalent_quantity numeric(18,2) NOT NULL,
     equivalent_quantity_in_dollars numeric(18,2) NOT NULL,
+    indemnification_years numeric(18,2) NOT NULL,
+    indemnification_value numeric(18,2) NOT NULL,
     collaborator_id uuid NOT NULL,
     payroll_id uuid NOT NULL,
     deleted_at timestamp with time zone,
@@ -1332,7 +1336,7 @@ CREATE INDEX "IX_working_information_work_position_id" ON public.working_informa
 CREATE INDEX "IX_zones_managua_warehouse_id" ON public.zones_managua (warehouse_id);
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20260710214943_InitialMigrations', '9.0.0');
+VALUES ('20260711001227_InitialMigrations', '9.0.0');
 
 COMMIT;
 

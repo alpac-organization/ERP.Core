@@ -1191,7 +1191,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("Currency")
-                        .HasColumnType("integer")
+                        .HasColumnType("currency_enum")
                         .HasColumnName("currency");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -1691,7 +1691,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("Currency")
-                        .HasColumnType("integer")
+                        .HasColumnType("currency_enum")
                         .HasColumnName("currency");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -1744,7 +1744,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("accumulated_ir_by_fornight");
 
-                    b.Property<decimal>("AccumulatedIrMonthly")
+                    b.Property<decimal?>("AccumulatedIrMonthly")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("accumulated_ir_monthly");
@@ -1800,7 +1800,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("salary_earned_by_fornight");
 
-                    b.Property<decimal>("SalaryEarnedMonthly")
+                    b.Property<decimal?>("SalaryEarnedMonthly")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("salary_earned_monthly");
@@ -1960,6 +1960,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("gross_salary");
 
+                    b.Property<decimal>("HolidayPay")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("holiday_pay");
+
                     b.Property<decimal>("Inss")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -1974,6 +1979,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("lodging");
+
+                    b.Property<decimal>("NumberOfHolidays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("number_of_holidays");
 
                     b.Property<decimal>("NumberOvertime")
                         .HasPrecision(18, 2)
@@ -2902,6 +2912,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("final_balance");
+
+                    b.Property<decimal>("IndemnificationValue")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("indemnification_value");
+
+                    b.Property<decimal>("IndemnificationYears")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("indemnification_years");
 
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
