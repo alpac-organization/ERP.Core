@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregarRefactorTablaClientes : Migration
+    public partial class AgregarConfiguracionClientes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -105,7 +105,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "customers",
                 type: "identification_type_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'cedula'::identification_type_enum");
 
             migrationBuilder.CreateIndex(
                 name: "ix_customer_cif_unique_code",

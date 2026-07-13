@@ -10,16 +10,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Factory
     {
         public ErpDbContext CreateDbContext(string[] args)
         {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddEnvironmentVariables()
-            .Build();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
 
             var connection = configuration.GetConnectionString("ErpConnectionDatabase");
 
             var optionsBuilder = new DbContextOptionsBuilder<ErpDbContext>()
-            .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+                .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
 
             optionsBuilder.UseNpgsql(connection);
 
