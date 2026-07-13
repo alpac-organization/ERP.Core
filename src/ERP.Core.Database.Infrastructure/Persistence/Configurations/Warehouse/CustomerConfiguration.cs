@@ -18,22 +18,13 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.HasIndex(c => c.Id)
-            .IsUnique()
-            .HasDatabaseName("ix_customer_id");
-
-        builder.Property(c => c.DNI_RUC)
-            .HasColumnName("dni_ruc")
-            .HasMaxLength(50)
+        builder.Property(c => c.Cif)
+            .HasColumnName("cif")
             .IsRequired();
 
         builder.Property(c => c.PictureUrl)
             .HasColumnName("picture_url")
             .IsRequired();
-
-        builder.HasIndex(c => c.DNI_RUC)
-            .IsUnique()
-            .HasDatabaseName("ux_customer_dni_ruc");
 
         builder.Property(c => c.LegalName)
             .HasColumnName("legal_name")
@@ -45,8 +36,17 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(c => c.IdentificationType)
+            .HasColumnName("identification_type")
+            .HasColumnType("identification_type_enum")
+            .IsRequired();
+
         builder.Property(c => c.CustomerTypeId)
             .HasColumnName("customer_type_id")
+            .IsRequired();
+
+        builder.Property(c => c.CompanyId)
+            .HasColumnName("company_id")
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
@@ -62,5 +62,18 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasForeignKey(c => c.CustomerTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
+
+        builder.HasOne(c => c.Company)
+            .WithMany(t => t.Customers)
+            .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(c => c.IdentificationNumber)
+            .HasDatabaseName("ux_customer_identification")
+            .IsUnique();
+
+        builder.HasIndex(c => c.IdentificationNumber)
+            .HasDatabaseName("ix_customer_cif_unique_code")
+            .IsUnique();
     }
 }
