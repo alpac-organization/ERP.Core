@@ -1,4 +1,4 @@
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

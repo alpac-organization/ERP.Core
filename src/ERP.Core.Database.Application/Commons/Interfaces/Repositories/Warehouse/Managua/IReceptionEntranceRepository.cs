@@ -1,4 +1,4 @@
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
 

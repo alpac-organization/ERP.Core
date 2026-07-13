@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260713224757_CambioNombreTablaWarehouse")]
-    partial class CambioNombreTablaWarehouse
+    [Migration("20260713232047_CambioDeNombreTablaWarehouse")]
+    partial class CambioDeNombreTablaWarehouse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions", "judicial_seizures" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "oss_status_enum", new[] { "pending", "in_progress", "completed", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
@@ -3078,6 +3078,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<string>("Cif")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("cif");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3088,15 +3097,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_type_id");
 
-                    b.Property<string>("DNI_RUC")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("dni_ruc");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
+
+                    b.Property<string>("IdentificationNumber")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IdentificationType")
+                        .HasColumnType("identification_type_enum")
+                        .HasColumnName("identification_type");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -3117,15 +3127,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("CustomerTypeId");
 
-                    b.HasIndex("DNI_RUC")
+                    b.HasIndex("IdentificationNumber")
                         .IsUnique()
-                        .HasDatabaseName("ux_customer_dni_ruc");
-
-                    b.HasIndex("Id")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customer_id");
+                        .HasDatabaseName("ix_customer_cif_unique_code");
 
                     b.ToTable("customers", "public");
                 });
@@ -3441,99 +3449,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("ServiceOrdersId");
 
                     b.ToTable("manifest_cancellations_managua", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("reception_entrance_id");
-
-                    b.Property<string>("Aduana")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("aduana");
-
-                    b.Property<string>("Consignee")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("consignee");
-
-                    b.Property<string>("CountryOfOrigin")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("country_of_origin");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("DriverLicense")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("driver_license");
-
-                    b.Property<string>("DriverName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("driver_name");
-
-                    b.Property<DateTime>("GateEntranceTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("gate_entrance_time");
-
-                    b.Property<string>("Medio")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("medio");
-
-                    b.Property<string>("PlateNumber")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("plate_number");
-
-                    b.Property<Guid>("RecordEntranceManaguaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("record_entrance_managua_id");
-
-                    b.Property<string>("SealNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("seal_number");
-
-                    b.Property<string>("TrailerChassis")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("trailer_chassis");
-
-                    b.Property<string>("Transportista")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("transportista");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecordEntranceManaguaId")
-                        .IsUnique();
-
-                    b.ToTable("reception_entrance", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
@@ -4041,6 +3956,99 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_product_id");
 
                     b.ToTable("products", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("reception_entrance_id");
+
+                    b.Property<string>("Aduana")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("aduana");
+
+                    b.Property<string>("Consignee")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("consignee");
+
+                    b.Property<string>("CountryOfOrigin")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("country_of_origin");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("DriverLicense")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("driver_license");
+
+                    b.Property<string>("DriverName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("driver_name");
+
+                    b.Property<DateTime>("GateEntranceTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("gate_entrance_time");
+
+                    b.Property<string>("Medio")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("medio");
+
+                    b.Property<string>("PlateNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("plate_number");
+
+                    b.Property<Guid>("RecordEntranceManaguaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_managua_id");
+
+                    b.Property<string>("SealNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("seal_number");
+
+                    b.Property<string>("TrailerChassis")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("trailer_chassis");
+
+                    b.Property<string>("Transportista")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("transportista");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceManaguaId")
+                        .IsUnique();
+
+                    b.ToTable("reception_entrance", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
@@ -4795,11 +4803,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Customer", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("Customers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", "CustomerType")
                         .WithMany("Customers")
                         .HasForeignKey("CustomerTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Company");
 
                     b.Navigation("CustomerType");
                 });
@@ -4897,17 +4913,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("RecordEntranceManagua");
 
                     b.Navigation("ServiceOrder");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", "RecordEntrance")
-                        .WithOne("ReceptionEntrance")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", "RecordEntranceManaguaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("RecordEntrance");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
@@ -5089,6 +5094,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", "RecordEntrance")
+                        .WithOne("ReceptionEntrance")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", "RecordEntranceManaguaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("RecordEntrance");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Customer", "Customer")
@@ -5163,6 +5179,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Catalogs");
 
                     b.Navigation("Collaborators");
+
+                    b.Navigation("Customers");
 
                     b.Navigation("JobPositions");
 
