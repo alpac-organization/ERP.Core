@@ -64,7 +64,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Warehouse Managua
         IEntranceDucatsManaguaRepository EntranceDucatsManagua { get; }
-        IReceptionDetailsManaguaRepository ReceptionDetailsManagua{ get; }
+        IReceptionEntranceRepository ReceptionEntrance{ get; }
         IRecordEntranceManaguaRepository RecordEntranceManagua { get; }
         IStepExecutionLogsManaguaRepository StepExecutionLogsManagua { get; }
         #endregion

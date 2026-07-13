@@ -2,7 +2,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
-public class ReceptionDetailsManagua : BaseEntity<Guid>
+public class ReceptionEntrance : BaseEntity<Guid>
 {
     public Guid RecordEntranceManaguaId { get; set; }
     

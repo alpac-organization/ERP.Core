@@ -6,7 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 public class RecordEntranceManagua : BaseEntity<Guid>
 {
-    public Guid ServiceOrderId { get; set; }
+    public Guid? ServiceOrderId { get; set; }
     public Guid WarehouseId { get; set; }
     public int CurrentStepId { get; set; }
     public RecordEntranceStatus Status { get; set; }
@@ -18,7 +18,7 @@ public class RecordEntranceManagua : BaseEntity<Guid>
     //Navegaciones
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual WorkflowStepDefinition CurrentStep { get; set; } = null!;
-    public virtual ReceptionDetailsManagua? ReceptionDetails { get; set; }
+    public virtual ReceptionEntrance? ReceptionEntrance { get; set; }
     public virtual DucatRegistryManagua? DucatRegistry { get; set; }
 
     public virtual WarehouseAssignmentsManagua? Assignment { get; set; }

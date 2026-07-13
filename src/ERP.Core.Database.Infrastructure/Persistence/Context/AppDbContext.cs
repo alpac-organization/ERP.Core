@@ -81,7 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RacksManagua> RacksManagua => Set<RacksManagua>();
         public DbSet<StocksManagua> StocksManagua => Set<StocksManagua>(); // Corregido el nombre quitando la 's' final
         public DbSet<RecordEntranceManagua> RecordEntrancesManagua => Set<RecordEntranceManagua>();
-        public DbSet<ReceptionDetailsManagua> ReceptionDetailsManagua => Set<ReceptionDetailsManagua>();
+        public DbSet<ReceptionEntrance> ReceptionDetailsManagua => Set<ReceptionEntrance>();
         public DbSet<EntranceDucatsManagua> EntranceDucatsManagua => Set<EntranceDucatsManagua>();
         public DbSet<WarehouseAssignmentsManagua> WarehouseAssignmentsManagua => Set<WarehouseAssignmentsManagua>();
         public DbSet<DucatRegistryManagua> DucatRegistryHeadersManagua => Set<DucatRegistryManagua>();

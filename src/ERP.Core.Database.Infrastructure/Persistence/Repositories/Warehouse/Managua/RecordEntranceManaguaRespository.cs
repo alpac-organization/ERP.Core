@@ -17,7 +17,7 @@ public class RecordEntranceManaguaRepository(ErpDbContext context)
     public async Task<RecordEntranceManagua?> ObtainWithDetailsById(Guid id) 
     {
         return await _context.RecordEntrancesManagua
-            .Include(c => c.ReceptionDetails)
+            .Include(c => c.ReceptionEntrance)
             .Include(c => c.EntranceDucats)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
