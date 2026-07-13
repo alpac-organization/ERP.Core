@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260713203141_AgregarConfiguracionClientes")]
+    partial class AgregarConfiguracionClientes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3448,12 +3451,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("manifest_cancellations_managua", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("reception_entrance_id");
+                        .HasColumnName("reception_details_managua_id");
 
                     b.Property<string>("Aduana")
                         .IsRequired()
@@ -3538,7 +3541,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("RecordEntranceManaguaId")
                         .IsUnique();
 
-                    b.ToTable("reception_entrance", "public");
+                    b.ToTable("reception_details_managua", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
@@ -3571,7 +3574,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_consolidated");
 
-                    b.Property<Guid?>("ServiceOrderId")
+                    b.Property<Guid>("ServiceOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("service_order_id");
 
@@ -4912,11 +4915,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ServiceOrder");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", "RecordEntrance")
-                        .WithOne("ReceptionEntrance")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionEntrance", "RecordEntranceManaguaId")
+                        .WithOne("ReceptionDetails")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", "RecordEntranceManaguaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -5328,7 +5331,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("ManifestCancellation");
 
-                    b.Navigation("ReceptionEntrance");
+                    b.Navigation("ReceptionDetails");
 
                     b.Navigation("UnloadingDetails");
 
