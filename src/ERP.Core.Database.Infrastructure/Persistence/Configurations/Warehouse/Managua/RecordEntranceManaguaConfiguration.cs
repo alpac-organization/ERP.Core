@@ -17,7 +17,7 @@ public class RecordEntranceManaguaConfiguration : IEntityTypeConfiguration<Recor
 
         builder.Property(e => e.ServiceOrderId)
             .HasColumnName("service_order_id")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.WarehouseId)
             .HasColumnName("warehouse_id")
