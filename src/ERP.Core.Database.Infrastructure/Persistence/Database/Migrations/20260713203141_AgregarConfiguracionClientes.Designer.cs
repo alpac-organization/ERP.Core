@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260713201430_AgregarRefactorTablaClientes")]
-    partial class AgregarRefactorTablaClientes
+    [Migration("20260713203141_AgregarConfiguracionClientes")]
+    partial class AgregarConfiguracionClientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

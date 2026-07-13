@@ -10,6 +10,7 @@ namespace ERP.Core.Database.Domain.Enums
         Pasaporte = 2,
 
         CedulaResidencia = 3,
+
         Ruc = 4
     }
 }
