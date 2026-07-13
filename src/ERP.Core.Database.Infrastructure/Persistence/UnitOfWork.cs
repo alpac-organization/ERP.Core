@@ -61,7 +61,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IServiceOrdersRepository serviceOrdersRepository,
         #region 
         IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
-        IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
+        IReceptionEntranceRepository receptionEntranceRepository,
         IRecordEntranceManaguaRepository recordEntranceManaguaRepository,
         IStepExecutionLogsManaguaRepository stepExecutionLogsManaguaRepository
         #endregion
@@ -123,7 +123,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsManaguaRepository EntranceDucatsManagua => entranceDucatsManaguaRepository;
-        public IReceptionDetailsManaguaRepository ReceptionDetailsManagua => receptiondDetailsManaguaRepository;
+        public IReceptionEntranceRepository ReceptionEntrance => receptionEntranceRepository;
         public IRecordEntranceManaguaRepository RecordEntranceManagua => recordEntranceManaguaRepository;
         public IStepExecutionLogsManaguaRepository StepExecutionLogsManagua => stepExecutionLogsManaguaRepository;
         #endregion

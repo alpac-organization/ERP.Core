@@ -1,18 +1,18 @@
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse.Managua;
 
-public class ReceptionDetailsManaguaConfiguration : IEntityTypeConfiguration<ReceptionDetailsManagua>
+public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<ReceptionEntrance>
 {
-    public void Configure(EntityTypeBuilder<ReceptionDetailsManagua> builder)
+    public void Configure(EntityTypeBuilder<ReceptionEntrance> builder)
     {
-        builder.ToTable("reception_details_managua");
+        builder.ToTable("reception_entrance");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-           .HasColumnName("reception_details_managua_id");
+           .HasColumnName("reception_entrance_id");
 
         builder.Property(e => e.RecordEntranceManaguaId)
             .HasColumnName("record_entrance_managua_id")
@@ -81,8 +81,8 @@ public class ReceptionDetailsManaguaConfiguration : IEntityTypeConfiguration<Rec
             .HasColumnName("deleted_at");
 
         builder.HasOne(e => e.RecordEntrance)
-            .WithOne(e => e.ReceptionDetails)
-            .HasForeignKey<ReceptionDetailsManagua>(e => e.RecordEntranceManaguaId)
+            .WithOne(e => e.ReceptionEntrance)
+            .HasForeignKey<ReceptionEntrance>(e => e.RecordEntranceManaguaId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
