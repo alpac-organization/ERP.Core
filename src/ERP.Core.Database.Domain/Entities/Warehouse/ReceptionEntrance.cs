@@ -1,11 +1,10 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class ReceptionEntrance : BaseEntity<Guid>
 {
-    public Guid RecordEntranceManaguaId { get; set; }
+    public Guid RecordEntranceId { get; set; }
     
     public string CountryOfOrigin { get; set; } = null!;
     public string Aduana { get; set; } = null!;
@@ -20,5 +19,5 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public string SealNumber { get; set; } = null!;
 
 
-    public virtual RecordEntranceManagua RecordEntrance { get; set; } = null!;
+    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
 }
