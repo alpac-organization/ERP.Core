@@ -4,9 +4,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse.Managua;
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -60,10 +59,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehousesRepository warehouseRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         #region 
-        IEntranceDucatsManaguaRepository entranceDucatsManaguaRepository,
-        IReceptionDetailsManaguaRepository receptiondDetailsManaguaRepository,
-        IRecordEntranceManaguaRepository recordEntranceManaguaRepository,
-        IStepExecutionLogsManaguaRepository stepExecutionLogsManaguaRepository
+        IEntranceDucatsRepository entranceDucatsRepository,
+        IReceptionEntranceRepository receptiondEntranceRepository,
+        IRecordEntranceRepository recordEntranceRepository,
+        IStepExecutionLogsRepository stepExecutionLogsRepository
         #endregion
     ) : IUnitOfWork
     {
@@ -122,10 +121,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
-        public IEntranceDucatsManaguaRepository EntranceDucatsManagua => entranceDucatsManaguaRepository;
-        public IReceptionDetailsManaguaRepository ReceptionDetailsManagua => receptiondDetailsManaguaRepository;
-        public IRecordEntranceManaguaRepository RecordEntranceManagua => recordEntranceManaguaRepository;
-        public IStepExecutionLogsManaguaRepository StepExecutionLogsManagua => stepExecutionLogsManaguaRepository;
+        public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
+        public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
+        public IRecordEntranceRepository RecordEntrance => recordEntranceRepository;
+        public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
         #endregion
 
 

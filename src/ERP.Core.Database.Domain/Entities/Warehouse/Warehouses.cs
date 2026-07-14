@@ -34,5 +34,5 @@ public class Warehouses : BaseEntity<Guid>
     public virtual Branch Branch { get; set; } = null!;
 
     //Coleccion del layout
-    public virtual ICollection<ZonesManagua> Zones { get; set; } = [];
+    public virtual ICollection<Sections> Sections { get; set; } = [];
 }

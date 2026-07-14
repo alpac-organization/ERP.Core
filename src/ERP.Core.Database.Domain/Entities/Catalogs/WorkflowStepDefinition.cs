@@ -1,5 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Warehouse.Managua;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -10,5 +10,5 @@ public class WorkflowStepDefinition : BaseEntity<int>
     public int ExecutionOrder { get; set; }
 
     // Propiedad inversa para la navegación
-    public virtual ICollection<RecordEntranceManagua> RecordEntrances { get; set; } = [];
+    public virtual ICollection<RecordEntrance> RecordEntrances { get; set; } = [];
 }
