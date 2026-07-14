@@ -71,6 +71,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Products> Products => Set<Products>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
+        public DbSet<WarehouseTercerizada> WarehouseTercerizadas => Set<WarehouseTercerizada>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         #endregion
 
