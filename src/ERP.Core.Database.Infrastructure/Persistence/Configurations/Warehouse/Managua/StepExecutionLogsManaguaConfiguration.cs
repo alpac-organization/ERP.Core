@@ -33,7 +33,6 @@ public class StepExecutionLogsManaguaConfiguration : IEntityTypeConfiguration<St
         
         builder.Property(e => e.ProcessedByUserId)
             .HasColumnName("processed_by_user_id")
-            .HasMaxLength(450)
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
@@ -53,6 +52,11 @@ public class StepExecutionLogsManaguaConfiguration : IEntityTypeConfiguration<St
         builder.HasOne(e => e.WorkflowStepDefinition)
             .WithMany()
             .HasForeignKey(e => e.WorkflowStepDefinitionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.User)
+            .WithMany(u => u.StepExecutionLogs)
+            .HasForeignKey(e => e.ProcessedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

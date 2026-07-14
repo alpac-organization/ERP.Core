@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -9,9 +10,10 @@ public class StepExecutionLogsManagua : BaseEntity<Guid>
     public int WorkflowStepDefinitionId { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime? EndTime { get; set; }
-    public string ProcessedByUserId { get; set; } = null!;
+    public Guid ProcessedByUserId { get; set; }
 
     // Propiedades de navegación
     public virtual RecordEntranceManagua RecordEntranceManagua { get; set; } = null!;
     public virtual WorkflowStepDefinition WorkflowStepDefinition { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }
