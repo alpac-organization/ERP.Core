@@ -6,7 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class RecordEntrance : BaseEntity<Guid>
 {
-    public Guid ServiceOrderId { get; set; }
+    public Guid? ServiceOrderId { get; set; }
     public Guid WarehouseId { get; set; }
     public int CurrentStepId { get; set; }
     public RecordEntranceStatus Status { get; set; }
