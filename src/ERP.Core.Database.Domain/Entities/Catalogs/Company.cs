@@ -34,6 +34,9 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         //Control de ubicación de guardas de seguridad
         public virtual ICollection<Location> Locations { get; set; } = [];
 
+        //Clientes Propios de la empresa.
+        public virtual ICollection<Customer> Customers { get; set; } = [];
+
         //Control de nominas contables o descriptions
         public virtual ICollection<TypesAccountingPayroll> TypesAccountingPayroll { get; set; } = [];
     }

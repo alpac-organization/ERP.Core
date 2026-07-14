@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260713203141_AgregarConfiguracionClientes")]
+    partial class AgregarConfiguracionClientes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3448,6 +3451,99 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("manifest_cancellations_managua", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("reception_details_managua_id");
+
+                    b.Property<string>("Aduana")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("aduana");
+
+                    b.Property<string>("Consignee")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("consignee");
+
+                    b.Property<string>("CountryOfOrigin")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("country_of_origin");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("DriverLicense")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("driver_license");
+
+                    b.Property<string>("DriverName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("driver_name");
+
+                    b.Property<DateTime>("GateEntranceTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("gate_entrance_time");
+
+                    b.Property<string>("Medio")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("medio");
+
+                    b.Property<string>("PlateNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("plate_number");
+
+                    b.Property<Guid>("RecordEntranceManaguaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_managua_id");
+
+                    b.Property<string>("SealNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("seal_number");
+
+                    b.Property<string>("TrailerChassis")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("trailer_chassis");
+
+                    b.Property<string>("Transportista")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("transportista");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceManaguaId")
+                        .IsUnique();
+
+                    b.ToTable("reception_details_managua", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3478,7 +3574,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_consolidated");
 
-                    b.Property<Guid?>("ServiceOrderId")
+                    b.Property<Guid>("ServiceOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("service_order_id");
 
@@ -3953,99 +4049,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_product_id");
 
                     b.ToTable("products", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("reception_entrance_id");
-
-                    b.Property<string>("Aduana")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("aduana");
-
-                    b.Property<string>("Consignee")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("consignee");
-
-                    b.Property<string>("CountryOfOrigin")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("country_of_origin");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("DriverLicense")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("driver_license");
-
-                    b.Property<string>("DriverName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("driver_name");
-
-                    b.Property<DateTime>("GateEntranceTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("gate_entrance_time");
-
-                    b.Property<string>("Medio")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("medio");
-
-                    b.Property<string>("PlateNumber")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("plate_number");
-
-                    b.Property<Guid>("RecordEntranceManaguaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("record_entrance_managua_id");
-
-                    b.Property<string>("SealNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("seal_number");
-
-                    b.Property<string>("TrailerChassis")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("trailer_chassis");
-
-                    b.Property<string>("Transportista")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("transportista");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecordEntranceManaguaId")
-                        .IsUnique();
-
-                    b.ToTable("reception_entrance", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
@@ -4912,6 +4915,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ServiceOrder");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", "RecordEntrance")
+                        .WithOne("ReceptionDetails")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.Managua.ReceptionDetailsManagua", "RecordEntranceManaguaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("RecordEntrance");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", "CurrentStep")
@@ -5089,17 +5103,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Managua.RecordEntranceManagua", "RecordEntrance")
-                        .WithOne("ReceptionEntrance")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", "RecordEntranceManaguaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("RecordEntrance");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
@@ -5328,7 +5331,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("ManifestCancellation");
 
-                    b.Navigation("ReceptionEntrance");
+                    b.Navigation("ReceptionDetails");
 
                     b.Navigation("UnloadingDetails");
 

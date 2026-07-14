@@ -83,6 +83,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasForeignKey(m => m.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(c => c.Customers)
+                .WithOne(m => m.Company)
+                .HasForeignKey(m => m.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasIndex(e => e.Code)
                 .IsUnique()
                 .HasDatabaseName("IX_companies_code");
