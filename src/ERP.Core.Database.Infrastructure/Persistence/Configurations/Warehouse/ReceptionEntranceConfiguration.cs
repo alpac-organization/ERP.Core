@@ -8,11 +8,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 {
     public void Configure(EntityTypeBuilder<ReceptionEntrance> builder)
     {
-        builder.ToTable("reception_details");
+        builder.ToTable("reception_entrance");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-           .HasColumnName("reception_details_id");
+           .HasColumnName("reception_entrance_id");
 
         builder.Property(e => e.RecordEntranceId)
             .HasColumnName("record_entrance_id")
