@@ -57,6 +57,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
+        IWarehouseTercerizadaRepository warehouseTercerizadaRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         #region 
         IEntranceDucatsRepository entranceDucatsRepository,
@@ -120,6 +121,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
+        public IWarehouseTercerizadaRepository WarehouseTercerizadas => warehouseTercerizadaRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
