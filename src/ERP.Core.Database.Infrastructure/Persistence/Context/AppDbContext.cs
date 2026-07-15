@@ -4,6 +4,7 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -92,6 +93,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         #endregion
+
+        #region Compras
+
+        public DbSet<Supplier> Suppliers => Set<Supplier>();
+
+        #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -123,8 +130,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<OSStatus>("public","oss_status_enum");
             modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public","record_entrance_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
-
-            
+            modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

@@ -60,6 +60,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<OSStatus>("oss_status_enum");
                     npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
                     npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
+                    npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
 
                 })
             );
