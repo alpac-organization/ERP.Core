@@ -4,8 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
-using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -59,12 +58,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehousesRepository warehouseRepository,
         IWarehouseTercerizadaRepository warehouseTercerizadaRepository,
         IServiceOrdersRepository serviceOrdersRepository,
-        #region 
         IEntranceDucatsRepository entranceDucatsRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
         IRecordEntranceRepository recordEntranceRepository,
-        IStepExecutionLogsRepository stepExecutionLogsRepository
-        #endregion
+        IStepExecutionLogsRepository stepExecutionLogsRepository,
+        ISuppliersRepository suppliersRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -129,7 +127,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
         #endregion
 
-
+        #region Shopping
+        public ISuppliersRepository Suppliers => suppliersRepository;
+        
+        #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
