@@ -7,15 +7,11 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class Warehouses : BaseEntity<Guid>
 {
     public string Code { get; set; } = null!;
-    public string Name { get; set; } = null!;
+    public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
-    public bool IsOwner { get; set; } = true;
-
-    //Capacidad volumetrica total de la bodega
-    public decimal TotalCubicCapacity { get; set; }
-
-    //Seccion metrica e infraestructura
     public WarehouseType WarehouseType { get; set; }
+
+    public decimal TotalCubicCapacity { get; set; }
     public decimal TotalArea { get; set; }
     public decimal NetStorageArea { get; set; }
     public decimal UnusableArea { get; set; }

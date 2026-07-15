@@ -37,7 +37,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
-        builder.Property(w => w.Name)
+        builder.Property(w => w.WarehouseName)
             .HasColumnName("warehouse_name")
             .HasMaxLength(100)
             .IsRequired();
@@ -52,14 +52,9 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
-        builder.Property(w => w.IsOwner)
-            .HasColumnName("is_owner")
-            .HasDefaultValue(true)
-            .IsRequired();
-
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
-            .HasConversion<int>()
+            .HasColumnType("warehouse_type_enum")
             .IsRequired();
 
         builder.Property(w => w.TotalArea)
