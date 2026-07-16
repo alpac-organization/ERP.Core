@@ -62,7 +62,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IReceptionEntranceRepository receptiondEntranceRepository,
         IRecordEntranceRepository recordEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
-        ISuppliersRepository suppliersRepository
+        ISuppliersRepository suppliersRepository,
+        IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository
+
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -125,6 +127,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
         public IRecordEntranceRepository RecordEntrance => recordEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
+        public IWorkflowStepDefinitionsRepository WorkflowStepDefinitions => workflowStepDefinitionsRepository;
         #endregion
 
         #region Shopping

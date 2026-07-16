@@ -122,6 +122,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IEntranceDucatsRepository, EntranceDucatsRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IWarehouseTercerizadaRepository, WarehouseTercerizadaRepository>();
+            services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
             #endregion
 
 
