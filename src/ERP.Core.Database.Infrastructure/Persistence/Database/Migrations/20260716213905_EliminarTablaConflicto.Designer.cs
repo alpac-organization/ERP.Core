@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260716213205_EliminarTablaConflicto")]
+    [Migration("20260716213905_EliminarTablaConflicto")]
     partial class EliminarTablaConflicto
     {
         /// <inheritdoc />
