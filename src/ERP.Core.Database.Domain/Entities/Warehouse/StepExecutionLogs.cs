@@ -6,7 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class StepExecutionLogs : BaseEntity<Guid>
 {
     public Guid RecordEntranceId { get; set; }
-    public int WorkflowStepDefinitionId { get; set; }
+    public string WorkflowStepDefinitionCode { get; set; } = null!;
     public DateTime StartTime { get; set; }
     public DateTime? EndTime { get; set; }
     public string ProcessedByUserId { get; set; } = null!;

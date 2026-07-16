@@ -19,8 +19,8 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasColumnName("record_entrance_id")
             .IsRequired();
         
-        builder.Property(e => e.WorkflowStepDefinitionId)
-            .HasColumnName("workflow_step_definition_id")
+        builder.Property(e => e.WorkflowStepDefinitionCode)
+            .HasColumnName("workflow_step_definition_code")
             .IsRequired();
         
         builder.Property(e => e.StartTime)
@@ -52,7 +52,7 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
 
         builder.HasOne(e => e.WorkflowStepDefinition)
             .WithMany()
-            .HasForeignKey(e => e.WorkflowStepDefinitionId)
+            .HasForeignKey(e => e.WorkflowStepDefinitionCode)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -19,12 +19,8 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
             .HasColumnName("service_order_id")
             .IsRequired(false);
 
-        builder.Property(e => e.WarehouseId)
-            .HasColumnName("warehouse_id")
-            .IsRequired();
-
-        builder.Property(e => e.CurrentStepId)
-            .HasColumnName("current_step_id")
+        builder.Property(e => e.CurrentStepCode)
+            .HasColumnName("current_step_code")
             .IsRequired();
 
         builder.Property(e => e.Status)
@@ -34,7 +30,7 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
 
         builder.Property(e => e.ClosedAt)
             .HasColumnName("closed_at")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.IsConsolidated)
             .HasColumnName("is_consolidated")
@@ -49,14 +45,9 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
             .HasColumnName("deleted_at");
 
         // Relaciones 1:1 y 1:N
-        builder.HasOne(e => e.Warehouse)
-            .WithMany()
-            .HasForeignKey(d => d.WarehouseId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasOne(e => e.CurrentStep)
             .WithMany(d => d.RecordEntrances)
-            .HasForeignKey(d => d.CurrentStepId)
+            .HasForeignKey(d => d.CurrentStepCode)
             .OnDelete(DeleteBehavior.Restrict);
 
     }

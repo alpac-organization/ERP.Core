@@ -41,7 +41,7 @@ public class WorkflowStepDefinitionConfiguration : IEntityTypeConfiguration<Work
         // Configuración de la relación 1 a muchos con el proceso de entrada
         builder.HasMany(e => e.RecordEntrances)
             .WithOne(r => r.CurrentStep)
-            .HasForeignKey(r => r.CurrentStepId)
+            .HasForeignKey(r => r.CurrentStepCode)
             .OnDelete(DeleteBehavior.Restrict);
 
     }
