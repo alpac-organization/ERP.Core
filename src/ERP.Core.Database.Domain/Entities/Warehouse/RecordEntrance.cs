@@ -15,7 +15,7 @@ public class RecordEntrance : BaseEntity<Guid>
 
 
     //Navegaciones
-    public virtual WorkflowStepDefinition CurrentStep { get; set; } = null!;
+    // public virtual WorkflowStepDefinition CurrentStep { get; set; } = null!;
     public virtual ReceptionEntrance? ReceptionEntrance { get; set; }
     public virtual DucatRegistry? DucatRegistry { get; set; }
 

@@ -50,10 +50,10 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasForeignKey(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.WorkflowStepDefinition)
-            .WithMany()
-            .HasForeignKey(e => e.WorkflowStepDefinitionCode)
-            .HasPrincipalKey(w => w.Code)
-            .OnDelete(DeleteBehavior.Restrict);
+        // builder.HasOne(e => e.WorkflowStepDefinition)
+        //     .WithMany()
+        //     .HasForeignKey(e => e.WorkflowStepDefinitionCode)
+        //     .HasPrincipalKey(w => w.Code)
+        //     .OnDelete(DeleteBehavior.Restrict);
     }
 }
