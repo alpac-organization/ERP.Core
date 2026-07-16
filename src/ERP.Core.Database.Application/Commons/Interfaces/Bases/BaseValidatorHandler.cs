@@ -2,6 +2,7 @@ using MediatR;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Application.Commons.Interfaces;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
 {
@@ -30,6 +31,34 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
                     IsSuccess = false, 
                     ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("Este usuario no existe!", "ERP:003") 
                 };
+            }
+
+            if (user.UserStatus != UserStatus.Active)
+            {
+                switch (user.UserStatus)
+                {
+                    case UserStatus.Locked:
+                    {
+                        return new AccessValidationResult<TResponse> { 
+                            IsSuccess = false, 
+                            ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("Usuario se encuentra temporalmente bloqueado, comunicar con el area de informatica", "ERP:02") 
+                        };
+                    }
+                    case UserStatus.Inactive:
+                    {
+                        return new AccessValidationResult<TResponse> { 
+                            IsSuccess = false, 
+                            ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("Usuario se encuentra inactivo, comunicar con el area de informatica", "ERP:03") 
+                        };
+                    }
+                    default:
+                    {
+                        return new AccessValidationResult<TResponse> { 
+                            IsSuccess = false, 
+                            ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("El usuario no se encuentra activo, comunicar con el area de informatica", "ERP:03") 
+                        };
+                    }
+                }
             }
 
             // 2. Validar Perfil
