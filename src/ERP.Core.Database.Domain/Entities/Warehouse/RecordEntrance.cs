@@ -7,8 +7,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class RecordEntrance : BaseEntity<Guid>
 {
     public Guid? ServiceOrderId { get; set; }
-    public Guid WarehouseId { get; set; }
-    public int CurrentStepId { get; set; }
+    public string CurrentStepCode { get; set; } = null!;
     public RecordEntranceStatus Status { get; set; }
     public DateTime? ClosedAt { get; set; }
 
@@ -16,7 +15,6 @@ public class RecordEntrance : BaseEntity<Guid>
 
 
     //Navegaciones
-    public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual WorkflowStepDefinition CurrentStep { get; set; } = null!;
     public virtual ReceptionEntrance? ReceptionEntrance { get; set; }
     public virtual DucatRegistry? DucatRegistry { get; set; }

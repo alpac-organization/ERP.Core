@@ -20,6 +20,9 @@ public class WorkflowStepDefinitionConfiguration : IEntityTypeConfiguration<Work
             .HasColumnName("code")
             .HasMaxLength(50)
             .IsRequired();
+        
+        builder.HasIndex(e => e.Code)
+            .IsUnique();
 
         builder.Property(e => e.Name)
             .HasColumnName("name")
@@ -41,7 +44,8 @@ public class WorkflowStepDefinitionConfiguration : IEntityTypeConfiguration<Work
         // Configuración de la relación 1 a muchos con el proceso de entrada
         builder.HasMany(e => e.RecordEntrances)
             .WithOne(r => r.CurrentStep)
-            .HasForeignKey(r => r.CurrentStepId)
+            .HasForeignKey(r => r.CurrentStepCode)
+            .HasPrincipalKey(w => w.Code)
             .OnDelete(DeleteBehavior.Restrict);
 
     }
