@@ -44,12 +44,12 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        // Relaciones 1:1 y 1:N
-        // builder.HasOne(e => e.CurrentStep)
-        //     .WithMany(d => d.RecordEntrances)
-        //     .HasForeignKey(d => d.CurrentStepCode)
-        //     .HasPrincipalKey(d => d.Code)
-        //     .OnDelete(DeleteBehavior.Restrict);
+        //Relaciones 1:1 y 1:N
+        builder.HasOne(e => e.CurrentStep)
+            .WithMany(d => d.RecordEntrances)
+            .HasForeignKey(d => d.CurrentStepCode)
+            .HasPrincipalKey(d => d.Code)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }
