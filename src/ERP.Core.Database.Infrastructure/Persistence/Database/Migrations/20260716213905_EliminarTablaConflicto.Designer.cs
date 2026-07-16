@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260716213905_EliminarTablaConflicto")]
+    partial class EliminarTablaConflicto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1122,47 +1125,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("IX_work_area_id");
 
                     b.ToTable("work_areas", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("code");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<int>("ExecutionOrder")
-                        .HasColumnType("integer")
-                        .HasColumnName("execution_order");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("workflow_step_definitions", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
@@ -3703,7 +3665,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("CurrentStepCode")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("current_step_code");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -3723,8 +3685,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("status");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrentStepCode");
 
                     b.ToTable("record_entrances", "public");
                 });
@@ -3819,14 +3779,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("WorkflowStepDefinitionCode")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("workflow_step_definition_code");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RecordEntranceId");
-
-                    b.HasIndex("WorkflowStepDefinitionCode");
 
                     b.ToTable("step_execution_logs", "public");
                 });
@@ -5052,18 +5010,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("RecordEntrance");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", "CurrentStep")
-                        .WithMany("RecordEntrances")
-                        .HasForeignKey("CurrentStepCode")
-                        .HasPrincipalKey("Code")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CurrentStep");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Customer", "Customer")
@@ -5083,16 +5029,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", "WorkflowStepDefinition")
-                        .WithMany()
-                        .HasForeignKey("WorkflowStepDefinitionCode")
-                        .HasPrincipalKey("Code")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("RecordEntrance");
-
-                    b.Navigation("WorkflowStepDefinition");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", b =>
@@ -5323,11 +5260,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CostCenters");
 
                     b.Navigation("WorkingInformations");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", b =>
-                {
-                    b.Navigation("RecordEntrances");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
