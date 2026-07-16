@@ -13,5 +13,5 @@ public class StepExecutionLogs : BaseEntity<Guid>
 
     // Propiedades de navegación
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
-    // public virtual WorkflowStepDefinition WorkflowStepDefinition { get; set; } = null!;
+    public virtual WorkflowStepDefinition WorkflowStepDefinition { get; set; } = null!;
 }

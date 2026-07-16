@@ -77,7 +77,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region MOD: Bodegas
-        // public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
+        public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<Stocks> Stocks => Set<Stocks>(); // Corregido el nombre quitando la 's' final
