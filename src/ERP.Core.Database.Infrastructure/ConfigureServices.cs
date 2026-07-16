@@ -16,6 +16,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -113,6 +115,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
+            services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
