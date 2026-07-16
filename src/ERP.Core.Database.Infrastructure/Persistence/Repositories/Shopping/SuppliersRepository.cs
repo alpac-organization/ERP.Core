@@ -4,7 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping
 {
-    public class CollaboratorsRepository(ErpDbContext _context) : Repository<Supplier>(_context), ISuppliersRepository
+    public class SuppliersRepository(ErpDbContext _context) : Repository<Supplier>(_context), ISuppliersRepository
     {
         public async Task<Supplier> RegisterSupplier(Supplier collaborator)
         {
