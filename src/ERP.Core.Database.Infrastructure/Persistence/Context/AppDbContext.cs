@@ -80,7 +80,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<Racks> Racks => Set<Racks>();
-        public DbSet<Stocks> Stocks => Set<Stocks>(); // Corregido el nombre quitando la 's' final
+        public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<EntranceDucats> EntranceDucats => Set<EntranceDucats>();
@@ -95,8 +95,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region Compras
-
         public DbSet<Supplier> Suppliers => Set<Supplier>();
+        public DbSet<Quotation> Quotations => Set<Quotation>();
 
         #endregion
                 

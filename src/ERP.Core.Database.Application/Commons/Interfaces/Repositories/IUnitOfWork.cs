@@ -73,6 +73,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Shopping
         ISuppliersRepository Suppliers { get; }
+        IQuotesRepository Quotations { get; }
         #endregion
 
 

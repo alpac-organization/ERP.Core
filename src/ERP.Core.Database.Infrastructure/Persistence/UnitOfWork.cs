@@ -63,8 +63,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IRecordEntranceRepository recordEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
         ISuppliersRepository suppliersRepository,
-        IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository
-
+        IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
+        IQuotesRepository quotesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -117,7 +117,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
         #endregion
 
-        #region warehouse
+        #region Warehouse
         public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
@@ -132,7 +132,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Shopping
         public ISuppliersRepository Suppliers => suppliersRepository;
-        
+        public IQuotesRepository Quotations => quotesRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
