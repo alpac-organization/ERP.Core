@@ -58,11 +58,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
+        public DbSet<Location> Locations => Set<Location>();
         public DbSet<CostCenter> CostCenters => Set<CostCenter>();
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
-        public DbSet<Location> Locations => Set<Location>();
+        public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         #endregion
 
@@ -80,7 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<Racks> Racks => Set<Racks>();
-        public DbSet<Stocks> Stocks => Set<Stocks>(); // Corregido el nombre quitando la 's' final
+        public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<EntranceDucats> EntranceDucats => Set<EntranceDucats>();
@@ -95,9 +96,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region Compras
-
         public DbSet<Supplier> Suppliers => Set<Supplier>();
-
+        public DbSet<Quotation> Quotations => Set<Quotation>();
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -131,6 +131,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public","record_entrance_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
+            modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

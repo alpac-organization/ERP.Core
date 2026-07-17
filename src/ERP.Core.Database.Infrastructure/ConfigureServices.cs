@@ -63,6 +63,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
                     npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
+                    npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
                 })
             );
 
@@ -115,6 +116,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
+            services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
