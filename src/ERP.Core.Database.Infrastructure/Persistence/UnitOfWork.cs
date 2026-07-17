@@ -64,7 +64,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IStepExecutionLogsRepository stepExecutionLogsRepository,
         ISuppliersRepository suppliersRepository,
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
-        IQuotesRepository quotesRepository
+        IQuotesRepository quotesRepository,
+        IUnitsMeasurementRepository unitsMeasurementRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -112,9 +113,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         public IAssistanceControlRepository AssistanceControls => assistanceControlRepository;
         public ILocationsRepository Locations => locationRepository;
-
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
+        public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         #endregion
 
         #region Warehouse

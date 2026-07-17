@@ -58,11 +58,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
+        public DbSet<Location> Locations => Set<Location>();
         public DbSet<CostCenter> CostCenters => Set<CostCenter>();
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
-        public DbSet<Location> Locations => Set<Location>();
+        public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         #endregion
 
@@ -97,7 +98,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Compras
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
-
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
