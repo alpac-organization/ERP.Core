@@ -25,6 +25,7 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
         
         builder.Property(e => e.StartDate)
             .HasColumnName("start_date")
+            .HasColumnType("date")
             .IsRequired();
         
         builder.Property(e => e.StartTime)
@@ -33,6 +34,7 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
         
         builder.Property(e => e.EndDate)
             .HasColumnName("end_date")
+            .HasColumnType("date")
             .IsRequired(false);
         
         builder.Property(e => e.EndTime)
