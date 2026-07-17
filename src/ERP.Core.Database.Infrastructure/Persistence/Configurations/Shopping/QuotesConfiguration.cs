@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
@@ -23,6 +22,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("made_by")
                 .IsRequired();
 
+            builder.Property(e => e.QuoteDate)
+                .HasColumnName("quote_date")
+                .HasColumnType("date")
+                .IsRequired();
+
             builder.Property(e => e.ApproximateCostTotal)
                 .HasColumnName("approximate_cost_total")
                 .HasPrecision(18, 0)
@@ -32,44 +36,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("observations")
                 .IsRequired(false);
 
-            // builder.Property(e => e.ConstitutionType)
-            //     .HasColumnName("constitution_type")
-            //     .HasColumnType("constitution_type_enum")
-            //     .IsRequired();
-
-            // builder.Property(e => e.IdentificationType)
-            //     .HasColumnName("identification_type")
-            //     .HasColumnType("identification_type_enum")
-            //     .IsRequired();
-
-            // builder.Property(e => e.Address)
-            //     .HasColumnName("address")
-            //     .IsRequired(false);
-
-            // builder.Property(e => e.ContactName)
-            //     .HasColumnName("contact_name")
-            //     .IsRequired(false);
-
-            // builder.Property(e => e.ContactEmail)
-            //     .HasColumnName("contact_email")
-            //     .IsRequired(false);
-
-            // builder.Property(e => e.ContactPhoneNumber)
-            //     .HasColumnName("contact_phone_number")
-            //     .IsRequired(false);
-
-            // builder.Property(e => e.EmailSupport)
-            //     .HasColumnName("email_support")
-            //     .IsRequired(false);
-
-            // builder.Property(e => e.RegisterBy)
-            //     .HasColumnName("register_by")
-            //     .IsRequired();
-
-            // builder.Property(e => e.IsActive)
-            //     .HasColumnName("is_active")
-            //     .HasDefaultValue(true)
-            //     .IsRequired();
+            builder.Property(e => e.AdditionalData)
+                .HasColumnName("additional_date")
+                .HasColumnType("jsonb")
+                .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
