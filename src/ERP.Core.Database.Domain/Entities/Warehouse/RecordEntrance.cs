@@ -9,7 +9,8 @@ public class RecordEntrance : BaseEntity<Guid>
     public Guid? ServiceOrderId { get; set; }
     public string CurrentStepCode { get; set; } = null!;
     public RecordEntranceStatus Status { get; set; }
-    public DateTime? ClosedAt { get; set; }
+    public DateOnly? ClosedAtDate { get; set; }
+    public TimeOnly? ClosedAtTime { get; set; }
 
     public bool IsConsolidated {get; set;} = false;
 

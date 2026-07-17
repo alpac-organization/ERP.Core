@@ -7,8 +7,10 @@ public class StepExecutionLogs : BaseEntity<Guid>
 {
     public Guid RecordEntranceId { get; set; }
     public string WorkflowStepDefinitionCode { get; set; } = null!;
-    public DateTime StartTime { get; set; }
-    public DateTime? EndTime { get; set; }
+    public DateOnly StartDate { get; set; }
+    public TimeOnly StartTime { get; set; }
+    public DateOnly? EndDate { get; set; }
+    public TimeOnly? EndTime { get; set; }
     public string ProcessedByUserId { get; set; } = null!;
 
     // Propiedades de navegación

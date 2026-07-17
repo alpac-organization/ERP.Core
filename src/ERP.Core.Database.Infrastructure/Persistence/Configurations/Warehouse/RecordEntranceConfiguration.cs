@@ -28,8 +28,12 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
             .HasColumnType("record_entrance_status_enum")
             .IsRequired();
 
-        builder.Property(e => e.ClosedAt)
-            .HasColumnName("closed_at")
+        builder.Property(e => e.ClosedAtDate)
+            .HasColumnName("closed_at_date")
+            .IsRequired(false);
+
+        builder.Property(e => e.ClosedAtTime)
+            .HasColumnName("closed_at_time")
             .IsRequired(false);
 
         builder.Property(e => e.IsConsolidated)
