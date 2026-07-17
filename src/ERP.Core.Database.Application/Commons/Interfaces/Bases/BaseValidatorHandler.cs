@@ -1,8 +1,9 @@
 using MediatR;
-using ERP.Core.Database.Domain.Entities.Auth;
-using ERP.Core.Application.Commons.Interfaces;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Auth;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
+
+using ERP.Core.Application.Commons.Interfaces;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
 {
@@ -11,6 +12,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
         public bool IsSuccess { get; set; }
         public Role? Role { get; set; }
         public T? ErrorResponse { get; set; }
+        public User User { get; set; } = new();
     }
 
     public abstract class BaseValidatorHandler<TRequest, TResponse>(IUnitOfWork _unitOfWork, IErrorManager _errorManager) : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -94,7 +96,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
                 };
             }
 
-            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role };
+            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user };
         }
     }
 }
