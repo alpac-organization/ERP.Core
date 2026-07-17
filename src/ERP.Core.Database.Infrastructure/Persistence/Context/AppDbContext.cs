@@ -131,6 +131,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public","record_entrance_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
+            modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
