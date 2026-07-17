@@ -8,7 +8,6 @@ public class ReceptionEntrance : BaseEntity<Guid>
     
     public string CountryOfOrigin { get; set; } = null!;
     public string Aduana { get; set; } = null!;
-    public DateTime GateEntranceTime { get; set; }
     public string PlateNumber { get; set; } = null!;
     public string TrailerChassis { get; set; } = null!;
     public string DriverLicense { get; set; } = null!;

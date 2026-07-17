@@ -28,10 +28,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(150)
             .IsRequired();
 
-        builder.Property(e => e.GateEntranceTime)
-            .HasColumnName("gate_entrance_time")
-            .IsRequired();
-
         builder.Property(e => e.PlateNumber)
             .HasColumnName("plate_number")
             .HasMaxLength(30)

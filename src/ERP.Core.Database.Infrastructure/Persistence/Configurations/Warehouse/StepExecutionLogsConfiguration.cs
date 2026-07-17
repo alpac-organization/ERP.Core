@@ -23,9 +23,19 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasColumnName("workflow_step_definition_code")
             .IsRequired();
         
+        builder.Property(e => e.StartDate)
+            .HasColumnName("start_date")
+            .HasColumnType("date")
+            .IsRequired();
+        
         builder.Property(e => e.StartTime)
             .HasColumnName("start_time")
             .IsRequired();
+        
+        builder.Property(e => e.EndDate)
+            .HasColumnName("end_date")
+            .HasColumnType("date")
+            .IsRequired(false);
         
         builder.Property(e => e.EndTime)
             .HasColumnName("end_time")
