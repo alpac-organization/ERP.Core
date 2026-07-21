@@ -1,12 +1,12 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
-public class ProductsConfiguration : IEntityTypeConfiguration<Products>
+public class ProductsConfiguration : IEntityTypeConfiguration<Product>
 {
-    public void Configure(EntityTypeBuilder<Products> builder)
+    public void Configure(EntityTypeBuilder<Product> builder)
     {
         builder.ToTable("products");
 
@@ -22,32 +22,13 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Products>
             .IsUnique()
             .HasDatabaseName("ix_product_id");
 
-        builder.Property(p => p.SKU)
-            .HasColumnName("product_sku")
-            .HasMaxLength(50)
+        builder.Property(p => p.ProductName)
+            .HasColumnName("product_name")
             .IsRequired();
 
-        builder.Property(p => p.Name)
-            .HasColumnName("name")
-            .HasMaxLength(100)
-            .IsRequired();
-
-        builder.Property(p => p.Description)
-            .HasColumnName("description")
-            .IsRequired(false);
-
-        builder.Property(p => p.UnitOfMeasure)
-            .HasColumnName("unit_of_measure")
-            .HasMaxLength(20)
-            .IsRequired();
-
-        builder.Property(p => p.IsActive)
-            .HasColumnName("is_active")
-            .HasDefaultValue(true)
-            .IsRequired();
-
-        builder.Property(p => p.CustomerId)
-            .HasColumnName("customer_id")
+        builder.Property(p => p.UsageType)
+            .HasColumnName("product_usage_type")
+            .HasColumnType("product_usage_type_enum")
             .IsRequired();
 
         builder.Property(p => p.CategoryId)
@@ -61,11 +42,6 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Products>
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-
-        builder.HasOne(p => p.Customer)
-            .WithMany(p => p.Products)
-            .HasForeignKey(p => p.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(p => p.Category)
             .WithMany(p => p.Products)

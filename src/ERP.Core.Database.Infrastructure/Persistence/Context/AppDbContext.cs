@@ -71,7 +71,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<CustomerType> CustomersTypes => Set<CustomerType>();
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
-        public DbSet<Products> Products => Set<Products>();
+        public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
@@ -98,6 +98,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Compras
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
+        public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -132,6 +133,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
+            modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
+
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

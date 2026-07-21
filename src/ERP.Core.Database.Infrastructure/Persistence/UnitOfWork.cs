@@ -65,6 +65,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISuppliersRepository suppliersRepository,
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
+        IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository
     ) : IUnitOfWork
     {
@@ -134,6 +135,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region Shopping
         public ISuppliersRepository Suppliers => suppliersRepository;
         public IQuotesRepository Quotations => quotesRepository;
+        public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

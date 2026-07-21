@@ -73,6 +73,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
+
+            
         }
     }
 }
