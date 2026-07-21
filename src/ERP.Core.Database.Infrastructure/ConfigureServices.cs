@@ -18,6 +18,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Application.Commons.Interfaces;
+using ERP.Core.Infrastructure.Services;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -130,6 +132,9 @@ namespace ERP.Core.Database.Infrastructure
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
+
+            //Servicios 
+            services.AddScoped<ICodeGenerator, CodeGenerator>();
 
             return services;
         }

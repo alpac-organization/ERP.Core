@@ -1,4 +1,4 @@
-namespace ERP.Core.Application.Commons.Interfaces
+namespace ERP.Core.Database.Application.Commons.Interfaces.Services
 {
     public interface ICodeGenerator
     {
@@ -6,6 +6,6 @@ namespace ERP.Core.Application.Commons.Interfaces
         
         public string GenerateUsername(string subject);
 
-        Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToQuotes(Guid branchId);
+        Task<string> GenerateUniqueCodeToQuotes(Guid branchId);
     }
 }
