@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Infrastructure.Services;
 
 using ERP.Core.Database.Infrastructure.Persistence;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
@@ -18,6 +19,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Services;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -64,6 +66,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
+                    npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                 })
             );
 
@@ -118,18 +121,22 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
             services.AddScoped<IQuotesRepository, QuotesRepository>();
+            services.AddScoped<IQuotesDetailsRepository, QuotesDetailsRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
             services.AddScoped<IEntranceDucatsRepository, EntranceDucatsRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
-            services.AddScoped<IWarehouseTercerizadaRepository, WarehouseTercerizadaRepository>();
+            services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
             #endregion
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
+
+            //Servicios 
+            services.AddScoped<ICodeGenerator, CodeGenerator>();
 
             return services;
         }

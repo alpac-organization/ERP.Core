@@ -1,13 +1,56 @@
 using NanoidDotNet;
-using ERP.Core.Application.Commons.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
-namespace ERP.Core.Infrastructure.Services
+using ERP.Core.Database.Application.Commons.Interfaces.Services;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
+
+namespace ERP.Core.Database.Infrastructure.Services
 {
-    public partial class CodeGenerator : ICodeGenerator
+    public partial class CodeGenerator(IUnitOfWork _unitOfWork) : ICodeGenerator
     {
         [GeneratedRegex(@"[^a-zA-Z]")]
         private static partial Regex GenerateModuleCode();
+        private readonly IUnitOfWork _unitOfWork = _unitOfWork;
+
+
+        /// <summary>
+        /// Generador de codigo para cotizaciones por sucursal.
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToQuotes(Guid branchId)
+        {
+            var branch = await _unitOfWork.Branches.Entities
+                .FirstOrDefaultAsync(b => b.Id == branchId);
+
+            if (branch == null)
+            {
+                return (false, string.Empty);
+            }
+
+            var lastQuotation = await _unitOfWork.Quotations.Entities
+                .Where(q => q.BranchId == branchId)
+                .OrderByDescending(q => q.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            int nextSequence = 1;
+
+            if (lastQuotation != null && !string.IsNullOrWhiteSpace(lastQuotation.QuotationCode))
+            {
+                int lastDashIndex = lastQuotation.QuotationCode.LastIndexOf('-');
+
+                if (lastDashIndex > -1 && int.TryParse(lastQuotation.QuotationCode[(lastDashIndex + 1)..], out int lastSequence))
+                {
+                    nextSequence = lastSequence + 1;
+                }
+            }
+
+            string sequenceFormatted = nextSequence.ToString().PadLeft(2, '0');
+            string code = $"{branch.BranchCode?.ToUpper()}-{sequenceFormatted}";
+
+            return (true, code);
+        }
 
         public string GenerateModuleCode(string subject)
         {
@@ -38,7 +81,6 @@ namespace ERP.Core.Infrastructure.Services
 
             return username;   
         }
-
 
         #region Metodos Privados
         private static string GetRandomSuffix()

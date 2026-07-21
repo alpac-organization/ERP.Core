@@ -8,7 +8,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
     {
         public void Configure(EntityTypeBuilder<Quotation> builder)
         {
-            builder.ToTable("quotation");
+            builder.ToTable("quotes");
 
             builder.HasKey(e => e.Id);
 
@@ -27,18 +27,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnType("date")
                 .IsRequired();
 
-            builder.Property(e => e.ApproximateCostTotal)
-                .HasColumnName("approximate_cost_total")
-                .HasPrecision(18, 0)
-                .IsRequired();
-
             builder.Property(e => e.Observations)
                 .HasColumnName("observations")
-                .IsRequired(false);
-
-            builder.Property(e => e.AdditionalData)
-                .HasColumnName("additional_date")
-                .HasColumnType("jsonb")
                 .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
@@ -48,6 +38,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
+
+            builder.HasMany(p => p.QuoteDetails)
+                .WithOne(p => p.Quotation)
+                .HasForeignKey(p => p.QuotationId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

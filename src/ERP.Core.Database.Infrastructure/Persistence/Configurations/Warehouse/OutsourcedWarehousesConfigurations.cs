@@ -4,23 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
-public class WarehouseTercerizadaConfigurations : IEntityTypeConfiguration<WarehouseTercerizada>
+public class OutsourcedWarehousesConfigurations : IEntityTypeConfiguration<OutsourcedWarehouse>
 {
-    public void Configure(EntityTypeBuilder<WarehouseTercerizada> builder)
+    public void Configure(EntityTypeBuilder<OutsourcedWarehouse> builder)
     {
-        builder.ToTable("warehouse_tercerizada");
+        builder.ToTable("outsourced_warehouses");
 
         builder.HasKey(w => w.Id);
 
         builder.Property(w => w.Id)
-            .HasColumnName("warehouse_tercerizada_id")
+            .HasColumnName("outsourced_warehouse_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();
 
         builder.HasIndex(w => w.Id)
             .IsUnique()
-            .HasDatabaseName("ix_warehouse_tercerizada_id");
+            .HasDatabaseName("ix_outsourced_warehouse_id");
 
         builder.Property(w => w.Code)
             .HasColumnName("code")

@@ -56,7 +56,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
-        IWarehouseTercerizadaRepository warehouseTercerizadaRepository,
+        IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
@@ -65,6 +65,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISuppliersRepository suppliersRepository,
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
+        IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository
     ) : IUnitOfWork
     {
@@ -122,7 +123,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
-        public IWarehouseTercerizadaRepository WarehouseTercerizadas => warehouseTercerizadaRepository;
+        public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
@@ -134,6 +135,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region Shopping
         public ISuppliersRepository Suppliers => suppliersRepository;
         public IQuotesRepository Quotations => quotesRepository;
+        public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
