@@ -76,6 +76,20 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
+        builder.Property(e => e.UpdatedDate)
+            .HasColumnName("updated_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedTime)
+            .HasColumnName("updated_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedByUserId)
+            .HasColumnName("updated_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+
         builder.HasOne(e => e.RecordEntrance)
             .WithOne(e => e.ReceptionEntrance)
             .HasForeignKey<ReceptionEntrance>(e => e.RecordEntranceId)
