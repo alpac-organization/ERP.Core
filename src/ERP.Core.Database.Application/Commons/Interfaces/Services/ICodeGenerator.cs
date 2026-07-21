@@ -6,6 +6,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         
         public string GenerateUsername(string subject);
 
-        Task<string> GenerateUniqueCodeToQuotes(Guid branchId);
+        Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToQuotes(Guid branchId);
     }
 }

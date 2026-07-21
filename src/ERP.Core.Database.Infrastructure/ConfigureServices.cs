@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Infrastructure.Services;
 
 using ERP.Core.Database.Infrastructure.Persistence;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
@@ -18,8 +19,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
-using ERP.Core.Application.Commons.Interfaces;
-using ERP.Core.Infrastructure.Services;
+using ERP.Core.Database.Application.Commons.Interfaces.Services;
 
 namespace ERP.Core.Database.Infrastructure
 {

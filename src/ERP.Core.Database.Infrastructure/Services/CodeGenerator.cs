@@ -1,10 +1,11 @@
 using NanoidDotNet;
-using ERP.Core.Application.Commons.Interfaces;
-using System.Text.RegularExpressions;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
-namespace ERP.Core.Infrastructure.Services
+using ERP.Core.Database.Application.Commons.Interfaces.Services;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
+
+namespace ERP.Core.Database.Infrastructure.Services
 {
     public partial class CodeGenerator(IUnitOfWork _unitOfWork) : ICodeGenerator
     {
