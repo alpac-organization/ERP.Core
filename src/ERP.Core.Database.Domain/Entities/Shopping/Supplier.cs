@@ -8,10 +8,10 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public bool IsActive { get; set; } = true;
         public string RegisterBy { get; set; } = null!;
         public string SuppliersLegalName { get; set; } = null!;
-        public string IdentificationNumber { get; set; } = null!;
+        public string? IdentificationNumber { get; set; }
+        public IdentificationType? IdentificationType { get; set; }
 
         public ConstitutionType ConstitutionType { get; set; }
-        public IdentificationType IdentificationType { get; set; }
 
         public string? Address { get; set; }
         public string? EmailSupport { get; set; }

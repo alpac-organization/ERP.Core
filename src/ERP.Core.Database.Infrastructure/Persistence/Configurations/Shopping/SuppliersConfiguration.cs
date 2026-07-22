@@ -25,7 +25,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.IdentificationNumber)
                 .HasColumnName("identification_number")
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.ConstitutionType)
                 .HasColumnName("constitution_type")
@@ -35,7 +35,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.IdentificationType)
                 .HasColumnName("identification_type")
                 .HasColumnType("identification_type_enum")
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.Address)
                 .HasColumnName("address")
