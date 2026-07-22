@@ -68,6 +68,15 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(e => e.MedioExitDate)
+            .HasColumnName("medio_exit_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(e => e.MedioExitTime)
+            .HasColumnName("medio_exit_time")
+            .IsRequired(false);
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -87,6 +96,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         
         builder.Property(e => e.UpdatedByUserId)
             .HasColumnName("updated_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedByUserName)
+            .HasColumnName("updated_by_user_name")
             .HasMaxLength(450)
             .IsRequired(false);
 
