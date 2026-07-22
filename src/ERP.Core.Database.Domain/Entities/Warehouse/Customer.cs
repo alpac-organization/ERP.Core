@@ -22,7 +22,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
 
-        public virtual ICollection<Product> Products { get; set; } = [];
         public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
     }
 }

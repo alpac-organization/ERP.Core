@@ -62,7 +62,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasForeignKey(c => c.CustomerTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
-
         builder.HasOne(c => c.Company)
             .WithMany(t => t.Customers)
             .HasForeignKey(c => c.CompanyId)
