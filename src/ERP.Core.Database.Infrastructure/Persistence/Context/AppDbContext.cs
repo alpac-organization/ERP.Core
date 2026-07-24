@@ -97,6 +97,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         #region Compras
         public DbSet<Supplier> Suppliers => Set<Supplier>();
+        public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
         public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
         #endregion

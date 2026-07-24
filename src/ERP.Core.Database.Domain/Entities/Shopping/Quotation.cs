@@ -12,6 +12,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
+        
+        public Guid AreaId { get; set; }
+        public virtual WorkArea WorkArea { get; set; } = default!;
 
         public virtual ICollection<QuoteDetail> QuoteDetails {get; set;} = [];
     }

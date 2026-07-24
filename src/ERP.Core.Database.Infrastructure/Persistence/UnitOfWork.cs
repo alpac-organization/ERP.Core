@@ -66,7 +66,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
         IQuotesDetailsRepository quotesDetailsRepository,
-        IUnitsMeasurementRepository unitsMeasurementRepository
+        IUnitsMeasurementRepository unitsMeasurementRepository,
+        ISuppliersDetailsRepository suppliersDetailsRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -134,6 +135,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Shopping
         public ISuppliersRepository Suppliers => suppliersRepository;
+        public ISuppliersDetailsRepository SuppliersDetails => suppliersDetailsRepository;
         public IQuotesRepository Quotations => quotesRepository;
         public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
         #endregion
