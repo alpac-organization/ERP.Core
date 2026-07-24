@@ -23,8 +23,8 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasColumnName("entrance_ducat_id")
             .IsRequired();
 
-        builder.Property(e => e.CategoryProductId)
-            .HasColumnName("category_product_id")
+        builder.Property(e => e.ProductId)
+            .HasColumnName("product_id")
             .IsRequired();
         
         builder.Property(e => e.TotalBultos)
@@ -39,7 +39,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         builder.Property(e => e.ProductDescription)
             .HasColumnName("product_description")
             .HasMaxLength(500)
-            .IsRequired();
+            .IsRequired(false);
        
         builder.Property(e => e.Remitente)
             .HasColumnName("remitente")
@@ -49,7 +49,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         builder.Property(e => e.DestinationAreaObservation)
             .HasColumnName("destination_area_observation")
             .HasMaxLength(500)
-            .IsRequired();
+            .IsRequired(false);
         
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
@@ -70,9 +70,29 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasForeignKey<DucatRegistryDetails>(e => e.EntranceDucatId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.CategoryProduct)
+        builder.HasOne(e => e.Product)
             .WithMany()
-            .HasForeignKey(e => e.CategoryProductId)
+            .HasForeignKey(e => e.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Property(e => e.UpdatedByUserId)
+            .HasColumnName("updated_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedByUserName)
+            .HasColumnName("updated_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
+   
+        builder.Property(e => e.UpdatedDate)
+            .HasColumnName("updated_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedTime)
+            .HasColumnName("updated_time")
+            .IsRequired(false);
+
     }
 }
