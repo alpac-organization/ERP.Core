@@ -17,11 +17,7 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
         builder.Property(e => e.RecordEntranceId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
-        
-        builder.Property(e => e.RegistryDate)
-            .HasColumnName("registry_date")
-            .IsRequired();
-            
+                    
         builder.Property(e => e.TrailerIdentifier)
             .HasColumnName("trailer_identifier")
             .HasMaxLength(50)
@@ -31,12 +27,7 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .HasColumnName("empresa")
             .HasMaxLength(150)
             .IsRequired();
-        
-        builder.Property(e => e.RegisteredByUserId)
-            .HasColumnName("registered_by_user_id")
-            .HasMaxLength(450)
-            .IsRequired();
-        
+                
         builder.Property(e => e.GeneralObservations)
             .HasColumnName("general_observations")
             .HasMaxLength(1000)
@@ -53,6 +44,25 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
+
+        builder.Property(e => e.UpdatedDate)
+            .HasColumnName("updated_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedTime)
+            .HasColumnName("updated_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedByUserId)
+            .HasColumnName("updated_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.UpdatedByUserName)
+            .HasColumnName("updated_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
 
 
         // Relación 1:1 con la entrada principal
