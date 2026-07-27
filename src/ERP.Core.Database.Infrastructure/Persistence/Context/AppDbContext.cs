@@ -100,6 +100,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
         public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
+        public DbSet<QuotedProduct> QuotedProducts => Set<QuotedProduct>();
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -135,6 +136,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
+            modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
