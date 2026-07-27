@@ -13,7 +13,4 @@ public class Product : BaseEntity<Guid>
 
     public Guid CategoryId {get; set;}
     public virtual CategoryProducts Category {get; set;} = default!;
-
-    public virtual ICollection<QuoteDetail> QuoteDetails {get; set;} = [];
-    
 }
