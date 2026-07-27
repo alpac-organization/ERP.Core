@@ -10,6 +10,7 @@ public class Warehouses : BaseEntity<Guid>
     public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
     public WarehouseType WarehouseType { get; set; }
+    
 
     public decimal TotalCubicCapacity { get; set; }
     public decimal TotalArea { get; set; }
