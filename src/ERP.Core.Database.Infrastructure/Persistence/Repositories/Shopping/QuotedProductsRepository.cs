@@ -4,11 +4,11 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping
 {
-    public class SuppliersRepository(ErpDbContext _context) : Repository<Supplier>(_context), ISuppliersRepository
+    public class QuotedProductsRepository(ErpDbContext _context) : Repository<QuotedProduct>(_context), IQuotedProductsRepository
     {
-        public async Task<Supplier> RegisterSupplier(Supplier payload)
+        public async Task<QuotedProduct> RegisterQuotedProduct(QuotedProduct payload)
         {
-            var record = await _context.Suppliers.AddAsync(payload);
+            var record = await _context.QuotedProducts.AddAsync(payload);
             return record.Entity;
         }
     }

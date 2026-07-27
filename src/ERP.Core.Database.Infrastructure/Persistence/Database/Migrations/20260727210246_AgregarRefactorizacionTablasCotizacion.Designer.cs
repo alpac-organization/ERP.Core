@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260727210246_AgregarRefactorizacionTablasCotizacion")]
+    partial class AgregarRefactorizacionTablasCotizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3134,8 +3137,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("branch_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -3157,9 +3159,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("observations");
 
                     b.Property<string>("QuotationCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("quotation_code");
+                        .HasColumnType("text");
 
                     b.Property<DateOnly>("QuoteDate")
                         .HasColumnType("date")
@@ -3195,6 +3195,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("QuotationId")
                         .HasColumnType("uuid")
                         .HasColumnName("quotation_id");
@@ -3207,11 +3210,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_id");
 
+                    b.Property<Guid?>("UnitMeasureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("QuotationId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("UnitMeasureId");
 
                     b.ToTable("quotes_details", "public");
                 });
@@ -5217,6 +5227,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.QuoteDetail", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Product", null)
+                        .WithMany("QuoteDetails")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.Quotation", "Quotation")
                         .WithMany("QuoteDetails")
                         .HasForeignKey("QuotationId")
@@ -5228,6 +5242,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", null)
+                        .WithMany("QuoteDetails")
+                        .HasForeignKey("UnitMeasureId");
 
                     b.Navigation("Quotation");
 
@@ -5676,6 +5694,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Racks");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", b =>
+                {
+                    b.Navigation("QuoteDetails");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
                 {
                     b.Navigation("CostCenters");
@@ -5790,6 +5813,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Discrepancy");
 
                     b.Navigation("RegistryDetail");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
+                {
+                    b.Navigation("QuoteDetails");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
