@@ -67,6 +67,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
+                    npgsqlOptions.MapEnum<QuotationStatus>("quotation_status_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
                 })
             );
@@ -120,6 +121,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
+            services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();        
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
             services.AddScoped<IQuotesRepository, QuotesRepository>();
             services.AddScoped<IQuotesDetailsRepository, QuotesDetailsRepository>();

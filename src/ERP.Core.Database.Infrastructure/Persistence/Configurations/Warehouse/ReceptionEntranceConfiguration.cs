@@ -58,11 +58,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(200)
             .IsRequired();
 
-        builder.Property(e => e.Consignee)
-            .HasColumnName("consignee")
-            .HasMaxLength(200)
-            .IsRequired();
-
         builder.Property(e => e.SealNumber)
             .HasColumnName("seal_number")
             .HasMaxLength(50)
