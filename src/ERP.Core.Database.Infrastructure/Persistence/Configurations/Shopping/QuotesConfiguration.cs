@@ -22,6 +22,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("made_by")
                 .IsRequired();
 
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired();
+
+            builder.Property(e => e.QuotationCode)
+                .HasColumnName("quotation_code")
+                .IsRequired();
+
             builder.Property(e => e.QuoteDate)
                 .HasColumnName("quote_date")
                 .HasColumnType("date")
