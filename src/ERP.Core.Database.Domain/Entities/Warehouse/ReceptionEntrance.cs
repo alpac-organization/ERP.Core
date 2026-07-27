@@ -14,7 +14,6 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public string Transportista { get; set; } = null!;
     public string Medio { get; set; } = null!;
     public string DriverName { get; set; } = null!;
-    public string Consignee { get; set; } = null!;
     public string SealNumber { get; set; } = null!;
 
     public DateOnly? MedioExitDate {get;set;}
