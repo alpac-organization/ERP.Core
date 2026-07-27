@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Entities.Payrolls;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
@@ -37,26 +37,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnType("identification_type_enum")
                 .IsRequired(false);
 
-            builder.Property(e => e.Address)
-                .HasColumnName("address")
-                .IsRequired(false);
-
-            builder.Property(e => e.ContactName)
-                .HasColumnName("contact_name")
-                .IsRequired(false);
-
-            builder.Property(e => e.ContactEmail)
-                .HasColumnName("contact_email")
-                .IsRequired(false);
-
-            builder.Property(e => e.ContactPhoneNumber)
-                .HasColumnName("contact_phone_number")
-                .IsRequired(false);
-
-            builder.Property(e => e.EmailSupport)
-                .HasColumnName("email_support")
-                .IsRequired(false);
-
             builder.Property(e => e.RegisterBy)
                 .HasColumnName("register_by")
                 .IsRequired();
@@ -74,7 +54,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            
+            builder.HasOne(c => c.SupplierDetails)
+                .WithOne(s => s.Supplier)
+                .HasForeignKey<SupplierDetails>(s => s.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade);            
         }
     }
 }

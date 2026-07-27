@@ -18,42 +18,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.Observations)
-                .HasColumnName("observations")
-                .IsRequired(false);
- 
-            builder.Property(e => e.Amount)
-                .HasColumnName("amount")
-                .IsRequired(true);
-
-            builder.Property(e => e.Color)
-                .HasColumnName("color")
-                .IsRequired(false);
-
-            builder.Property(e => e.IndividualPrice)
-                .HasColumnName("individual_price")
-                .HasPrecision(18, 2)
+            builder.Property(e => e.Status)
+                .HasColumnName("quotation_status")
+                .HasColumnType("quotation_status_enum")
                 .IsRequired();
 
-            builder.Property(e => e.AdditionalData)
-                .HasColumnName("additional_data")
-                .HasColumnType("jsonb")
+            builder.Property(e => e.ApproximateTotalCost)
+                .HasColumnName("approximate_total_cost")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(e => e.QuotationId)
                 .HasColumnName("quotation_id")
                 .IsRequired();
 
-            builder.Property(e => e.UnitMeasureId)
-                .HasColumnName("unit_measure_id")
-                .IsRequired();
-
             builder.Property(e => e.SupplierId)
                 .HasColumnName("supplier_id")
-                .IsRequired();
-
-            builder.Property(e => e.ProductId)
-                .HasColumnName("product_id")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
@@ -69,19 +49,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasForeignKey(e => e.QuotationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.UnitMeasure)
-                .WithMany(z => z.QuoteDetails)
-                .HasForeignKey(e => e.UnitMeasureId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(e => e.Supplier)
                 .WithMany(z => z.QuoteDetails)
                 .HasForeignKey(e => e.SupplierId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(e => e.Product)
-                .WithMany(z => z.QuoteDetails)
-                .HasForeignKey(e => e.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
