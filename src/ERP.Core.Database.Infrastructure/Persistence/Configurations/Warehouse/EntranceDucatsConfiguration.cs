@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,6 +26,11 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
         builder.Property(e => e.DucatNumber)
             .HasColumnName("ducat_number")
             .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(e => e.Status)
+            .HasColumnName("status")
+            .HasColumnType("DucaStatus")
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)

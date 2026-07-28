@@ -137,6 +137,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
             modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
+            modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
