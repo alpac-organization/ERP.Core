@@ -5,7 +5,7 @@
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class CampoStatusDuca : Migration
+    public partial class StatusDuca : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
