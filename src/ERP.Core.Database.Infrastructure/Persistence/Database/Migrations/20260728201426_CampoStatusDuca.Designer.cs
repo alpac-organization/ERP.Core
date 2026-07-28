@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260728200210_StatusDuca")]
-    partial class StatusDuca
+    [Migration("20260728201426_CampoStatusDuca")]
+    partial class CampoStatusDuca
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3731,7 +3731,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("record_entrance_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("DucaStatus")
+                        .HasColumnType("duca_status_enum")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
