@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
@@ -13,11 +14,13 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public string TrailerChassis { get; set; } = null!;
     public string DriverLicense { get; set; } = null!;
     public string Transportista { get; set; } = null!;
-    public string Medio { get; set; } = null!;
     public string DriverName { get; set; } = null!;
     public string SealNumber { get; set; } = null!;
 
     public DocumentType DocumentType { get; set; }
+
+    public Guid TransportUnitId { get; set; }
+    public virtual TransportUnit TransportUnit { get; set; } = null!;
 
     public DateOnly? MedioExitDate { get; set; }
     public TimeOnly? MedioExitTime { get; set; }
