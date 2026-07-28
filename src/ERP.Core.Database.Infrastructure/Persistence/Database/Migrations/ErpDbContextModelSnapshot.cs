@@ -3728,7 +3728,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("record_entrance_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("DucaStatus")
+                        .HasColumnType("duca_status_enum")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
