@@ -28,7 +28,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status_enum", new[] { "paid", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions", "judicial_seizures" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "duca_status_enum", new[] { "pending", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
@@ -3726,10 +3725,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("RecordEntranceId")
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("DucaStatus")
-                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
