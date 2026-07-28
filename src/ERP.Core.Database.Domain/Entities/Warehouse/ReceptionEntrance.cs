@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -16,8 +17,10 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public string DriverName { get; set; } = null!;
     public string SealNumber { get; set; } = null!;
 
-    public DateOnly? MedioExitDate {get;set;}
-    public TimeOnly? MedioExitTime {get;set;}
+    public DocumentType DocumentType { get; set; }
+
+    public DateOnly? MedioExitDate { get; set; }
+    public TimeOnly? MedioExitTime { get; set; }
 
     public string? UpdatedByUserId { get; set; }
     public string? UpdatedByUserName { get; set; }

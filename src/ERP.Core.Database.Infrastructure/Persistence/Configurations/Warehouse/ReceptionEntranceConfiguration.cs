@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Manager.Api.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -61,6 +62,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         builder.Property(e => e.SealNumber)
             .HasColumnName("seal_number")
             .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(e => e.DocumentType)
+            .HasColumnName("doument_type")
+            .HasColumnType("DocumentType")
             .IsRequired();
 
         builder.Property(e => e.MedioExitDate)

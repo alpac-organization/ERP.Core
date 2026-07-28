@@ -5,6 +5,7 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -138,6 +139,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
             modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
+            modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

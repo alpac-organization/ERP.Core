@@ -20,6 +20,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
+using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -69,6 +70,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                     npgsqlOptions.MapEnum<QuotationStatus>("quotation_status_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
+                    npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                 })
             );
 
