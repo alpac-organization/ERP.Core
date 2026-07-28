@@ -77,7 +77,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "entrance_ducats",
                 type: "duca_status_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'pending'::duca_status_enum");
         }
 
         /// <inheritdoc />
