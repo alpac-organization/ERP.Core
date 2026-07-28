@@ -30,7 +30,7 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
 
         builder.Property(e => e.Status)
             .HasColumnName("status")
-            .HasColumnType("DucaStatus")
+            .HasColumnType("duca_status_enum")
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
