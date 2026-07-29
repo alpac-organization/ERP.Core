@@ -34,6 +34,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValueSql("'pending'::purchase_request_status_enum")
                 .IsRequired();
 
+            builder.Property(e => e.Code)
+                .HasColumnName("code")
+                .IsRequired();
+
             builder.Property(e => e.Justification)
                 .HasColumnName("justification")
                 .HasMaxLength(1000);
