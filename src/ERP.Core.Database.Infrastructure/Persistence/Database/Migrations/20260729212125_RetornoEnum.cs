@@ -83,7 +83,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "record_entrances",
                 type: "record_entrance_status_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'Queue'::record_entrance_status_enum");
         }
 
         /// <inheritdoc />
