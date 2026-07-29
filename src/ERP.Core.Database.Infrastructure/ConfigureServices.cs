@@ -144,6 +144,9 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
             services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
+            services.AddScoped<ICustomsDeclarationDetailsRepository, CustomsDeclarationDetailsRepository>();
+            services.AddScoped<ITransportUnitRepository, TransportUnitRepository>();
+            services.AddScoped<IRequestQuotedPurchasesRepository, RequestQuotedPurchasesRepository>();
             #endregion
 
 
