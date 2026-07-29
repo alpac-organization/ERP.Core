@@ -22,8 +22,8 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public Guid TransportUnitId { get; set; }
     public virtual TransportUnit TransportUnit { get; set; } = null!;
 
-    public DateOnly? MedioExitDate { get; set; }
-    public TimeOnly? MedioExitTime { get; set; }
+    public DateOnly? TransportUnitExitDate { get; set; }
+    public TimeOnly? TransportUnitExitTime { get; set; }
 
     public string? UpdatedByUserId { get; set; }
     public string? UpdatedByUserName { get; set; }

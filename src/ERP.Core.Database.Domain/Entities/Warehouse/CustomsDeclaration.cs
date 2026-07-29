@@ -6,7 +6,7 @@ public class CustomsDeclarations : BaseEntity<Guid>
 {
     public string CustomsDeclarationNumber { get; set; } = null!;
     public Guid RecordEntranceId { get; set; }
-    public string ContainerNumber { get; set; } = null!;
-
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
+
+    public virtual CustomsDeclarationDetails? Details { get; set; }
 }

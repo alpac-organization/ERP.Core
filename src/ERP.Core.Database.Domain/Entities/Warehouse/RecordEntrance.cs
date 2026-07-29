@@ -12,7 +12,7 @@ public class RecordEntrance : BaseEntity<Guid>
     public DateOnly? ClosedAtDate { get; set; }
     public TimeOnly? ClosedAtTime { get; set; }
 
-    public bool IsConsolidated {get; set;} = false;
+    public bool IsConsolidated { get; set; } = false;
 
 
     //Navegaciones
@@ -24,7 +24,8 @@ public class RecordEntrance : BaseEntity<Guid>
     public virtual UnloadingDetails? UnloadingDetails { get; set; }
     public virtual ManifestCancellations? ManifestCancellation { get; set; }
     public virtual WarehouseReceipts? WarehouseReceipt { get; set; }
-   
+    public virtual CustomsDeclarations? CustomsDeclarations { get; set; }
+
     public virtual ICollection<EntranceDucats> EntranceDucats { get; set; } = [];
     public virtual ICollection<Discrepancies> Discrepancies { get; set; } = [];
     public virtual ICollection<StepExecutionLogs> ExecutionLogs { get; set; } = [];
