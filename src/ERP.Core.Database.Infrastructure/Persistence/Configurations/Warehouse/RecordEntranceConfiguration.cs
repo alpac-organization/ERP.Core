@@ -26,6 +26,7 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
         builder.Property(e => e.Status)
             .HasColumnName("status")
             .HasColumnType("record_entrance_status_enum")
+            .HasDefaultValueSql("queue")
             .IsRequired();
 
         builder.Property(e => e.ClosedAtDate)
