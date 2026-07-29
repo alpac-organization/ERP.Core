@@ -14,5 +14,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual Branch Branch { get; set; } = default!;
 
         public virtual ICollection<QuoteDetail> QuoteDetails {get; set;} = [];
+        public virtual ICollection<RequestQuotedPurchases> RequestQuotedPurchases { get; set; } = [];
     }
 }

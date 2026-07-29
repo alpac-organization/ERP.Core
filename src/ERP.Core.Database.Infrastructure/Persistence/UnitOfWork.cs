@@ -68,7 +68,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
-        IQuotedProductsRepository quotedProductsRepository
+        IQuotedProductsRepository quotedProductsRepository,
+        IRequestQuotedPurchasesRepository requestQuotedPurchasesRepository,
+        IRequestedProductsRepository requestedProductsRepository,
+        IPurchaseRequestsRepository purchaseRequestsRepository,
+        IPurchaseOrdersRepository purchaseOrdersRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -140,6 +144,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IQuotesRepository Quotations => quotesRepository;
         public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
         public IQuotedProductsRepository QuotedProducts => quotedProductsRepository;
+        public IRequestQuotedPurchasesRepository RequestQuotedPurchases => requestQuotedPurchasesRepository;
+        public IRequestedProductsRepository RequestedProducts => requestedProductsRepository;
+        public IPurchaseRequestsRepository PurchaseRequests => purchaseRequestsRepository;
+        public IPurchaseOrdersRepository PurchaseOrders => purchaseOrdersRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
