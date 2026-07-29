@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -13,12 +14,14 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static partial Regex GenerateModuleCode();
         private readonly IUnitOfWork _unitOfWork = _unitOfWork;
 
+        private static string GetTypeCode(PurchaseRequestType type) => type switch
+        {
+            PurchaseRequestType.Requisition => "REQ",
+            PurchaseRequestType.Eventual    => "EVE",
+            PurchaseRequestType.Monthly     => "MEN",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de solicitud no soportado.")
+        };
 
-        /// <summary>
-        /// Generador de codigo para cotizaciones por sucursal.
-        /// </summary>
-        /// <param name="branchId"></param>
-        /// <returns></returns>
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToQuotes(Guid branchId)
         {
             var branch = await _unitOfWork.Branches.Entities
@@ -48,6 +51,42 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             string sequenceFormatted = nextSequence.ToString().PadLeft(2, '0');
             string code = $"{branch.BranchCode?.ToUpper()}-{sequenceFormatted}";
+
+            return (true, code);
+        }
+
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId)
+        {
+            var branch = await _unitOfWork.Branches.Entities
+                .Include(b => b.Company)
+                .FirstOrDefaultAsync(b => b.Id == branchId);
+
+            if (branch == null)
+            {
+                return (false, string.Empty);
+            }
+
+            var typeCode = GetTypeCode(purchaseRequestType);
+
+            var lastPurchaseRequest = await _unitOfWork.PurchaseRequests.Entities
+                .Where(pr => pr.BranchId == branchId && pr.RequestType == purchaseRequestType)
+                .OrderByDescending(pr => pr.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            int nextSequence = 1;
+
+            if (lastPurchaseRequest != null && !string.IsNullOrWhiteSpace(lastPurchaseRequest.Code))
+            {
+                int lastDashIndex = lastPurchaseRequest.Code.LastIndexOf('-');
+
+                if (lastDashIndex > -1 && int.TryParse(lastPurchaseRequest.Code[(lastDashIndex + 1)..], out int lastSequence))
+                {
+                    nextSequence = lastSequence + 1;
+                }
+            }
+
+            string sequenceFormatted = nextSequence.ToString().PadLeft(2, '0');
+            string code = $"{branch.BranchCode?.ToUpper()}-{typeCode}-{sequenceFormatted}";
 
             return (true, code);
         }
