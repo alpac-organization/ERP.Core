@@ -6,11 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class EntidadesDeclaracionAduanera : Migration
+    public partial class CorrecionRecordEstatusEnum : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "status",
+                schema: "public",
+                table: "record_entrances");
+
             migrationBuilder.DropColumn(
                 name: "medio",
                 schema: "public",
@@ -52,7 +57,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.purchase_request_status_enum", "pending,approved,rejected,canceled")
                 .Annotation("Npgsql:Enum:public.purchase_request_type_enum", "requisition,eventual,monthly")
                 .Annotation("Npgsql:Enum:public.quotation_status_enum", "pending,approved,canceled,rejected")
-                .Annotation("Npgsql:Enum:public.record_entrance_status_enum", "queue,unloading,completed,abandoned")
                 .Annotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
                 .Annotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
                 .Annotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
@@ -386,7 +390,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.purchase_request_status_enum", "pending,approved,rejected,canceled")
                 .OldAnnotation("Npgsql:Enum:public.purchase_request_type_enum", "requisition,eventual,monthly")
                 .OldAnnotation("Npgsql:Enum:public.quotation_status_enum", "pending,approved,canceled,rejected")
-                .OldAnnotation("Npgsql:Enum:public.record_entrance_status_enum", "queue,unloading,completed,abandoned")
                 .OldAnnotation("Npgsql:Enum:public.role_type_enum", "administrator,supervisor,manager,operator")
                 .OldAnnotation("Npgsql:Enum:public.salary_type_enum", "fixed,variable,professional_services")
                 .OldAnnotation("Npgsql:Enum:public.source_deduction_payment_enum", "payroll,cash")
@@ -396,6 +399,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "general,fiscal,galeron_techado,patio_contenedores,predio_abierto,granel")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
+            migrationBuilder.AddColumn<int>(
+                name: "status",
+                schema: "public",
+                table: "record_entrances",
+                type: "record_entrance_status_enum",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AlterColumn<string>(
                 name: "transportista",
