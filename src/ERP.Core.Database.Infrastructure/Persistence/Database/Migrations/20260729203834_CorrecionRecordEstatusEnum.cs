@@ -190,7 +190,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "reception_entrance",
                 type: "document_type_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'DUCA'::document_type_enum");
 
             migrationBuilder.CreateTable(
                 name: "customs_declarations",
