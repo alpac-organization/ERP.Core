@@ -20,6 +20,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
+using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -72,6 +73,7 @@ namespace ERP.Core.Database.Infrastructure
                     
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
+                    npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                 })
             );
 
@@ -137,6 +139,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
+            services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
             #endregion
 
 

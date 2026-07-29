@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,12 +21,12 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.CountryOfOrigin)
             .HasColumnName("country_of_origin")
-            .HasMaxLength(100)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.Aduana)
             .HasColumnName("aduana")
-            .HasMaxLength(150)
+            .HasMaxLength(30)
             .IsRequired();
 
         builder.Property(e => e.PlateNumber)
@@ -35,41 +36,41 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.TrailerChassis)
             .HasColumnName("trailer_chassis")
-            .HasMaxLength(50)
+            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(e => e.DriverLicense)
             .HasColumnName("driver_license")
-            .HasMaxLength(50)
+            .HasMaxLength(10)
             .IsRequired();
 
         builder.Property(e => e.Transportista)
             .HasColumnName("transportista")
-            .HasMaxLength(150)
-            .IsRequired();
-
-        builder.Property(e => e.Medio)
-            .HasColumnName("medio")
-            .HasMaxLength(100)
+            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(e => e.DriverName)
             .HasColumnName("driver_name")
-            .HasMaxLength(200)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.SealNumber)
             .HasColumnName("seal_number")
-            .HasMaxLength(50)
+            .HasMaxLength(20)
             .IsRequired();
 
-        builder.Property(e => e.MedioExitDate)
-            .HasColumnName("medio_exit_date")
+        builder.Property(e => e.DocumentType)
+            .HasColumnName("document_type")
+            .HasColumnType("document_type_enum")
+            .IsRequired();
+
+        builder.Property(e => e.TransportUnitExitDate)
+            .HasColumnName("transport_unit_exit_date")
             .HasColumnType("date")
             .IsRequired(false);
 
-        builder.Property(e => e.MedioExitTime)
-            .HasColumnName("medio_exit_time")
+        builder.Property(e => e.TransportUnitExitTime)
+            .HasColumnName("transport_unit_exit_time")
             .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)
@@ -98,6 +99,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasColumnName("updated_by_user_name")
             .HasMaxLength(450)
             .IsRequired(false);
+
+        builder.HasOne(e => e.TransportUnit)
+            .WithMany()
+            .HasForeignKey(e => e.TransportUnitId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.RecordEntrance)
             .WithOne(e => e.ReceptionEntrance)
