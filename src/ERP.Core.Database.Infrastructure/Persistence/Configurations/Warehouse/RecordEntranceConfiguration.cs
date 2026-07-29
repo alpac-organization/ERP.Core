@@ -23,10 +23,10 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
             .HasColumnName("current_step_code")
             .IsRequired();
 
-        // builder.Property(e => e.Status)
-        //     .HasColumnName("status")
-        //     .HasColumnType("record_entrance_status_enum")
-        //     .IsRequired();
+        builder.Property(e => e.Status)
+            .HasColumnName("status")
+            .HasColumnType("record_entrance_status_enum")
+            .IsRequired();
 
         builder.Property(e => e.ClosedAtDate)
             .HasColumnName("closed_at_date")

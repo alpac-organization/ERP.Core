@@ -63,7 +63,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status_enum");
                     npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
                     npgsqlOptions.MapEnum<OSStatus>("oss_status_enum");
-                    // npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
+                    npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
                     npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
