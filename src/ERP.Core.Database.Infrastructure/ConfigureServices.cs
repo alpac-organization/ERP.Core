@@ -136,6 +136,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
+            services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
             #endregion
 
 

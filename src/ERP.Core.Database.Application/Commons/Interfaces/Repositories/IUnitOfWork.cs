@@ -53,6 +53,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILocationsRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
         ICustomerTypeRepository CustomerType { get; }
+        ITransportUnitRepository TransportUnit { get; }
         #endregion
 
         #region Warehouse
@@ -69,6 +70,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IRecordEntranceRepository RecordEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
         IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
+        ICustomsDeclarationsRepository CustomsDeclarations { get; }
+        ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
         #endregion
 
         #region Shopping

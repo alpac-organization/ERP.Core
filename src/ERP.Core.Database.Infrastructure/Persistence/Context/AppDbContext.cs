@@ -94,6 +94,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
         public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
+        public DbSet<CustomsDeclarations> CustomsDeclarations => Set<CustomsDeclarations>();
+        public DbSet<CustomsDeclarationDetails> CustomsDeclarationDetails => Set<CustomsDeclarationDetails>();
+        public DbSet<TransportUnit> TransportUnits => Set<TransportUnit>();
         #endregion
 
         #region Compras

@@ -68,7 +68,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
-        IQuotedProductsRepository quotedProductsRepository
+        IQuotedProductsRepository quotedProductsRepository,
+        ICustomsDeclarationsRepository customsDeclarationsRepository,
+        ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
+        ITransportUnitRepository transportUnitRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -119,6 +122,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
+        public ITransportUnitRepository TransportUnit => transportUnitRepository;
         #endregion
 
         #region Warehouse
@@ -132,6 +136,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IRecordEntranceRepository RecordEntrance => recordEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
         public IWorkflowStepDefinitionsRepository WorkflowStepDefinitions => workflowStepDefinitionsRepository;
+        public ICustomsDeclarationsRepository CustomsDeclarations => customsDeclarationsRepository;
+        public ICustomsDeclarationDetailsRepository CustomsDeclarationDetails => customsDeclarationDetailsRepository;
         #endregion
 
         #region Shopping
