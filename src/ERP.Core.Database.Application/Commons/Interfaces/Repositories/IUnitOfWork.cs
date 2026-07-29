@@ -78,6 +78,11 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IQuotesDetailsRepository QuotesDetails { get; }
         IQuotedProductsRepository QuotedProducts { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
+
+        IPurchaseOrdersRepository PurchaseOrders { get; }
+        IPurchaseRequestsRepository PurchaseRequests { get; }
+        IRequestedProductsRepository RequestedProducts { get; }
+        IRequestQuotedPurchasesRepository RequestQuotedPurchases { get; }
         #endregion
 
 

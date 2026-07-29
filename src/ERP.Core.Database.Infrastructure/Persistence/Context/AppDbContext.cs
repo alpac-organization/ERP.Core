@@ -101,6 +101,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Quotation> Quotations => Set<Quotation>();
         public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
         public DbSet<QuotedProduct> QuotedProducts => Set<QuotedProduct>();
+
+        public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+        public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
+        public DbSet<RequestedProduct> RequestedProducts => Set<RequestedProduct>();
+        public DbSet<RequestQuotedPurchases> RequestQuotedPurchases => Set<RequestQuotedPurchases>();
+
         #endregion
                 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -138,6 +144,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
             modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
+
+            modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
+            modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
