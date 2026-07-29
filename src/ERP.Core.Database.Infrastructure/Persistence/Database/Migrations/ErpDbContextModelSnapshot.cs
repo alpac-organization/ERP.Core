@@ -28,7 +28,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status_enum", new[] { "paid", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_status_enum", new[] { "progress", "completed", "pending", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_type_enum", new[] { "loans", "advance_christmas_bonus", "late_arrivals", "salary_advance", "sanction", "purisima", "other_deductions", "judicial_seizures" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "document_type_enum", new[] { "letter_collaborator_active", "salary_letter", "duca", "customs_declaration" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "duca_status_enum", new[] { "pending", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
@@ -44,7 +43,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "quotation_status_enum", new[] { "pending", "approved", "canceled", "rejected" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "record_entrance_status_enum", new[] { "queue", "unloading", "completed", "abandoned" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "record_entrance_status_enum", new[] { "in_tail", "in_unloading", "completed", "abandoned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "source_deduction_payment_enum", new[] { "payroll", "cash" });
@@ -1020,33 +1019,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CatalogId");
 
                     b.ToTable("sub_catalogs", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.TransportUnit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("transport_unit_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("transport_unit", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", b =>
@@ -3665,91 +3637,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("customers", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customs_declaration_detail_id");
-
-                    b.Property<string>("ContainerNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("container_number");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Customer")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("customer");
-
-                    b.Property<Guid>("CustomsDeclarationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<int>("Packages")
-                        .HasColumnType("integer")
-                        .HasColumnName("packages");
-
-                    b.Property<string>("Product")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("product");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomsDeclarationId")
-                        .IsUnique();
-
-                    b.ToTable("customs_declaration_details", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customs_declaration_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("CustomsDeclarationNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("number");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid>("RecordEntranceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("record_entrance_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecordEntranceId")
-                        .IsUnique();
-
-                    b.ToTable("customs_declarations", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4186,14 +4073,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("Aduana")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("aduana");
 
                     b.Property<string>("CountryOfOrigin")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("country_of_origin");
 
                     b.Property<DateTime>("CreatedAt")
@@ -4206,21 +4093,31 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("document_type_enum")
-                        .HasColumnName("document_type");
-
                     b.Property<string>("DriverLicense")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("driver_license");
 
                     b.Property<string>("DriverName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("driver_name");
+
+                    b.Property<string>("Medio")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("medio");
+
+                    b.Property<DateOnly?>("MedioExitDate")
+                        .HasColumnType("date")
+                        .HasColumnName("medio_exit_date");
+
+                    b.Property<TimeOnly?>("MedioExitTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("medio_exit_time");
 
                     b.Property<string>("PlateNumber")
                         .IsRequired()
@@ -4234,31 +4131,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("SealNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("seal_number");
 
                     b.Property<string>("TrailerChassis")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("trailer_chassis");
-
-                    b.Property<DateOnly?>("TransportUnitExitDate")
-                        .HasColumnType("date")
-                        .HasColumnName("transport_unit_exit_date");
-
-                    b.Property<TimeOnly?>("TransportUnitExitTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("transport_unit_exit_time");
-
-                    b.Property<Guid>("TransportUnitId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Transportista")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("transportista");
 
                     b.Property<string>("UpdatedByUserId")
@@ -4283,8 +4169,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("RecordEntranceId")
                         .IsUnique();
-
-                    b.HasIndex("TransportUnitId");
 
                     b.ToTable("reception_entrance", "public");
                 });
@@ -5639,28 +5523,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CustomerType");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", "CustomsDeclarations")
-                        .WithOne("Details")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", "CustomsDeclarationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CustomsDeclarations");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
-                        .WithOne("CustomsDeclarations")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", "RecordEntranceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("RecordEntrance");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "EntranceDucat")
@@ -5775,15 +5637,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.TransportUnit", "TransportUnit")
-                        .WithMany()
-                        .HasForeignKey("TransportUnitId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("RecordEntrance");
-
-                    b.Navigation("TransportUnit");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
@@ -6176,11 +6030,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ServiceOrders");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
-                {
-                    b.Navigation("Details");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
                 {
                     b.Navigation("Details");
@@ -6201,8 +6050,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
                 {
                     b.Navigation("Assignment");
-
-                    b.Navigation("CustomsDeclarations");
 
                     b.Navigation("Discrepancies");
 
