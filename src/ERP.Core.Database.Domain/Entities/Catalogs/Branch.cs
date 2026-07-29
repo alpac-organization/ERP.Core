@@ -25,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<Quotation> Quotes {get; set;} = [];
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<Warehouses> Warehouses {get; set;} = [];
+        public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
     }
 }

@@ -26,11 +26,6 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("product_name")
             .IsRequired();
 
-        builder.Property(p => p.UsageType)
-            .HasColumnName("product_usage_type")
-            .HasColumnType("product_usage_type_enum")
-            .IsRequired();
-
         builder.Property(p => p.CategoryId)
             .HasColumnName("category_id")
             .IsRequired();

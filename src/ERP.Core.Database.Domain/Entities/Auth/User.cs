@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -19,5 +20,6 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         public virtual ICollection<Session> Sessions { get; set; } = [];
         public virtual ICollection<UserProfile> Profiles { get; set; } = [];
+        public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
     }
 }
