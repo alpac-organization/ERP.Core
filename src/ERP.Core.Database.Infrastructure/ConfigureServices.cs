@@ -70,6 +70,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                     npgsqlOptions.MapEnum<QuotationStatus>("quotation_status_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
+                    
+                    npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
+                    npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                 })
             );
