@@ -9,6 +9,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public int Quantity { get; set; }
         public int? QuantityUnit { get; set; }
 
+        public string? Justification { get; set; }
+
         public Guid UnitMeasureId { get; set; }
         public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
