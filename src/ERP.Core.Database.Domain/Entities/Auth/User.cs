@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -13,7 +14,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public string? PasswordHash { get; set; }
         public string? IdentificationNumber { get; set; }
 
-        public int AreaId { get; set; }
+        public Guid AreaId { get; set; }
+        public virtual WorkArea WorkArea { get; set; } = default!;
 
         public UserType UserType { get; set; }
         public UserStatus UserStatus { get; set; }

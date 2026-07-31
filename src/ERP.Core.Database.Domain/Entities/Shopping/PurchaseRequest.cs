@@ -22,6 +22,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public Guid UserId { get; set; }
         public virtual User User { get; set; } = default!;
 
+        public Guid AreaId { get; set; }
+        public virtual WorkArea WorkArea { get; set;} = default!;
+
         public virtual ICollection<RequestedProduct> RequestdProducts { get; set; } = [];
         public virtual ICollection<RequestQuotedPurchases> RequestQuotedPurchases { get; set; } = [];
     }
