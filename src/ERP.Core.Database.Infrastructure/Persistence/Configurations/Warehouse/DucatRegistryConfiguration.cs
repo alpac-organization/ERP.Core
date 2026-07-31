@@ -18,8 +18,8 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .HasColumnName("record_entrance_id")
             .IsRequired();
                     
-        builder.Property(e => e.TrailerIdentifier)
-            .HasColumnName("trailer_identifier")
+        builder.Property(e => e.ContainerNumber)
+            .HasColumnName("container_number")
             .HasMaxLength(50)
             .IsRequired();
         
