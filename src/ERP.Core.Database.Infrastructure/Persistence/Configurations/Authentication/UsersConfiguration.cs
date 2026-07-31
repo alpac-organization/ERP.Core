@@ -59,6 +59,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
 
+            builder.HasOne(e => e.WorkArea)
+                .WithMany(u => u.Users)
+                .HasForeignKey(e => e.AreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasMany(u => u.Profiles)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
