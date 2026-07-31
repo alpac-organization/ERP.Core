@@ -46,7 +46,7 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.Transportista)
             .HasColumnName("transportista")
-            .HasMaxLength(20)
+            .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(e => e.DriverName)

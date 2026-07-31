@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260731023952_CampoNombreNuevo")]
+    partial class CampoNombreNuevo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,8 +212,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("user_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("AreaId")
-                        .HasColumnType("uuid")
+                    b.Property<int>("AreaId")
+                        .HasColumnType("integer")
                         .HasColumnName("area_id");
 
                     b.Property<DateTime>("CreatedAt")
@@ -257,8 +260,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("user_type");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
 
                     b.ToTable("users", "public");
                 });
@@ -3189,10 +3190,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("purchase_request_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("AreaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("area_id");
-
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uuid")
                         .HasColumnName("branch_id");
@@ -3245,8 +3242,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
 
                     b.HasIndex("BranchId");
 
@@ -4937,17 +4932,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.User", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
-                        .WithMany("Users")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("WorkArea");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.UserModuleRoles", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Module", "Module")
@@ -5519,12 +5503,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
-                        .WithMany("PurchaseRequests")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
                         .WithMany("PurchaseRequests")
                         .HasForeignKey("BranchId")
@@ -5540,8 +5518,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("User");
-
-                    b.Navigation("WorkArea");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.Quotation", b =>
@@ -6104,10 +6080,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
                 {
                     b.Navigation("CostCenters");
-
-                    b.Navigation("PurchaseRequests");
-
-                    b.Navigation("Users");
 
                     b.Navigation("WorkingInformations");
                 });

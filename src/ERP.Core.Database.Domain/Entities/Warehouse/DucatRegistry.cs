@@ -5,7 +5,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class DucatRegistry : BaseEntity<Guid>
 {
     public Guid RecordEntranceId { get; set; }
-    public string TrailerIdentifier { get; set; } = null!;
+    public string ContainerNumber { get; set; } = null!;
     public string Empresa { get; set; } = null!; //naviera
     public string? GeneralObservations { get; set; }
     public bool IsInTransit { get; set; }
