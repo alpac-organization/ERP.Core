@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public PurchaseRequestStatus RequestStatus { get; set; } = PurchaseRequestStatus.Pending;
 
         public string? Justification { get; set; }
+        public Guid? UserRevisionId { get; set; }
         public string? ReasonRejection { get; set; }
         public DateOnly? RevisionDate { get; set; }
 

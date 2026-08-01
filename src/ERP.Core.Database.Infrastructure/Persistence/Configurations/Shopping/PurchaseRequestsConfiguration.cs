@@ -38,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("code")
                 .IsRequired();
 
+            builder.Property(e => e.UserRevisionId)
+                .HasColumnName("user_revision_id")
+                .IsRequired(false);
+
             builder.Property(e => e.Justification)
                 .HasColumnName("justification")
                 .HasMaxLength(1000);
