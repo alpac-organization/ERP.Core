@@ -26,7 +26,7 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.Aduana)
             .HasColumnName("aduana")
-            .HasMaxLength(30)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.PlateNumber)
@@ -36,12 +36,12 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.TrailerChassis)
             .HasColumnName("trailer_chassis")
-            .HasMaxLength(20)
+            .HasMaxLength(30)
             .IsRequired();
 
         builder.Property(e => e.DriverLicense)
             .HasColumnName("driver_license")
-            .HasMaxLength(10)
+            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(e => e.Transportista)
@@ -51,12 +51,12 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.DriverName)
             .HasColumnName("driver_name")
-            .HasMaxLength(50)
+            .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(e => e.SealNumber)
             .HasColumnName("seal_number")
-            .HasMaxLength(20)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(e => e.DocumentType)

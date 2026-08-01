@@ -93,6 +93,25 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         builder.Property(e => e.UpdatedTime)
             .HasColumnName("updated_time")
             .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserId)
+            .HasColumnName("registered_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserName)
+            .HasColumnName("registered_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
+   
+        builder.Property(e => e.RegisteredDate)
+            .HasColumnName("registered_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredTime)
+            .HasColumnName("registered_time")
+            .IsRequired(false);
 
     }
 }
