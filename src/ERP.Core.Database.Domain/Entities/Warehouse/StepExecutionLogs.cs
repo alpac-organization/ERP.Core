@@ -14,7 +14,9 @@ public class StepExecutionLogs : BaseEntity<Guid>
     public string ProcessedByUserId { get; set; } = null!;
     public string ProcessedByUserName { get; set; } = null!;
     
-    
+    public string? FinishedByUserId { get; set; } = null!;
+    public string? FinishedByUserName { get; set; } = null!;
+
 
     // Propiedades de navegación
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
