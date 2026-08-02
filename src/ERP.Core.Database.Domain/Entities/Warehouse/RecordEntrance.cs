@@ -29,4 +29,6 @@ public class RecordEntrance : BaseEntity<Guid>
     public virtual ICollection<EntranceDucats> EntranceDucats { get; set; } = [];
     public virtual ICollection<Discrepancies> Discrepancies { get; set; } = [];
     public virtual ICollection<StepExecutionLogs> ExecutionLogs { get; set; } = [];
+
+    public virtual ServiceOrder? ServiceOrder { get; set; }
 }

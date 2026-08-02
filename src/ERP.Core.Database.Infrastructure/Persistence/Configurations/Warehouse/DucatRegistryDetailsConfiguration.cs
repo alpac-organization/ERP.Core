@@ -63,6 +63,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         builder.HasOne(e => e.DucatRegistry)
             .WithMany(h => h.Details)
             .HasForeignKey(e => e.RecordEntranceId)
+            .HasPrincipalKey(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.EntranceDucat)
