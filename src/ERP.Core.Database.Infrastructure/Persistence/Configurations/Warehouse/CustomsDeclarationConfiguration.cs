@@ -20,7 +20,7 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
 
         builder.Property(e => e.CustomsDeclarationNumber)
             .HasColumnName("number")
-            .HasMaxLength(20)
+            .HasMaxLength(30)
             .IsRequired();
         
         builder.Property(e => e.CreatedAt)

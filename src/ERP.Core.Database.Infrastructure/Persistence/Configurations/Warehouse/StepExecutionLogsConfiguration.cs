@@ -51,6 +51,7 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasMaxLength(450)
             .IsRequired();
 
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")

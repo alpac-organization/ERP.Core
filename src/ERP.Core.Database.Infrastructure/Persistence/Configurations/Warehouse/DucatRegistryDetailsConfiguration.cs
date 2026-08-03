@@ -93,6 +93,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         builder.Property(e => e.UpdatedTime)
             .HasColumnName("updated_time")
             .IsRequired(false);
+        
 
     }
 }

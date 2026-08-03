@@ -22,5 +22,4 @@ public class DucatRegistryDetails : BaseEntity<Guid>
     public string? UpdatedByUserName { get; set; }
     public DateOnly? UpdatedDate { get; set; }
     public TimeOnly? UpdatedTime { get; set; }
-
 }

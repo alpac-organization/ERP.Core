@@ -13,6 +13,8 @@ public class StepExecutionLogs : BaseEntity<Guid>
     public TimeOnly? EndTime { get; set; }
     public string ProcessedByUserId { get; set; } = null!;
     public string ProcessedByUserName { get; set; } = null!;
+    
+    
 
     // Propiedades de navegación
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;

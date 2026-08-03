@@ -33,7 +33,7 @@ public class CustomsDeclarationDetailsCondiguration : IEntityTypeConfiguration<C
  
         builder.Property(e => e.ContainerNumber)
             .HasColumnName("container_number")
-            .HasMaxLength(20)
+            .HasMaxLength(30)
             .IsRequired();
  
         builder.Property(e => e.CreatedAt)
