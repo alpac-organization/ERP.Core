@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -42,11 +42,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(w => w.TotalCubicCapacity)
-            .HasColumnName("total_cubic_capacity")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
@@ -55,41 +50,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
             .HasColumnType("warehouse_type_enum")
-            .IsRequired();
-
-        builder.Property(w => w.TotalArea)
-            .HasColumnName("total_area")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.NetStorageArea)
-            .HasColumnName("net_storage_area")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.UnusableArea)
-            .HasColumnName("unusable_area")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.MaxHeight)
-            .HasColumnName("max_height")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.MinHeight)
-            .HasColumnName("min_height")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.RampasCount)
-            .HasColumnName("rampas_count")
-            .HasPrecision(5, 1)
-            .IsRequired();
-
-        builder.Property(w => w.ParkingSpacesCount)
-            .HasColumnName("parking_spaces_count")
-            .HasPrecision(5, 1)
             .IsRequired();
 
         builder.Property(w => w.ParentWarehouseId)

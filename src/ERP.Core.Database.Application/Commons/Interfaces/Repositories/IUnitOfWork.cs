@@ -60,11 +60,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
         IWarehousesRepository Warehouses { get; }
+        IWarehouseDetailsRepository WarehouseDetails { get; }
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
-        #endregion
-
-        #region Warehouse
         IEntranceDucatsRepository EntranceDucats { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
         IRecordEntranceRepository RecordEntrance { get; }
