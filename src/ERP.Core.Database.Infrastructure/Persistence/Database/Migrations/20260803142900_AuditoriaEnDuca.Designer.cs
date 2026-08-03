@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260801030705_AuditoriaDucaRegistro")]
-    partial class AuditoriaDucaRegistro
+    [Migration("20260803142900_AuditoriaEnDuca")]
+    partial class AuditoriaEnDuca
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3981,24 +3981,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
 
-                    b.Property<string>("RegisteredByUserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
-                        .HasColumnName("registered_by_user_id");
-
-                    b.Property<string>("RegisteredByUserName")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
-                        .HasColumnName("registered_by_user_name");
-
-                    b.Property<DateOnly?>("RegisteredDate")
-                        .HasColumnType("date")
-                        .HasColumnName("registered_date");
-
-                    b.Property<TimeOnly?>("RegisteredTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("registered_time");
-
                     b.Property<string>("Remitente")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -4478,16 +4460,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<TimeOnly?>("EndTime")
                         .HasColumnType("time without time zone")
                         .HasColumnName("end_time");
-
-                    b.Property<string>("FinishedByUserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
-                        .HasColumnName("finished_by_user_id");
-
-                    b.Property<string>("FinishedByUserName")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
-                        .HasColumnName("finished_by_user_name");
 
                     b.Property<string>("ProcessedByUserId")
                         .IsRequired()
