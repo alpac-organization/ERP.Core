@@ -6,27 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AuditoriaDucaRegistro : Migration
+    public partial class AuditoriaEnDuca : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "finished_by_user_id",
-                schema: "public",
-                table: "step_execution_logs",
-                type: "character varying(450)",
-                maxLength: 450,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "finished_by_user_name",
-                schema: "public",
-                table: "step_execution_logs",
-                type: "character varying(450)",
-                maxLength: 450,
-                nullable: true);
-
             migrationBuilder.AlterColumn<string>(
                 name: "trailer_chassis",
                 schema: "public",
@@ -85,36 +69,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "registered_by_user_id",
                 schema: "public",
-                table: "ducat_registry_details",
-                type: "character varying(450)",
-                maxLength: 450,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "registered_by_user_name",
-                schema: "public",
-                table: "ducat_registry_details",
-                type: "character varying(450)",
-                maxLength: 450,
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateOnly>(
-                name: "registered_date",
-                schema: "public",
-                table: "ducat_registry_details",
-                type: "date",
-                nullable: true);
-
-            migrationBuilder.AddColumn<TimeOnly>(
-                name: "registered_time",
-                schema: "public",
-                table: "ducat_registry_details",
-                type: "time without time zone",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "registered_by_user_id",
-                schema: "public",
                 table: "ducat_registry",
                 type: "character varying(450)",
                 maxLength: 450,
@@ -168,36 +122,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "finished_by_user_id",
-                schema: "public",
-                table: "step_execution_logs");
-
-            migrationBuilder.DropColumn(
-                name: "finished_by_user_name",
-                schema: "public",
-                table: "step_execution_logs");
-
-            migrationBuilder.DropColumn(
-                name: "registered_by_user_id",
-                schema: "public",
-                table: "ducat_registry_details");
-
-            migrationBuilder.DropColumn(
-                name: "registered_by_user_name",
-                schema: "public",
-                table: "ducat_registry_details");
-
-            migrationBuilder.DropColumn(
-                name: "registered_date",
-                schema: "public",
-                table: "ducat_registry_details");
-
-            migrationBuilder.DropColumn(
-                name: "registered_time",
-                schema: "public",
-                table: "ducat_registry_details");
-
             migrationBuilder.DropColumn(
                 name: "registered_by_user_id",
                 schema: "public",
