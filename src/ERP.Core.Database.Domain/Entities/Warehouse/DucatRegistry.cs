@@ -17,8 +17,10 @@ public class DucatRegistry : BaseEntity<Guid>
 
     public string? RegisteredByUserId { get; set; }
     public string? RegisteredByUserName { get; set; }
-    public DateOnly? RegisteredDate { get; set; }
-    public TimeOnly? RegisteredTime { get; set; }
+    public DateOnly? RegisteredStartDate { get; set; }
+    public DateOnly? RegisteredEndDate { get; set; }
+    public TimeOnly? RegisteredStartTime { get; set; }
+    public TimeOnly? RegisteredEndTime { get; set; }
 
 
 
