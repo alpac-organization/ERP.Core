@@ -8,6 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
     public class PurchaseRequest : BaseEntity<Guid>
     {
         public string? Code { get; set; }
+        public bool IsActive { get; set; }
         public DateOnly RequestDate { get; set; }
         public PurchaseRequestType RequestType { get; set; }
         public PurchaseRequestStatus RequestStatus { get; set; } = PurchaseRequestStatus.Pending;

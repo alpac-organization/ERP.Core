@@ -34,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValueSql("'pending'::purchase_request_status_enum")
                 .IsRequired();
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.Property(e => e.Code)
                 .HasColumnName("code")
                 .IsRequired();
