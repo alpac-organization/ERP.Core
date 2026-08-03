@@ -86,8 +86,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<EntranceDucats> EntranceDucats => Set<EntranceDucats>();
+        public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
-        public DbSet<DucatRegistry> DucatRegistryHeaders => Set<DucatRegistry>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
         public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
         public DbSet<Discrepancies> Discrepancies => Set<Discrepancies>();

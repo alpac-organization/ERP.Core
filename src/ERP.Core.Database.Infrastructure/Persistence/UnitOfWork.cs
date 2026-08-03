@@ -59,6 +59,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
+        IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
+        IDucatRegistryRepository ducatRegistryRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
         IRecordEntranceRepository recordEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
@@ -136,6 +138,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
+        public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
+        public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
         public IRecordEntranceRepository RecordEntrance => recordEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;

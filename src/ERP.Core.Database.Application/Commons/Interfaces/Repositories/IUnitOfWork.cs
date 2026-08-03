@@ -66,6 +66,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Warehouse
         IEntranceDucatsRepository EntranceDucats { get; }
+        IDucatRegistryRepository DucatRegistries { get; }
+        IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
         IRecordEntranceRepository RecordEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
