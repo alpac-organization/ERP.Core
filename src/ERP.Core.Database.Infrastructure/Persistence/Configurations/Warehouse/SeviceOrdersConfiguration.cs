@@ -56,5 +56,10 @@ public class ServiceOrdersConfiguration : IEntityTypeConfiguration<ServiceOrder>
             .WithMany(e => e.ServiceOrders)
             .HasForeignKey(e => e.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.RecordEntrance)
+            .WithOne(e => e.ServiceOrder)
+            .HasForeignKey<RecordEntrance>(e => e.ServiceOrderId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

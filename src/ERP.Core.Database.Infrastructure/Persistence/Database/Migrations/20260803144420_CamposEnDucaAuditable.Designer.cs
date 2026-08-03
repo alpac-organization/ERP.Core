@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260803144420_CamposEnDucaAuditable")]
+    partial class CamposEnDucaAuditable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3978,6 +3981,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
 
+                    b.Property<string>("RegisteredByUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)")
+                        .HasColumnName("registered_by_user_id");
+
+                    b.Property<string>("RegisteredByUserName")
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)")
+                        .HasColumnName("registered_by_user_name");
+
+                    b.Property<DateOnly?>("RegisteredDate")
+                        .HasColumnType("date")
+                        .HasColumnName("registered_date");
+
+                    b.Property<TimeOnly?>("RegisteredTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("registered_time");
+
                     b.Property<string>("Remitente")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -4460,6 +4481,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<TimeOnly?>("EndTime")
                         .HasColumnType("time without time zone")
                         .HasColumnName("end_time");
+
+                    b.Property<string>("FinishedByUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)")
+                        .HasColumnName("finished_by_user_id");
+
+                    b.Property<string>("FinishedByUserName")
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)")
+                        .HasColumnName("finished_by_user_name");
 
                     b.Property<string>("ProcessedByUserId")
                         .IsRequired()

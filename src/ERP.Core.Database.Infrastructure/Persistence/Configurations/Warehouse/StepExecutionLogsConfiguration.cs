@@ -51,6 +51,16 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasMaxLength(450)
             .IsRequired();
 
+        builder.Property(e => e.FinishedByUserId)
+            .HasColumnName("finished_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.FinishedByUserName)
+            .HasColumnName("finished_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
+
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
