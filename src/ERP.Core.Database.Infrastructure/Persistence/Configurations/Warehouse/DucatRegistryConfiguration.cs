@@ -64,13 +64,31 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .HasMaxLength(450)
             .IsRequired(false);
 
-        builder.Property(e => e.RegisteredDate)
-            .HasColumnName("registered_date")
+        builder.Property(e => e.RegisteredStartDate)
+            .HasColumnName("registered_start_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredEndDate)
+            .HasColumnName("registered_end_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredStartTime)
+            .HasColumnName("registered_start_time")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredEndTime)
+            .HasColumnName("registered_end_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredStartDate)
+            .HasColumnName("registered_start_date")
             .HasColumnType("date")
             .IsRequired(false);
         
-        builder.Property(e => e.RegisteredTime)
-            .HasColumnName("registered_time")
+        builder.Property(e => e.RegisteredEndTime)
+            .HasColumnName("registered_end_time")
             .IsRequired(false);
         
         builder.Property(e => e.RegisteredByUserId)
