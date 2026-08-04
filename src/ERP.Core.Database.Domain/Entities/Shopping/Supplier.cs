@@ -15,8 +15,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public ConstitutionType ConstitutionType { get; set; }
 
-        // public Guid CreatedByUserId { get; set; }
-        // public virtual User User { get; set; } = default!;
+        public Guid UserId { get; set; }
+        public virtual User User { get; set; } = default!;
 
         public virtual SupplierDetails SupplierDetails { get; set; } = default!;
     } 

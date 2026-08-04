@@ -24,7 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         /// Control de registros y sesiones que ha relizado el usuario, para poder llevar un control de auditoría y seguridad de la aplicación.
         /// </summary>
         public virtual ICollection<Session> Sessions { get; set; } = [];
-        // public virtual ICollection<Supplier> Suppliers { get; set; } = [];
+        public virtual ICollection<Supplier> Suppliers { get; set; } = [];
         // public virtual ICollection<Quotation> Quotations { get; set; } = [];
         public virtual ICollection<UserProfile> Profiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
