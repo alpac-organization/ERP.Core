@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Shopping;
@@ -22,6 +23,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual Company Company { get; set; } = null!;
 
         //Seccionamientos de nominas.
+        public virtual ICollection<User> Users { get; set; } = [];
+
         public virtual ICollection<Quotation> Quotes {get; set;} = [];
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<Warehouses> Warehouses {get; set;} = [];
