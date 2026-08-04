@@ -103,7 +103,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
-        public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
+        // public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
         public DbSet<QuotedProduct> QuotedProducts => Set<QuotedProduct>();
 
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
@@ -146,7 +146,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
-            modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
+            // modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
 

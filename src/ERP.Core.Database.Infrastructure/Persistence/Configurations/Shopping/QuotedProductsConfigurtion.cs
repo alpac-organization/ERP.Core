@@ -18,42 +18,34 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.IsWholesale)
-                .HasColumnName("is_wholesale")
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder.Property(e => e.PricePerUnit)
-                .HasColumnName("price_per_unit")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
-            builder.Property(e => e.PriceWholesale)
-                .HasColumnName("price_wholesale")
-                .HasPrecision(18, 2);
-
             builder.Property(e => e.Quantity)
                 .HasColumnName("quantity")
                 .IsRequired();
 
-            builder.Property(e => e.EquivalentQuantity)
-                .HasColumnName("equivalent_quantity");
+            builder.Property(e => e.QuantityPerUnit)
+                .HasColumnName("quantity_per_unit")
+                .IsRequired(false);
 
             builder.Property(e => e.AdditionalData)
                 .HasColumnName("additional_data")
                 .HasColumnType("jsonb")
                 .HasDefaultValue("{}");
 
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .HasMaxLength(300)
+                .IsRequired();
+
             builder.Property(e => e.ProductId)
                 .HasColumnName("product_id")
                 .IsRequired();
 
-            builder.Property(e => e.UnitOfMeasureId)
+            builder.Property(e => e.UnitMeasureId)
                 .HasColumnName("unit_measure_id")
                 .IsRequired();
 
-            builder.Property(e => e.QuoteDetailId)
-                .HasColumnName("quote_detail_id")
+            builder.Property(e => e.QuotationId)
+                .HasColumnName("quotation_id")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
@@ -64,20 +56,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
+            builder.HasOne(e => e.Quotation)
+                .WithMany(e => e.QuotedProducts)
+                .HasForeignKey(e => e.QuotationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(e => e.Product)
-                .WithMany()
+                .WithMany(e => e.QuotedProducts)
                 .HasForeignKey(e => e.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.UnitMeasure)
-                .WithMany()
-                .HasForeignKey(e => e.UnitOfMeasureId)
+            builder.HasOne(e => e.UnitOfMeasure)
+                .WithMany(e => e.QuotedProducts)
+                .HasForeignKey(e => e.UnitMeasureId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(e => e.QuoteDetail)
-                .WithMany(z => z.QuotedProducts)
-                .HasForeignKey(e => e.QuoteDetailId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
