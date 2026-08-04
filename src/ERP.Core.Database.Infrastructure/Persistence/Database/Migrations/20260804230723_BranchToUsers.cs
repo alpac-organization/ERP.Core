@@ -16,7 +16,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "users",
                 type: "uuid",
-                nullable: true);
+                nullable: false,
+                defaultValue: "f9c8c488-f53e-46c2-9594-1e9b23cf805c");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_branch_id",

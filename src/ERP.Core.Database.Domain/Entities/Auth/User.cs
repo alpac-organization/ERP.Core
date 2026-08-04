@@ -20,8 +20,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public Guid AreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
 
-        public Guid? BranchId { get; set; }
-        public virtual Branch? Branch { get; set; } = default!;
+        public Guid BranchId { get; set; }
+        public virtual Branch Branch { get; set; } = default!;
 
         /// <summary>
         /// Control de registros y sesiones que ha relizado el usuario, para poder llevar un control de auditoría y seguridad de la aplicación.
