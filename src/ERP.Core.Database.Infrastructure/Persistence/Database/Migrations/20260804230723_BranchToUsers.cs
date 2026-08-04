@@ -17,7 +17,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "users",
                 type: "uuid",
                 nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+                defaultValue: "f9c8c488-f53e-46c2-9594-1e9b23cf805c");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_branch_id",
