@@ -25,7 +25,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         /// </summary>
         public virtual ICollection<Session> Sessions { get; set; } = [];
         public virtual ICollection<Supplier> Suppliers { get; set; } = [];
-        // public virtual ICollection<Quotation> Quotations { get; set; } = [];
+        public virtual ICollection<Quotation> Quotations { get; set; } = [];
         public virtual ICollection<UserProfile> Profiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
     }

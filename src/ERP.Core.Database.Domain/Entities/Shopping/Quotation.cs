@@ -14,8 +14,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
 
-        // public Guid CreatedByUserId { get; set; }
-        // public virtual User User { get; set; } = default!;
+        public Guid CreatedByUserId { get; set; }
+        public virtual User User { get; set; } = default!;
 
         public virtual ICollection<QuotedProduct> QuotedProducts { get; set; } = [];
         public virtual ICollection<RequestQuotedPurchases> RequestQuotedPurchases { get; set; } = [];
