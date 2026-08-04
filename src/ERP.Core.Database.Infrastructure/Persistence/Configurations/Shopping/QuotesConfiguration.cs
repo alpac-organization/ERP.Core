@@ -18,8 +18,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.MadeBy)
-                .HasColumnName("made_by")
+            builder.Property(e => e.CreatedByUserId)
+                .HasColumnName("created_by_user_id")
                 .IsRequired();
 
             builder.Property(e => e.BranchId)
@@ -28,6 +28,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.QuotationCode)
                 .HasColumnName("quotation_code")
+                .IsRequired();
+
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
                 .IsRequired();
 
             builder.Property(e => e.QuoteDate)
@@ -46,8 +51,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
+                
+            builder.HasOne(p => p.User)
+                .WithMany(p => p.Quotations)
+                .HasForeignKey(p => p.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(p => p.QuoteDetails)
+            builder.HasMany(p => p.QuotedProducts)
+                .WithOne(p => p.Quotation)
+                .HasForeignKey(p => p.QuotationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(p => p.RequestQuotedPurchases)
                 .WithOne(p => p.Quotation)
                 .HasForeignKey(p => p.QuotationId)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -67,7 +67,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISuppliersRepository suppliersRepository,
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
-        IQuotesDetailsRepository quotesDetailsRepository,
+        // IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
         IQuotedProductsRepository quotedProductsRepository,
@@ -152,7 +152,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISuppliersRepository Suppliers => suppliersRepository;
         public ISuppliersDetailsRepository SuppliersDetails => suppliersDetailsRepository;
         public IQuotesRepository Quotations => quotesRepository;
-        public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
+        // public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
         public IQuotedProductsRepository QuotedProducts => quotedProductsRepository;
         public IRequestQuotedPurchasesRepository RequestQuotedPurchases => requestQuotedPurchasesRepository;
         public IRequestedProductsRepository RequestedProducts => requestedProductsRepository;

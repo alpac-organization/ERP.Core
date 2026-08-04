@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public bool IsActive { get; set; } = true;
 
+        public virtual ICollection<QuotedProduct> QuotedProducts { get; set; } = [];
         public virtual ICollection<RequestedProduct> RequestedProducts { get; set; } = [];
     }
 }

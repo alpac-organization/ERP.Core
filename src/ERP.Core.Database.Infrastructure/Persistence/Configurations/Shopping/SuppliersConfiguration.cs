@@ -37,8 +37,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnType("identification_type_enum")
                 .IsRequired(false);
 
-            builder.Property(e => e.RegisterBy)
-                .HasColumnName("register_by")
+            builder.Property(e => e.UserId)
+                .HasColumnName("user_id")
                 .IsRequired();
 
             builder.Property(e => e.IsActive)
@@ -57,7 +57,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(c => c.SupplierDetails)
                 .WithOne(s => s.Supplier)
                 .HasForeignKey<SupplierDetails>(s => s.SupplierId)
-                .OnDelete(DeleteBehavior.Cascade);            
+                .OnDelete(DeleteBehavior.Cascade);             
         }
     }
 }

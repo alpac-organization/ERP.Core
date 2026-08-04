@@ -11,7 +11,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public string? ContactEmail { get; set; }
         public string? ContactPhoneNumber { get; set; }
 
-
         public int CreditDays { get; set; }
         public bool HasCredit { get; set; }
 
