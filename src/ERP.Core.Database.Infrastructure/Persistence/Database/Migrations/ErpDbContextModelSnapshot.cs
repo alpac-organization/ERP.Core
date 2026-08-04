@@ -212,7 +212,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("area_id");
 
-                    b.Property<Guid?>("BranchId")
+                    b.Property<Guid>("BranchId")
                         .HasColumnType("uuid")
                         .HasColumnName("branch_id");
 
@@ -4985,7 +4985,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
                         .WithMany("Users")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Branch");
 
