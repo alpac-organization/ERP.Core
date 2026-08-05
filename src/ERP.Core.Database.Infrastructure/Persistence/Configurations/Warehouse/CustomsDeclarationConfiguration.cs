@@ -13,7 +13,7 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
 
         builder.Property(e => e.Id)
             .HasColumnName("customs_declaration_id");
-            
+
         builder.Property(e => e.RecordEntranceId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
@@ -22,18 +22,35 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
             .HasColumnName("number")
             .HasMaxLength(30)
             .IsRequired();
-        
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
- 
+
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-        
+
         builder.HasOne(e => e.RecordEntrance)
             .WithOne(e => e.CustomsDeclarations)
             .HasForeignKey<CustomsDeclarations>(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(e => e.ServiceOrderId)
+            .HasColumnName("service_order_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.ServiceOrderCode)
+            .HasColumnName("service_order_code")
+            .HasMaxLength(50)
+            .IsRequired(false);
+
+        builder.HasOne(d => d.ServiceOrder)
+            .WithOne(so => so.CustomsDeclarations)
+            .HasForeignKey<CustomsDeclarations>(d => d.ServiceOrderId)   // 👈 debe ser CustomsDeclarations, no EntranceDucats
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+
     }
 }
