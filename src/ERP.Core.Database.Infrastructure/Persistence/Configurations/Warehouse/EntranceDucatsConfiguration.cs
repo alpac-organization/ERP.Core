@@ -46,5 +46,21 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
             .WithMany(h => h.EntranceDucats)
             .HasForeignKey(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        
+        builder.Property(e => e.ServiceOrderId)
+            .HasColumnName("service_order_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.ServiceOrderCode)
+            .HasColumnName("service_order_code")
+            .HasMaxLength(50) 
+            .IsRequired(false);
+
+         builder.HasOne(d => d.ServiceOrder)
+            .WithOne()
+            .HasForeignKey<EntranceDucats>(d => d.ServiceOrderId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false); 
     }
 }

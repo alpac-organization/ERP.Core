@@ -9,4 +9,10 @@ public class CustomsDeclarations : BaseEntity<Guid>
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
 
     public virtual CustomsDeclarationDetails? Details { get; set; }
+
+    public Guid? ServiceOrderId { get; set; }
+    public string? ServiceOrderCode { get; set; }
+
+    public virtual ServiceOrder? ServiceOrder { get; set; }
+
 }

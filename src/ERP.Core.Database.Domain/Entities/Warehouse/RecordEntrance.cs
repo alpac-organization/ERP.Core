@@ -6,7 +6,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class RecordEntrance : BaseEntity<Guid>
 {
-    public Guid? ServiceOrderId { get; set; }
     public string CurrentStepCode { get; set; } = null!;
     public RecordEntranceStatus Status { get; set; }
     public DateOnly? ClosedAtDate { get; set; }
@@ -29,6 +28,4 @@ public class RecordEntrance : BaseEntity<Guid>
     public virtual ICollection<EntranceDucats> EntranceDucats { get; set; } = [];
     public virtual ICollection<Discrepancies> Discrepancies { get; set; } = [];
     public virtual ICollection<StepExecutionLogs> ExecutionLogs { get; set; } = [];
-
-    public virtual ServiceOrder? ServiceOrder { get; set; }
 }
