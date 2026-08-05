@@ -46,10 +46,10 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
             .IsRequired(false);
 
         builder.HasOne(d => d.ServiceOrder)
-           .WithOne()
-           .HasForeignKey<EntranceDucats>(d => d.ServiceOrderId)
-           .OnDelete(DeleteBehavior.Restrict)
-           .IsRequired(false);
+            .WithOne(so => so.CustomsDeclarations)
+            .HasForeignKey<CustomsDeclarations>(d => d.ServiceOrderId)   // 👈 debe ser CustomsDeclarations, no EntranceDucats
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
 
     }
