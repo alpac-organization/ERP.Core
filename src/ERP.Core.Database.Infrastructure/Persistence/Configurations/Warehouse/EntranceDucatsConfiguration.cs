@@ -10,7 +10,7 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
     public void Configure(EntityTypeBuilder<EntranceDucats> builder)
     {
         builder.ToTable("entrance_ducats");
-        
+
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
@@ -18,11 +18,11 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();
-        
+
         builder.Property(e => e.RecordEntranceId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
-        
+
         builder.Property(e => e.DucatNumber)
             .HasColumnName("ducat_number")
             .HasMaxLength(100)
@@ -46,5 +46,21 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
             .WithMany(h => h.EntranceDucats)
             .HasForeignKey(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
+
+
+        builder.Property(e => e.ServiceOrderId)
+            .HasColumnName("service_order_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.ServiceOrderCode)
+            .HasColumnName("service_order_code")
+            .HasMaxLength(50)
+            .IsRequired(false);
+
+        builder.HasOne(d => d.ServiceOrder)
+           .WithOne(so => so.EntranceDucat)
+           .HasForeignKey<EntranceDucats>(d => d.ServiceOrderId)
+           .OnDelete(DeleteBehavior.Restrict)
+           .IsRequired(false);
     }
 }
