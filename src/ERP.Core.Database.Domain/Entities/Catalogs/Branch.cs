@@ -24,8 +24,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Seccionamientos de nominas.
         public virtual ICollection<User> Users { get; set; } = [];
-
-        public virtual ICollection<Quotation> Quotes {get; set;} = [];
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<Warehouses> Warehouses {get; set;} = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
