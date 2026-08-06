@@ -26,7 +26,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public Guid SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; } = default!;
 
-        public Guid PurchaseRequestId { get; set; }
+        public Guid PurchaseRequestItemId { get; set; }
         public virtual PurchaseRequestItem PurchaseRequestItem { get; set; } = default!;
     }
 }
