@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260806031000_AgregarRefactorFinalSolicitudesCompras")]
+    partial class AgregarRefactorFinalSolicitudesCompras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3686,21 +3689,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
 
-                    b.Property<string>("ServiceOrderCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("service_order_code");
-
-                    b.Property<Guid?>("ServiceOrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("service_order_id");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RecordEntranceId")
-                        .IsUnique();
-
-                    b.HasIndex("ServiceOrderId")
                         .IsUnique();
 
                     b.ToTable("customs_declarations", "public");
@@ -4020,15 +4011,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
 
-                    b.Property<string>("ServiceOrderCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("service_order_code");
-
-                    b.Property<Guid?>("ServiceOrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("service_order_id");
-
                     b.Property<int>("Status")
                         .HasColumnType("duca_status_enum")
                         .HasColumnName("status");
@@ -4036,9 +4018,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RecordEntranceId");
-
-                    b.HasIndex("ServiceOrderId")
-                        .IsUnique();
 
                     b.ToTable("entrance_ducats", "public");
                 });
@@ -4344,6 +4323,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_consolidated");
 
+                    b.Property<Guid?>("ServiceOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("service_order_id");
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("record_entrance_status_enum")
@@ -4353,6 +4336,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentStepCode");
+
+                    b.HasIndex("ServiceOrderId")
+                        .IsUnique();
 
                     b.ToTable("record_entrances", "public");
                 });
@@ -5678,14 +5664,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", "ServiceOrder")
-                        .WithOne("CustomsDeclarations")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", "ServiceOrderId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("RecordEntrance");
-
-                    b.Navigation("ServiceOrder");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", b =>
@@ -5761,14 +5740,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", "ServiceOrder")
-                        .WithOne("EntranceDucat")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "ServiceOrderId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("RecordEntrance");
-
-                    b.Navigation("ServiceOrder");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ManifestCancellations", b =>
@@ -5829,7 +5801,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", "ServiceOrder")
+                        .WithOne("RecordEntrance")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "ServiceOrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("CurrentStep");
+
+                    b.Navigation("ServiceOrder");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
@@ -6258,9 +6237,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ServiceOrder", b =>
                 {
-                    b.Navigation("CustomsDeclarations");
-
-                    b.Navigation("EntranceDucat");
+                    b.Navigation("RecordEntrance");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.UnloadingDetails", b =>

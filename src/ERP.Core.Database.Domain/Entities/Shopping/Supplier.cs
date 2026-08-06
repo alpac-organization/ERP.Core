@@ -19,5 +19,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual User User { get; set; } = default!;
 
         public virtual SupplierDetails SupplierDetails { get; set; } = default!;
+        
+        public virtual ICollection<Quotation> Quotations { get; set; } = [];
     } 
 }

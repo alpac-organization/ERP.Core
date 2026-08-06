@@ -12,7 +12,6 @@ public class Product : BaseEntity<Guid>
 
     public Guid CategoryId {get; set;}
     public virtual CategoryProducts Category {get; set;} = default!;
-
-    public virtual ICollection<QuotedProduct> QuotedProducts { get; set; } = [];
-    public virtual ICollection<RequestedProduct> RequestedProducts { get; set; } = [];
+    
+    public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
 }

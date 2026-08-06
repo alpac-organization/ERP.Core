@@ -5,7 +5,6 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
-using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -103,13 +102,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
-        // public DbSet<QuoteDetail> QuotesDetails => Set<QuoteDetail>();
-        public DbSet<QuotedProduct> QuotedProducts => Set<QuotedProduct>();
 
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
         public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
-        public DbSet<RequestedProduct> RequestedProducts => Set<RequestedProduct>();
-        public DbSet<RequestQuotedPurchases> RequestQuotedPurchases => Set<RequestQuotedPurchases>();
+        public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
 
         #endregion
                 
@@ -146,12 +142,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
-            // modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
+            modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
-
+            
             modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
+            modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
+
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

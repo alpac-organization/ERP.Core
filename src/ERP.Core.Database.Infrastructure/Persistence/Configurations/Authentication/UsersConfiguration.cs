@@ -86,11 +86,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
-            builder.HasMany(u => u.Quotations)
-                .WithOne(p => p.User)
-                .HasForeignKey(p => p.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
     

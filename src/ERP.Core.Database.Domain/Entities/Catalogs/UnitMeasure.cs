@@ -14,8 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public UnitMeasureType Type { get; set; }
 
         public bool IsActive { get; set; } = true;
-
-        public virtual ICollection<QuotedProduct> QuotedProducts { get; set; } = [];
-        public virtual ICollection<RequestedProduct> RequestedProducts { get; set; } = [];
+        
+        public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
     }
 }
