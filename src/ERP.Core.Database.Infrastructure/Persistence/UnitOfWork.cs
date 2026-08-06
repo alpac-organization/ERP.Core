@@ -67,13 +67,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISuppliersRepository suppliersRepository,
         IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
-        // IQuotesDetailsRepository quotesDetailsRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
-        IQuotedProductsRepository quotedProductsRepository,
-        IRequestQuotedPurchasesRepository requestQuotedPurchasesRepository,
-        IRequestedProductsRepository requestedProductsRepository,
+
         IPurchaseRequestsRepository purchaseRequestsRepository,
+        IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
         ICustomsDeclarationsRepository customsDeclarationsRepository,
         ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
@@ -149,14 +147,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #endregion
 
         #region Shopping
+        public IQuotesRepository Quotations => quotesRepository;
         public ISuppliersRepository Suppliers => suppliersRepository;
         public ISuppliersDetailsRepository SuppliersDetails => suppliersDetailsRepository;
-        public IQuotesRepository Quotations => quotesRepository;
-        // public IQuotesDetailsRepository QuotesDetails => quotesDetailsRepository;
-        public IQuotedProductsRepository QuotedProducts => quotedProductsRepository;
-        public IRequestQuotedPurchasesRepository RequestQuotedPurchases => requestQuotedPurchasesRepository;
-        public IRequestedProductsRepository RequestedProducts => requestedProductsRepository;
         public IPurchaseRequestsRepository PurchaseRequests => purchaseRequestsRepository;
+        public IPurchaseRequestItemsRepository PurchaseRequestItems => purchaseRequestItemsRepository;
         public IPurchaseOrdersRepository PurchaseOrders => purchaseOrdersRepository;
         #endregion
 
