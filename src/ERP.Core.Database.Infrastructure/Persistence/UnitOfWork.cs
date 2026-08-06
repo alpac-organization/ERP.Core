@@ -75,7 +75,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IPurchaseOrdersRepository purchaseOrdersRepository,
         ICustomsDeclarationsRepository customsDeclarationsRepository,
         ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
-        ITransportUnitRepository transportUnitRepository
+        ITransportUnitRepository transportUnitRepository,
+
+        IMerchandisesRepository merchandisesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -136,6 +138,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
+        public IMerchandisesRepository Merchandises => merchandisesRepository;
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
         public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
