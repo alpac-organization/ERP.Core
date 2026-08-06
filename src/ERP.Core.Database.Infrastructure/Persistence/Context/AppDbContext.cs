@@ -82,6 +82,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
+        public DbSet<Merchandises> Merchandises => Set<Merchandises>();
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<EntranceDucats> EntranceDucats => Set<EntranceDucats>();
