@@ -87,9 +87,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("supplier_id")
                 .IsRequired();
 
-            builder.Property(e => e.PurchaseRequestId)
-                .HasColumnName("purchase_request_id")
+            builder.Property(e => e.PurchaseRequestItemId)
+                .HasColumnName("purchase_request_item_id")
                 .IsRequired();
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Supplier)
                 .WithMany(s => s.Quotations)
@@ -98,7 +106,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.HasOne(e => e.PurchaseRequestItem)
                 .WithMany(pri => pri.Quotations)
-                .HasForeignKey(e => e.PurchaseRequestId)
+                .HasForeignKey(e => e.PurchaseRequestItemId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

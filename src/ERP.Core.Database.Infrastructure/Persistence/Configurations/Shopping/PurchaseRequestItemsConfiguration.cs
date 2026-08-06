@@ -29,6 +29,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("unit_measure_id")
                 .IsRequired();
 
+            builder.Property(e => e.HasQuotation)
+                .HasColumnName("has_quotation")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsRequired(false);
+
             builder.Property(e => e.Justification)
                 .HasColumnName("justification")
                 .IsRequired(false);
@@ -52,7 +61,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             // Relaciones
             builder.HasMany(u => u.Quotations)
                 .WithOne(p => p.PurchaseRequestItem)
-                .HasForeignKey(p => p.PurchaseRequestId)
+                .HasForeignKey(p => p.PurchaseRequestItemId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.UnitMeasure)
