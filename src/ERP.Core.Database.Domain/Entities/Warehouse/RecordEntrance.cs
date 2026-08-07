@@ -6,7 +6,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class RecordEntrance : BaseEntity<Guid>
 {
-    public Guid? ServiceOrderId { get; set; }
     public string CurrentStepCode { get; set; } = null!;
     public RecordEntranceStatus Status { get; set; }
     public DateOnly? ClosedAtDate { get; set; }

@@ -13,14 +13,13 @@ using ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication;
 
+using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
-using ERP.Core.Database.Application.Commons.Interfaces.Services;
-using ERP.Core.Manager.Api.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -74,6 +73,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
+                    npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
                 })
             );
 
@@ -127,28 +127,27 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehouseDetailsRepository, WarehouseDetailsRepository>();
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
+            services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
             services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();        
-            services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
-            services.AddScoped<IQuotesRepository, QuotesRepository>();
-            services.AddScoped<IQuotesDetailsRepository, QuotesDetailsRepository>();
-            services.AddScoped<IQuotedProductsRepository, QuotedProductsRepository>();
             services.AddScoped<IPurchaseOrdersRepository, PurchaseOrdersRepository>();
             services.AddScoped<IPurchaseRequestsRepository, PurchaseRequestsRepository>();
-            services.AddScoped<IRequestedProductsRepository, RequestedProductsRepository>();
-            services.AddScoped<RequestQuotedPurchasesRepository, RequestQuotedPurchasesRepository>();
+            services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
+            services.AddScoped<IQuotesRepository, QuotesRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
             services.AddScoped<IEntranceDucatsRepository, EntranceDucatsRepository>();
+            services.AddScoped<IDucatRegistryDetailsRepository, DucatRegistryDetailsRepository>();
+            services.AddScoped<IDucatRegistryRepository, DucatRegistryRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
             services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
             services.AddScoped<ICustomsDeclarationDetailsRepository, CustomsDeclarationDetailsRepository>();
             services.AddScoped<ITransportUnitRepository, TransportUnitRepository>();
-            services.AddScoped<IRequestQuotedPurchasesRepository, RequestQuotedPurchasesRepository>();
+            services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             #endregion
 
 

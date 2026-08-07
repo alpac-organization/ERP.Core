@@ -54,17 +54,21 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICategoryProductsRepository CategoryProducts { get; }
         ICustomerTypeRepository CustomerType { get; }
         ITransportUnitRepository TransportUnit { get; }
+        IUnitsMeasurementRepository UnitsMeasurement { get; }
         #endregion
 
         #region Warehouse
         ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
         IWarehousesRepository Warehouses { get; }
+        IMerchandisesRepository Merchandises { get; }
         IWarehouseDetailsRepository WarehouseDetails { get; }
         IWarehouseCapacityRepository WarehouseCapacities { get; }
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
         IEntranceDucatsRepository EntranceDucats { get; }
+        IDucatRegistryRepository DucatRegistries { get; }
+        IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
         IRecordEntranceRepository RecordEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
@@ -73,18 +77,13 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
         #endregion
 
-        #region Shopping
+        #region ✅ Shopping
+        IQuotesRepository Quotations { get; }
         ISuppliersRepository Suppliers { get; }
         ISuppliersDetailsRepository SuppliersDetails { get; }
-        IQuotesRepository Quotations { get; }
-        IQuotesDetailsRepository QuotesDetails { get; }
-        IQuotedProductsRepository QuotedProducts { get; }
-        IUnitsMeasurementRepository UnitsMeasurement { get; }
-
         IPurchaseOrdersRepository PurchaseOrders { get; }
         IPurchaseRequestsRepository PurchaseRequests { get; }
-        IRequestedProductsRepository RequestedProducts { get; }
-        IRequestQuotedPurchasesRepository RequestQuotedPurchases { get; }
+        IPurchaseRequestItemsRepository PurchaseRequestItems { get; }
         #endregion
 
 

@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
-    public class RequestedProductsConfiguration : IEntityTypeConfiguration<RequestedProduct>
+    public class PurchaseRequestItemsConfiguration : IEntityTypeConfiguration<PurchaseRequestItem>
     {
-        public void Configure(EntityTypeBuilder<RequestedProduct> builder)
+        public void Configure(EntityTypeBuilder<PurchaseRequestItem> builder)
         {
-            builder.ToTable("requested_products");
+            builder.ToTable("purchase_request_items");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("requested_product_id")
+                .HasColumnName("purchase_request_item_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
@@ -28,6 +28,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.UnitMeasureId)
                 .HasColumnName("unit_measure_id")
                 .IsRequired();
+
+            builder.Property(e => e.HasQuotation)
+                .HasColumnName("has_quotation")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsRequired(false);
 
             builder.Property(e => e.Justification)
                 .HasColumnName("justification")
@@ -50,23 +59,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("deleted_at");
 
             // Relaciones
+            builder.HasMany(u => u.Quotations)
+                .WithOne(p => p.PurchaseRequestItem)
+                .HasForeignKey(p => p.PurchaseRequestItemId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(e => e.UnitMeasure)
-                .WithMany(e => e.RequestedProducts)
+                .WithMany(e => e.PurchaseRequestItems)
                 .HasForeignKey(e => e.UnitMeasureId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Product)
-                .WithMany(e => e.RequestedProducts)
+                .WithMany(e => e.PurchaseRequestItems)
                 .HasForeignKey(e => e.ProductId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.PurchaseRequest)
-                .WithMany(pr => pr.RequestdProducts)
+                .WithMany(pr => pr.PurchaseRequestItems)
                 .HasForeignKey(e => e.PurchaseRequestId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

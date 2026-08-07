@@ -23,8 +23,13 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasColumnName("entrance_ducat_id")
             .IsRequired();
 
-        builder.Property(e => e.ProductId)
-            .HasColumnName("product_id")
+        builder.Property(e => e.MerchandiseId)
+            .HasColumnName("merchandise_id")
+            .IsRequired();
+        
+        builder.Property(e => e.MerchandiseName)
+            .HasColumnName("merchandise_name")
+            .HasMaxLength(250)
             .IsRequired();
         
         builder.Property(e => e.TotalBultos)
@@ -70,10 +75,12 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasForeignKey<DucatRegistryDetails>(e => e.EntranceDucatId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.Product)
-            .WithMany()
-            .HasForeignKey(e => e.ProductId)
+        builder.HasOne(e => e.Merchandise)
+            .WithMany(m => m.DucatRegistryDetails)
+            .HasForeignKey(e => e.MerchandiseId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(e => e.MerchandiseId);
         
         builder.Property(e => e.UpdatedByUserId)
             .HasColumnName("updated_by_user_id")
@@ -92,6 +99,34 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         
         builder.Property(e => e.UpdatedTime)
             .HasColumnName("updated_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserId)
+            .HasColumnName("registered_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserName)
+            .HasColumnName("registered_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
+   
+        builder.Property(e => e.RegisteredStartDate)
+            .HasColumnName("registered_start_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredStartTime)
+            .HasColumnName("registered_start_time")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredEndDate)
+            .HasColumnName("registered_end_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredEndTime)
+            .HasColumnName("registered_end_time")
             .IsRequired(false);
 
     }

@@ -1,4 +1,4 @@
-namespace ERP.Core.Manager.Api.Domain.Enums
+namespace ERP.Core.Database.Domain.Enums
 {
     public enum DocumentType
     {

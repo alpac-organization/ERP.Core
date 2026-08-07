@@ -12,4 +12,9 @@ public class EntranceDucats : BaseEntity<Guid>
 
     public virtual Discrepancies? Discrepancy { get; set; }
     public virtual DucatRegistryDetails? RegistryDetail { get; set; }
+
+    public Guid? ServiceOrderId { get; set; }
+    public string? ServiceOrderCode { get; set; }
+    public virtual ServiceOrder? ServiceOrder { get; set; }
+
 }

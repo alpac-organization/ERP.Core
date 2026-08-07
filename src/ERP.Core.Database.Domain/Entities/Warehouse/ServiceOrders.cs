@@ -11,5 +11,8 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 
         public Guid CustomerId { get; set; }
         public virtual Customer Customer { get; set; } = default!;
+
+        public virtual CustomsDeclarations? CustomsDeclarations { get; set; }
+        public virtual EntranceDucats? EntranceDucat { get; set; }
     }
 }

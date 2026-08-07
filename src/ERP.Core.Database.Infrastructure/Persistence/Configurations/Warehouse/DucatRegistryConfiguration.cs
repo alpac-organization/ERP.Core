@@ -64,6 +64,43 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .HasMaxLength(450)
             .IsRequired(false);
 
+        builder.Property(e => e.RegisteredStartDate)
+            .HasColumnName("registered_start_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredEndDate)
+            .HasColumnName("registered_end_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredStartTime)
+            .HasColumnName("registered_start_time")
+            .IsRequired(false);
+
+        builder.Property(e => e.RegisteredEndTime)
+            .HasColumnName("registered_end_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredStartDate)
+            .HasColumnName("registered_start_date")
+            .HasColumnType("date")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredEndTime)
+            .HasColumnName("registered_end_time")
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserId)
+            .HasColumnName("registered_by_user_id")
+            .HasMaxLength(450)
+            .IsRequired(false);
+        
+        builder.Property(e => e.RegisteredByUserName)
+            .HasColumnName("registered_by_user_name")
+            .HasMaxLength(450)
+            .IsRequired(false);
+
 
         // Relación 1:1 con la entrada principal
         builder.HasOne(e => e.RecordEntrance)

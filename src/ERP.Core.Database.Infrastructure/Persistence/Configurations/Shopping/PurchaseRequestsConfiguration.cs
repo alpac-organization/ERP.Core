@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Entities.Shopping;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ERP.Core.Database.Domain.Enums;
+
+using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
@@ -34,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValueSql("'pending'::purchase_request_status_enum")
                 .IsRequired();
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.Property(e => e.Code)
                 .HasColumnName("code")
                 .IsRequired();
@@ -42,8 +47,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("user_revision_id")
                 .IsRequired(false);
 
-            builder.Property(e => e.Justification)
-                .HasColumnName("justification")
+            builder.Property(e => e.Observations)
+                .HasColumnName("observations")
                 .HasMaxLength(1000);
 
             builder.Property(e => e.ReasonRejection)
@@ -57,9 +62,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("branch_id")
                 .IsRequired();
 
-            builder.Property(e => e.UserId)
-                .HasColumnName("user_id")
+            builder.Property(e => e.RegisteredByUserId)
+                .HasColumnName("registered_by_user_id")
                 .IsRequired();
+
+            builder.Property(e => e.UserRevisionId)
+                .HasColumnName("user_revision_id")
+                .IsRequired(false);
 
             builder.Property(e => e.AreaId)
                 .HasColumnName("area_id")
@@ -83,20 +92,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasForeignKey(e => e.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.User)
-                .WithMany(rp => rp.PurchaseRequests)
-                .HasForeignKey(e => e.UserId)
+            builder.HasOne(e => e.RegistrationUser)
+                .WithMany(rp => rp.RegisteredPurchaseRequests)
+                .HasForeignKey(e => e.RegisteredByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(e => e.RequestdProducts)
-                .WithOne(rp => rp.PurchaseRequest)
-                .HasForeignKey(rp => rp.PurchaseRequestId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(e => e.RequestQuotedPurchases)
-                .WithOne(rq => rq.PurchaseRequest)
-                .HasForeignKey(rq => rq.PurchaseRequestId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(e => e.UserRevision)
+                .WithMany(rp => rp.RevisedPurchaseRequests)
+                .HasForeignKey(e => e.UserRevisionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -15,10 +15,6 @@ public class RecordEntranceConfiguration : IEntityTypeConfiguration<RecordEntran
             .HasColumnName("record_entrance_id")
             .HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(e => e.ServiceOrderId)
-            .HasColumnName("service_order_id")
-            .IsRequired(false);
-
         builder.Property(e => e.CurrentStepCode)
             .HasColumnName("current_step_code")
             .IsRequired();

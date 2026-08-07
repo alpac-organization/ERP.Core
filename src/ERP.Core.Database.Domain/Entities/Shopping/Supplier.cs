@@ -1,5 +1,6 @@
-using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Auth;
+using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
@@ -8,14 +9,17 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public bool IsActive { get; set; } = true;
         public string? ImageUrl { get; set; }
         public string? SuppliersLegalName { get; set; }
+
         public string? IdentificationNumber { get; set; }
         public IdentificationType? IdentificationType { get; set; }
 
-        public string RegisterBy { get; set; } = null!;
         public ConstitutionType ConstitutionType { get; set; }
 
-        public virtual SupplierDetails SupplierDetails { get; set; } = default!;
+        public Guid UserId { get; set; }
+        public virtual User User { get; set; } = default!;
 
-        public virtual ICollection<QuoteDetail> QuoteDetails {get; set;} = [];
+        public virtual SupplierDetails SupplierDetails { get; set; } = default!;
+        
+        public virtual ICollection<Quotation> Quotations { get; set; } = [];
     } 
 }

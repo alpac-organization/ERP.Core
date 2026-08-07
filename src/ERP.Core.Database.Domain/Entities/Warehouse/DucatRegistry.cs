@@ -15,6 +15,15 @@ public class DucatRegistry : BaseEntity<Guid>
     public DateOnly? UpdatedDate { get; set; }
     public TimeOnly? UpdatedTime { get; set; }
 
+    public string? RegisteredByUserId { get; set; }
+    public string? RegisteredByUserName { get; set; }
+    public DateOnly? RegisteredStartDate { get; set; }
+    public DateOnly? RegisteredEndDate { get; set; }
+    public TimeOnly? RegisteredStartTime { get; set; }
+    public TimeOnly? RegisteredEndTime { get; set; }
+
+
+
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual ICollection<DucatRegistryDetails> Details { get; set; } = [];
 }
