@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -9,7 +10,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
     public void Configure(EntityTypeBuilder<Warehouses> builder)
     {
         builder.ToTable("warehouses");
-
         builder.HasKey(w => w.Id);
 
         builder.Property(w => w.Id)
@@ -18,10 +18,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .ValueGeneratedOnAdd()
             .IsRequired();
         
-        builder.HasIndex(w => w.Id)
-            .IsUnique()
-            .HasDatabaseName("ix_warehouse_id");
-
         builder.Property(w => w.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -37,6 +33,10 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
+        builder.HasIndex(w => w.Code)
+            .IsUnique()
+            .HasDatabaseName("ix_warehouses_code");
+
         builder.Property(w => w.WarehouseName)
             .HasColumnName("warehouse_name")
             .HasMaxLength(100)
@@ -50,6 +50,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
             .HasColumnType("warehouse_type_enum")
+            .HasDefaultValue("'fiscal'::warehouse_type_enum")
             .IsRequired();
 
         builder.Property(w => w.ParentWarehouseId)
@@ -63,11 +64,16 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .WithMany(e => e.Warehouses)
             .HasForeignKey(w => w.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasIndex(w => w.BranchId)
+            .HasDatabaseName("ix_warehouses_branch_id");
 
         builder.HasOne(w => w.ParentWarehouse)
             .WithMany(w => w.SubWarehouses)
             .HasForeignKey(w => w.ParentWarehouseId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasIndex(w => w.ParentWarehouseId)
+            .HasDatabaseName("ix_warehouses_parent_wareouse_id");
     }
 }

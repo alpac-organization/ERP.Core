@@ -10,7 +10,7 @@ public class Warehouses : BaseEntity<Guid>
     public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
     public WarehouseType WarehouseType { get; set; }
-    
+
 
     //Relacion autorreferencial (para bodegas que tienen galerones techados)
     public Guid? ParentWarehouseId { get; set; }
@@ -23,6 +23,8 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<Sections> Sections { get; set; } = [];
+    public virtual ICollection<Racks> Racks { get; set; } = [];
 
-    public virtual WarehouseDetails WarehouseDetails { get; set; } = null!;
+    public virtual WarehouseDetails Details { get; set; } = null!;
+    public virtual WarehouseCapacity? Capacity { get; set; }
 }

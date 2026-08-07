@@ -17,51 +17,27 @@ public class WarehouseDetailsConfiguration : IEntityTypeConfiguration<WarehouseD
             .ValueGeneratedOnAdd()
             .IsRequired();
         
-        builder.HasIndex(w => w.Id)
-            .IsUnique()
-            .HasDatabaseName("ix_warehouse_details_id");
-
         builder.Property(w => w.WarehouseId)
             .HasColumnName("warehouse_id")
             .IsRequired();
         
-        builder.Property(w => w.TotalCubicCapacity)
-            .HasColumnName("total_cubic_capacity")
+        builder.Property(w => w.WitdhMetres)
+            .HasColumnName("width_metres")
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(w => w.TotalArea)
-            .HasColumnName("total_area")
+        builder.Property(w => w.LengthMetres)
+            .HasColumnName("length_metres")
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(w => w.NetStorageArea)
-            .HasColumnName("net_storage_area")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.UnusableArea)
-            .HasColumnName("unusable_area")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.MaxHeight)
-            .HasColumnName("max_height")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.MinHeight)
-            .HasColumnName("min_height")
-            .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(w => w.RampasCount)
-            .HasColumnName("rampas_count")
-            .IsRequired();
+        builder.Property(w => w.RampsCount)
+            .HasColumnName("ramps_count")
+            .IsRequired(false);
 
         builder.Property(w => w.ParkingSpacesCount)
             .HasColumnName("parking_spaces_count")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(w => w.CreatedAt)
             .HasColumnName("created_at")
@@ -73,9 +49,13 @@ public class WarehouseDetailsConfiguration : IEntityTypeConfiguration<WarehouseD
             .HasColumnName("deleted_at")
             .IsRequired(false);
 
-        builder.HasOne(wd => wd.Warehouses)
-            .WithOne(w => w.WarehouseDetails)
+        builder.HasOne(wd => wd.Warehouse)
+            .WithOne(w => w.Details)
             .HasForeignKey<WarehouseDetails>(wd => wd.WarehouseId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(w => w.WarehouseId)
+            .IsUnique()
+            .HasDatabaseName("ix_warehouse_deatils_warehouse_id");
     }
 }
