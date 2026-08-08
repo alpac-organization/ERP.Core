@@ -101,7 +101,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "warehouses",
                 type: "warehouse_type_enum",
                 nullable: false,
-                defaultValue: 2,
+                defaultValueSql: "'fiscal'::warehouse_type_enum",
                 oldClrType: typeof(int),
                 oldType: "warehouse_type_enum");
 
@@ -281,7 +281,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "warehouse_type_enum",
-                oldDefaultValue: 2);
+                oldDefaultValueSql: "'fiscal'::warehouse_type_enum");
 
             migrationBuilder.AddColumn<decimal>(
                 name: "max_height",
