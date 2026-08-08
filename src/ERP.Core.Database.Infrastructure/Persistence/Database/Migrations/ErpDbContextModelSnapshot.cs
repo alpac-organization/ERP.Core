@@ -5091,8 +5091,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<int>("WarehouseType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("warehouse_type_enum")
-                        .HasDefaultValue(2)
-                        .HasColumnName("warehouse_type");
+                        .HasColumnName("warehouse_type")
+                        .HasDefaultValueSql("'fiscal'::warehouse_type_enum");
 
                     b.HasKey("Id");
 
