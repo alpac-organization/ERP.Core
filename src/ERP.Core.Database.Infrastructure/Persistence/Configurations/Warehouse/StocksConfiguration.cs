@@ -25,7 +25,7 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
         
         builder.Property(e => e.SectionId)
             .HasColumnName("section_id")
-            .IsRequired();
+            .IsRequired(false);
         
         builder.Property(e => e.RacksId)
             .HasColumnName("racks_id")
