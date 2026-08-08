@@ -8,12 +8,7 @@ public class SectionOverflowCapacity : BaseEntity<Guid>
 
     public bool AllowsOverflowStorage { get; set; } = false;
     public bool IsOverflowEnabled { get; set; } = false;
-    public int? TheoreticalOverflowPolines { get; set; }
-    public int? ConfirmedOverflowPolines { get; set; }
-
-    public bool AllowsOverflowStacking { get; set; } = false;
-    public bool IsOverflowStackingEnabled { get; set; } = false;
-    public decimal OverflowStackingMultiplier { get; set; } = 1.0m;
+    public int? MaxOverflowPolines { get; set; }
 
     public string? EnabledByUserName { get; set; }
     public DateOnly? EnabledDate { get; set; }
