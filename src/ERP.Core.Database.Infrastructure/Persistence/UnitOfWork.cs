@@ -79,7 +79,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
         ITransportUnitRepository transportUnitRepository,
 
-        IMerchandisesRepository merchandisesRepository
+        IMerchandisesRepository merchandisesRepository,
+        ISectionsRepository sectionsRepository,
+        ISectionOverflowCapacityRepository sectionOverflowCapacityRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -151,6 +153,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWorkflowStepDefinitionsRepository WorkflowStepDefinitions => workflowStepDefinitionsRepository;
         public ICustomsDeclarationsRepository CustomsDeclarations => customsDeclarationsRepository;
         public ICustomsDeclarationDetailsRepository CustomsDeclarationDetails => customsDeclarationDetailsRepository;
+        public ISectionsRepository Sections => sectionsRepository;
+        public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;
         #endregion
 
         #region Shopping
