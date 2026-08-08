@@ -50,7 +50,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
             .HasColumnType("warehouse_type_enum")
-            .HasDefaultValue("'fiscal'::warehouse_type_enum")
+            .HasDefaultValue(WarehouseType.Fiscal)
             .IsRequired();
 
         builder.Property(w => w.ParentWarehouseId)
