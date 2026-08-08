@@ -16,10 +16,6 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
 
-        builder.Property(e => e.SectionId)
-            .HasColumnName("section_id")
-            .IsRequired();
-
         builder.Property(e => e.Code)
             .HasColumnName("code")
             .HasMaxLength(50)
@@ -42,15 +38,6 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasColumnName("is_available")
             .HasDefaultValue(true);
         
-        builder.Property(e => e.MaxWeightKg)
-            .HasColumnName("max_weight_kg")
-            .HasPrecision(12, 2)
-            .IsRequired();
-        
-        builder.Property(e => e.MaxHeightMetres)
-            .HasColumnName("max_height_metres")
-            .HasPrecision(10, 2)
-            .IsRequired();
 
          builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
@@ -61,9 +48,5 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasColumnName("deleted_at");
 
         // Relación 1:N con Zonas
-        builder.HasOne(e => e.Section)
-            .WithMany(z => z.Racks)
-            .HasForeignKey(e => e.SectionId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -10,16 +10,7 @@ public class Warehouses : BaseEntity<Guid>
     public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
     public WarehouseType WarehouseType { get; set; }
-    
 
-    public decimal TotalCubicCapacity { get; set; }
-    public decimal TotalArea { get; set; }
-    public decimal NetStorageArea { get; set; }
-    public decimal UnusableArea { get; set; }
-    public decimal MaxHeight { get; set; }
-    public decimal MinHeight { get; set; }
-    public decimal RampasCount { get; set; }
-    public decimal ParkingSpacesCount { get; set; }
 
     //Relacion autorreferencial (para bodegas que tienen galerones techados)
     public Guid? ParentWarehouseId { get; set; }
@@ -32,4 +23,8 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<Sections> Sections { get; set; } = [];
+    public virtual ICollection<Racks> Racks { get; set; } = [];
+
+    public virtual WarehouseDetails Details { get; set; } = null!;
+    public virtual WarehouseCapacity? Capacity { get; set; }
 }
