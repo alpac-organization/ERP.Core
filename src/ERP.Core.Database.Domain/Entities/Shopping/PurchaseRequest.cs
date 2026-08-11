@@ -31,5 +31,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual WorkArea WorkArea { get; set;} = default!;
 
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
+
+        public virtual RequisitionAccountingReview? AccountingReview { get; set; }
     }
 }
