@@ -152,7 +152,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "sections",
                 type: "section_type_enum",
                 nullable: false,
-                defaultValue: 1);
+                defaultValueSql: "'storage'::section_type_enum");
 
             migrationBuilder.CreateTable(
                 name: "section_overflow_capacities",
