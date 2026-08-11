@@ -107,6 +107,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
         public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
         public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
+        public DbSet<RequisitionAccountingReview> RequisitionAccountingReviews => Set<RequisitionAccountingReview>();
 
         #endregion
                 
@@ -143,7 +144,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
-            modelBuilder.HasPostgresEnum<QuotationStatus>("public","quotation_status_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
             
@@ -151,6 +151,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
             modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
+            modelBuilder.HasPostgresEnum<AccountingReviewStatus>("public", "accounting_review_status_enum");
 
 
 
