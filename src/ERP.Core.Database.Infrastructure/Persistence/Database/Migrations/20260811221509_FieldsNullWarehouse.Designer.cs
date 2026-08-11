@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260811215532_FieldsNullWarehouse")]
+    [Migration("20260811221509_FieldsNullWarehouse")]
     partial class FieldsNullWarehouse
     {
         /// <inheritdoc />
@@ -5311,6 +5311,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsOwner")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_owner");
 
                     b.Property<Guid?>("ParentWarehouseId")
                         .HasColumnType("uuid")

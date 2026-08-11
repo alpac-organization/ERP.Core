@@ -5309,6 +5309,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsOwner")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_owner");
+
                     b.Property<Guid?>("ParentWarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("parent_warehouse_id");
