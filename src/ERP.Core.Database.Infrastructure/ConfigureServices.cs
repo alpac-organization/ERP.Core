@@ -67,7 +67,6 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
-                    npgsqlOptions.MapEnum<QuotationStatus>("quotation_status_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
                     
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
@@ -75,6 +74,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
                     npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
+                    npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
                 })
             );
 
@@ -151,6 +151,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
             services.AddScoped<ISectionOverflowCapacityRepository, SectionOverflowCapacityRepository>();
+            services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
             #endregion
 
 
