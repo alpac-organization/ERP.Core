@@ -12,41 +12,86 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("racks_id")
+            .HasColumnName("rack_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.SectionId)
+            .HasColumnName("section_id")
+            .IsRequired();
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(e => e.WidthMetres)
+            .HasColumnName("width_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        builder.Property(e => e.LengthMetres)
+            .HasColumnName("length_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        builder.Property(e => e.HeightMetres)
+            .HasColumnName("height_metres")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        builder.Property(e => e.UsageProfile)
+            .HasColumnName("usage_profile")
+            .HasColumnType("rack_usage_profile_enum")
+            .HasDefaultValueSql("'active_flow'::rack_usage_profile_enum")
+            .IsRequired();
+
         builder.Property(e => e.RowNumber)
             .HasColumnName("row_number")
             .IsRequired();
-       
+
         builder.Property(e => e.LevelNumber)
             .HasColumnName("level_number")
             .IsRequired();
-        
-        builder.Property(e => e.CostPerPosition)
-            .HasColumnName("cost_per_position")
-            .HasPrecision(12, 4)
+
+        builder.Property(e => e.MaxPulleys)
+            .HasColumnName("max_pulleys")
+            .HasDefaultValue(2)
             .IsRequired();
 
-        builder.Property(e => e.IsAvailable)
-            .HasColumnName("is_available")
-            .HasDefaultValue(true);
-        
+        builder.Property(e => e.Status)
+            .HasColumnName("status")
+            .HasColumnType("rack_status_enum")
+            .HasDefaultValueSql("'available'::rack_status_enum")
+            .IsRequired();
 
-         builder.Property(e => e.CreatedAt)
-            .HasColumnName("created_at")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP")
-            .ValueGeneratedOnAdd();
+        builder.Property(e => e.UnavailableReason)
+            .HasColumnName("unavailable_reason")
+            .HasMaxLength(255)
+            .IsRequired(false);
+
+        builder.Property(e => e.StatusChangedAt)
+            .HasColumnName("status_changed_at")
+            .IsRequired(false);
+
+        builder.Property(e => e.CreatedAt)
+           .HasColumnName("created_at")
+           .HasDefaultValueSql("CURRENT_TIMESTAMP")
+           .ValueGeneratedOnAdd();
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
+        
+        builder.HasIndex(e => e.SectionId)
+            .HasDatabaseName("ix_racks_section_id");
 
-        // Relación 1:N con Zonas
+        builder.HasOne(e => e.Section)
+            .WithMany(s => s.Racks)
+            .HasForeignKey(e => e.SectionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(e => new {e.SectionId, e.Code})
+            .IsUnique()
+            .HasDatabaseName("ix_racks_section_id_code");
     }
 }

@@ -23,8 +23,6 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<Sections> Sections { get; set; } = [];
-    public virtual ICollection<Racks> Racks { get; set; } = [];
-
     public virtual WarehouseDetails Details { get; set; } = null!;
     public virtual WarehouseCapacity? Capacity { get; set; }
 }
