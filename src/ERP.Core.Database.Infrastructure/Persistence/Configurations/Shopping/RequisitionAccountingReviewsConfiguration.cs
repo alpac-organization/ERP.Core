@@ -30,10 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasMaxLength(1000)
                 .IsRequired(false);
 
-            builder.Property(e => e.ReviewedAt)
-                .HasColumnName("reviewed_at")
-                .IsRequired(false);
-
             builder.Property(e => e.ReviewedByUserId)
                 .HasColumnName("reviewed_by_user_id")
                 .IsRequired(false);

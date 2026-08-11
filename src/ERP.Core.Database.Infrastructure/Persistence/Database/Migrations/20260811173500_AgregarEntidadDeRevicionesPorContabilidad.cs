@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregarEntidadRequisicionRevisionContabilidad : Migration
+    public partial class AgregarEntidadDeRevicionesPorContabilidad : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -88,9 +88,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     requisition_accounting_review_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    status = table.Column<int>(type: "accounting_review_status_enum", nullable: false, defaultValueSql: "'pending'::accounting_review_status_enum"),
                     comments = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    reviewed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    status = table.Column<int>(type: "accounting_review_status_enum", nullable: false, defaultValueSql: "'pending'::accounting_review_status_enum"),
                     reviewed_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     purchase_request_id = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),

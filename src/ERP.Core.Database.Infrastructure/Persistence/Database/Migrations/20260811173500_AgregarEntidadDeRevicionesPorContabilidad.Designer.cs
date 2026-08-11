@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260811162408_AgregarEntidadRequisicionRevisionContabilidad")]
-    partial class AgregarEntidadRequisicionRevisionContabilidad
+    [Migration("20260811173500_AgregarEntidadDeRevicionesPorContabilidad")]
+    partial class AgregarEntidadDeRevicionesPorContabilidad
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3529,10 +3529,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("PurchaseRequestId")
                         .HasColumnType("uuid")
                         .HasColumnName("purchase_request_id");
-
-                    b.Property<DateTime?>("ReviewedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("reviewed_at");
 
                     b.Property<Guid?>("ReviewedByUserId")
                         .HasColumnType("uuid")
