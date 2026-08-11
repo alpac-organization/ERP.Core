@@ -1,19 +1,28 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
 public class Racks : BaseEntity<Guid>
 {
-    public Guid WarehouseId { get; set; }
+    public Guid SectionId { get; set; }
+    public virtual Sections Section { get; set; } = null!;
+
     public string Code { get; set; } = null!;
+    public decimal WidthMetres { get; set; }
+    public decimal LengthMetres { get; set; }
+    public decimal HeightMetres { get; set; }
+
+    public RackUsageProfile UsageProfile { get; set; }
     public int RowNumber { get; set; }
     public int LevelNumber { get; set; }
-    public decimal CostPerPosition { get; set; }
-    public bool IsAvailable { get; set; } = true;
+    public int MaxPulleys { get; set; } = 2;
 
-    // Propiedad de navegación hacia el padre (Zona)
-    public virtual Warehouses Warehouse { get; set; } = null!;
+    public RackStatus Status { get; set; } = RackStatus.Available;
+    public string? UnavailableReason { get; set; }
+    public DateTime? StatusChangedAt { get; set; }
+
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
     public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
 }

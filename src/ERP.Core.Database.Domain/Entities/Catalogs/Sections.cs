@@ -21,6 +21,7 @@ public class Sections : BaseEntity<Guid>
     public virtual SectionOverflowCapacity? OverflowCapacity { get; set; }
 
     public virtual ICollection<Tramos> Tramos { get; set; } = [];
+    public virtual ICollection<Racks> Racks { get; set; } = [];
     public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
 }
