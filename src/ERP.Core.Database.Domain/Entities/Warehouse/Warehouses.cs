@@ -9,6 +9,7 @@ public class Warehouses : BaseEntity<Guid>
     public string Code { get; set; } = null!;
     public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
+    public bool IsOwner { get; set; } = true;
     public WarehouseType WarehouseType { get; set; }
 
 
