@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260811161159_EliminarEnumQuotationStatus")]
+    partial class EliminarEnumQuotationStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "accounting_review_status_enum", new[] { "pending", "approved", "rejected", "returned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "constitution_type_enum", new[] { "natural", "legal" });
@@ -3500,53 +3502,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("quotations", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("requisition_accounting_review_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Comments")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("comments");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid>("PurchaseRequestId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("purchase_request_id");
-
-                    b.Property<Guid?>("ReviewedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("reviewed_by_user_id");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("accounting_review_status_enum")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'pending'::accounting_review_status_enum");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PurchaseRequestId")
-                        .IsUnique();
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.ToTable("requisition_accounting_reviews", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.Supplier", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5868,24 +5823,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
-                        .WithOne("AccountingReview")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", "PurchaseRequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ReviewedByUser")
-                        .WithMany("AccountingReviews")
-                        .HasForeignKey("ReviewedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("PurchaseRequest");
-
-                    b.Navigation("ReviewedByUser");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.Supplier", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
@@ -6311,8 +6248,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.User", b =>
                 {
-                    b.Navigation("AccountingReviews");
-
                     b.Navigation("Profiles");
 
                     b.Navigation("RegisteredPurchaseRequests");
@@ -6493,8 +6428,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", b =>
                 {
-                    b.Navigation("AccountingReview");
-
                     b.Navigation("PurchaseRequestItems");
                 });
 

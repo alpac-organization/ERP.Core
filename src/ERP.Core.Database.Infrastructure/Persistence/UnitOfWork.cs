@@ -82,6 +82,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionOverflowCapacityRepository sectionOverflowCapacityRepository,
+        IRequisitionAccountingReviewRepository requisitionAccountingReviewRepository,
         IRacksRepository racksRepository
     ) : IUnitOfWork
     {
@@ -166,6 +167,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IPurchaseRequestsRepository PurchaseRequests => purchaseRequestsRepository;
         public IPurchaseRequestItemsRepository PurchaseRequestItems => purchaseRequestItemsRepository;
         public IPurchaseOrdersRepository PurchaseOrders => purchaseOrdersRepository;
+        public IRequisitionAccountingReviewRepository RequisitionAccountingReviews => requisitionAccountingReviewRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
