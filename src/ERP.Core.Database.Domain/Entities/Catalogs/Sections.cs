@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -7,21 +8,19 @@ public class Sections : BaseEntity<Guid>
 {
     public string Code { get; set; } = null!;
     public string Name { get; set; } = null!;
-
-    //Atributos de espacio y dimensiones
-    public decimal WidthMetres { get; set; }
-    public decimal LengthMetres { get; set; }
-    public decimal HeightMetres { get; set; }
-    public decimal TotalVolumeCapacityM3 { get; set; } // Capacidad volumétrica total en metros cúbicos
-    public decimal MaxWeightCapacityKg { get; set; } // Capacidad de carga máxima en Kilogramos para la zona a piso
-
+    public SectionType SectionType { get; set; }
     public bool IsActive { get; set; } = true;
 
+    public decimal WidthMetres { get; set; }
+    public decimal LengthMetres { get; set; }
+
+
     public Guid WarehouseId { get; set; }
-    public virtual Warehouses Warehouses { get; set; } = null!;
+    public virtual Warehouses Warehouse { get; set; } = null!;
 
+    public virtual SectionOverflowCapacity? OverflowCapacity { get; set; }
 
-    public virtual ICollection<Racks> Racks { get; set; } = [];
+    public virtual ICollection<Tramos> Tramos { get; set; } = [];
     public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
 }

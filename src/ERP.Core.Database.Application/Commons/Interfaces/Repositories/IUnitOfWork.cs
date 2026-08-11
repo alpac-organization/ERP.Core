@@ -75,6 +75,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
         ICustomsDeclarationsRepository CustomsDeclarations { get; }
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
+        ISectionsRepository Sections { get; }
+        ISectionOverflowCapacityRepository SectionOverflowCapacity { get; }
         #endregion
 
         #region ✅ Shopping

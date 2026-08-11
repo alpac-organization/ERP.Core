@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs;
 
@@ -31,6 +31,12 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
             .HasMaxLength(150)
             .IsRequired();
 
+        builder.Property(s => s.SectionType)
+            .HasColumnName("section_type")
+            .HasColumnType("section_type_enum")
+            .HasDefaultValue(SectionType.Storage)
+            .IsRequired();
+
         builder.Property(e => e.WidthMetres)
             .HasColumnName("width_metres")
             .HasPrecision(10, 2)
@@ -45,23 +51,9 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
             .HasPrecision(10, 2)
             .IsRequired();
 
-        builder.Property(e => e.HeightMetres)
-            .HasColumnName("heigth_metres")
-            .HasPrecision(10, 2)
-            .IsRequired();
-
-        builder.Property(e => e.TotalVolumeCapacityM3)
-            .HasColumnName("total_colume_capacity_m3")
-            .HasPrecision(12, 3)
-            .IsRequired();
-
-        builder.Property(e => e.MaxWeightCapacityKg)
-            .HasColumnName("max_weight_capacity_kg")
-            .HasPrecision(14, 2)
-            .IsRequired();
-
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active")
+            .HasDefaultValue(true)
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
@@ -72,8 +64,11 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
+        builder.HasIndex(s => s.WarehouseId)
+            .HasDatabaseName("ix_sections_warehouse_id");
+
         // Relación con el almacén inmutable central
-        builder.HasOne(x => x.Warehouses)
+        builder.HasOne(x => x.Warehouse)
             .WithMany(x => x.Sections)
             .HasForeignKey(x => x.WarehouseId)
             .OnDelete(DeleteBehavior.Restrict);

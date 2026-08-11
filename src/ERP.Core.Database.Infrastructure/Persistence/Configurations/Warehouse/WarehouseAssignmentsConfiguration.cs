@@ -25,7 +25,7 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
         
         builder.Property(e => e.SectionId)
             .HasColumnName("section_id")
-            .IsRequired();
+            .IsRequired(false);
         
         builder.Property(e => e.RackId)
             .HasColumnName("rack_id")

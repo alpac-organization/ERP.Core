@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260808031258_SectionsEntities")]
+    partial class SectionsEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5091,8 +5094,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<int>("WarehouseType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("warehouse_type_enum")
-                        .HasColumnName("warehouse_type")
-                        .HasDefaultValueSql("'fiscal'::warehouse_type_enum");
+                        .HasDefaultValue(2)
+                        .HasColumnName("warehouse_type");
 
                     b.HasKey("Id");
 

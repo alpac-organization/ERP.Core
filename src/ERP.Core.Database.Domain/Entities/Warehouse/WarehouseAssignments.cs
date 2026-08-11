@@ -18,7 +18,7 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual Racks Rack { get; set; } = null!;
-    public virtual Sections Section { get; set; } = null!;
+    public virtual Sections? Section { get; set; } = null!;
 
     public virtual UnloadingDetails? UnloadingDetails { get; set; }
 }

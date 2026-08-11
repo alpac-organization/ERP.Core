@@ -79,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
+        public DbSet<SectionOverflowCapacity> SectionOverflowCapacities => Set<SectionOverflowCapacity>();
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
@@ -149,6 +150,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
+            modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
 
 
 
