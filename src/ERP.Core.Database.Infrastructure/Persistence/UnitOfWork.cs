@@ -81,7 +81,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
-        ISectionOverflowCapacityRepository sectionOverflowCapacityRepository
+        ISectionOverflowCapacityRepository sectionOverflowCapacityRepository,
+        IRacksRepository racksRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -154,6 +155,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomsDeclarationsRepository CustomsDeclarations => customsDeclarationsRepository;
         public ICustomsDeclarationDetailsRepository CustomsDeclarationDetails => customsDeclarationDetailsRepository;
         public ISectionsRepository Sections => sectionsRepository;
+        public IRacksRepository Racks => racksRepository;
         public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;
         #endregion
 
