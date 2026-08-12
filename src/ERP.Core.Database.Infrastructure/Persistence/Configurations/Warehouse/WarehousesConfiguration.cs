@@ -32,10 +32,6 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
-        builder.HasIndex(w => w.Code)
-            .IsUnique()
-            .HasDatabaseName("ix_warehouses_code");
-
         builder.Property(w => w.WarehouseName)
             .HasColumnName("warehouse_name")
             .HasMaxLength(100)
