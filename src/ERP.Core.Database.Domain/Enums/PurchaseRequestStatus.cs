@@ -5,6 +5,8 @@ namespace ERP.Core.Database.Domain.Enums
         Pending  = 1,
         Approved = 2,
         Rejected = 3,
-        Canceled = 4
+        Canceled = 4,
+        Revision = 5,
+        Finished = 6,
     }
 }
