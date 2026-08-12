@@ -9,6 +9,7 @@ public class Warehouses : BaseEntity<Guid>
     public string Code { get; set; } = null!;
     public string WarehouseName { get; set; } = null!;
     public bool IsActive { get; set; } = true;
+    public bool IsOwner { get; set; } = true;
     public WarehouseType WarehouseType { get; set; }
 
 
@@ -23,8 +24,6 @@ public class Warehouses : BaseEntity<Guid>
 
     //Coleccion del layout
     public virtual ICollection<Sections> Sections { get; set; } = [];
-    public virtual ICollection<Racks> Racks { get; set; } = [];
-
     public virtual WarehouseDetails Details { get; set; } = null!;
     public virtual WarehouseCapacity? Capacity { get; set; }
 }

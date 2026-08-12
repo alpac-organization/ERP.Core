@@ -4,25 +4,26 @@ using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
-public class Racks : BaseEntity<Guid>
+public class Lots : BaseEntity<Guid>
 {
     public Guid SectionId { get; set; }
     public virtual Sections Section { get; set; } = null!;
 
     public string Code { get; set; } = null!;
+
     public decimal WidthMetres { get; set; }
     public decimal LengthMetres { get; set; }
-    public decimal HeightMetres { get; set; }
 
-    public RackUsageProfile UsageProfile { get; set; }
-    public int RowNumber { get; set; }
-    public int LevelNumber { get; set; }
-    public int MaxPulleys { get; set; } = 2;
+    public int NominalRows { get; set; }
+    public int NominalColumns { get; set; }
 
-    public RackStatus Status { get; set; } = RackStatus.Available;
+    public bool AllowsStacking { get; set; } = true!;
+
+    public RackStatus Status { get; set; }
     public string? UnavailableReason { get; set; }
     public DateTime? StatusChangedAt { get; set; }
 
+    public virtual ICollection<LotsPositions> Positions { get; set; } = [];
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
     public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
 }

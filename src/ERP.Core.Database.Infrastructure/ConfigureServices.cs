@@ -75,6 +75,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
                     npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
+                    npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
+                    npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
                 })
             );
 
@@ -135,6 +137,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IPurchaseRequestsRepository, PurchaseRequestsRepository>();
             services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
             services.AddScoped<IQuotesRepository, QuotesRepository>();
+            services.AddScoped<ILotsRepository, LotsRepository>();
+            services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
@@ -150,6 +154,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ITransportUnitRepository, TransportUnitRepository>();
             services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
+            services.AddScoped<IRacksRepository, RacksRepository>();
             services.AddScoped<ISectionOverflowCapacityRepository, SectionOverflowCapacityRepository>();
             services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
             #endregion

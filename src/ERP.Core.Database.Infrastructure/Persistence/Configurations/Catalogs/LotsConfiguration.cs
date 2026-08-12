@@ -1,18 +1,18 @@
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using ERP.Core.Database.Domain.Entities.Catalogs;
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs;
 
-public class RacksConfiguration : IEntityTypeConfiguration<Racks>
+public class LotsConfiguration : IEntityTypeConfiguration<Lots>
 {
-    public void Configure(EntityTypeBuilder<Racks> builder)
+    public void Configure(EntityTypeBuilder<Lots> builder)
     {
-        builder.ToTable("racks");
+        builder.ToTable("lots");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("rack_id")
+            .HasColumnName("tramo_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
 
@@ -35,28 +35,17 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasPrecision(10, 2)
             .IsRequired();
 
-        builder.Property(e => e.HeightMetres)
-            .HasColumnName("height_metres")
-            .HasPrecision(10, 2)
+        builder.Property(e => e.NominalRows)
+            .HasColumnName("nominal_rows")
             .IsRequired();
 
-        builder.Property(e => e.UsageProfile)
-            .HasColumnName("usage_profile")
-            .HasColumnType("rack_usage_profile_enum")
-            .HasDefaultValueSql("'active_flow'::rack_usage_profile_enum")
+        builder.Property(e => e.NominalColumns)
+            .HasColumnName("nominal_columns")
             .IsRequired();
 
-        builder.Property(e => e.RowNumber)
-            .HasColumnName("row_number")
-            .IsRequired();
-
-        builder.Property(e => e.LevelNumber)
-            .HasColumnName("level_number")
-            .IsRequired();
-
-        builder.Property(e => e.MaxPulleys)
-            .HasColumnName("max_pulleys")
-            .HasDefaultValue(2)
+        builder.Property(e => e.AllowsStacking)
+            .HasColumnName("allows_stacking")
+            .HasDefaultValue(true)
             .IsRequired();
 
         builder.Property(e => e.Status)
@@ -75,23 +64,23 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)
-           .HasColumnName("created_at")
-           .HasDefaultValueSql("CURRENT_TIMESTAMP")
-           .ValueGeneratedOnAdd();
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-        
+
+        builder.HasIndex(e => new { e.SectionId, e.Code })
+            .IsUnique()
+            .HasDatabaseName("ix_tramos_section_id_code");
+
         builder.HasIndex(e => e.SectionId)
-            .HasDatabaseName("ix_racks_section_id");
+            .HasDatabaseName("ix_tramos_section_id");
 
         builder.HasOne(e => e.Section)
-            .WithMany(s => s.Racks)
+            .WithMany(s => s.Lots)
             .HasForeignKey(e => e.SectionId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasIndex(e => new {e.SectionId, e.Code})
-            .IsUnique()
-            .HasDatabaseName("ix_racks_section_id_code");
     }
 }

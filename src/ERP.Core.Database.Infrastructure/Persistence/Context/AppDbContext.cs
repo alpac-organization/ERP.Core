@@ -83,6 +83,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionOverflowCapacity> SectionOverflowCapacities => Set<SectionOverflowCapacity>();
         public DbSet<Racks> Racks => Set<Racks>();
+        public DbSet<Lots> Lots => Set<Lots>();
+        public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
@@ -154,6 +156,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
             modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
             modelBuilder.HasPostgresEnum<AccountingReviewStatus>("public", "accounting_review_status_enum");
+            modelBuilder.HasPostgresEnum<RackUsageProfile>("public", "rack_usage_profile_enum");
+            modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
 
 
 

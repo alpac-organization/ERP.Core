@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -44,6 +43,11 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
 
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
+            .HasDefaultValue(true)
+            .IsRequired();
+
+        builder.Property(w => w.IsOwner)
+            .HasColumnName("is_owner")
             .HasDefaultValue(true)
             .IsRequired();
 

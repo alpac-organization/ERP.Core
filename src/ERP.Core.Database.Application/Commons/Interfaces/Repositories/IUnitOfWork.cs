@@ -76,6 +76,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomsDeclarationsRepository CustomsDeclarations { get; }
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
         ISectionsRepository Sections { get; }
+        IRacksRepository Racks { get; }
+        ILotsRepository Lots { get; }
+        ILotsPositionsRepository LotsPositions { get; }
         ISectionOverflowCapacityRepository SectionOverflowCapacity { get; }
         #endregion
 
