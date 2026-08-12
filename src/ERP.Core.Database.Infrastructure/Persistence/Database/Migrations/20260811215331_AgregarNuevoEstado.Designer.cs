@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260811215331_AgregarNuevoEstado")]
+    partial class AgregarNuevoEstado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,10 +45,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_status_enum", new[] { "pending", "approved", "rejected", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_usage_type_enum", new[] { "insumo", "operational_use" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled", "revision", "finished" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled", "revision" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_status_enum", new[] { "available", "occupied", "under_maintenance", "blocked" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_usage_profile_enum", new[] { "active_flow", "static_hold" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "record_entrance_status_enum", new[] { "queue", "unloading", "completed", "abandoned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
@@ -796,155 +797,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("locations", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("tramo_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<bool>("AllowsStacking")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("allows_stacking");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("code");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<decimal>("LengthMetres")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("length_metres");
-
-                    b.Property<int>("NominalColumns")
-                        .HasColumnType("integer")
-                        .HasColumnName("nominal_columns");
-
-                    b.Property<int>("NominalRows")
-                        .HasColumnType("integer")
-                        .HasColumnName("nominal_rows");
-
-                    b.Property<Guid>("SectionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_id");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("rack_status_enum")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'available'::rack_status_enum");
-
-                    b.Property<DateTime?>("StatusChangedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("status_changed_at");
-
-                    b.Property<string>("UnavailableReason")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("unavailable_reason");
-
-                    b.Property<decimal>("WidthMetres")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("width_metres");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SectionId")
-                        .HasDatabaseName("ix_tramos_section_id");
-
-                    b.HasIndex("SectionId", "Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_tramos_section_id_code");
-
-                    b.ToTable("lots", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("tramo_position_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<bool>("AllowsStacking")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("allows_stacking");
-
-                    b.Property<string>("BlockReason")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("block_reason");
-
-                    b.Property<int>("ColumnNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("column_number");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<Guid?>("CurrentStockId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsBlocked")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_blocked");
-
-                    b.Property<Guid>("LotId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("tramo_id");
-
-                    b.Property<string>("PositionCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("position_code");
-
-                    b.Property<int>("RowNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("row_number");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentStockId");
-
-                    b.HasIndex("LotId")
-                        .HasDatabaseName("ix_tramo_positions_tramo_id");
-
-                    b.HasIndex("LotId", "PositionCode")
-                        .IsUnique()
-                        .HasDatabaseName("ix_tramo_positions_tramo_id_position_code");
-
-                    b.ToTable("tramo_positions", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1008,7 +860,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("rack_id")
+                        .HasColumnName("racks_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Code")
@@ -1016,6 +868,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
+
+                    b.Property<decimal>("CostPerPosition")
+                        .HasPrecision(12, 4)
+                        .HasColumnType("numeric(12,4)")
+                        .HasColumnName("cost_per_position");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -1027,68 +884,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<decimal>("HeightMetres")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("height_metres");
-
-                    b.Property<decimal>("LengthMetres")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("length_metres");
+                    b.Property<bool>("IsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_available");
 
                     b.Property<int>("LevelNumber")
                         .HasColumnType("integer")
                         .HasColumnName("level_number");
 
-                    b.Property<int>("MaxPulleys")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(2)
-                        .HasColumnName("max_pulleys");
-
                     b.Property<int>("RowNumber")
                         .HasColumnType("integer")
                         .HasColumnName("row_number");
 
-                    b.Property<Guid>("SectionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_id");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("rack_status_enum")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'available'::rack_status_enum");
-
-                    b.Property<DateTime?>("StatusChangedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("status_changed_at");
-
-                    b.Property<string>("UnavailableReason")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("unavailable_reason");
-
-                    b.Property<int>("UsageProfile")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("rack_usage_profile_enum")
-                        .HasColumnName("usage_profile")
-                        .HasDefaultValueSql("'active_flow'::rack_usage_profile_enum");
-
-                    b.Property<decimal>("WidthMetres")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("width_metres");
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SectionId")
-                        .HasDatabaseName("ix_racks_section_id");
-
-                    b.HasIndex("SectionId", "Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_racks_section_id_code");
+                    b.HasIndex("WarehouseId");
 
                     b.ToTable("racks", "public");
                 });
@@ -1261,6 +1076,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CatalogId");
 
                     b.ToTable("sub_catalogs", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Tramos", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Tramos", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.TransportUnit", b =>
@@ -4848,9 +4682,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("entrance_ducats_id");
 
-                    b.Property<Guid?>("LotsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("RacksId")
                         .HasColumnType("uuid")
                         .HasColumnName("racks_id");
@@ -4879,8 +4710,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CategoryProductId");
 
                     b.HasIndex("EntranceDucatsId");
-
-                    b.HasIndex("LotsId");
 
                     b.HasIndex("RacksId");
 
@@ -5065,12 +4894,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<Guid?>("LotsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("LotsPositionsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("RackId")
                         .HasColumnType("uuid")
                         .HasColumnName("rack_id");
@@ -5088,10 +4911,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("warehouse_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LotsId");
-
-                    b.HasIndex("LotsPositionsId");
 
                     b.HasIndex("RackId");
 
@@ -5309,12 +5128,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
-                    b.Property<bool>("IsOwner")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_owner");
-
                     b.Property<Guid?>("ParentWarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("parent_warehouse_id");
@@ -5497,43 +5310,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
-                        .WithMany("Lots")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", "CurrentStock")
-                        .WithMany()
-                        .HasForeignKey("CurrentStockId");
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
-                        .WithMany("Positions")
-                        .HasForeignKey("LotId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CurrentStock");
-
-                    b.Navigation("Lot");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Racks", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany("Racks")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Section");
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionOverflowCapacity", b =>
@@ -5567,6 +5352,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Catalog");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Tramos", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
+                        .WithMany("Tramos")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
@@ -6363,10 +6159,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", null)
-                        .WithMany("CurrentStock")
-                        .HasForeignKey("LotsId");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
                         .WithMany("CurrentStock")
                         .HasForeignKey("RacksId")
@@ -6430,14 +6222,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseAssignments", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", null)
-                        .WithMany("Assignments")
-                        .HasForeignKey("LotsId");
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", null)
-                        .WithMany("Assignments")
-                        .HasForeignKey("LotsPositionsId");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
                         .WithMany("Assignments")
                         .HasForeignKey("RackId")
@@ -6597,20 +6381,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Customers");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
-                {
-                    b.Navigation("Assignments");
-
-                    b.Navigation("CurrentStock");
-
-                    b.Navigation("Positions");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
-                {
-                    b.Navigation("Assignments");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>
                 {
                     b.Navigation("UserModuleRoles");
@@ -6629,11 +6399,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("CurrentStock");
 
-                    b.Navigation("Lots");
-
                     b.Navigation("OverflowCapacity");
 
-                    b.Navigation("Racks");
+                    b.Navigation("Tramos");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", b =>
@@ -6826,6 +6594,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Details")
                         .IsRequired();
+
+                    b.Navigation("Racks");
 
                     b.Navigation("Sections");
 
