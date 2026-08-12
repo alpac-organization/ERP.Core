@@ -38,7 +38,7 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
         builder.Property(e => e.HeightMetres)
             .HasColumnName("height_metres")
             .HasPrecision(10, 2)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.UsageProfile)
             .HasColumnName("usage_profile")
