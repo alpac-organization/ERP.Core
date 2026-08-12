@@ -33,6 +33,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests  { get; set; } = [];
         public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests  { get; set; } = [];
 
-        public virtual ICollection<RequisitionAccountingReview> AccountingReviews { get; set; } = [];
+        public virtual ICollection<RequisitionAccountingReview> SentAccountingReviews { get; set; } = [];
+        public virtual ICollection<RequisitionAccountingReview> ReviewedAccountingReviews { get; set; } = [];
     }
 }

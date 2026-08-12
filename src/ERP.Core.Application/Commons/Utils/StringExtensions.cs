@@ -1,4 +1,4 @@
-namespace ERP.Core.Manager.Api.Application.Commons.Utils
+namespace ERP.Core.Application.Commons.Utils
 {
     public static class StringExtensions
     {
