@@ -27,7 +27,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.SentToReviewAt)
                 .HasColumnName("send_to_review_at")
-                .HasColumnType("date");
+                .HasColumnType("date")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.Property(e => e.Comments)
                 .HasColumnName("comments")
@@ -37,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.ReviewedByUserId)
                 .HasColumnName("reviewed_by_user_id")
                 .IsRequired(false);
+
+            builder.Property(e => e.SentByUserId)
+                .HasColumnName("send_by_user_id")
+                .IsRequired();
 
             builder.Property(e => e.PurchaseRequestId)
                 .HasColumnName("purchase_request_id")
