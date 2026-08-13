@@ -9,6 +9,7 @@ public class Sections : BaseEntity<Guid>
     public string Code { get; set; } = null!;
     public string Name { get; set; } = null!;
     public SectionType SectionType { get; set; }
+    public SectionStorageType StorageType { get; set; } = SectionStorageType.Empty;
     public bool IsActive { get; set; } = true;
 
     public decimal WidthMetres { get; set; }
