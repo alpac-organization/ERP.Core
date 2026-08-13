@@ -84,6 +84,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISectionOverflowCapacityRepository sectionOverflowCapacityRepository,
         IRequisitionAccountingReviewRepository requisitionAccountingReviewRepository,
         IRacksRepository racksRepository,
+        IRackPositionsRepository rackPositionsRepository,
         ILotsRepository lotsRepository,
         ILotsPositionsRepository lotsPositionsRepository
     ) : IUnitOfWork
@@ -159,6 +160,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomsDeclarationDetailsRepository CustomsDeclarationDetails => customsDeclarationDetailsRepository;
         public ISectionsRepository Sections => sectionsRepository;
         public IRacksRepository Racks => racksRepository;
+        public IRackPositionsRepository RackPositions => rackPositionsRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
         public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;

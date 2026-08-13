@@ -9,7 +9,7 @@ public class Stocks : BaseEntity<Guid>
     public Guid WarehouseId { get; set; }
     public Guid EntranceDucatsId { get; set; }
     public Guid? SectionId { get; set; }
-    public Guid RacksId { get; set; }
+    public Guid RackPositionId { get; set; }
     public Guid CategoryProductId { get; set; }
     public int CurrentBultos { get; set; }
     public decimal CurrentWeightKg { get; set; }
@@ -20,7 +20,7 @@ public class Stocks : BaseEntity<Guid>
 
     // Propiedades de navegación
     public virtual EntranceDucats EntranceDucat { get; set; } = null!;
-    public virtual Racks Rack { get; set; } = null!;
+    public virtual RackPositions Position { get; set; } = null!;
     public virtual CategoryProducts Product { get; set; } = null!;
     public virtual Sections? Section { get; set; } = null!;
 }
