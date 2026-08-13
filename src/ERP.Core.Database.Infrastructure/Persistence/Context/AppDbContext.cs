@@ -113,6 +113,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
         public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
         public DbSet<RequisitionAccountingReview> RequisitionAccountingReviews => Set<RequisitionAccountingReview>();
+        public DbSet<RequisitionManagementReview> RequisitionManagementReviews => Set<RequisitionManagementReview>();
 
         #endregion
                 
@@ -158,6 +159,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
             modelBuilder.HasPostgresEnum<SectionStorageType>("public", "section_storage_type_enum");
             modelBuilder.HasPostgresEnum<AccountingReviewStatus>("public", "accounting_review_status_enum");
+            modelBuilder.HasPostgresEnum<ManagementReviewStatus>("public", "management_review_status_enum");
             modelBuilder.HasPostgresEnum<RackUsageProfile>("public", "rack_usage_profile_enum");
             modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
 

@@ -91,6 +91,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IPurchaseRequestsRepository PurchaseRequests { get; }
         IPurchaseRequestItemsRepository PurchaseRequestItems { get; }
         IRequisitionAccountingReviewRepository RequisitionAccountingReviews { get; }
+        IRequisitionManagementReviewRepository RequisitionManagementReviews { get; }
         #endregion
 
 

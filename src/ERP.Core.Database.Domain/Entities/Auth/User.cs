@@ -35,5 +35,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         public virtual ICollection<RequisitionAccountingReview> SentAccountingReviews { get; set; } = [];
         public virtual ICollection<RequisitionAccountingReview> ReviewedAccountingReviews { get; set; } = [];
+
+        public virtual ICollection<RequisitionManagementReview> SentManagementReviews { get; set; } = [];
+        public virtual ICollection<RequisitionManagementReview> ReviewedManagementReviews { get; set; } = [];
     }
 }
