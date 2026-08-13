@@ -8,7 +8,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public bool IsActive { get; set; }
         public bool HasDelivery { get; set; }
         public bool HasGuarantee { get; set; }
-
+        public bool IsAcceptedForPurchase { get; set; }
+        
         public decimal Iva { get; set; }
         public decimal Price { get; set; }
         public decimal PriceUnit { get; set; }
