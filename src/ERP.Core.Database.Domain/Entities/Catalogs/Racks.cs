@@ -1,6 +1,6 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -23,6 +23,6 @@ public class Racks : BaseEntity<Guid>
     public string? UnavailableReason { get; set; }
     public DateTime? StatusChangedAt { get; set; }
 
+    public virtual ICollection<RackPositions> Positions { get; set; } = [];
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
-    public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
 }

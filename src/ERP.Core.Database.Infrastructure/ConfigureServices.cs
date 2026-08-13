@@ -156,6 +156,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
             services.AddScoped<IRacksRepository, RacksRepository>();
+            services.AddScoped<IRackPositionsRepository, RackPositionsRepository>();
             services.AddScoped<ISectionOverflowCapacityRepository, SectionOverflowCapacityRepository>();
             services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
             #endregion

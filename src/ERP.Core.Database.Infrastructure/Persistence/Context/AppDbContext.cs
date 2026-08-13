@@ -83,6 +83,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionOverflowCapacity> SectionOverflowCapacities => Set<SectionOverflowCapacity>();
         public DbSet<Racks> Racks => Set<Racks>();
+        public DbSet<RackPositions> RackPositions => Set<RackPositions>();
         public DbSet<Lots> Lots => Set<Lots>();
         public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
         public DbSet<Stocks> Stocks => Set<Stocks>();

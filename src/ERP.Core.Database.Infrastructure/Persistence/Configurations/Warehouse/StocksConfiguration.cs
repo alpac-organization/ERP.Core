@@ -27,8 +27,8 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasColumnName("section_id")
             .IsRequired(false);
         
-        builder.Property(e => e.RacksId)
-            .HasColumnName("racks_id")
+        builder.Property(e => e.RackPositionId)
+            .HasColumnName("rack_position_id")
             .IsRequired();
 
         builder.Property(e => e.RowVersion)
@@ -68,9 +68,9 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasForeignKey(x => x.EntranceDucatsId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Rack)
+        builder.HasOne(x => x.Position)
             .WithMany(x => x.CurrentStock)
-            .HasForeignKey(x => x.RacksId)
+            .HasForeignKey(x => x.RackPositionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Product)
