@@ -40,7 +40,7 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
         builder.Property(s => s.StorageType)
             .HasColumnName("storage_type")
             .HasColumnType("section_storage_type_enum")
-            .HasDefaultValue("'empty'::section_storage_type_enum")
+            .HasDefaultValue(SectionStorageType.Empty)
             .IsRequired();
 
         builder.Property(e => e.WidthMetres)
