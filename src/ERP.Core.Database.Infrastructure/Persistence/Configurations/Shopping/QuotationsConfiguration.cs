@@ -34,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(e => e.IsAcceptedForPurchase)
+                .HasColumnName("is_aceepted_for_purchase")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(e => e.Iva)
                 .HasColumnName("iva")
                 .HasPrecision(18, 2)
