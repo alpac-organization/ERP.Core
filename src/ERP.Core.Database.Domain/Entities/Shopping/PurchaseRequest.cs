@@ -33,5 +33,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
 
         public virtual RequisitionAccountingReview? AccountingReview { get; set; }
+
+        public virtual RequisitionManagementReview? ManagementReview { get; set; }
     }
 }
