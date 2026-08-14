@@ -6,6 +6,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse
 {
     public class WarehouseAssignmentsRepository(ErpDbContext _context) : Repository<WarehouseAssignments>(_context), IWarehouseAssignmentsRepository
     {
+        /// <inheritdoc />
         public async Task<WarehouseAssignments> InsertWarehouseAssignment(WarehouseAssignments assignment)
         {
             var record = await _context.WarehouseAssignments.AddAsync(assignment);

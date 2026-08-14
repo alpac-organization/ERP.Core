@@ -6,6 +6,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse
 {
     public class UnloadingDetailsRepository(ErpDbContext _context) : Repository<UnloadingDetails>(_context), IUnloadingDetailsRepository
     {
+        /// <inheritdoc />
         public async Task<UnloadingDetails> InsertUnloadingDetails(UnloadingDetails unloadingDetails)
         {
             var record = await _context.UnloadingDetails.AddAsync(unloadingDetails);

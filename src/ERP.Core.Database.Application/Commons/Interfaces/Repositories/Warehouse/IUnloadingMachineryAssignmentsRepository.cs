@@ -4,5 +4,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IUnloadingMachineryAssignmentsRepository : IRepository<UnloadingMachineryAssignments>
 {
+    /// <summary>Inserta la asignación de maquinaria de descarga de una recepción.</summary>
+    /// <param name="machineryAssignment">Asignación de maquinaria a insertar.</param>
+    /// <returns>La asignación insertada con su identificador generado.</returns>
     Task<UnloadingMachineryAssignments> InsertUnloadingMachineryAssignments(UnloadingMachineryAssignments machineryAssignment);
 }
