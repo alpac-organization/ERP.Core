@@ -102,6 +102,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CustomsDeclarations> CustomsDeclarations => Set<CustomsDeclarations>();
         public DbSet<CustomsDeclarationDetails> CustomsDeclarationDetails => Set<CustomsDeclarationDetails>();
         public DbSet<TransportUnit> TransportUnits => Set<TransportUnit>();
+        public DbSet<UnloadingCrewAssignments> UnloadingCrewAssignments => Set<UnloadingCrewAssignments>();
+        public DbSet<UnloadingMachineryAssignments> UnloadingMachineryAssignments => Set<UnloadingMachineryAssignments>();
+        public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();
+        public DbSet<WarehouseStaff> WarehouseStaffs => Set<WarehouseStaff>();
         #endregion
 
         #region Compras
@@ -152,6 +156,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
+            modelBuilder.HasPostgresEnum<MachineryType>("public","machinery_type_enum");
             
             modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");

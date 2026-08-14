@@ -87,7 +87,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IRacksRepository racksRepository,
         IRackPositionsRepository rackPositionsRepository,
         ILotsRepository lotsRepository,
-        ILotsPositionsRepository lotsPositionsRepository
+        ILotsPositionsRepository lotsPositionsRepository,
+        IWarehouseAssignmentsRepository warehouseAssignmentsRepository,
+        IUnloadingDetailsRepository unloadingDetailsRepository,
+        IUnloadingCrewAssignmentsRepository unloadingCrewAssignmentsRepository,
+        IUnloadingMachineryAssignmentsRepository unloadingMachineryAssignmentsRepository,
+        IWarehouseMachineryRepository warehouseMachineryRepository,
+        IWarehouseStaffRepository warehouseStaffRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -165,6 +171,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
         public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;
+        public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
+        public IUnloadingDetailsRepository UnloadingDetails => unloadingDetailsRepository;
+        public IUnloadingCrewAssignmentsRepository UnloadingCrewAssignments => unloadingCrewAssignmentsRepository;
+        public IUnloadingMachineryAssignmentsRepository UnloadingMachineryAssignments => unloadingMachineryAssignmentsRepository;
+        public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
+        public IWarehouseStaffRepository WarehouseStaffs => warehouseStaffRepository;
         #endregion
 
         #region Shopping

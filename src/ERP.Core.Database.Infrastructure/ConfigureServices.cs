@@ -158,6 +158,12 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IRacksRepository, RacksRepository>();
             services.AddScoped<IRackPositionsRepository, RackPositionsRepository>();
             services.AddScoped<ISectionOverflowCapacityRepository, SectionOverflowCapacityRepository>();
+            services.AddScoped<IWarehouseAssignmentsRepository, WarehouseAssignmentsRepository>();
+            services.AddScoped<IUnloadingDetailsRepository, UnloadingDetailsRepository>();
+            services.AddScoped<IUnloadingCrewAssignmentsRepository, UnloadingCrewAssignmentsRepository>();
+            services.AddScoped<IUnloadingMachineryAssignmentsRepository, UnloadingMachineryAssignmentsRepository>();
+            services.AddScoped<IWarehouseMachineryRepository, WarehouseMachineryRepository>();
+            services.AddScoped<IWarehouseStaffRepository, WarehouseStaffRepository>();
             services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
             services.AddScoped<IRequisitionManagementReviewRepository, RequisitionManagementReviewRepository>();
             #endregion

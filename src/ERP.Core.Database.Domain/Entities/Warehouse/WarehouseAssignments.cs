@@ -11,6 +11,9 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public Guid WarehouseId { get; set; }
     public Guid? SectionId { get; set; }
     public Guid RackId { get; set; }
+    public Guid? LotsId { get; set; }
+    public Guid? LotsPositionsId { get; set; }
+    public Guid? RackPositionsId { get; set; }
     public DateTime AssignedAt { get; set; }
     public string AssignedByUserId { get; set; } = null!;
 
@@ -19,6 +22,9 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual Racks Rack { get; set; } = null!;
     public virtual Sections? Section { get; set; } = null!;
+    public virtual Lots? Lot { get; set; }
+    public virtual LotsPositions? LotPosition { get; set; }
+    public virtual RackPositions? RackPosition { get; set; }
 
     public virtual UnloadingDetails? UnloadingDetails { get; set; }
 }

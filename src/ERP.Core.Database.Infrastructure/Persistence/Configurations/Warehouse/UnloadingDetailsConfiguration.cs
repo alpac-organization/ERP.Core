@@ -32,7 +32,7 @@ public class UnloadingDetailsConfiguration : IEntityTypeConfiguration<UnloadingD
         
         builder.Property(e => e.UnloadingEndTime)
             .HasColumnName("unloading_end_time")
-            .IsRequired();
+            .IsRequired(false);
         
         builder.Property(e => e.WarehouseChiefUserId)
             .HasColumnName("warehouse_chief_user_id")
@@ -41,8 +41,8 @@ public class UnloadingDetailsConfiguration : IEntityTypeConfiguration<UnloadingD
         
         builder.Property(e => e.PreparedPallets)
             .HasColumnName("prepared_pallets")
-            .HasPrecision(2, 0)
-            .IsRequired();
+            .HasPrecision(10, 0)
+            .IsRequired(false);
         
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
