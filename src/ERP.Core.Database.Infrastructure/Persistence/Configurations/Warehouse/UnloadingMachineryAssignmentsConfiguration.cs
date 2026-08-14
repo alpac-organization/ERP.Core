@@ -23,12 +23,6 @@ public class UnloadingMachineryAssignmentsConfiguration : IEntityTypeConfigurati
         
         builder.Property(x => x.MachineryCode)
             .HasColumnName("machinery_code")
-            .HasMaxLength(100)
-            .IsRequired();
-        
-        builder.Property(x => x.MachineryType)
-            .HasColumnName("machinery_type")
-            .HasMaxLength(150)
             .IsRequired();
 
         builder.Property(x => x.StartTime)
@@ -37,7 +31,7 @@ public class UnloadingMachineryAssignmentsConfiguration : IEntityTypeConfigurati
 
         builder.Property(x => x.EndTime)
             .HasColumnName("end_time")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.AssignedByUserId)
             .HasColumnName("assigned_by_user_id")
@@ -53,10 +47,15 @@ public class UnloadingMachineryAssignmentsConfiguration : IEntityTypeConfigurati
             .HasColumnName("deleted_at");
 
 
-        // Relación
+        // Relaciones
         builder.HasOne(x => x.UnloadingDetails)
             .WithMany(x => x.MachineryAssignments)
             .HasForeignKey(x => x.UnloadingDetailsId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.Machinery)
+            .WithMany(x => x.Assignments)
+            .HasForeignKey(x => x.MachineryCode)
             .OnDelete(DeleteBehavior.Restrict);
 
     }

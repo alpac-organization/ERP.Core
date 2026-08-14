@@ -38,7 +38,7 @@ public class UnloadingCrewAssignmentsConfiguration : IEntityTypeConfiguration<Un
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.Property(x => x.Id)
+        builder.Property(x => x.UnloadingDetailsId)
             .HasColumnName("unloading_details_id")
             .IsRequired();
 

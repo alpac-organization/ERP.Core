@@ -31,6 +31,15 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
             .HasColumnName("rack_id")
             .IsRequired();
         
+        builder.Property(e => e.LotsId)
+            .IsRequired(false);
+        
+        builder.Property(e => e.LotsPositionsId)
+            .IsRequired(false);
+        
+        builder.Property(e => e.RackPositionsId)
+            .IsRequired(false);
+        
         builder.Property(e => e.AssignedAt)
             .HasColumnName("assigned_at")
             .IsRequired();
@@ -69,6 +78,21 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
         builder.HasOne(x => x.Section)
             .WithMany(x => x.Assignments)
             .HasForeignKey(x => x.SectionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.Lot)
+            .WithMany(x => x.Assignments)
+            .HasForeignKey(x => x.LotsId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.LotPosition)
+            .WithMany(x => x.Assignments)
+            .HasForeignKey(x => x.LotsPositionsId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.RackPosition)
+            .WithMany(x => x.Assignments)
+            .HasForeignKey(x => x.RackPositionsId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
