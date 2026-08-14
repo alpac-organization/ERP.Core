@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -21,6 +22,8 @@ public class DucatRegistry : BaseEntity<Guid>
     public DateOnly? RegisteredEndDate { get; set; }
     public TimeOnly? RegisteredStartTime { get; set; }
     public TimeOnly? RegisteredEndTime { get; set; }
+
+    public DucaStatus Status { get; set; }
 
 
 
