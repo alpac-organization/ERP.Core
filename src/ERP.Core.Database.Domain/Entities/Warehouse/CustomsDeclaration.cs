@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -12,6 +13,7 @@ public class CustomsDeclarations : BaseEntity<Guid>
 
     public Guid? ServiceOrderId { get; set; }
     public string? ServiceOrderCode { get; set; }
+    public DucaStatus Status { get; set; }
 
     public virtual ServiceOrder? ServiceOrder { get; set; }
 

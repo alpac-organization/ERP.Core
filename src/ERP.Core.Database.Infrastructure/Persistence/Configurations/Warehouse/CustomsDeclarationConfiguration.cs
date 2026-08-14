@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -44,6 +45,11 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
             .HasColumnName("service_order_code")
             .HasMaxLength(50)
             .IsRequired(false);
+
+        builder.Property(e => e.Status)
+            .HasColumnName("status")
+            .HasColumnType("duca_status_enum")
+            .HasDefaultValue(DucaStatus.Pending);
 
         builder.HasOne(d => d.ServiceOrder)
             .WithOne(so => so.CustomsDeclarations)
