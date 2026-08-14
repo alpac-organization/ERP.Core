@@ -4,4 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IUnloadingCrewAssignmentsRepository : IRepository<UnloadingCrewAssignments>
 {
+    Task<UnloadingCrewAssignments> InsertUnloadingCrewAssignments(UnloadingCrewAssignments crewAssignment);
 }
