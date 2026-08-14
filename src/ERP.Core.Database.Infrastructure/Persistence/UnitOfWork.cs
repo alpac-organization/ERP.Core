@@ -93,7 +93,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IUnloadingCrewAssignmentsRepository unloadingCrewAssignmentsRepository,
         IUnloadingMachineryAssignmentsRepository unloadingMachineryAssignmentsRepository,
         IWarehouseMachineryRepository warehouseMachineryRepository,
-        IWarehouseStaffRepository warehouseStaffRepository
+        IWarehouseStaffRepository warehouseStaffRepository,
+        ICustomsBranchesRepository customsBranchesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -141,6 +142,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         public IAssistanceControlRepository AssistanceControls => assistanceControlRepository;
         public ILocationsRepository Locations => locationRepository;
+        public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
