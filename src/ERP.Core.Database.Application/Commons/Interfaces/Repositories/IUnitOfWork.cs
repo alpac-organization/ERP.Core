@@ -31,6 +31,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IValidityDeductionsRepository ValidityDeductions { get; }
         IIncomesRepository Incomes { get; }
         IBranchesRepository Branches { get; }
+        ICustomsBranchesRepository CustomsBranches { get; }
         IIncomeTaxAccrualRepository IncomeTaxAccrual { get; }
         IAssignedTravelExpensesRepository AssignedTravelExpenses { get; }
         IProfessionalServicesPayrollsRepository ProfessionalServicesPayrolls { get; }
