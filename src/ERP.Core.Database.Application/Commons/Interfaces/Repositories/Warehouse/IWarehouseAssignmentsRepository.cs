@@ -4,4 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IWarehouseAssignmentsRepository : IRepository<WarehouseAssignments>
 {
+    Task<WarehouseAssignments> InsertWarehouseAssignment(WarehouseAssignments assignment);
 }

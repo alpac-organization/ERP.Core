@@ -4,4 +4,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehous
 
 public interface IUnloadingDetailsRepository : IRepository<UnloadingDetails>
 {
+    Task<UnloadingDetails> InsertUnloadingDetails(UnloadingDetails unloadingDetails);
 }
