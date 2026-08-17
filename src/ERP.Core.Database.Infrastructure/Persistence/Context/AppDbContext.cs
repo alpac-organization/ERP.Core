@@ -1,6 +1,4 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
@@ -57,6 +55,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         
         #region Catologos
         public DbSet<Branch> Branches => Set<Branch>();
+        public DbSet<CustomsBranches> CustomsBranches => Set<CustomsBranches>();
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();

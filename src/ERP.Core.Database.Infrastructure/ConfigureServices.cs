@@ -78,6 +78,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
                     npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
+                    npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
                     npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
                 })
@@ -142,6 +143,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IQuotesRepository, QuotesRepository>();
             services.AddScoped<ILotsRepository, LotsRepository>();
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
+            services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
