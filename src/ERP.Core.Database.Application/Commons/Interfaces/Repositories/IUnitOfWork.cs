@@ -14,6 +14,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICompaniesRepository Companies { get; }
         IUserProfilesRepository Profiles { get; }
         ISessionsRepository Sessions { get; }
+        INotificationsRepository Notifications { get; }
         IRolesRepository Roles { get; }
         IUserModulesRoleRepository UserModules { get; }
         ICatalogsRepository CatalogsRepository { get; }

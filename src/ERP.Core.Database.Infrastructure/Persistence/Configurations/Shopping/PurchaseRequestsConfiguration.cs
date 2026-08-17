@@ -19,33 +19,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.RequestDate)
-                .HasColumnName("request_date")
-                .IsRequired();
-
-            builder.Property(e => e.RequestType)
-                .HasColumnName("request_type")
-                .HasColumnType("purchase_request_type_enum")
-                .IsRequired();
-
-            builder.Property(e => e.RequestStatus)
-                .HasColumnName("request_status")
-                .HasColumnType("purchase_request_status_enum")
-                .HasDefaultValueSql("'pending'::purchase_request_status_enum")
-                .IsRequired();
-
-            builder.Property(e => e.IsActive)
-                .HasColumnName("is_active")
-                .HasDefaultValue(true)
-                .IsRequired();
-
             builder.Property(e => e.Code)
                 .HasColumnName("code")
                 .IsRequired();
-
-            builder.Property(e => e.UserRevisionId)
-                .HasColumnName("user_revision_id")
-                .IsRequired(false);
 
             builder.Property(e => e.Observations)
                 .HasColumnName("observations")
@@ -55,20 +31,56 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("reason_rejection")
                 .HasMaxLength(1000);
 
-            builder.Property(e => e.RevisionDate)
-                .HasColumnName("revision_date");
-
-            builder.Property(e => e.BranchId)
-                .HasColumnName("branch_id")
+            builder.Property(e => e.RequestDate)
+                .HasColumnName("request_date")
+                .HasColumnType("date")
                 .IsRequired();
 
-            builder.Property(e => e.RegisteredByUserId)
-                .HasColumnName("registered_by_user_id")
+            builder.Property(e => e.RevisionDate)
+                .HasColumnName("revision_date")
+                .HasColumnType("date")
+                .IsRequired(false);
+
+            builder.Property(e => e.RequestType)
+                .HasColumnName("request_type")
+                .HasColumnType("purchase_request_type_enum")
+                .HasDefaultValueSql("'requisition'::purchase_request_type_enum")
+                .IsRequired();
+
+            builder.Property(e => e.Destination)
+                .HasColumnName("destination")
+                .HasColumnType("destination_request_enum")
+                .HasDefaultValueSql("'internal'::destination_request_enum")
+                .IsRequired();
+
+            builder.Property(e => e.RequestStatus)
+                .HasColumnName("request_status")
+                .HasColumnType("purchase_request_status_enum")
+                .HasDefaultValueSql("'pending'::purchase_request_status_enum")
+                .IsRequired();
+
+            builder.Property(e => e.PriorityLevel)
+                .HasColumnName("priority_level")
+                .HasColumnType("priority_level_enum")
+                .HasDefaultValueSql("'low'::priority_level_enum")
+                .IsRequired();
+
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
                 .IsRequired();
 
             builder.Property(e => e.UserRevisionId)
                 .HasColumnName("user_revision_id")
                 .IsRequired(false);
+
+            builder.Property(e => e.RegisteredByUserId)
+                .HasColumnName("registered_by_user_id")
+                .IsRequired();
+
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired();
 
             builder.Property(e => e.AreaId)
                 .HasColumnName("area_id")
