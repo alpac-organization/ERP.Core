@@ -16,7 +16,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public DateOnly RequestDate { get; set; }
         public DateOnly? RevisionDate { get; set; }
 
-        public PriorityLevel PriorityLevel { get; set; } = PriorityLevel.Low;
+        public PriorityLevel PriorityLevel { get; set; } = PriorityLevel.Normal;
         public DestinationRequest Destination { get; set; } = DestinationRequest.Internal;
         public PurchaseRequestType RequestType { get; set; } = PurchaseRequestType.Requisition;
         public PurchaseRequestStatus RequestStatus { get; set; } = PurchaseRequestStatus.Pending;
