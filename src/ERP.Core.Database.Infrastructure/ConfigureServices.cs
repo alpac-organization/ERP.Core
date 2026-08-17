@@ -79,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
                     npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
+                    npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
                 })
             );
 
@@ -154,7 +155,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
             services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
             services.AddScoped<ICustomsDeclarationDetailsRepository, CustomsDeclarationDetailsRepository>();
-            services.AddScoped<ITransportUnitRepository, TransportUnitRepository>();
             services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
             services.AddScoped<IRacksRepository, RacksRepository>();
