@@ -157,7 +157,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public","machinery_type_enum");
-            
+
+            modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum"); 
+            modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum"); 
+
             modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");

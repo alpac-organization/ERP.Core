@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
@@ -10,7 +11,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 
         public string? LegalName {get; set;}
         public string? PictureUrl { get; set; }
-
+        
         public bool IsActive {get; set;} = true;
 
         public string? IdentificationNumber {get; set;}
@@ -23,5 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public virtual Company Company { get; set; } = default!;
 
         public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = [];
+        public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
+
     }
 }
