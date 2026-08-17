@@ -30,11 +30,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.ConstitutionType)
                 .HasColumnName("constitution_type")
                 .HasColumnType("constitution_type_enum")
+                .HasDefaultValueSql("'legal'::constitution_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.IdentificationType)
                 .HasColumnName("identification_type")
                 .HasColumnType("identification_type_enum")
+                .HasDefaultValueSql("'ruc'::identification_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.UserId)

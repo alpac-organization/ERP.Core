@@ -44,12 +44,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.RequestType)
                 .HasColumnName("request_type")
                 .HasColumnType("purchase_request_type_enum")
-                .HasDefaultValueSql("'requisition'::request_type_enum")
+                .HasDefaultValueSql("'requisition'::purchase_request_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.Destination)
                 .HasColumnName("destination")
-                .HasColumnType("")
+                .HasColumnType("destination_request_enum")
                 .HasDefaultValueSql("'internal'::destination_request_enum")
                 .IsRequired();
 

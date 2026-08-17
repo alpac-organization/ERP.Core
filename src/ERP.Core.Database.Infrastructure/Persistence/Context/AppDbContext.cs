@@ -12,9 +12,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Module> Modules => Set<Module>();
-        public DbSet<UserProfile> Profiles => Set<UserProfile>();
         public DbSet<Session> Sessions => Set<Session>();
+        public DbSet<UserProfile> Profiles => Set<UserProfile>();
+        public DbSet<Notification> Notifications => Set<Notification>();
         public DbSet<UserModuleRoles> ModulesWithRoles => Set<UserModuleRoles>();
+        
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserModuleRoles> UserModuleRoles => Set<UserModuleRoles>();
 
