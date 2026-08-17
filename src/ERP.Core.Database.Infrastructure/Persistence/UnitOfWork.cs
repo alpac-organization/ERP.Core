@@ -14,6 +14,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IModulesRepository modulesRepository,
         IUsersRepository usersRepository,
         IUserProfilesRepository userProfilesRepository,
+        INotificationsRepository notificationsRepository,
         ISessionsRepository sessionsRepository,
         IRolesRepository rolesRepository,
         IUserModulesRoleRepository userModulesRoleRepository,
@@ -103,6 +104,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IModulesRepository Modules => modulesRepository;
         public IUsersRepository Users => usersRepository;
         public IUserProfilesRepository Profiles => userProfilesRepository;
+        public INotificationsRepository Notifications => notificationsRepository;
         public ISessionsRepository Sessions => sessionsRepository;
         public IRolesRepository Roles => rolesRepository;
         public IUserModulesRoleRepository UserModules => userModulesRoleRepository;

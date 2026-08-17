@@ -12,9 +12,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Module> Modules => Set<Module>();
-        public DbSet<UserProfile> Profiles => Set<UserProfile>();
         public DbSet<Session> Sessions => Set<Session>();
+        public DbSet<UserProfile> Profiles => Set<UserProfile>();
+        public DbSet<Notification> Notifications => Set<Notification>();
         public DbSet<UserModuleRoles> ModulesWithRoles => Set<UserModuleRoles>();
+        
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserModuleRoles> UserModuleRoles => Set<UserModuleRoles>();
 
@@ -156,7 +158,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public","machinery_type_enum");
-            
+
+            modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum"); 
+            modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum"); 
+
             modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");

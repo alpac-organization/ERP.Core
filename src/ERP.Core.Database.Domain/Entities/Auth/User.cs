@@ -29,7 +29,12 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public virtual ICollection<Session> Sessions { get; set; } = [];
         public virtual ICollection<Supplier> Suppliers { get; set; } = [];
         public virtual ICollection<UserProfile> Profiles { get; set; } = [];
+        public virtual ICollection<Notification> Notifications { get; set; } = [];
 
+
+        /// <summary>
+        /// Control de auditoria de acciones del usuario.
+        /// </summary>
         public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests  { get; set; } = [];
         public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests  { get; set; } = [];
 
