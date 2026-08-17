@@ -6,23 +6,28 @@ namespace ERP.Core.Database.Domain.Enums
     public enum PriorityLevel
     {
         /// <summary>
-        /// Crítica; debe atenderse dentro de 24 horas.
+        /// No priority level has been assigned.
         /// </summary>
-        Critica = 1,
+        None = 0,
 
         /// <summary>
-        /// Imprevisto; debe atenderse dentro de 24 horas.
+        /// Critical; must be handled within 24 hours.
         /// </summary>
-        Imprevisto = 2,
+        Critical = 1,
 
         /// <summary>
-        /// Normal; debe atenderse dentro de 8 horas.
+        /// Unforeseen; must be handled within 24 hours.
+        /// </summary>
+        Unforeseen = 2,
+
+        /// <summary>
+        /// Normal; must be handled within 8 hours.
         /// </summary>
         Normal = 3,
 
         /// <summary>
-        /// Papelería Impresa; debe atenderse dentro de 15 horas.
+        /// Printed stationery; must be handled within 15 hours.
         /// </summary>
-        PapeleriaImpresa = 4
+        PrintedStationery = 4
     }
 }

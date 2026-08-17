@@ -62,7 +62,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.PriorityLevel)
                 .HasColumnName("priority_level")
                 .HasColumnType("priority_level_enum")
-                .HasDefaultValueSql("'normal'::priority_level_enum")
+                .HasDefaultValueSql("'none'::priority_level_enum")
                 .IsRequired();
 
             builder.Property(e => e.IsActive)
