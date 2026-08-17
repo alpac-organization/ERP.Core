@@ -78,7 +78,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IPurchaseOrdersRepository purchaseOrdersRepository,
         ICustomsDeclarationsRepository customsDeclarationsRepository,
         ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
-        ITransportUnitRepository transportUnitRepository,
 
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
@@ -148,7 +147,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
-        public ITransportUnitRepository TransportUnit => transportUnitRepository;
         #endregion
 
         #region Warehouse

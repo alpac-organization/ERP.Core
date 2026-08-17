@@ -102,7 +102,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<CustomsDeclarations> CustomsDeclarations => Set<CustomsDeclarations>();
         public DbSet<CustomsDeclarationDetails> CustomsDeclarationDetails => Set<CustomsDeclarationDetails>();
-        public DbSet<TransportUnit> TransportUnits => Set<TransportUnit>();
         public DbSet<UnloadingCrewAssignments> UnloadingCrewAssignments => Set<UnloadingCrewAssignments>();
         public DbSet<UnloadingMachineryAssignments> UnloadingMachineryAssignments => Set<UnloadingMachineryAssignments>();
         public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();
@@ -171,6 +170,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ManagementReviewStatus>("public", "management_review_status_enum");
             modelBuilder.HasPostgresEnum<RackUsageProfile>("public", "rack_usage_profile_enum");
             modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
+            modelBuilder.HasPostgresEnum<TransportUnit>("public", "transport_unit_enum");
 
 
 

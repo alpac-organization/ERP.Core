@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
@@ -67,6 +67,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasColumnType("document_type_enum")
             .IsRequired();
 
+        builder.Property(e => e.TransportUnit)
+            .HasColumnName("transport_unit")
+            .HasColumnType("transport_unit_enum")
+            .IsRequired();
+
         builder.Property(e => e.VehicleExitDate)
             .HasColumnName("vehicle_exit_date")
             .HasColumnType("date")
@@ -111,11 +116,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasColumnName("updated_by_user_name")
             .HasMaxLength(450)
             .IsRequired(false);
-
-        builder.HasOne(e => e.TransportUnit)
-            .WithMany()
-            .HasForeignKey(e => e.TransportUnitId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.CustomsBranches)
             .WithMany()

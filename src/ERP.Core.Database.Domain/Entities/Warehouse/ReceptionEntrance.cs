@@ -1,7 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Catalogs;
 using System.ComponentModel.DataAnnotations.Schema;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -27,8 +27,7 @@ public class ReceptionEntrance : BaseEntity<Guid>
 
     public DocumentType DocumentType { get; set; }
 
-    public Guid TransportUnitId { get; set; }
-    public virtual TransportUnit TransportUnit { get; set; } = null!;
+    public TransportUnit TransportUnit { get; set; }
 
     public DateOnly? VehicleExitDate { get; set; }
     public TimeOnly? VehicleExitTime { get; set; }
