@@ -100,7 +100,7 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.ShippingCompany)
-            .WithMany()
+            .WithMany(c => c.DucatRegistries)
             .HasForeignKey(e => e.ShippingCompanyId)
             .OnDelete(DeleteBehavior.Restrict);
 

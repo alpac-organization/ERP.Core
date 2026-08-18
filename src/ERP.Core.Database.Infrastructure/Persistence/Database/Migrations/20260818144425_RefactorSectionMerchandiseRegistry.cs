@@ -143,13 +143,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValueSql: "'duca_d'::duca_type_enum");
 
             migrationBuilder.AddColumn<Guid>(
-                name: "ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry",
-                type: "uuid",
-                nullable: true);
-
-            migrationBuilder.AddColumn<Guid>(
                 name: "shipping_company_id",
                 schema: "public",
                 table: "ducat_registry",
@@ -179,26 +172,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "shipping_company_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ducat_registry_ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry",
-                column: "ShippingCompaniesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_shipping_companies_name",
                 schema: "public",
                 table: "shipping_companies",
                 column: "name",
                 unique: true);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ducat_registry_shipping_companies_ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry",
-                column: "ShippingCompaniesId",
-                principalSchema: "public",
-                principalTable: "shipping_companies",
-                principalColumn: "shipping_company_id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ducat_registry_shipping_companies_shipping_company_id",
@@ -225,11 +203,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_ducat_registry_shipping_companies_ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_ducat_registry_shipping_companies_shipping_company_id",
                 schema: "public",
                 table: "ducat_registry");
@@ -248,20 +221,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "ducat_registry");
 
-            migrationBuilder.DropIndex(
-                name: "IX_ducat_registry_ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry");
-
             migrationBuilder.DropColumn(
                 name: "type",
                 schema: "public",
                 table: "ducat_registry_details");
-
-            migrationBuilder.DropColumn(
-                name: "ShippingCompaniesId",
-                schema: "public",
-                table: "ducat_registry");
 
             migrationBuilder.DropColumn(
                 name: "shipping_company_id",

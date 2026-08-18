@@ -4386,9 +4386,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("registered_start_time");
 
-                    b.Property<Guid?>("ShippingCompaniesId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ShippingCompanyId")
                         .HasColumnType("uuid")
                         .HasColumnName("shipping_company_id");
@@ -4421,8 +4418,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("RecordEntranceId")
                         .IsUnique();
-
-                    b.HasIndex("ShippingCompaniesId");
 
                     b.HasIndex("ShippingCompanyId");
 
@@ -6630,12 +6625,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", null)
-                        .WithMany("DucatRegistries")
-                        .HasForeignKey("ShippingCompaniesId");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", "ShippingCompany")
-                        .WithMany()
+                        .WithMany("DucatRegistries")
                         .HasForeignKey("ShippingCompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
