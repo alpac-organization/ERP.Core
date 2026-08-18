@@ -1,17 +1,19 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class DucatRegistryDetails : BaseEntity<Guid>
 {
-    public Guid RecordEntranceId { get; set; }
+    public Guid DucatRegistryId { get; set; }
     public Guid EntranceDucatId { get; set; }
     public Guid MerchandiseId { get; set; }
     public string MerchandiseName { get; set; } = null!;
+    public DucaType Type { get; set; }
     public int TotalBultos { get; set; }
     public decimal TotalWeight { get; set; }
-    public string? ProductDescription { get; set; }
-    public string Remitente { get; set; } = null!;
+    public string? MerchandiseDescription { get; set; }
+    public string Sender { get; set; } = null!;
     public string? DestinationAreaObservation { get; set; }
     public virtual DucatRegistry DucatRegistry { get; set; } = null!;
     public virtual EntranceDucats EntranceDucat { get; set; } = null!;

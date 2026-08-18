@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
@@ -6,7 +7,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class DucatRegistry : BaseEntity<Guid>
 {
     public Guid RecordEntranceId { get; set; }
-    public string Empresa { get; set; } = null!; //naviera
+    public Guid ShippingCompanyId { get; set; } //naviera
     public string? GeneralObservations { get; set; }
     public bool IsInTransit { get; set; }
 
@@ -22,10 +23,11 @@ public class DucatRegistry : BaseEntity<Guid>
     public TimeOnly? RegisteredStartTime { get; set; }
     public TimeOnly? RegisteredEndTime { get; set; }
 
-    public DucaStatus Status { get; set; }
+    public DucaStatus Status { get; set; } // para mapear el registro completo
 
 
 
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual ICollection<DucatRegistryDetails> Details { get; set; } = [];
+    public virtual ShippingCompanies ShippingCompany { get; set; } = null!;
 }

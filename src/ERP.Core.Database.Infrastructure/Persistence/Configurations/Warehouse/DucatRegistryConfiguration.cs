@@ -16,11 +16,11 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
           .HasColumnName("ducat_registtry_id");
 
         builder.Property(e => e.RecordEntranceId)
-            .HasColumnName("record_entrance_id")
+            .HasColumnName("duca_registry_id")
             .IsRequired();
 
-        builder.Property(e => e.Empresa)
-            .HasColumnName("empresa")
+        builder.Property(e => e.ShippingCompanyId)
+            .HasColumnName("shipping_company")
             .HasMaxLength(150)
             .IsRequired();
 

@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,8 +16,8 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasColumnName("ducat_registry_detail_id")
             .HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(e => e.RecordEntranceId)
-            .HasColumnName("record_entrance_id")
+        builder.Property(e => e.DucatRegistryId)
+            .HasColumnName("ducat_registry_id")
             .IsRequired();
 
         builder.Property(e => e.EntranceDucatId)
@@ -31,6 +32,12 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasColumnName("merchandise_name")
             .HasMaxLength(250)
             .IsRequired();
+
+        builder.Property(e => e.Type)
+            .HasColumnName("type")
+            .HasColumnType("duca_type_enum")
+            .HasDefaultValue(DucaType.DUCA_D)
+            .IsRequired();
         
         builder.Property(e => e.TotalBultos)
             .HasColumnName("total_bultos")
@@ -41,13 +48,13 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasPrecision(18, 4)
             .IsRequired();
         
-        builder.Property(e => e.ProductDescription)
-            .HasColumnName("product_description")
+        builder.Property(e => e.MerchandiseDescription)
+            .HasColumnName("merchandise_description")
             .HasMaxLength(500)
             .IsRequired(false);
        
-        builder.Property(e => e.Remitente)
-            .HasColumnName("remitente")
+        builder.Property(e => e.Sender)
+            .HasColumnName("sender")
             .HasMaxLength(200)
             .IsRequired();
        
@@ -67,7 +74,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
         // Relación N:1 con el Maestro de Oficina
         builder.HasOne(e => e.DucatRegistry)
             .WithMany(h => h.Details)
-            .HasForeignKey(e => e.RecordEntranceId)
+            .HasForeignKey(e => e.DucatRegistryId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.EntranceDucat)
