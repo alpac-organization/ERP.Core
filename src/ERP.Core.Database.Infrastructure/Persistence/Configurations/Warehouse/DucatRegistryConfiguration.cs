@@ -16,12 +16,11 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
           .HasColumnName("ducat_registtry_id");
 
         builder.Property(e => e.RecordEntranceId)
-            .HasColumnName("duca_registry_id")
+            .HasColumnName("record_entrance_id")
             .IsRequired();
 
         builder.Property(e => e.ShippingCompanyId)
-            .HasColumnName("shipping_company")
-            .HasMaxLength(150)
+            .HasColumnName("shipping_company_id")
             .IsRequired();
 
         builder.Property(e => e.GeneralObservations)
@@ -78,15 +77,6 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .HasColumnName("registered_end_time")
             .IsRequired(false);
 
-        builder.Property(e => e.RegisteredStartDate)
-            .HasColumnName("registered_start_date")
-            .HasColumnType("date")
-            .IsRequired(false);
-
-        builder.Property(e => e.RegisteredEndTime)
-            .HasColumnName("registered_end_time")
-            .IsRequired(false);
-
         builder.Property(e => e.Status)
             .HasColumnName("status")
             .HasColumnType("duca_status_enum")
@@ -108,5 +98,12 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
             .WithOne(r => r.DucatRegistry)
             .HasForeignKey<DucatRegistry>(e => e.RecordEntranceId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.ShippingCompany)
+            .WithMany()
+            .HasForeignKey(e => e.ShippingCompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(e => e.ShippingCompanyId);
     }
 }

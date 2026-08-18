@@ -12,11 +12,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_ducat_registry_record_entrances_record_entrance_id",
-                schema: "public",
-                table: "ducat_registry");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_ducat_registry_details_ducat_registry_record_entrance_id",
                 schema: "public",
                 table: "ducat_registry_details");
@@ -49,18 +44,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "ducat_registry_details",
                 newName: "IX_ducat_registry_details_ducat_registry_id");
-
-            migrationBuilder.RenameColumn(
-                name: "record_entrance_id",
-                schema: "public",
-                table: "ducat_registry",
-                newName: "duca_registry_id");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_ducat_registry_record_entrance_id",
-                schema: "public",
-                table: "ducat_registry",
-                newName: "IX_ducat_registry_duca_registry_id");
 
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
@@ -160,11 +143,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValueSql: "'duca_d'::duca_type_enum");
 
             migrationBuilder.AddColumn<Guid>(
-                name: "shipping_company",
+                name: "ShippingCompaniesId",
                 schema: "public",
                 table: "ducat_registry",
                 type: "uuid",
-                maxLength: 150,
+                nullable: true);
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "shipping_company_id",
+                schema: "public",
+                table: "ducat_registry",
+                type: "uuid",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
@@ -184,10 +173,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ducat_registry_shipping_company",
+                name: "IX_ducat_registry_shipping_company_id",
                 schema: "public",
                 table: "ducat_registry",
-                column: "shipping_company");
+                column: "shipping_company_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ducat_registry_ShippingCompaniesId",
+                schema: "public",
+                table: "ducat_registry",
+                column: "ShippingCompaniesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_shipping_companies_name",
@@ -197,24 +192,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ducat_registry_record_entrances_duca_registry_id",
+                name: "FK_ducat_registry_shipping_companies_ShippingCompaniesId",
                 schema: "public",
                 table: "ducat_registry",
-                column: "duca_registry_id",
+                column: "ShippingCompaniesId",
                 principalSchema: "public",
-                principalTable: "record_entrances",
-                principalColumn: "record_entrance_id",
-                onDelete: ReferentialAction.Restrict);
+                principalTable: "shipping_companies",
+                principalColumn: "shipping_company_id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ducat_registry_shipping_companies_shipping_company",
+                name: "FK_ducat_registry_shipping_companies_shipping_company_id",
                 schema: "public",
                 table: "ducat_registry",
-                column: "shipping_company",
+                column: "shipping_company_id",
                 principalSchema: "public",
                 principalTable: "shipping_companies",
                 principalColumn: "shipping_company_id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ducat_registry_details_ducat_registry_ducat_registry_id",
@@ -231,12 +225,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_ducat_registry_record_entrances_duca_registry_id",
+                name: "FK_ducat_registry_shipping_companies_ShippingCompaniesId",
                 schema: "public",
                 table: "ducat_registry");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ducat_registry_shipping_companies_shipping_company",
+                name: "FK_ducat_registry_shipping_companies_shipping_company_id",
                 schema: "public",
                 table: "ducat_registry");
 
@@ -250,7 +244,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public");
 
             migrationBuilder.DropIndex(
-                name: "IX_ducat_registry_shipping_company",
+                name: "IX_ducat_registry_shipping_company_id",
+                schema: "public",
+                table: "ducat_registry");
+
+            migrationBuilder.DropIndex(
+                name: "IX_ducat_registry_ShippingCompaniesId",
                 schema: "public",
                 table: "ducat_registry");
 
@@ -260,7 +259,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "ducat_registry_details");
 
             migrationBuilder.DropColumn(
-                name: "shipping_company",
+                name: "ShippingCompaniesId",
+                schema: "public",
+                table: "ducat_registry");
+
+            migrationBuilder.DropColumn(
+                name: "shipping_company_id",
                 schema: "public",
                 table: "ducat_registry");
 
@@ -287,18 +291,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "ducat_registry_details",
                 newName: "IX_ducat_registry_details_record_entrance_id");
-
-            migrationBuilder.RenameColumn(
-                name: "duca_registry_id",
-                schema: "public",
-                table: "ducat_registry",
-                newName: "record_entrance_id");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_ducat_registry_duca_registry_id",
-                schema: "public",
-                table: "ducat_registry",
-                newName: "IX_ducat_registry_record_entrance_id");
 
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
@@ -397,16 +389,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 maxLength: 150,
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ducat_registry_record_entrances_record_entrance_id",
-                schema: "public",
-                table: "ducat_registry",
-                column: "record_entrance_id",
-                principalSchema: "public",
-                principalTable: "record_entrances",
-                principalColumn: "record_entrance_id",
-                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ducat_registry_details_ducat_registry_record_entrance_id",

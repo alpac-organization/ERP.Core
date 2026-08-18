@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260818041328_RefactorSectionMerchandiseRegistry")]
+    [Migration("20260818143021_RefactorSectionMerchandiseRegistry")]
     partial class RefactorSectionMerchandiseRegistry
     {
         /// <inheritdoc />
@@ -4361,7 +4361,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<Guid>("RecordEntranceId")
                         .HasColumnType("uuid")
-                        .HasColumnName("duca_registry_id");
+                        .HasColumnName("record_entrance_id");
 
                     b.Property<string>("RegisteredByUserId")
                         .HasMaxLength(450)
@@ -4389,10 +4389,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("registered_start_time");
 
+                    b.Property<Guid?>("ShippingCompaniesId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ShippingCompanyId")
-                        .HasMaxLength(150)
                         .HasColumnType("uuid")
-                        .HasColumnName("shipping_company");
+                        .HasColumnName("shipping_company_id");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -4422,6 +4424,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("RecordEntranceId")
                         .IsUnique();
+
+                    b.HasIndex("ShippingCompaniesId");
 
                     b.HasIndex("ShippingCompanyId");
 
@@ -6629,10 +6633,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", "ShippingCompany")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", null)
                         .WithMany("DucatRegistries")
+                        .HasForeignKey("ShippingCompaniesId");
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", "ShippingCompany")
+                        .WithMany()
                         .HasForeignKey("ShippingCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("RecordEntrance");

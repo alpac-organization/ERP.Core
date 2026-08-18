@@ -1,6 +1,6 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
@@ -88,6 +88,7 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(e => e.MerchandiseId);
+        builder.HasIndex(e => e.DucatRegistryId);
         
         builder.Property(e => e.UpdatedByUserId)
             .HasColumnName("updated_by_user_id")
