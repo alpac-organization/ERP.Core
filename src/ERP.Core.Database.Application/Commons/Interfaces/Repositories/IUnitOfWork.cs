@@ -56,6 +56,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICategoryProductsRepository CategoryProducts { get; }
         ICustomerTypeRepository CustomerType { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
+        IShippingComapaniesRepository ShippingComapanies { get; }
         #endregion
 
         #region Warehouse

@@ -82,6 +82,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
                     npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
                     npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
+                    npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
                 })
             );
 
@@ -146,6 +147,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsRepository, LotsRepository>();
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
+            services.AddScoped<IShippingComapaniesRepository, ShippingComapaniesRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();

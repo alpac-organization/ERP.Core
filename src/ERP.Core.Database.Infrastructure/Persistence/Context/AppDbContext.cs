@@ -68,6 +68,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
+        public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
         #endregion
 
         #region MOD: Bodegas y Clientes
@@ -171,6 +172,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<RackUsageProfile>("public", "rack_usage_profile_enum");
             modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
             modelBuilder.HasPostgresEnum<TransportUnit>("public", "transport_unit_enum");
+            modelBuilder.HasPostgresEnum<DucaType>("public", "duca_type_enum");
 
 
 
