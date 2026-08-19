@@ -6,7 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 using ERP.Core.Infrastructure.Services;
 using ERP.Core.Infrastructure.Settings;
+
+using ERP.Core.Infrastructure.Services.AWS;
+using ERP.Core.Infrastructure.Services.Firebase;
+
 using ERP.Core.Application.Commons.Interfaces.AWS;
+using ERP.Core.Application.Commons.Interfaces.Firebase;
 
 namespace ERP.Core.Infrastructure
 {
@@ -14,7 +19,12 @@ namespace ERP.Core.Infrastructure
     {
         public static IServiceCollection AddErpCoreServices(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.Configure<S3Settings>(configuration.GetSection(S3Settings.SectionName));
+            services.Configure<FirebaseSettings>(configuration.GetSection(FirebaseSettings.SectionName));
+
+            var firebaseSettings = configuration.GetSection(FirebaseSettings.SectionName).Get<FirebaseSettings>()
+                ?? throw new InvalidOperationException("No se encontró la sección de configuración 'Firebase'.");
 
             var settings = configuration.GetSection(S3Settings.SectionName).Get<S3Settings>()
                 ?? throw new InvalidOperationException("No se encontró la sección de configuración 'S3Storage'.");
@@ -43,6 +53,7 @@ namespace ERP.Core.Infrastructure
             });
 
             services.AddScoped<IS3StorageService, S3StorageService>();
+            services.AddScoped<IPushNotificationServices, PushNotificationServices>();
 
             return services;
         }
