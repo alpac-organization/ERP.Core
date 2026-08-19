@@ -114,6 +114,89 @@ namespace ERP.Core.Infrastructure.Services
             return urls;
         }
 
+        public async Task DeleteImagesAsync(IEnumerable<string> imageUrls, CancellationToken cancellationToken = default)
+        {
+            var urls = imageUrls?.ToList() ?? [];
+
+            if (urls.Count == 0)
+            {
+                _errorManager.ThrowBadRequest<IReadOnlyList<string>>("Debe enviar al menos una URL de imagen.", "S3_Storage_Error");
+                
+                return;
+            }
+
+            var settings = _options.Value;
+
+            foreach (var imageUrl in urls)
+            {
+                if (string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    continue; // Saltar URLs vacías
+                }
+
+                var key = ExtractKeyFromUrl(imageUrl, settings);
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    continue; // Saltar URLs que no se pueden procesar
+                }
+
+                try
+                {
+                    await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                    {
+                        BucketName = settings.BucketName,
+                        Key = key
+                    }, cancellationToken);
+                }
+                catch (AmazonS3Exception)
+                {
+                    _errorManager.ThrowInternalError<IReadOnlyList<string>>(
+                        $"Ocurrió un error al eliminar la imagen: {imageUrl}",
+                        "S3_Storage_Error");
+
+                    return;
+                }
+            }
+        }
+
+        private string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
+        {
+            if (!string.IsNullOrWhiteSpace(settings.PublicKeyBaseUrl))
+            {
+                var prefix = settings.PublicKeyBaseUrl.TrimEnd('/') + "/";
+                if (imageUrl.StartsWith(prefix))
+                {
+                    return imageUrl[prefix.Length..];
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))
+            {
+                var prefix = $"{settings.ServiceUrl.TrimEnd('/')}/{settings.BucketName}/";
+                if (imageUrl.StartsWith(prefix))
+                {
+                    return imageUrl[prefix.Length..];
+                }
+            }
+
+            var standardPrefix = $"https://{settings.BucketName}.s3.{settings.Region}.amazonaws.com/";
+            if (imageUrl.StartsWith(standardPrefix))
+            {
+                return imageUrl[standardPrefix.Length..];
+            }
+
+            // Si no coincide con ningún patrón, intentar extraer todo después del bucket name
+            var bucketMarker = $"/{settings.BucketName}/";
+            var bucketIndex = imageUrl.IndexOf(bucketMarker);
+            if (bucketIndex >= 0)
+            {
+                return imageUrl[(bucketIndex + bucketMarker.Length)..];
+            }
+
+            return string.Empty;
+        }
+
         private string BuildFolder(string module, string section)
         {
             var moduleSegment = SanitizeSegment(module, "modulo");

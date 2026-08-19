@@ -1,7 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
-using System.ComponentModel.DataAnnotations.Schema;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -22,8 +22,13 @@ public class ReceptionEntrance : BaseEntity<Guid>
     public string DriverName { get; set; } = null!;
     public string SealNumber { get; set; } = null!;
 
-    [Column(TypeName = "jsonb")]
-    public string SealEvidence { get; set; } = null!;
+
+    [Column(TypeName = "text[]")]
+    public List<string>? EvidenceUrls { get; set; } = [];
+
+    [Column(TypeName = "text[]")]
+    public List<string>? DeletedEvidenceUrls { get; set; } = [];
+
 
     public DocumentType DocumentType { get; set; }
 
