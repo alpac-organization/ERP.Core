@@ -58,9 +58,15 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(e => e.SealEvidence)
-            .HasColumnName("seal_evidence")
-            .HasColumnType("jsonb");
+        builder.Property(e => e.EvidenceUrls)
+            .HasColumnName("evidence_urls")
+            .HasColumnType("text[]")
+            .IsRequired(false);
+
+        builder.Property(e => e.DeletedEvidenceUrls)
+            .HasColumnName("deleted_evidence_urls")
+            .HasColumnType("text[]")
+            .IsRequired(false);
 
         builder.Property(e => e.DocumentType)
             .HasColumnName("document_type")

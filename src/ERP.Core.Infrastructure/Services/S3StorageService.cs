@@ -114,6 +114,126 @@ namespace ERP.Core.Infrastructure.Services
             return urls;
         }
 
+        public async Task DeleteImagesAsync(IEnumerable<string> imageUrls, CancellationToken cancellationToken = default)
+        {
+            var urls = imageUrls?.ToList() ?? [];
+
+            if (urls.Count == 0)
+            {
+                _errorManager.ThrowBadRequest<IReadOnlyList<string>>("Debe enviar al menos una URL de imagen.", "S3_Storage_Error");
+
+                return;
+            }
+
+            var settings = _options.Value;
+
+            foreach (var imageUrl in urls)
+            {
+                if (string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    continue; // Saltar URLs vacías
+                }
+
+                var key = ExtractKeyFromUrl(imageUrl, settings);
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"La URL proporcionada no pertenece al bucket configurado: {imageUrl}",
+                        "S3_Storage_Error");
+                    return;
+                }
+
+                try
+                {
+                    await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                    {
+                        BucketName = settings.BucketName,
+                        Key = key
+                    }, cancellationToken);
+                }
+                catch (AmazonS3Exception)
+                {
+                    _errorManager.ThrowInternalError<IReadOnlyList<string>>(
+                        $"Ocurrió un error al eliminar la imagen: {imageUrl}",
+                        "S3_Storage_Error");
+
+                    return;
+                }
+            }
+        }
+
+        private string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
+        {
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                return string.Empty;
+            }
+
+            // Intentar parsear la URL
+            if (!Uri.TryCreate(imageUrl, UriKind.Absolute, out var uri))
+            {
+                return string.Empty;
+            }
+
+            // Validar que la URL use HTTPS
+            if (uri.Scheme != Uri.UriSchemeHttps)
+            {
+                return string.Empty;
+            }
+
+            var host = uri.Host.ToLowerInvariant();
+            var path = uri.AbsolutePath.TrimStart('/');
+
+            // Caso 1: URL pública con PublicKeyBaseUrl
+            if (!string.IsNullOrWhiteSpace(settings.PublicKeyBaseUrl))
+            {
+                if (Uri.TryCreate(settings.PublicKeyBaseUrl, UriKind.Absolute, out var publicUri))
+                {
+                    var publicHost = publicUri.Host.ToLowerInvariant();
+                    var publicPathPrefix = publicUri.AbsolutePath.TrimEnd('/');
+
+                    if (host == publicHost &&
+                        (string.IsNullOrEmpty(publicPathPrefix) || uri.AbsolutePath.StartsWith(publicPathPrefix + "/")))
+                    {
+                        return path;
+                    }
+                }
+            }
+
+            // Caso 2: URL con ServiceUrl (puede ser http o https)
+            if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))
+            {
+                if (Uri.TryCreate(settings.ServiceUrl, UriKind.Absolute, out var serviceUri))
+                {
+                    var serviceHost = serviceUri.Host.ToLowerInvariant();
+                    var servicePathPrefix = $"{serviceUri.AbsolutePath.TrimEnd('/')}/{settings.BucketName}";
+
+                    if (host == serviceHost && uri.AbsolutePath.StartsWith(servicePathPrefix + "/"))
+                    {
+                        return uri.AbsolutePath[(servicePathPrefix.Length + 1)..];
+                    }
+                }
+            }
+
+            // Caso 3: URL estándar de S3
+            var s3Host = $"{settings.BucketName}.s3.{settings.Region}.amazonaws.com";
+            if (host == s3Host)
+            {
+                return path;
+            }
+
+            // Caso 4: URL virtual-hosted style
+            var virtualHostedS3 = $"{settings.BucketName}.s3.amazonaws.com";
+            if (host == virtualHostedS3)
+            {
+                return path;
+            }
+
+            // Si no coincide con ningún patrón autorizado, rechazar
+            return string.Empty;
+        }
+
         private string BuildFolder(string module, string section)
         {
             var moduleSegment = SanitizeSegment(module, "modulo");
