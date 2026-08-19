@@ -3,7 +3,6 @@ using NanoidDotNet;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
-
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
@@ -21,7 +20,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
 
         [GeneratedRegex(@"^data:image/(?<ext>[a-zA-Z0-9.+-]+);base64,")]
         private static partial Regex DataUriPrefix();
-        
+
         public async Task<string> UploadImageAsync(string module, string section, string base64Image, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(base64Image))
@@ -165,6 +164,149 @@ namespace ERP.Core.Infrastructure.Services.AWS
             }
         }
 
+        #region Move Images
+        public async Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string sourceSection,
+            string destinationSection, CancellationToken cancellationToken = default)
+        {
+            var urls = sourceUrls?.Distinct().ToList() ?? [];
+
+            if (urls.Count == 0)
+            {
+                _errorManager.ThrowBadRequest<IReadOnlyList<string>>("Debe enviar al menos una URL de imagen.", "S3_Storage_Error");
+                return [];
+            }
+
+            var settings = _options.Value;
+            var sourceSectionSanitized = SanitizeSegment(sourceSection, "origen");
+            var destinationSectionSanitized = SanitizeSegment(destinationSection, "destino");
+
+            // FASE 1: Validar todas las URLs y derivar claves de destino
+            var moveOperations = new List<(string SourceKey, string DestinationKey, string DestinationUrl)>();
+
+            foreach (var sourceUrl in urls)
+            {
+                if (string.IsNullOrWhiteSpace(sourceUrl))
+                {
+                    continue;
+                }
+
+                var sourceKey = ExtractKeyFromUrl(sourceUrl, settings);
+
+                if (string.IsNullOrEmpty(sourceKey))
+                {
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"La URL proporcionada no pertenece al bucket configurado: {sourceUrl}",
+                        "S3_Storage_Error");
+                    return [];
+                }
+
+                // Validar que la key pertenezca a la sección de origen
+                if (!sourceKey.StartsWith(sourceSectionSanitized))
+                {
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"La URL no pertenece a la sección '{sourceSection}': {sourceUrl}",
+                        "S3_Storage_Error");
+                    return [];
+                }
+
+                // Derivar destino reemplazando solo el segmento de sección
+                var relativePath = sourceKey[sourceSectionSanitized.Length..].TrimStart('/');
+                var destinationKey = $"{destinationSectionSanitized}/{relativePath}";
+
+                // Verificar que el destino no exista
+                try
+                {
+                    await _s3Client.GetObjectMetadataAsync(new GetObjectMetadataRequest
+                    {
+                        BucketName = settings.BucketName,
+                        Key = destinationKey
+                    }, cancellationToken);
+
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"Ya existe un objeto en el destino: {destinationKey}",
+                        "S3_Storage_Error");
+                    return [];
+                }
+                catch (AmazonS3Exception ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    // No existe, es seguro continuar
+                }
+
+                var destinationUrl = BuildPublicUrl(destinationKey);
+                moveOperations.Add((sourceKey, destinationKey, destinationUrl));
+            }
+
+            // FASE 2: Copiar todos los objetos (sin eliminar origen todavía)
+            var copiedOperations = new List<(string SourceKey, string DestinationKey, string DestinationUrl)>();
+
+            try
+            {
+                foreach (var operation in moveOperations)
+                {
+                    await _s3Client.CopyObjectAsync(new CopyObjectRequest
+                    {
+                        SourceBucket = settings.BucketName,
+                        SourceKey = operation.SourceKey,
+                        DestinationBucket = settings.BucketName,
+                        DestinationKey = operation.DestinationKey,
+                        IfNoneMatch = "*"
+                    }, cancellationToken);
+
+                    copiedOperations.Add(operation);
+                }
+            }
+            catch (AmazonS3Exception)
+            {
+                // Compensación: eliminar copias exitosas
+                foreach (var copied in copiedOperations)
+                {
+                    try
+                    {
+                        await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                        {
+                            BucketName = settings.BucketName,
+                            Key = copied.DestinationKey
+                        }, cancellationToken);
+                    }
+                    catch
+                    {
+                        // Si falla la limpieza, continuar
+                    }
+                }
+
+                _errorManager.ThrowInternalError<IReadOnlyList<string>>(
+                    "Ocurrió un error al mover las imágenes. Se revirtieron los cambios.",
+                    "S3_Storage_Error");
+                return [];
+            }
+
+            // FASE 3: Eliminar orígenes solo si todas las copias fueron exitosas
+            var movedUrls = new List<string>();
+
+            foreach (var operation in copiedOperations)
+            {
+                try
+                {
+                    await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                    {
+                        BucketName = settings.BucketName,
+                        Key = operation.SourceKey
+                    }, cancellationToken);
+
+                    movedUrls.Add(operation.DestinationUrl);
+                }
+                catch (AmazonS3Exception)
+                {
+                    _errorManager.ThrowInternalError<IReadOnlyList<string>>(
+                        $"No se pudo eliminar el objeto original: {operation.SourceKey}. El objeto ya fue copiado a la papelera.",
+                        "S3_Storage_Error");
+                    return [];
+                }
+            }
+
+            return movedUrls;
+        }
+        #endregion
         private static string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
         {
             if (string.IsNullOrWhiteSpace(imageUrl))
@@ -195,14 +337,20 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     var publicHost = publicUri.Host.ToLowerInvariant();
                     var publicPathPrefix = publicUri.AbsolutePath.TrimEnd('/');
 
-                    if (host == publicHost &&
-                        (string.IsNullOrEmpty(publicPathPrefix) || uri.AbsolutePath.StartsWith(publicPathPrefix + "/")))
+                    if (host == publicHost)
                     {
-                        return path;
+                        if (string.IsNullOrEmpty(publicPathPrefix))
+                        {
+                            return path;
+                        }
+                        else if (uri.AbsolutePath.StartsWith(publicPathPrefix + "/"))
+                        {
+                            // CORREGIDO: Eliminar publicPathPrefix antes de retornar la key
+                            return uri.AbsolutePath[(publicPathPrefix.Length + 1)..];
+                        }
                     }
                 }
             }
-
             // Caso 2: URL con ServiceUrl (puede ser http o https)
             if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))
             {
