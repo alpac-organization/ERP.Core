@@ -1,6 +1,7 @@
 using NanoidDotNet;
-using System.Globalization;
+
 using System.Text;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 using Amazon.S3;
@@ -11,15 +12,16 @@ using ERP.Core.Infrastructure.Settings;
 using ERP.Core.Application.Commons.Interfaces;
 using ERP.Core.Application.Commons.Interfaces.AWS;
 
-namespace ERP.Core.Infrastructure.Services
+namespace ERP.Core.Infrastructure.Services.AWS
 {
     public partial class S3StorageService(IAmazonS3 _s3Client, IOptions<S3Settings> _options, IErrorManager _errorManager) : IS3StorageService
     {
         private static readonly string[] AllowedExtensions = ["png", "jpg", "jpeg", "webp", "gif"];
 
+
         [GeneratedRegex(@"^data:image/(?<ext>[a-zA-Z0-9.+-]+);base64,")]
         private static partial Regex DataUriPrefix();
-
+        
         public async Task<string> UploadImageAsync(string module, string section, string base64Image, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(base64Image))
@@ -163,7 +165,7 @@ namespace ERP.Core.Infrastructure.Services
             }
         }
 
-        private string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
+        private static string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
         {
             if (string.IsNullOrWhiteSpace(imageUrl))
             {
@@ -234,6 +236,7 @@ namespace ERP.Core.Infrastructure.Services
             return string.Empty;
         }
 
+        #region Private methods
         private string BuildFolder(string module, string section)
         {
             var moduleSegment = SanitizeSegment(module, "modulo");
@@ -336,5 +339,7 @@ namespace ERP.Core.Infrastructure.Services
 
             return $"https://{settings.BucketName}.s3.{settings.Region}.amazonaws.com/{key}";
         }
+
+        #endregion
     }
 }

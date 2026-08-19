@@ -23,6 +23,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("user_id")
                 .IsRequired();
 
+            builder.Property(e => e.DeviceToken)
+                .HasColumnName("device_token")
+                .HasDefaultValue(null)
+                .IsRequired(false);
+
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
                 .IsRequired();
