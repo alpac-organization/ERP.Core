@@ -121,7 +121,7 @@ namespace ERP.Core.Infrastructure.Services
             if (urls.Count == 0)
             {
                 _errorManager.ThrowBadRequest<IReadOnlyList<string>>("Debe enviar al menos una URL de imagen.", "S3_Storage_Error");
-                
+
                 return;
             }
 
@@ -138,7 +138,10 @@ namespace ERP.Core.Infrastructure.Services
 
                 if (string.IsNullOrEmpty(key))
                 {
-                    continue; // Saltar URLs que no se pueden procesar
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"La URL proporcionada no pertenece al bucket configurado: {imageUrl}",
+                        "S3_Storage_Error");
+                    return;
                 }
 
                 try
@@ -162,38 +165,72 @@ namespace ERP.Core.Infrastructure.Services
 
         private string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
         {
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                return string.Empty;
+            }
+
+            // Intentar parsear la URL
+            if (!Uri.TryCreate(imageUrl, UriKind.Absolute, out var uri))
+            {
+                return string.Empty;
+            }
+
+            // Validar que la URL use HTTPS
+            if (uri.Scheme != Uri.UriSchemeHttps)
+            {
+                return string.Empty;
+            }
+
+            var host = uri.Host.ToLowerInvariant();
+            var path = uri.AbsolutePath.TrimStart('/');
+
+            // Caso 1: URL pública con PublicKeyBaseUrl
             if (!string.IsNullOrWhiteSpace(settings.PublicKeyBaseUrl))
             {
-                var prefix = settings.PublicKeyBaseUrl.TrimEnd('/') + "/";
-                if (imageUrl.StartsWith(prefix))
+                if (Uri.TryCreate(settings.PublicKeyBaseUrl, UriKind.Absolute, out var publicUri))
                 {
-                    return imageUrl[prefix.Length..];
+                    var publicHost = publicUri.Host.ToLowerInvariant();
+                    var publicPathPrefix = publicUri.AbsolutePath.TrimEnd('/');
+
+                    if (host == publicHost &&
+                        (string.IsNullOrEmpty(publicPathPrefix) || uri.AbsolutePath.StartsWith(publicPathPrefix + "/")))
+                    {
+                        return path;
+                    }
                 }
             }
 
+            // Caso 2: URL con ServiceUrl (puede ser http o https)
             if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))
             {
-                var prefix = $"{settings.ServiceUrl.TrimEnd('/')}/{settings.BucketName}/";
-                if (imageUrl.StartsWith(prefix))
+                if (Uri.TryCreate(settings.ServiceUrl, UriKind.Absolute, out var serviceUri))
                 {
-                    return imageUrl[prefix.Length..];
+                    var serviceHost = serviceUri.Host.ToLowerInvariant();
+                    var servicePathPrefix = $"{serviceUri.AbsolutePath.TrimEnd('/')}/{settings.BucketName}";
+
+                    if (host == serviceHost && uri.AbsolutePath.StartsWith(servicePathPrefix + "/"))
+                    {
+                        return uri.AbsolutePath[(servicePathPrefix.Length + 1)..];
+                    }
                 }
             }
 
-            var standardPrefix = $"https://{settings.BucketName}.s3.{settings.Region}.amazonaws.com/";
-            if (imageUrl.StartsWith(standardPrefix))
+            // Caso 3: URL estándar de S3
+            var s3Host = $"{settings.BucketName}.s3.{settings.Region}.amazonaws.com";
+            if (host == s3Host)
             {
-                return imageUrl[standardPrefix.Length..];
+                return path;
             }
 
-            // Si no coincide con ningún patrón, intentar extraer todo después del bucket name
-            var bucketMarker = $"/{settings.BucketName}/";
-            var bucketIndex = imageUrl.IndexOf(bucketMarker);
-            if (bucketIndex >= 0)
+            // Caso 4: URL virtual-hosted style
+            var virtualHostedS3 = $"{settings.BucketName}.s3.amazonaws.com";
+            if (host == virtualHostedS3)
             {
-                return imageUrl[(bucketIndex + bucketMarker.Length)..];
+                return path;
             }
 
+            // Si no coincide con ningún patrón autorizado, rechazar
             return string.Empty;
         }
 
