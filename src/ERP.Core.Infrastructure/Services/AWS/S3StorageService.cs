@@ -3,7 +3,6 @@ using NanoidDotNet;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
-
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
@@ -21,7 +20,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
 
         [GeneratedRegex(@"^data:image/(?<ext>[a-zA-Z0-9.+-]+);base64,")]
         private static partial Regex DataUriPrefix();
-        
+
         public async Task<string> UploadImageAsync(string module, string section, string base64Image, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(base64Image))
@@ -163,6 +162,74 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     return;
                 }
             }
+        }
+
+        public async Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string sourceSection,
+            string destinationSection, CancellationToken cancellationToken = default)
+        {
+            var urls = sourceUrls?.ToList() ?? [];
+
+            if (urls.Count == 0)
+            {
+                _errorManager.ThrowBadRequest<IReadOnlyList<string>>("Debe enviar al menos una URL de imagen.", "S3_Storage_Error");
+                return [];
+            }
+
+            var settings = _options.Value;
+            var movedUrls = new List<string>();
+
+            foreach (var sourceUrl in urls)
+            {
+                if (string.IsNullOrWhiteSpace(sourceUrl))
+                {
+                    continue;
+                }
+
+                var sourceKey = ExtractKeyFromUrl(sourceUrl, settings);
+
+                if (string.IsNullOrEmpty(sourceKey))
+                {
+                    _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
+                        $"La URL proporcionada no pertenece al bucket configurado: {sourceUrl}",
+                        "S3_Storage_Error");
+                    return [];
+                }
+
+                try
+                {
+                    // 1. Copiar objeto a la nueva sección
+                    var fileName = Path.GetFileName(sourceKey);
+                    var destinationKey = $"{SanitizeSegment(destinationSection, "destino")}/{fileName}";
+
+                    await _s3Client.CopyObjectAsync(new CopyObjectRequest
+                    {
+                        SourceBucket = settings.BucketName,
+                        SourceKey = sourceKey,
+                        DestinationBucket = settings.BucketName,
+                        DestinationKey = destinationKey
+                    }, cancellationToken);
+
+                    // 2. Eliminar objeto original
+                    await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                    {
+                        BucketName = settings.BucketName,
+                        Key = sourceKey
+                    }, cancellationToken);
+
+                    // 3. Construir nueva URL
+                    var newUrl = BuildPublicUrl(destinationKey);
+                    movedUrls.Add(newUrl);
+                }
+                catch (AmazonS3Exception)
+                {
+                    _errorManager.ThrowInternalError<IReadOnlyList<string>>(
+                        $"Ocurrió un error al mover la imagen: {sourceUrl}",
+                        "S3_Storage_Error");
+                    return [];
+                }
+            }
+
+            return movedUrls;
         }
 
         private static string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
