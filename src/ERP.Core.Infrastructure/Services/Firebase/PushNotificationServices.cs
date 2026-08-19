@@ -37,7 +37,7 @@ namespace ERP.Core.Infrastructure.Services.Firebase
                             Type = settings.Type,
                             ProjectId = settings.ProjectId,
                             PrivateKeyId = settings.PrivateKeyId,
-                            PrivateKey = settings.PrivateKey,
+                            PrivateKey = settings.PrivateKey?.Replace("\\n", "\n"),
                             ClientEmail = settings.ClientEmail,
                             ClientId = settings.ClientId,
                             TokenUri = settings.TokenUri,
