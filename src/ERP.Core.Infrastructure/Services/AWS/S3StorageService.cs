@@ -165,7 +165,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
         }
 
         #region Move Images
-        public async Task<IReadOnlyList<string>> MoveImagesAsync(, IEnumerable<string> sourceUrls, string sourceSection,
+        public async Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string sourceSection,
             string destinationSection, CancellationToken cancellationToken = default)
         {
             var urls = sourceUrls?.Distinct().ToList() ?? [];
