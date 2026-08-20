@@ -94,6 +94,7 @@ namespace ERP.Core.Infrastructure.Services.Firebase
 
                 return PushSendResult.Failed;
             }
+            
         }
 
         public async Task<bool> SendToTopicAsync(string topic, string title, string body, Dictionary<string, string>? data = null)
