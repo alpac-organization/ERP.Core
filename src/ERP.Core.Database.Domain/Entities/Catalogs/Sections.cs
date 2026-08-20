@@ -20,6 +20,7 @@ public class Sections : BaseEntity<Guid>
     public virtual Warehouses Warehouse { get; set; } = null!;
 
     public virtual SectionOverflowCapacity? OverflowCapacity { get; set; }
+    public virtual SectionCapacity? Capacity { get; set; }
 
     public virtual ICollection<Lots> Lots { get; set; } = [];
     public virtual ICollection<Racks> Racks { get; set; } = [];

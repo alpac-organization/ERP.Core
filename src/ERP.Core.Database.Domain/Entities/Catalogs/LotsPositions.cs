@@ -16,6 +16,7 @@ public class LotsPositions : BaseEntity<Guid>
 
     public bool AllowsStacking { get; set; } = true;
 
+    public bool IsOccupied { get; set; } = false;
     public bool IsBlocked { get; set; } = true!;
     public string? BlockReason { get; set; }
 
