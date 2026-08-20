@@ -165,8 +165,11 @@ namespace ERP.Core.Infrastructure.Services.AWS
         }
 
         #region Move Images
-        public async Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string sourceSection,
-            string destinationSection, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<string>> MoveImagesAsync(
+            IEnumerable<string> sourceUrls,
+            string sourceSection,
+            string destinationSection,
+            CancellationToken cancellationToken = default)
         {
             var urls = sourceUrls?.Distinct().ToList() ?? [];
 
@@ -177,8 +180,12 @@ namespace ERP.Core.Infrastructure.Services.AWS
             }
 
             var settings = _options.Value;
+
+            // CORREGIDO: Usar SanitizeSegment para canonicalizar ambas secciones
             var sourceSectionSanitized = SanitizeSegment(sourceSection, "origen");
             var destinationSectionSanitized = SanitizeSegment(destinationSection, "destino");
+
+            var sourcePrefix = sourceSectionSanitized + "/";
 
             // FASE 1: Validar todas las URLs y derivar claves de destino
             var moveOperations = new List<(string SourceKey, string DestinationKey, string DestinationUrl)>();
@@ -200,8 +207,8 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     return [];
                 }
 
-                // Validar que la key pertenezca a la sección de origen
-                if (!sourceKey.StartsWith(sourceSectionSanitized))
+                // Validar que la key pertenezca a la sección de origen (usando sección sanitizada)
+                if (!sourceKey.StartsWith(sourcePrefix, StringComparison.Ordinal))
                 {
                     _errorManager.ThrowBadRequest<IReadOnlyList<string>>(
                         $"La URL no pertenece a la sección '{sourceSection}': {sourceUrl}",
@@ -209,8 +216,9 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     return [];
                 }
 
+
                 // Derivar destino reemplazando solo el segmento de sección
-                var relativePath = sourceKey[sourceSectionSanitized.Length..].TrimStart('/');
+                var relativePath = sourceKey[sourcePrefix.Length..];
                 var destinationKey = $"{destinationSectionSanitized}/{relativePath}";
 
                 // Verificar que el destino no exista
