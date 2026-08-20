@@ -69,6 +69,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
+        public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
         #endregion
 
         #region MOD: Bodegas y Clientes
