@@ -167,6 +167,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
         #region Move Images
         public async Task<IReadOnlyList<string>> MoveImagesAsync(
             IEnumerable<string> sourceUrls,
+            string module,
             string sourceSection,
             string destinationSection,
             CancellationToken cancellationToken = default)
@@ -181,9 +182,8 @@ namespace ERP.Core.Infrastructure.Services.AWS
 
             var settings = _options.Value;
 
-            // CORREGIDO: Usar SanitizeSegment para canonicalizar ambas secciones
-            var sourceSectionSanitized = SanitizeSegment(sourceSection, "origen");
-            var destinationSectionSanitized = SanitizeSegment(destinationSection, "destino");
+            var sourceSectionSanitized = BuildFolder(module, sourceSection);
+            var destinationSectionSanitized = BuildFolder(module, destinationSection);
 
             var sourcePrefix = sourceSectionSanitized + "/";
 
@@ -393,6 +393,31 @@ namespace ERP.Core.Infrastructure.Services.AWS
         }
 
         #region Private methods
+
+        private string NormalizeSectionPath(string section)
+        {
+            if (string.IsNullOrWhiteSpace(section))
+            {
+                return _errorManager.ThrowBadRequest<string>(
+                    "La sección es requerida.",
+                    "S3_Storage_Error");
+            }
+
+            var segments = section.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length == 0)
+            {
+                return _errorManager.ThrowBadRequest<string>(
+                    "La sección no contiene segmentos válidos.",
+                    "S3_Storage_Error");
+            }
+
+            var sanitizedSegments = segments
+                .Select(s => SanitizeSegment(s, "seccion"))
+                .ToList();
+
+            return string.Join("/", sanitizedSegments);
+        }
         private string BuildFolder(string module, string section)
         {
             var moduleSegment = SanitizeSegment(module, "modulo");
