@@ -95,7 +95,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehouseMachineryRepository warehouseMachineryRepository,
         IWarehouseStaffRepository warehouseStaffRepository,
         ICustomsBranchesRepository customsBranchesRepository,
-        IShippingComapaniesRepository shippingComapaniesRepository
+        IShippingComapaniesRepository shippingComapaniesRepository,
+        ISectionCapacityRepository sectionCapacityRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -181,6 +182,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IUnloadingMachineryAssignmentsRepository UnloadingMachineryAssignments => unloadingMachineryAssignmentsRepository;
         public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
         public IWarehouseStaffRepository WarehouseStaffs => warehouseStaffRepository;
+        public ISectionCapacityRepository SectionCapacity => sectionCapacityRepository;
         #endregion
 
         #region Shopping

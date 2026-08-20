@@ -38,6 +38,11 @@ public class TramoPositionsConfiguration : IEntityTypeConfiguration<LotsPosition
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(e => e.IsOccupied)
+            .HasColumnName("is_occupied")
+            .HasDefaultValue(false)
+            .IsRequired();
+
         builder.Property(e => e.IsBlocked)
             .HasColumnName("is_blocked")
             .HasDefaultValue(false)
