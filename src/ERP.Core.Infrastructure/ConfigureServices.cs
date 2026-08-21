@@ -40,7 +40,7 @@ namespace ERP.Core.Infrastructure
                 {
                     RegionEndpoint = RegionEndpoint.GetBySystemName(string.IsNullOrWhiteSpace(settings.Region) ? "us-east-1" : settings.Region),
                     ForcePathStyle = settings.ForcePathStyle
-                };
+                };  
 
                 if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))
                 {
