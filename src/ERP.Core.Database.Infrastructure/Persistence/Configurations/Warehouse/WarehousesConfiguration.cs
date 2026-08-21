@@ -47,6 +47,11 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(w => w.HasChildren)
+            .HasColumnName("has_children")
+            .HasDefaultValue(false)
+            .IsRequired();
+
         builder.Property(w => w.WarehouseType)
             .HasColumnName("warehouse_type")
             .HasColumnType("warehouse_type_enum")
