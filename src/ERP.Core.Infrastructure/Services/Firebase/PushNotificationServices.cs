@@ -8,8 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using ERP.Core.Domain.Enums;
-using ERP.Core.Application.Commons.Interfaces.Firebase;
 using ERP.Core.Infrastructure.Settings;
+using ERP.Core.Domain.Entities.Firebase;
+using ERP.Core.Application.Commons.Interfaces.Firebase;
 
 namespace ERP.Core.Infrastructure.Services.Firebase
 {
@@ -23,9 +24,7 @@ namespace ERP.Core.Infrastructure.Services.Firebase
             _logger = logger;
             var settings = options.Value;
 
-            if (string.IsNullOrWhiteSpace(settings.ProjectId) ||
-                string.IsNullOrWhiteSpace(settings.ClientEmail) ||
-                string.IsNullOrWhiteSpace(settings.PrivateKey))
+            if (string.IsNullOrWhiteSpace(settings.ProjectId) || string.IsNullOrWhiteSpace(settings.ClientEmail) || string.IsNullOrWhiteSpace(settings.PrivateKey))
             {
                 throw new InvalidOperationException("No se encontró la configuración 'Firebase' (ProjectId, ClientEmail o PrivateKey).");
             }
@@ -38,13 +37,13 @@ namespace ERP.Core.Infrastructure.Services.Firebase
                     Credential = CredentialFactory
                         .FromJson<ServiceAccountCredential>(NewtonsoftJsonSerializer.Instance.Serialize(new JsonCredentialParameters
                         {
-                            Type = settings.Type,
-                            ProjectId = settings.ProjectId,
+                            Type         = settings.Type,
+                            ProjectId    = settings.ProjectId,
                             PrivateKeyId = settings.PrivateKeyId,
-                            PrivateKey = settings.PrivateKey?.Replace("\\n", "\n"),
-                            ClientEmail = settings.ClientEmail,
-                            ClientId = settings.ClientId,
-                            TokenUri = settings.TokenUri,
+                            PrivateKey   = settings.PrivateKey?.Replace("\\n", "\n"),
+                            ClientEmail  = settings.ClientEmail,
+                            ClientId     = settings.ClientId,
+                            TokenUri     = settings.TokenUri,
                         }))
                         .ToGoogleCredential(),
                 });
@@ -52,49 +51,62 @@ namespace ERP.Core.Infrastructure.Services.Firebase
             _messaging = FirebaseMessaging.GetMessaging(app);
         }
 
-        public async Task<PushSendResult> SendAsync(string deviceToken, string title, string body, Dictionary<string, string>? data = null)
+        public async Task<PushSendResult> SendAsync(string fidToken, NotificationRequest notificationRequest, Dictionary<string, string>? data = null)
         {
-            if (string.IsNullOrWhiteSpace(deviceToken))
-            {
-                return PushSendResult.Failed;
-            }
-
-            var message = new Message
-            {
-                Fid = deviceToken,
-                Notification = new Notification
-                {
-                    Title = title,
-                    Body = body,
-                },
-                Data = data,
-            };
-
             try
             {
-                await _messaging.SendAsync(message);
+                if (string.IsNullOrWhiteSpace(fidToken))
+                {
+                    return PushSendResult.Failed;
+                }
 
+                var message = new Message
+                {
+                    Fid = fidToken,
+                    Notification = new Notification
+                    {
+                        Title    = notificationRequest.Title,
+                        Body     = notificationRequest.Body,
+                        ImageUrl = notificationRequest.ImageUrl
+                    },
+                    Data = data,
+                    Webpush = new WebpushConfig
+                    {
+                        Notification = new WebpushNotification
+                        {
+                            Title    = notificationRequest.Title,
+                            Body     = notificationRequest.Body,
+                            Icon     = notificationRequest.WebPushConfig.Icon,
+                            Badge    = notificationRequest.WebPushConfig.Badge,
+                            Tag      = "pwa-notification",
+                            Renotify = true,
+                            RequireInteraction = true
+                        },
+                        Data = data
+                    }
+                };
+
+                await _messaging.SendAsync(message);
                 return PushSendResult.Sent;
             }
             catch (FirebaseMessagingException ex) when (ex.MessagingErrorCode == MessagingErrorCode.Unregistered)
             {
-                _logger.LogWarning("Push FCM: el token {TokenPrefix} no está registrado (NotRegistered). Se marcará como inválido.", GetTokenPrefix(deviceToken));
+                _logger.LogWarning("Push FCM: el token {TokenPrefix} no está registrado (NotRegistered). Se marcará como inválido.", GetTokenPrefix(fidToken));
 
                 return PushSendResult.InvalidToken;
             }
             catch (FirebaseMessagingException ex)
             {
-                _logger.LogError(ex, "Push FCM: error enviando notificación a {TokenPrefix} (MessagingErrorCode: {MessagingErrorCode}).", GetTokenPrefix(deviceToken), ex.MessagingErrorCode);
+                _logger.LogError(ex, "Push FCM: error enviando notificación a {TokenPrefix} (MessagingErrorCode: {MessagingErrorCode}).", GetTokenPrefix(fidToken), ex.MessagingErrorCode);
 
                 return PushSendResult.Failed;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Push FCM: error inesperado enviando notificación a {TokenPrefix}.", GetTokenPrefix(deviceToken));
+                _logger.LogError(ex, "Push FCM: error inesperado enviando notificación a {TokenPrefix}.", GetTokenPrefix(fidToken));
 
                 return PushSendResult.Failed;
             }
-            
         }
 
         public async Task<bool> SendToTopicAsync(string topic, string title, string body, Dictionary<string, string>? data = null)
