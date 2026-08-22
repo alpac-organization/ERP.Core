@@ -4,14 +4,11 @@ using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using ERP.Core.Infrastructure.Services;
 using ERP.Core.Infrastructure.Settings;
 
 using ERP.Core.Infrastructure.Services.AWS;
-using ERP.Core.Infrastructure.Services.Firebase;
 
 using ERP.Core.Application.Commons.Interfaces.AWS;
-using ERP.Core.Application.Commons.Interfaces.Firebase;
 
 namespace ERP.Core.Infrastructure
 {
@@ -20,19 +17,15 @@ namespace ERP.Core.Infrastructure
         public static IServiceCollection AddErpCoreServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.Configure<S3Settings>(configuration.GetSection(S3Settings.SectionName));
-            services.Configure<FirebaseSettings>(configuration.GetSection(FirebaseSettings.SectionName));
+            services.Configure<S3Settings>(configuration.GetSection("S3Storage"));
+            services.Configure<AwsSnsSettings>(configuration.GetSection("AwsSns"));
 
-            var firebaseSettings = configuration.GetSection(FirebaseSettings.SectionName).Get<FirebaseSettings>()
-                ?? throw new InvalidOperationException("No se encontró la sección de configuración 'Firebase'.");
-
-            var settings = configuration.GetSection(S3Settings.SectionName).Get<S3Settings>()
+            var settings = configuration.GetSection("S3Storage").Get<S3Settings>()
                 ?? throw new InvalidOperationException("No se encontró la sección de configuración 'S3Storage'.");
 
-            if (string.IsNullOrWhiteSpace(settings.BucketName))
-            {
-                throw new InvalidOperationException("No se encontró la configuración 'S3Storage:BucketName'.");
-            }
+            var snsSettings = configuration.GetSection("AwsSns").Get<AwsSnsSettings>()
+                ?? throw new InvalidOperationException("No se encontró la sección de configuración 'AwsSns'.");
+                
 
             services.AddSingleton<IAmazonS3>(_ =>
             {
@@ -53,7 +46,7 @@ namespace ERP.Core.Infrastructure
             });
 
             services.AddScoped<IS3StorageService, S3StorageService>();
-            services.AddScoped<IPushNotificationServices, PushNotificationServices>();
+            services.AddScoped<ISimpleNotificationServices, SimpleNotificationServices>();
 
             return services;
         }

@@ -1,4 +1,4 @@
-namespace ERP.Core.Domain.Entities.Firebase
+namespace ERP.Core.Domain.Entities.AWS
 {
     public class NotificationRequest
     {
