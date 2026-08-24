@@ -148,7 +148,8 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     UserProfileId = profileId,
                     FcmToken      = fcmToken,
                     EndpointArn   = response.EndpointArn,
-                    IsActive      = true
+                    IsActive      = true,
+                    DeviceName    = deviceName
                 });
 
                 await _unitOfWork.SaveChangesAsync(default);
