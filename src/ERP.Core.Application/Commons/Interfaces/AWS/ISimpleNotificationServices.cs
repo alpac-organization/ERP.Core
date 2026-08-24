@@ -7,11 +7,13 @@ namespace ERP.Core.Application.Commons.Interfaces.AWS
     {
         /// <summary>
         /// Registra un dispositivo en AWS SNS y devuelve el EndpointArn correspondiente.
+        /// Verifica si el token ya existe para el perfil de usuario especificado para evitar endpoints duplicados.
         /// </summary>
         /// <param name="fcmToken"></param>
+        /// <param name="userProfileId"></param>
         /// <param name="customUserData"></param>
         /// <returns></returns>
-        Task<string?> RegisterDeviceAsync(string fcmToken, string? customUserData = null);
+        Task<string?> RegisterDeviceAsync(string fcmToken, Guid userProfileId, string? customUserData = null);
 
         /// <summary>
         /// Desregistra un dispositivo de AWS SNS utilizando su EndpointArn.
