@@ -202,26 +202,46 @@ namespace ERP.Core.Infrastructure.Services.AWS
         {
             return new
             {
-                notification = new
+                fcmV1Message = new
                 {
-                    title = notificationRequest.Title,
-                    body = notificationRequest.Body,
-                    image = notificationRequest.ImageUrl
-                },
-                data,
-                webpush = new
-                {
-                    notification = new
+                    message = new
                     {
-                        title = notificationRequest.Title,
-                        body = notificationRequest.Body,
-                        icon = notificationRequest.WebPushConfig?.Icon,
-                        badge = notificationRequest.WebPushConfig?.Badge,
-                        tag = "pwa-notification",
-                        renotify = true,
-                        requireInteraction = true
-                    },
-                    data
+                        notification = new
+                        {
+                            title = notificationRequest.Title,
+                            body = notificationRequest.Body,
+                            image = notificationRequest.ImageUrl,
+                        },
+                        data,
+                        android = new
+                        {
+                            priority = "high",
+                            notification = new
+                            {
+                                notification_priority = "PRIORITY_MAX",
+                                visibility = "PUBLIC"
+                            }
+                        },
+                        webpush = new
+                        {
+                            headers = new
+                            {
+                                Urgency = "high"
+                            },
+                            notification = new
+                            {
+                                title = notificationRequest.Title,
+                                body = notificationRequest.Body,
+                                icon = notificationRequest.WebPushConfig?.Icon,
+                                badge = notificationRequest.WebPushConfig?.Badge,
+                                image = notificationRequest.ImageUrl,
+                                tag = "pwa-notification",
+                                renotify = true,
+                                requireInteraction = true
+                            },
+                            data
+                        }
+                    }
                 }
             };
         }
