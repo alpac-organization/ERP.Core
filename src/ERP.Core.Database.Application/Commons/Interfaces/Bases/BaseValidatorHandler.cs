@@ -23,7 +23,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
 
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 
-        protected async Task<AccessValidationResult<TResponse>> ValidateAccessAsync(Guid userId, Guid companyId, string moduleCode, CancellationToken ct)
+        protected async Task<AccessValidationResult<TResponse>> ValidateAccessAsync(Guid userId, Guid companyId, string moduleCode, CancellationToken ct, bool onlyUser = false)
         {
             // 1. Validar Usuario
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(u => u.Id == userId, ct);
@@ -74,27 +74,32 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
                     ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("No existe un perfil asociado a esta empresa", "ERP:004") 
                 };
             }
-
-            // 3. Validar Módulo
-            var module = await _unitOfWork.UserModules.FirstOrDefaultAsync(m => m.ModuleCode == moduleCode && m.UserProfileId == profile.Id, ct);
-
-            if (module is null)
-            {
-                return new AccessValidationResult<TResponse> { 
-                    IsSuccess = false, 
-                    ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("No tienes acceso a este módulo", "ERP:005") 
-                };
-            }
-
-            // 4. Obtener Rol
-            var role = await _unitOfWork.Roles.FirstOrDefaultAsync(r => r.Id == module.RoleId, ct);
             
-            if (role is null)
+            Role? role = null;
+
+            if (!onlyUser)
             {
-                return new AccessValidationResult<TResponse> { 
-                    IsSuccess = false, 
-                    ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("El rol asignado no es válido", "ERP:006") 
-                };
+                // 3. Validar Módulo
+                var module = await _unitOfWork.UserModules.FirstOrDefaultAsync(m => m.ModuleCode == moduleCode && m.UserProfileId == profile.Id, ct);
+
+                if (module is null)
+                {
+                    return new AccessValidationResult<TResponse> { 
+                        IsSuccess = false, 
+                        ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("No tienes acceso a este módulo", "ERP:005") 
+                    };
+                }
+
+                // 4. Obtener Rol
+                role = await _unitOfWork.Roles.FirstOrDefaultAsync(r => r.Id == module.RoleId, ct);
+                
+                if (role is null)
+                {
+                    return new AccessValidationResult<TResponse> { 
+                        IsSuccess = false, 
+                        ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("El rol asignado no es válido", "ERP:006") 
+                    };
+                }   
             }
 
             return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user, Profile = profile };
