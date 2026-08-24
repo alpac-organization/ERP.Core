@@ -44,7 +44,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     RegionEndpoint.GetBySystemName(_settings.Region));
         }
 
-        public async Task<string?> RegisterDeviceAsync(string fcmToken, Guid profileId, string? customUserData = null)
+        public async Task<string?> RegisterDeviceAsync(string fcmToken, Guid profileId, string? deviceName, string? customUserData = null)
         {
             if (string.IsNullOrWhiteSpace(fcmToken))
             {
@@ -126,7 +126,8 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     UserProfileId = profileId,
                     FcmToken      = fcmToken,
                     EndpointArn   = newEndpoint.EndpointArn,
-                    IsActive      = true
+                    IsActive      = true,
+                    DeviceName    = deviceName
                 });
                 await _unitOfWork.SaveChangesAsync();
 
@@ -177,8 +178,10 @@ namespace ERP.Core.Infrastructure.Services.AWS
                         UserProfileId = profileId,
                         FcmToken      = fcmToken,
                         EndpointArn   = existingArn,
-                        IsActive      = true
+                        IsActive      = true,
+                        DeviceName    = deviceName
                     });
+
                     await _unitOfWork.SaveChangesAsync();
 
                     return existingArn;
