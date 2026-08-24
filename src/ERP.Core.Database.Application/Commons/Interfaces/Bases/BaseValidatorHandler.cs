@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
         public Role? Role { get; set; }
         public T? ErrorResponse { get; set; }
         public User User { get; set; } = new();
+        public UserProfile Profile { get; set; } = new();
     }
 
     public abstract class BaseValidatorHandler<TRequest, TResponse>(IUnitOfWork _unitOfWork, IErrorManager _errorManager) : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -96,7 +97,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
                 };
             }
 
-            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user };
+            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user, Profile = profile };
         }
     }
 }
