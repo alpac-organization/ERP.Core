@@ -88,6 +88,7 @@ namespace ERP.Core.Database.Infrastructure
 
             //Repositories
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IDevicesRepository, DevicesRepository>();
             services.AddScoped<IUserProfilesRepository, UserProfilesRepository>();
             services.AddScoped<ISessionsRepository, SessionsRepository>();
             services.AddScoped<INotificationsRepository, NotificationsRepository>();

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ERP.Core.Application\ERP.Core.Application.csproj" />
+    <ProjectReference Include="..\ERP.Core.Database.Infrastructure\ERP.Core.Database.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

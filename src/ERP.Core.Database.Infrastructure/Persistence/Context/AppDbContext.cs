@@ -11,6 +11,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
     public class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users => Set<User>();
+        public DbSet<Device> Devices => Set<Device>();
         public DbSet<Module> Modules => Set<Module>();
         public DbSet<Session> Sessions => Set<Session>();
         public DbSet<UserProfile> Profiles => Set<UserProfile>();
