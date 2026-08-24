@@ -307,21 +307,26 @@ namespace ERP.Core.Infrastructure.Services.AWS
         }
 
         #region Private Methods
+        #region Private Methods
         private static object BuildFcmV1Payload(NotificationRequest notificationRequest, Dictionary<string, string>? data)
         {
+            var customData = data ?? new Dictionary<string, string>();
+
             return new
             {
+                // 'fcmV1Message' es el identificador que AWS SNS requiere para usar la API FCM HTTP v1
                 fcmV1Message = new
                 {
                     message = new
                     {
+                        // Notificación genérica base
                         notification = new
                         {
                             title = notificationRequest.Title,
                             body = notificationRequest.Body,
-                            image = notificationRequest.ImageUrl,
+                            image = notificationRequest.ImageUrl
                         },
-                        data,
+                        data = customData,
                         android = new
                         {
                             priority = "high",
@@ -331,12 +336,14 @@ namespace ERP.Core.Infrastructure.Services.AWS
                                 visibility = "PUBLIC"
                             }
                         },
+                        // Ajustes específicos para Navegadores Web (PWA)
                         webpush = new
                         {
                             headers = new
                             {
                                 Urgency = "high"
                             },
+                            // Las opciones específicas del Service Worker de la Web deben ir en 'notification' dentro de 'webpush'
                             notification = new
                             {
                                 title = notificationRequest.Title,
@@ -348,12 +355,13 @@ namespace ERP.Core.Infrastructure.Services.AWS
                                 renotify = true,
                                 requireInteraction = true
                             },
-                            data
+                            data = customData
                         }
                     }
                 }
             };
         }
+        #endregion
 
         private static string? ExtractExistingEndpointArn(string errorMessage)
         {
