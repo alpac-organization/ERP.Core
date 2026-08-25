@@ -51,6 +51,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .WithMany(u => u.Devices)
                 .HasForeignKey(e => e.UserProfileId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(e => e.FcmToken)
+                .HasDatabaseName("ix_devices_fcm_token");
         }
     }
     
