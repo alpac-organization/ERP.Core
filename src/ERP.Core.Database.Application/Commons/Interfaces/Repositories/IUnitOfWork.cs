@@ -91,6 +91,13 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IUnloadingMachineryAssignmentsRepository UnloadingMachineryAssignments { get; }
         IWarehouseMachineryRepository WarehouseMachineries { get; }
         IWarehouseStaffRepository WarehouseStaffs { get; }
+        IStockPlacementsRepository StockPlacements { get; }
+        IStockFootprintCellsRepository StockFootprintCells { get; }
+        IReassignmentSessionsRepository ReassignmentSessions { get; }
+        IReassignmentSessionOwnershipLogRepository ReassignmentSessionOwnershipLog { get; }
+        IReassignmentMemoryItemsRepository ReassignmentMemoryItems { get; }
+        IStockMovementEventsRepository StockMovementEvents { get; }
+        IStockRepository Stock { get; }
         #endregion
 
         #region ✅ Shopping
