@@ -109,7 +109,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     reassignment_session_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     warehouse_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    status = table.Column<int>(type: "reassignment_session_status_enum", nullable: false, defaultValue: 1),
+                    status = table.Column<int>(type: "reassignment_session_status_enum", nullable: false, defaultValueSql: "'open'::reassignment_session_status_enum"),
                     current_owner_user_id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     opened_at_date = table.Column<DateOnly>(type: "date", nullable: false),
                     opened_at_Time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
