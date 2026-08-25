@@ -47,12 +47,12 @@ public class ReassignmentSessionsConfiguration : IEntityTypeConfiguration<Reassi
             .IsRequired();
 
         builder.Property(e => e.ClosedAtDate)
-            .HasColumnName("closed_at")
+            .HasColumnName("closed_at_date")
             .HasColumnType("date")
             .IsRequired(false);
 
         builder.Property(e => e.ClosedAtTime)
-            .HasColumnName("closed_at")
+            .HasColumnName("closed_at_time")
             .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)

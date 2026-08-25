@@ -112,9 +112,9 @@ public class StockPlacementsConfiguration : IEntityTypeConfiguration<StockPlacem
             .HasDatabaseName("ix_stock_placements_stock_id");
 
         builder.HasIndex(e => e.VacatedAtDate)
-            .HasDatabaseName("ix_stock_placements_vacated_at");
+            .HasDatabaseName("ix_stock_placements_vacated_at_date");
 
         builder.HasIndex(e => e.VacatedAtTime)
-            .HasDatabaseName("ix_stock_placements_vacated_at");
+            .HasDatabaseName("ix_stock_placements_vacated_at_time");
     }
 }
