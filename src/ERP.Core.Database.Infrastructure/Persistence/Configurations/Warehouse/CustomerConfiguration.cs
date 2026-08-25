@@ -24,7 +24,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(c => c.PictureUrl)
             .HasColumnName("picture_url")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(c => c.LegalName)
             .HasColumnName("legal_name")
