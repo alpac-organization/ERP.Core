@@ -65,7 +65,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
             }
 
             // 2. Validar Perfil
-            var profile = await _unitOfWork.Profiles.FirstOrDefaultAsync(p => p.UserId == userId && p.CompanyId == companyId, ct);
+            var profile = await _unitOfWork.Profiles.Entities
+                .Where(p => p.UserId == userId && p.CompanyId == companyId)
+                .Include(p => p.Company)
+                .FirstOrDefaultAsync(ct);
 
             if (profile is null)
             {
