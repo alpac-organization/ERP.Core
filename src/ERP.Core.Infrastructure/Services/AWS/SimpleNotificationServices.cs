@@ -13,8 +13,6 @@ using Amazon.SimpleNotificationService.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Entities.Auth;
 
 namespace ERP.Core.Infrastructure.Services.AWS
 {
@@ -23,12 +21,10 @@ namespace ERP.Core.Infrastructure.Services.AWS
         private readonly IAmazonSimpleNotificationService _sns;
         private readonly ILogger<SimpleNotificationServices> _logger;
         private readonly AwsSnsSettings _settings;
-        private readonly IUnitOfWork _unitOfWork;
 
         public SimpleNotificationServices(IOptions<AwsSnsSettings> options, ILogger<SimpleNotificationServices> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _unitOfWork = unitOfWork;
             _settings = options.Value;
 
             if (string.IsNullOrWhiteSpace(_settings.PlatformApplicationArn) || string.IsNullOrWhiteSpace(_settings.Region))
@@ -44,94 +40,11 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     RegionEndpoint.GetBySystemName(_settings.Region));
         }
 
-        public async Task<string?> RegisterDeviceAsync(string fcmToken, Guid profileId, string? deviceName, string? customUserData = null)
+        public async Task<string?> RegisterDeviceAsync(string fcmToken, string? customUserData = null)
         {
             if (string.IsNullOrWhiteSpace(fcmToken))
             {
                 return null;
-            }
-
-            var existingDevice = await _unitOfWork.Devices.Entities
-                .Where(device => device.FcmToken == fcmToken)
-                .FirstOrDefaultAsync(default);
-
-            if (existingDevice is not null)
-            {
-                if (existingDevice.UserProfileId == profileId)
-                {
-                    if (existingDevice.IsActive)
-                    {
-                        _logger.LogInformation("SNS: el token {TokenPrefix} ya está registrado y activo para este perfil.", GetTokenPrefix(fcmToken));
-                        return existingDevice.EndpointArn;
-                    }
-
-                    _logger.LogInformation("SNS: el token {TokenPrefix} estaba inactivo. Se reactiva para el mismo perfil.", GetTokenPrefix(fcmToken));
-
-                    try
-                    {
-                        await _sns.SetEndpointAttributesAsync(new SetEndpointAttributesRequest
-                        {
-                            EndpointArn = existingDevice.EndpointArn,
-                            Attributes = new Dictionary<string, string>
-                            {
-                                ["Token"] = fcmToken,
-                                ["Enabled"] = "true",
-                                ["CustomUserData"] = customUserData ?? string.Empty
-                            }
-                        });
-                    }
-                    catch (NotFoundException)
-                    {
-                        var recreated = await _sns.CreatePlatformEndpointAsync(new CreatePlatformEndpointRequest
-                        {
-                            Token = fcmToken,
-                            PlatformApplicationArn = _settings.PlatformApplicationArn,
-                            CustomUserData = customUserData
-                        });
-
-                        existingDevice.EndpointArn = recreated.EndpointArn;
-                    }
-
-                    existingDevice.IsActive = true;
-                    await _unitOfWork.Devices.UpdateAsync(existingDevice);
-                    await _unitOfWork.SaveChangesAsync();
-
-                    return existingDevice.EndpointArn;
-                }
-
-                _logger.LogInformation("SNS: el token {TokenPrefix} pertenecía a otro perfil. Se desactiva el registro anterior y se crea uno nuevo.", GetTokenPrefix(fcmToken));
-
-                existingDevice.IsActive = false;
-                await _unitOfWork.Devices.UpdateAsync(existingDevice);
-                await _unitOfWork.SaveChangesAsync();
-
-                try
-                {
-                    await _sns.DeleteEndpointAsync(new DeleteEndpointRequest { EndpointArn = existingDevice.EndpointArn });
-                }
-                catch (NotFoundException)
-                {
-                    // Ya no existía en SNS; no es un problema, seguimos.
-                }
-
-                var newEndpoint = await _sns.CreatePlatformEndpointAsync(new CreatePlatformEndpointRequest
-                {
-                    Token                  = fcmToken,
-                    PlatformApplicationArn = _settings.PlatformApplicationArn,
-                    CustomUserData         = customUserData
-                });
-
-                await _unitOfWork.Devices.RegisterDevice(new Device
-                {
-                    UserProfileId = profileId,
-                    FcmToken      = fcmToken,
-                    EndpointArn   = newEndpoint.EndpointArn,
-                    IsActive      = true,
-                    DeviceName    = deviceName
-                });
-                await _unitOfWork.SaveChangesAsync();
-
-                return newEndpoint.EndpointArn;
             }
 
             try
@@ -143,16 +56,6 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     CustomUserData         = customUserData
                 });
 
-                await _unitOfWork.Devices.RegisterDevice(new Device
-                {
-                    UserProfileId = profileId,
-                    FcmToken      = fcmToken,
-                    EndpointArn   = response.EndpointArn,
-                    IsActive      = true,
-                    DeviceName    = deviceName
-                });
-
-                await _unitOfWork.SaveChangesAsync(default);
                 return response.EndpointArn;
             }
             catch (InvalidParameterException ex)
@@ -168,22 +71,11 @@ namespace ERP.Core.Infrastructure.Services.AWS
                         EndpointArn = existingArn,
                         Attributes = new Dictionary<string, string>
                         {
-                            ["Token"] = fcmToken,
-                            ["Enabled"] = "true",
+                            ["Token"]          = fcmToken,
+                            ["Enabled"]        = "true",
                             ["CustomUserData"] = customUserData ?? string.Empty
                         }
                     });
-
-                    await _unitOfWork.Devices.RegisterDevice(new Device
-                    {
-                        UserProfileId = profileId,
-                        FcmToken      = fcmToken,
-                        EndpointArn   = existingArn,
-                        IsActive      = true,
-                        DeviceName    = deviceName
-                    });
-
-                    await _unitOfWork.SaveChangesAsync();
 
                     return existingArn;
                 }
