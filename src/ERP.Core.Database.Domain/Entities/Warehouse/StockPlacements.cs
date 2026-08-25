@@ -19,8 +19,8 @@ public class StockPlacements : BaseEntity<Guid>
     public string PlacedByUserId { get; set; } = null!;
 
 
-    public DateOnly VacatedAtDate { get; set; }
-    public TimeOnly VacatedAtTime { get; set; }
+    public DateOnly? VacatedAtDate { get; set; }
+    public TimeOnly? VacatedAtTime { get; set; }
     public string VacatedByUserId { get; set; } = null!;
 
     public Guid? PlacedByMemoryItemId { get; set; }
