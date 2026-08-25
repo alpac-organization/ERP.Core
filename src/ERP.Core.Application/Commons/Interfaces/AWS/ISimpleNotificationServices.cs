@@ -13,7 +13,7 @@ namespace ERP.Core.Application.Commons.Interfaces.AWS
         /// <param name="userProfileId"></param>
         /// <param name="customUserData"></param>
         /// <returns></returns>
-        Task<string?> RegisterDeviceAsync(string fcmToken, Guid userProfileId, string? deviceName, string? customUserData = null);
+        Task<string?> RegisterDeviceAsync(string fcmToken, string? customUserData = null);
 
         /// <summary>
         /// Desregistra un dispositivo de AWS SNS utilizando su EndpointArn.
