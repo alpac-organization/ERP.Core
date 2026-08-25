@@ -83,6 +83,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
                     npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
                     npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
+                    npgsqlOptions.MapEnum<ReassignmentSessionStatus>("reassignment_session_status_enum", "public");
                 })
             );
 
@@ -175,6 +176,13 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehouseStaffRepository, WarehouseStaffRepository>();
             services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
             services.AddScoped<IRequisitionManagementReviewRepository, RequisitionManagementReviewRepository>();
+            services.AddScoped<IStockPlacementsRepository, StockPlacementsRepository>();
+            services.AddScoped<IStockFootprintCellsRepository, StockFootprintCellsRepository>();
+            services.AddScoped<IReassignmentSessionsRepository, ReassignmentSessionsRepository>();
+            services.AddScoped<IReassignmentSessionOwnershipLogRepository, ReassignmentSessionOwnershipLogRepository>();
+            services.AddScoped<IReassignmentMemoryItemsRepository, ReassignmentMemoryItemsRepository>();
+            services.AddScoped<IStockMovementEventsRepository, StockMovementEventsRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
             #endregion
 
 
