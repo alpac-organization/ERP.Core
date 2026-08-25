@@ -73,7 +73,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
         #endregion
 
-        #region MOD: Bodegas y Clientes
+        #region Bodegas y Clientes
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<CustomerType> CustomersTypes => Set<CustomerType>();
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
@@ -109,6 +109,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnloadingMachineryAssignments> UnloadingMachineryAssignments => Set<UnloadingMachineryAssignments>();
         public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();
         public DbSet<WarehouseStaff> WarehouseStaffs => Set<WarehouseStaff>();
+        public DbSet<StockPlacements> StockPlacements => Set<StockPlacements>();
+        public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
+        public DbSet<ReassignmentSessions> ReassignmentSessions => Set<ReassignmentSessions>();
+        public DbSet<ReassignmentSessionOwnershipLog> ReassignmentSessionOwnershipLogs => Set<ReassignmentSessionOwnershipLog>();
+        public DbSet<ReassignmentMemoryItems> ReassignmentMemoryItems => Set<ReassignmentMemoryItems>();
+        public DbSet<StockMovementEvents> StockMovementEvents => Set<StockMovementEvents>();
         #endregion
 
         #region Compras
@@ -175,6 +181,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
             modelBuilder.HasPostgresEnum<TransportUnit>("public", "transport_unit_enum");
             modelBuilder.HasPostgresEnum<DucaType>("public", "duca_type_enum");
+            modelBuilder.HasPostgresEnum<ReassignmentSessionStatus>("public", "reassignment_session_status_enum");
 
 
 

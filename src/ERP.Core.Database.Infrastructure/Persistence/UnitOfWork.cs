@@ -97,7 +97,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehouseStaffRepository warehouseStaffRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
-        ISectionCapacityRepository sectionCapacityRepository
+        ISectionCapacityRepository sectionCapacityRepository,
+        IStockPlacementsRepository stockPlacementsRepository,
+        IStockFootprintCellsRepository stockFootprintCellsRepository,
+        IReassignmentSessionsRepository reassignmentSessionsRepository,
+        IReassignmentSessionOwnershipLogRepository reassignmentSessionOwnershipLogRepository,
+        IReassignmentMemoryItemsRepository reassignmentMemoryItemsRepository,
+        IStockMovementEventsRepository stockMovementEventsRepository,
+        IStockRepository stockRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -185,6 +192,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
         public IWarehouseStaffRepository WarehouseStaffs => warehouseStaffRepository;
         public ISectionCapacityRepository SectionCapacity => sectionCapacityRepository;
+        public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
+        public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
+        public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;
+        public IReassignmentSessionOwnershipLogRepository ReassignmentSessionOwnershipLog => reassignmentSessionOwnershipLogRepository;
+        public IReassignmentMemoryItemsRepository ReassignmentMemoryItems => reassignmentMemoryItemsRepository;
+        public IStockMovementEventsRepository StockMovementEvents => stockMovementEventsRepository;
+        public IStockRepository Stock => stockRepository;
         #endregion
 
         #region Shopping
