@@ -16,6 +16,10 @@ public class Lots : BaseEntity<Guid>
 
     public int NominalRows { get; set; }
     public int NominalColumns { get; set; }
+    public decimal PositionX { get; set; }
+    public decimal PositionY { get; set; }
+    public decimal PositionZ { get; set; }
+    public decimal RotationY { get; set; }
 
     public bool AllowsStacking { get; set; } = true!;
 
