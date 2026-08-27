@@ -18,6 +18,9 @@ public class ReassignmentMemoryItems : BaseEntity<Guid>
     public TimeOnly? ResolvedAtTime { get; set; }
     public string? ResolvedByUserId { get; set; }
 
+    public Guid? TargetRackPositionId { get; set; }
+    public Guid? TargetLotPositionId { get; set; }
+
     public virtual ICollection<StockPlacements> OriginPlacements { get; set; } = [];
     public virtual ICollection<StockPlacements> DestinationPlacements { get; set; } = [];
 }
