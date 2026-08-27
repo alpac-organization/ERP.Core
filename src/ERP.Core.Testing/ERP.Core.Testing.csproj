@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
-    
   </ItemGroup>
 
   <ItemGroup>

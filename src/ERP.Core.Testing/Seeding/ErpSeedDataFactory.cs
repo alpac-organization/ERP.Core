@@ -9,6 +9,10 @@ namespace ERP.Core.Testing.Seeding
     {
         private const int Seed = 20260827;
 
+        public const string DefaultPassword = "Admin123!";
+        public static readonly Guid AlpacAreaTiId = Guid.Parse("11111111-0000-0000-0000-000000000001");
+        private static readonly string DefaultPasswordHash = BCrypt.Net.BCrypt.HashPassword(DefaultPassword, workFactor: 11);
+
         public static ErpSeedData CreateScenario()
         {
             Randomizer.Seed = new Random(Seed);
@@ -165,35 +169,45 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("11111111-b000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    BranchCode = "ALPAC-01",
                     BranchName = "ALPAC - Sucursal Central",
+                    CompanyAlias = "ALPAC",
                     IsActive = true
                 },
                 new Branch
                 {
                     Id = Guid.Parse("22222222-b000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                    BranchCode = "AMINSA-01",
                     BranchName = "AMINSA - Sucursal Central",
+                    CompanyAlias = "AMINSA",
                     IsActive = true
                 },
                 new Branch
                 {
                     Id = Guid.Parse("33333333-b000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    BranchCode = "AVASA-01",
                     BranchName = "AVASA - Sucursal Central",
+                    CompanyAlias = "AVASA",
                     IsActive = true
                 },
                 new Branch
                 {
                     Id = Guid.Parse("44444444-b000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                    BranchCode = "VIGEMSA-01",
                     BranchName = "VIGEMSA - Sucursal Central",
+                    CompanyAlias = "VIGEMSA",
                     IsActive = true
                 },
                 new Branch
                 {
                     Id = Guid.Parse("55555555-b000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                    BranchCode = "TMN-01",
                     BranchName = "TMN - Sucursal Central",
+                    CompanyAlias = "TMN",
                     IsActive = true
                 }
             ];
@@ -283,7 +297,7 @@ namespace ERP.Core.Testing.Seeding
                 UserName             = userName,
                 Email                = $"{userName}@{domain}",
                 Fullname             = $"{firstName} {lastName}",
-                PasswordHash         = "$2a$11$e8Z9U7f0X9aK1YmZ9u2kEO8R01zVpW8fH.eYwzU2kEO8R01zVpW8f",
+                PasswordHash         = DefaultPasswordHash,
                 IdentificationNumber = faker.Random.ReplaceNumbers("001-######-000#") + faker.Random.String2(1, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
                 UserType             = UserType.StandardUser,
                 UserStatus           = UserStatus.Active,
