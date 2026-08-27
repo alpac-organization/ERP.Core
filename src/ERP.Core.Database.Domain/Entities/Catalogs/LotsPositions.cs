@@ -17,7 +17,8 @@ public class LotsPositions : BaseEntity<Guid>
     public bool AllowsStacking { get; set; } = true;
 
     public bool IsOccupied { get; set; } = false;
-    public bool IsBlocked { get; set; } = true!;
+    public bool IsBlocked { get; set; } = false;
+    public bool IsReserved { get; set; } = false;
     public string? BlockReason { get; set; }
 
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
