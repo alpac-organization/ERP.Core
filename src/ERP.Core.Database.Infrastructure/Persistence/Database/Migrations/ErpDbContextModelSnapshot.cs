@@ -898,6 +898,84 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("job_positions", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LayoutTransformWarehouse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("layout_transform_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid?>("LotId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("lot_id");
+
+                    b.Property<decimal>("PositionX")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("position_x");
+
+                    b.Property<decimal>("PositionY")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("position_y");
+
+                    b.Property<decimal>("PositionZ")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("position_z");
+
+                    b.Property<Guid?>("RackId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("rack_id");
+
+                    b.Property<decimal>("RotationY")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("rotation_y");
+
+                    b.Property<Guid?>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_layout_transforms_lot_id")
+                        .HasFilter("lot_id IS NOT NULL");
+
+                    b.HasIndex("RackId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_layout_transforms_rack_id")
+                        .HasFilter("rack_id IS NOT NULL");
+
+                    b.HasIndex("SectionId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_layout_transforms_section_id")
+                        .HasFilter("section_id IS NOT NULL");
+
+                    b.ToTable("layout_transforms_warehouse_3D", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
                 {
                     b.Property<Guid>("Id")
@@ -6213,80 +6291,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("warehouses", "public");
                 });
 
-            modelBuilder.Entity("LayoutTransform", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("layout_transform_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid?>("LotId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("lot_id");
-
-                    b.Property<decimal>("PositionX")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(10)
-                        .HasColumnType("numeric(10,0)")
-                        .HasDefaultValue(0m)
-                        .HasColumnName("position_x");
-
-                    b.Property<decimal>("PositionY")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(10)
-                        .HasColumnType("numeric(10,0)")
-                        .HasDefaultValue(0m)
-                        .HasColumnName("position_y");
-
-                    b.Property<decimal>("PositionZ")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(10)
-                        .HasColumnType("numeric(10,0)")
-                        .HasDefaultValue(0m)
-                        .HasColumnName("position_z");
-
-                    b.Property<Guid?>("RackId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("rack_id");
-
-                    b.Property<decimal>("RotationY")
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid?>("SectionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LotId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_layout_transforms_lot_id")
-                        .HasFilter("lot_id IS NOT NULL");
-
-                    b.HasIndex("RackId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_layout_transforms_rack_id")
-                        .HasFilter("rack_id IS NOT NULL");
-
-                    b.HasIndex("SectionId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_layout_transforms_section_id")
-                        .HasFilter("section_id IS NOT NULL");
-
-                    b.ToTable("layout_transforms", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Device", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.UserProfile", "UserProfile")
@@ -6447,6 +6451,30 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LayoutTransformWarehouse", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
+                        .WithOne("LayoutTransformWarehouse3D")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LayoutTransformWarehouse", "LotId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
+                        .WithOne("LayoutTransformWarehouse3D")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LayoutTransformWarehouse", "RackId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Sections")
+                        .WithOne("LayoutTransformWarehouse3D")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LayoutTransformWarehouse", "SectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Lot");
+
+                    b.Navigation("Rack");
+
+                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
@@ -7691,30 +7719,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ParentWarehouse");
                 });
 
-            modelBuilder.Entity("LayoutTransform", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
-                        .WithOne("LayoutTransform")
-                        .HasForeignKey("LayoutTransform", "LotId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
-                        .WithOne("LayoutTransform")
-                        .HasForeignKey("LayoutTransform", "RackId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Sections")
-                        .WithOne("LayoutTransform")
-                        .HasForeignKey("LayoutTransform", "SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Lot");
-
-                    b.Navigation("Rack");
-
-                    b.Navigation("Sections");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Role", b =>
                 {
                     b.Navigation("Permissions");
@@ -7807,7 +7811,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("CurrentStock");
 
-                    b.Navigation("LayoutTransform");
+                    b.Navigation("LayoutTransformWarehouse3D");
 
                     b.Navigation("Positions");
                 });
@@ -7833,7 +7837,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("Assignments");
 
-                    b.Navigation("LayoutTransform");
+                    b.Navigation("LayoutTransformWarehouse3D");
 
                     b.Navigation("Positions");
                 });
@@ -7846,7 +7850,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("CurrentStock");
 
-                    b.Navigation("LayoutTransform");
+                    b.Navigation("LayoutTransformWarehouse3D");
 
                     b.Navigation("Lots");
 

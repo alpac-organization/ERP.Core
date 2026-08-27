@@ -24,7 +24,7 @@ public class Lots : BaseEntity<Guid>
     public DateTime? StatusChangedAt { get; set; }
 
     //virtualizacion para coordenadas cartesianas 3D warehouse.
-    public virtual LayoutTransform? LayoutTransform { get; set; }
+    public virtual LayoutTransformWarehouse? LayoutTransformWarehouse3D { get; set; }
 
     public virtual ICollection<LotsPositions> Positions { get; set; } = [];
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];

@@ -16,7 +16,7 @@ public class Sections : BaseEntity<Guid>
     public decimal LengthMetres { get; set; }
 
     //virtualizacion para coordenadas cartesianas 3D warehouse.
-    public virtual LayoutTransform? LayoutTransform { get; set; }
+    public virtual LayoutTransformWarehouse? LayoutTransformWarehouse3D { get; set; }
     public Guid WarehouseId { get; set; }
     public virtual Warehouses Warehouse { get; set; } = null!;
 

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs;
 
-public class LayoutTransformConfiguration : IEntityTypeConfiguration<LayoutTransform>
+public class LayoutTransformWarehouseConfiguration : IEntityTypeConfiguration<LayoutTransformWarehouse>
 {
-    public void Configure(EntityTypeBuilder<LayoutTransform> builder)
+    public void Configure(EntityTypeBuilder<LayoutTransformWarehouse> builder)
     {
-        builder.ToTable("layout_transforms");
+        builder.ToTable("layout_transforms_warehouse_3D");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
@@ -19,27 +19,27 @@ public class LayoutTransformConfiguration : IEntityTypeConfiguration<LayoutTrans
 
         builder.Property(e => e.PositionX)
             .HasColumnName("position_x")
-            .HasPrecision(10, 0)
+            .HasPrecision(10, 2)
             .HasDefaultValue(0m)
             .IsRequired();
 
 
         builder.Property(e => e.PositionY)
             .HasColumnName("position_y")
-            .HasPrecision(10, 0)
+            .HasPrecision(10, 2)
             .HasDefaultValue(0m)
             .IsRequired();
 
         builder.Property(e => e.PositionZ)
             .HasColumnName("position_z")
-            .HasPrecision(10, 0)
+            .HasPrecision(10, 2)
             .HasDefaultValue(0m)
             .IsRequired();
 
 
-        builder.Property(e => e.PositionY)
-            .HasColumnName("position_y")
-            .HasPrecision(10, 0)
+        builder.Property(e => e.RotationY)
+            .HasColumnName("rotation_y")
+            .HasPrecision(10, 2)
             .HasDefaultValue(0m)
             .IsRequired();
 
@@ -57,19 +57,19 @@ public class LayoutTransformConfiguration : IEntityTypeConfiguration<LayoutTrans
             .HasColumnName("deleted_at");
 
         builder.HasOne(e => e.Sections)
-            .WithOne(s => s.LayoutTransform)
-            .HasForeignKey<LayoutTransform>(e => e.SectionId)
+            .WithOne(s => s.LayoutTransformWarehouse3D)
+            .HasForeignKey<LayoutTransformWarehouse>(e => e.SectionId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(e => e.Rack)
-            .WithOne(s => s.LayoutTransform)
-            .HasForeignKey<LayoutTransform>(e => e.RackId)
+            .WithOne(s => s.LayoutTransformWarehouse3D)
+            .HasForeignKey<LayoutTransformWarehouse>(e => e.RackId)
             .OnDelete(DeleteBehavior.Cascade);
 
 
         builder.HasOne(e => e.Lot)
-            .WithOne(s => s.LayoutTransform)
-            .HasForeignKey<LayoutTransform>(e => e.LotId)
+            .WithOne(s => s.LayoutTransformWarehouse3D)
+            .HasForeignKey<LayoutTransformWarehouse>(e => e.LotId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(e => e.SectionId)
