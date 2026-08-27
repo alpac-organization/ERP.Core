@@ -1,22 +1,25 @@
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 
-namespace ERP.Core.Testing.Seeding;
-
-/// <summary>
-/// Aplica un <see cref="ErpSeedData"/> (script de data ficticia) a la base de datos de test.
-/// </summary>
-public static class ErpDatabaseSeeder
+namespace ERP.Core.Testing.Seeding
 {
-    public static async Task SeedAsync(ErpDbContext dbContext, ErpSeedData seedData)
+    public static class ErpDatabaseSeeder
     {
-        dbContext.Companies.AddRange(seedData.Companies);
-        dbContext.Branches.AddRange(seedData.Branches);
-        dbContext.WorkAreas.AddRange(seedData.WorkAreas);
-        dbContext.Users.AddRange(seedData.Users);
-        dbContext.Profiles.AddRange(seedData.Profiles);
-        dbContext.Notifications.AddRange(seedData.Notifications);
-        dbContext.Devices.AddRange(seedData.Devices);
+        public static async Task SeedAsync(ErpDbContext dbContext, ErpSeedData seedData)
+        {
+            #region Catalogos
+            dbContext.Companies.AddRange(seedData.Companies);
+            dbContext.Branches.AddRange(seedData.Branches);
+            dbContext.WorkAreas.AddRange(seedData.WorkAreas);
+            #endregion
 
-        await dbContext.SaveChangesAsync();
+            #region Autenticación
+            dbContext.Users.AddRange(seedData.Users);
+            dbContext.Profiles.AddRange(seedData.Profiles);
+            dbContext.Notifications.AddRange(seedData.Notifications);
+            dbContext.Devices.AddRange(seedData.Devices);
+            #endregion
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
