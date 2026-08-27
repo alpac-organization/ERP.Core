@@ -10,8 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
-    
+    <PackageReference Include="ERP.Core.Database.Infrastructure" Version="1.101.1" />
   </ItemGroup>
 
   <ItemGroup>
