@@ -9,11 +9,20 @@ namespace ERP.Core.Testing.Seeding;
 /// </summary>
 public class ErpSeedData
 {
-    public List<Company> Companies { get; } = new();
-    public List<Branch> Branches { get; } = new();
-    public List<WorkArea> WorkAreas { get; } = new();
-    public List<User> Users { get; } = new();
-    public List<UserProfile> Profiles { get; } = new();
-    public List<Notification> Notifications { get; } = new();
-    public List<Device> Devices { get; } = new();
+    #region Catalogos
+    public List<Company> Companies { get; }  = [];
+    public List<Branch> Branches { get; }    = [];
+    public List<WorkArea> WorkAreas { get; } = [];
+
+    #endregion
+
+    
+    #region Autenticación
+    public List<User> Users { get; }           = [];
+    public List<UserProfile> Profiles { get; } = [];
+    public List<Device> Devices { get; }       = [];
+    public List<Notification> Notifications { get; } = [];
+    
+    #endregion
+    
 }
