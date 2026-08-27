@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ERP.Core.Testing</RootNamespace>
+    <PackageId>ERP.Core.Testing</PackageId>
+    <Description>Data inicial ficticia (Bogus) y seeder para pruebas de integración de ERP.Core.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="ERP.Core.Database.Infrastructure" Version="1.101.1" />
+  </ItemGroup>
+
+</Project>
