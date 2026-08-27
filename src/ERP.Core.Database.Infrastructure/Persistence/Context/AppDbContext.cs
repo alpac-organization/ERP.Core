@@ -17,7 +17,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UserProfile> Profiles => Set<UserProfile>();
         public DbSet<Notification> Notifications => Set<Notification>();
         public DbSet<UserModuleRoles> ModulesWithRoles => Set<UserModuleRoles>();
-        
+
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserModuleRoles> UserModuleRoles => Set<UserModuleRoles>();
 
@@ -55,7 +55,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<OrdinaryPayroll> OrdinaryPayrolls => Set<OrdinaryPayroll>();
         public DbSet<AssistanceControl> AssistanceControls => Set<AssistanceControl>();
         public DbSet<ProfessionalServicesPayroll> ProfessionalServicesPayrolls => Set<ProfessionalServicesPayroll>();
-        
+
         #region Catologos
         public DbSet<Branch> Branches => Set<Branch>();
         public DbSet<CustomsBranches> CustomsBranches => Set<CustomsBranches>();
@@ -87,6 +87,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionOverflowCapacity> SectionOverflowCapacities => Set<SectionOverflowCapacity>();
         public DbSet<Racks> Racks => Set<Racks>();
+        public DbSet<LayoutTransformWarehouse> LayoutTransformsWarehouse => Set<LayoutTransformWarehouse>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
         public DbSet<Lots> Lots => Set<Lots>();
         public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
@@ -129,7 +130,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RequisitionManagementReview> RequisitionManagementReviews => Set<RequisitionManagementReview>();
 
         #endregion
-                
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -154,24 +155,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollType>("public", "payroll_type_enum");
             modelBuilder.HasPostgresEnum<TaxType>("public", "tax_type_enum");
             modelBuilder.HasPostgresEnum<SourceDeductionPayment>("public", "source_deduction_payment_enum");
-            modelBuilder.HasPostgresEnum<DeductionStatus>("public","deduction_status_enum");
-            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public","deduction_payment_status_enum");
-            modelBuilder.HasPostgresEnum<PayrollPeriod>("public","payroll_period_enum");
-            modelBuilder.HasPostgresEnum<OSStatus>("public","oss_status_enum");
-            modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public","record_entrance_status_enum");
-            modelBuilder.HasPostgresEnum<WarehouseType>("public","warehouse_type_enum");
-            modelBuilder.HasPostgresEnum<ConstitutionType>("public","constitution_type_enum");
-            modelBuilder.HasPostgresEnum<UnitMeasureType>("public","unit_measure_type_enum");
-            modelBuilder.HasPostgresEnum<ProductUsageType>("public","product_usage_type_enum");
-            modelBuilder.HasPostgresEnum<DucaStatus>("public","duca_status_enum");
-            modelBuilder.HasPostgresEnum<DocumentType>("public","document_type_enum");
-            modelBuilder.HasPostgresEnum<MachineryType>("public","machinery_type_enum");
+            modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
+            modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status_enum");
+            modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
+            modelBuilder.HasPostgresEnum<OSStatus>("public", "oss_status_enum");
+            modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public", "record_entrance_status_enum");
+            modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
+            modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
+            modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
+            modelBuilder.HasPostgresEnum<ProductUsageType>("public", "product_usage_type_enum");
+            modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
+            modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
+            modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
 
-            modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum"); 
-            modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum"); 
+            modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum");
+            modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum");
 
-            modelBuilder.HasPostgresEnum<PurchaseRequestType>("public","purchase_request_type_enum");
-            modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public","purchase_request_status_enum");
+            modelBuilder.HasPostgresEnum<PurchaseRequestType>("public", "purchase_request_type_enum");
+            modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public", "purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
             modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
             modelBuilder.HasPostgresEnum<SectionStorageType>("public", "section_storage_type_enum");
