@@ -52,6 +52,14 @@ public class ReassignmentMemoryItemsConfiguration : IEntityTypeConfiguration<Rea
             .HasMaxLength(100)
             .IsRequired(false);
 
+        builder.Property(e => e.TargetLotPositionId)
+            .HasColumnName("target_lot_position_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.TargetRackPositionId)
+            .HasColumnName("target_rack_position_id")
+            .IsRequired(false);
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")

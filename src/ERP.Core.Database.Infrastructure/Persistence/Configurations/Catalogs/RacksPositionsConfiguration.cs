@@ -39,6 +39,11 @@ public class RackPositionsConfiguration : IEntityTypeConfiguration<RackPositions
             .HasDefaultValue(false)
             .IsRequired();
 
+        builder.Property(e => e.IsReserved)
+            .HasColumnName("is_reserved")
+            .HasDefaultValue(false)
+            .IsRequired();
+
         builder.Property(e => e.BlockReason)
             .HasColumnName("block_reason")
             .HasMaxLength(255)
