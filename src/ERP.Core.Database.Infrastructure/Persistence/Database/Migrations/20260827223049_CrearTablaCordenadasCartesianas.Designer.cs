@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260827205831_CrearTablaCordenadasCartesianas")]
+    [Migration("20260827223049_CrearTablaCordenadasCartesianas")]
     partial class CrearTablaCordenadasCartesianas
     {
         /// <inheritdoc />
@@ -976,7 +976,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ux_layout_transforms_section_id")
                         .HasFilter("section_id IS NOT NULL");
 
-                    b.ToTable("layout_transforms_warehouse_3D", "public");
+                    b.ToTable("layout_transforms_warehouse_3d", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
@@ -1144,6 +1144,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_occupied");
 
+                    b.Property<bool>("IsReserved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_reserved");
+
                     b.Property<Guid>("LotId")
                         .HasColumnType("uuid")
                         .HasColumnName("tramo_id");
@@ -1264,6 +1270,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_occupied");
+
+                    b.Property<bool>("IsReserved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_reserved");
 
                     b.Property<string>("PositionCode")
                         .IsRequired()
@@ -5077,6 +5089,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("StockId")
                         .HasColumnType("uuid")
                         .HasColumnName("stock_id");
+
+                    b.Property<Guid?>("TargetLotPositionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("target_lot_position_id");
+
+                    b.Property<Guid?>("TargetRackPositionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("target_rack_position_id");
 
                     b.HasKey("Id");
 
