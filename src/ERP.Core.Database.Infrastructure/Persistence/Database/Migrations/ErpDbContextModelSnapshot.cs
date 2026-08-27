@@ -973,7 +973,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ux_layout_transforms_section_id")
                         .HasFilter("section_id IS NOT NULL");
 
-                    b.ToTable("layout_transforms_warehouse_3D", "public");
+                    b.ToTable("layout_transforms_warehouse_3d", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
