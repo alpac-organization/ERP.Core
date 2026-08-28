@@ -2,6 +2,9 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
+    /// <summary>
+    /// Detalles generales del proveedor.
+    /// </summary>
     public class SupplierDetails : BaseEntity<Guid>
     {
         public string? Address { get; set; }
