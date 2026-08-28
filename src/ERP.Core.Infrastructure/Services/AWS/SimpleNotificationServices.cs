@@ -206,44 +206,38 @@ namespace ERP.Core.Infrastructure.Services.AWS
 
             return new
             {
-                // 'fcmV1Message' es el identificador que AWS SNS requiere para usar la API FCM HTTP v1
                 fcmV1Message = new
                 {
                     message = new
                     {
-                        // Notificación genérica base
-                        notification = new
-                        {
-                            title = notificationRequest.Title,
-                            body = notificationRequest.Body,
-                            image = notificationRequest.ImageUrl
-                        },
                         data = customData,
                         android = new
                         {
                             priority = "high",
                             notification = new
                             {
+                                visibility = "PUBLIC",
                                 notification_priority = "PRIORITY_MAX",
-                                visibility = "PUBLIC"
+                                title = notificationRequest.Title,
+                                body  = notificationRequest.Body,
+                                icon  = notificationRequest.AndroidConfig?.Icon,
+                                image = notificationRequest.ImageUrl
                             }
                         },
-                        // Ajustes específicos para Navegadores Web (PWA)
                         webpush = new
                         {
                             headers = new
                             {
                                 Urgency = "high"
                             },
-                            // Las opciones específicas del Service Worker de la Web deben ir en 'notification' dentro de 'webpush'
                             notification = new
                             {
                                 title = notificationRequest.Title,
-                                body = notificationRequest.Body,
-                                icon = notificationRequest.WebPushConfig?.Icon,
+                                body  = notificationRequest.Body,
+                                icon  = notificationRequest.WebPushConfig?.Icon,
                                 badge = notificationRequest.WebPushConfig?.Badge,
                                 image = notificationRequest.ImageUrl,
-                                tag = "pwa-notification",
+                                tag   = "pwa-notification",
                                 renotify = true,
                                 requireInteraction = true
                             },

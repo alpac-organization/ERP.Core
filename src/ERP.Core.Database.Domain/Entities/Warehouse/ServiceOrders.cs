@@ -3,6 +3,9 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
+    /// <summary>
+    /// Operaciones realizadas
+    /// </summary>
     public class ServiceOrder : BaseEntity<Guid>
     {
         public string Code { get; set; } = null!;

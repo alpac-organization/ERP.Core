@@ -4,6 +4,9 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
+    /// <summary>
+    /// Entidad de proveedores.
+    /// </summary>
     public class Supplier : BaseEntity<Guid>
     {
         public bool IsActive { get; set; } = true;
