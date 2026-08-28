@@ -19,8 +19,6 @@ public class Racks : BaseEntity<Guid>
     public int LevelNumber { get; set; }
     public int MaxPulleys { get; set; } = 2;
 
-    //virtualizacion para coordenadas cartesianas 3D warehouse.
-    public virtual LayoutTransformWarehouse? LayoutTransformWarehouse3D { get; set; }
     public RackStatus Status { get; set; } = RackStatus.Available;
     public string? UnavailableReason { get; set; }
     public DateTime? StatusChangedAt { get; set; }
