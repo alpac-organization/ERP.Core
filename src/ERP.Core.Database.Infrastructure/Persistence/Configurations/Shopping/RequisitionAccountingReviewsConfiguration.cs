@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Entities.Accounting;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {

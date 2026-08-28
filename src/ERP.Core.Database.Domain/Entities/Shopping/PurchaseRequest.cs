@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Accounting;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
@@ -22,13 +23,13 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public PurchaseRequestStatus RequestStatus { get; set; } = PurchaseRequestStatus.Pending;
 
         /// <summary>
-        /// Usuario de revición
+        /// Jefe directo que aprueba las solicitudes de compras en base a su area.
         /// </summary>
         public Guid? UserRevisionId { get; set; }
         public virtual User UserRevision { get; set; } = default!;
 
         /// <summary>
-        /// Usuario solicitante
+        /// Usuario que registro la solicitud y area de origin.
         /// </summary>
         public Guid RegisteredByUserId { get; set; }
         public virtual User RegistrationUser { get; set; } = default!;
@@ -38,9 +39,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
-
+        
         /// <summary>
-        /// Area Solicitante
+        /// Area Solicitante de los productos.
         /// </summary>
         public Guid AreaId { get; set; }
         public virtual WorkArea WorkArea { get; set;} = default!;
@@ -50,7 +51,11 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public virtual RequisitionAccountingReview? AccountingReview { get; set; }
         public virtual RequisitionManagementReview? ManagementReview { get; set; }
+        
 
+        /// <summary>
+        /// Items solicitados. por el colaborador
+        /// </summary>
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
     }
 }
