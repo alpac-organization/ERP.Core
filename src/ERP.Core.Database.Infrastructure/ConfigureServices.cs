@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,9 +36,10 @@ namespace ERP.Core.Database.Infrastructure
             }
 
             services.AddDbContext<ErpDbContext>(options => 
-                options.UseNpgsql(connectionString, npgsqlOptions =>
+                options.ConfigureWarnings(warnings =>
+                        warnings.Ignore(RelationalEventId.PendingModelChangesWarning))
+                    .UseNpgsql(connectionString, npgsqlOptions =>
                 {
-
                     npgsqlOptions.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
                     
                     npgsqlOptions.MapEnum<CatalogType>("catalog_type_enum");
