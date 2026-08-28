@@ -74,6 +74,27 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasColumnName("status_changed_at")
             .IsRequired(false);
 
+        builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
+        {
+            layaout.IsRequired();
+
+            layaout.Property(p => p.PositionX)
+                   .HasColumnName("layout_position_x")
+                   .HasPrecision(10, 2);
+
+            layaout.Property(p => p.PositionY)
+                   .HasColumnName("layout_position_y")
+                   .HasPrecision(10, 2);
+
+            layaout.Property(p => p.PositionZ)
+                   .HasColumnName("layout_position_z")
+                   .HasPrecision(10, 2);
+
+            layaout.Property(p => p.RotationY)
+                   .HasColumnName("layout_rotation_y")
+                   .HasPrecision(10, 2);
+        });
+
         builder.Property(e => e.CreatedAt)
            .HasColumnName("created_at")
            .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -81,7 +102,7 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-        
+
         builder.HasIndex(e => e.SectionId)
             .HasDatabaseName("ix_racks_section_id");
 
@@ -90,7 +111,7 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .HasForeignKey(e => e.SectionId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(e => new {e.SectionId, e.Code})
+        builder.HasIndex(e => new { e.SectionId, e.Code })
             .IsUnique()
             .HasDatabaseName("ix_racks_section_id_code");
     }
