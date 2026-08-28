@@ -20,7 +20,6 @@ public class RecordEntrance : BaseEntity<Guid>
     public virtual DucatRegistry? DucatRegistry { get; set; }
 
     public virtual WarehouseAssignments? Assignment { get; set; }
-    public virtual UnloadingDetails? UnloadingDetails { get; set; }
     public virtual ManifestCancellations? ManifestCancellation { get; set; }
     public virtual WarehouseReceipts? WarehouseReceipt { get; set; }
     public virtual CustomsDeclarations? CustomsDeclarations { get; set; }

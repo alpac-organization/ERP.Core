@@ -11,3 +11,4 @@ src/ERP.Core.Database.Infrastructure/appsettings.json
 [Oo]bj/
 
 .env
+/.vs/ERP.Core

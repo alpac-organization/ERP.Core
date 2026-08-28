@@ -86,11 +86,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILotsPositionsRepository LotsPositions { get; }
         ISectionOverflowCapacityRepository SectionOverflowCapacity { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
-        IUnloadingDetailsRepository UnloadingDetails { get; }
-        IUnloadingCrewAssignmentsRepository UnloadingCrewAssignments { get; }
-        IUnloadingMachineryAssignmentsRepository UnloadingMachineryAssignments { get; }
+        ICrewAssignmentsRepository CrewAssignments { get; }
+        IMachineryAssignmentsRepository MachineryAssignments { get; }
         IWarehouseMachineryRepository WarehouseMachineries { get; }
-        IWarehouseStaffRepository WarehouseStaffs { get; }
         IStockPlacementsRepository StockPlacements { get; }
         IStockFootprintCellsRepository StockFootprintCells { get; }
         IReassignmentSessionsRepository ReassignmentSessions { get; }

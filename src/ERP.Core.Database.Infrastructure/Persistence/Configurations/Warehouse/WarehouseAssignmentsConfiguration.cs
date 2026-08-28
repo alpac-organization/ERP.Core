@@ -20,8 +20,8 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
             .IsRequired();
         
         builder.Property(e => e.WarehouseId)
-           .HasColumnName("warehouse_id")
-           .IsRequired();
+            .HasColumnName("warehouse_id")
+            .IsRequired();
         
         builder.Property(e => e.SectionId)
             .HasColumnName("section_id")
@@ -29,15 +29,31 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
         
         builder.Property(e => e.RackId)
             .HasColumnName("rack_id")
-            .IsRequired();
+            .IsRequired(false);
         
         builder.Property(e => e.LotsId)
+            .HasColumnName("lots_id")
             .IsRequired(false);
         
         builder.Property(e => e.LotsPositionsId)
+            .HasColumnName("lots_positions_id")
             .IsRequired(false);
         
         builder.Property(e => e.RackPositionsId)
+            .HasColumnName("rack_positions_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.UnloadingStartTime)
+            .HasColumnName("unloading_start_time")
+            .IsRequired(false);
+
+        builder.Property(e => e.UnloadingEndTime)
+            .HasColumnName("unloading_end_time")
+            .IsRequired(false);
+
+        builder.Property(e => e.WarehouseKeeperUserId)
+            .HasColumnName("warehouse_keeper_user_id")
+            .HasMaxLength(450)
             .IsRequired(false);
         
         builder.Property(e => e.AssignedAt)
@@ -56,7 +72,6 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-
 
         // Relación 1:1 con la entrada principal
         builder.HasOne(x => x.RecordEntrance)
