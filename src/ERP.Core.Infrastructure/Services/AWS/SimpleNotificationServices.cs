@@ -198,9 +198,8 @@ namespace ERP.Core.Infrastructure.Services.AWS
             }
         }
 
-        #region Private Methods
-        #region Private Methods
-       private static object BuildFcmV1Payload(NotificationRequest notificationRequest, Dictionary<string, string>? data)
+        #region Private Methods 
+        private static object BuildFcmV1Payload(NotificationRequest notificationRequest, Dictionary<string, string>? data)
         {
             var customData = data ?? new Dictionary<string, string>();
 
@@ -263,7 +262,6 @@ namespace ERP.Core.Infrastructure.Services.AWS
                 }
             };
         }
-        #endregion
 
         private static string? ExtractExistingEndpointArn(string errorMessage)
         {
