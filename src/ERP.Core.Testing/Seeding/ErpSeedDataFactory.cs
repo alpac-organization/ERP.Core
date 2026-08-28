@@ -269,7 +269,7 @@ namespace ERP.Core.Testing.Seeding
                 data.Profiles.Add(NewProfile(faker, user.Id, area.CompanyId));
             }
 
-            var tiUsers = data.Users.Where(u => u.AreaId == areaTiAlpac).ToList();
+            //var tiUsers = data.Users.Where(u => u.AreaId == areaTiAlpac).ToList();
             var otherCompanies = new[] { companyAminsa, companyAvasa, companyVigemsa, companyTmn };
 
             foreach (var user in tiUsers)
@@ -301,8 +301,8 @@ namespace ERP.Core.Testing.Seeding
                 IdentificationNumber = faker.Random.ReplaceNumbers("001-######-000#") + faker.Random.String2(1, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
                 UserType             = UserType.StandardUser,
                 UserStatus           = UserStatus.Active,
-                AreaId               = areaId,
-                BranchId             = branchId
+                // AreaId               = areaId,
+                // BranchId             = branchId
             };
         }
 

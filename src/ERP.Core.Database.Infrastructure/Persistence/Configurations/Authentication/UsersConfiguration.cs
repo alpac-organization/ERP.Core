@@ -30,11 +30,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("email")
                 .IsRequired();
 
-            builder.Property(e => e.AreaId)
+            /* builder.Property(e => e.AreaId)
                 .HasColumnName("area_id");
 
             builder.Property(e => e.BranchId)
-                .HasColumnName("branch_id");
+                .HasColumnName("branch_id"); */
                 
             builder.Property(e => e.IdentificationNumber)
                 .HasColumnName("identification_number")
@@ -62,7 +62,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
 
-            builder.HasOne(e => e.WorkArea)
+            /* builder.HasOne(e => e.WorkArea)
                 .WithMany(u => u.Users)
                 .HasForeignKey(e => e.AreaId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -70,7 +70,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
             builder.HasOne(e => e.Branch)
                 .WithMany(u => u.Users)
                 .HasForeignKey(e => e.BranchId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); */
 
             builder.HasMany(u => u.Profiles)
                 .WithOne(p => p.User)
