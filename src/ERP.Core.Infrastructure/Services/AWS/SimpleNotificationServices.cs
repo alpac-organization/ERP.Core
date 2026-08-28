@@ -198,11 +198,24 @@ namespace ERP.Core.Infrastructure.Services.AWS
             }
         }
 
-        #region Private Methods
-        #region Private Methods
+        #region Private Methods 
         private static object BuildFcmV1Payload(NotificationRequest notificationRequest, Dictionary<string, string>? data)
         {
             var customData = data ?? new Dictionary<string, string>();
+
+            // Mover título, mensaje e icono al diccionario de datos para el Service Worker
+            customData["title"] = notificationRequest.Title ?? string.Empty;
+            customData["body"] = notificationRequest.Body ?? string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(notificationRequest.ImageUrl))
+            {
+                customData["image"] = notificationRequest.ImageUrl;
+            }
+
+            if (!string.IsNullOrWhiteSpace(notificationRequest.WebPushConfig?.Icon))
+            {
+                customData["icon"] = notificationRequest.WebPushConfig.Icon;
+            }
 
             return new
             {
@@ -210,36 +223,38 @@ namespace ERP.Core.Infrastructure.Services.AWS
                 {
                     message = new
                     {
+                        // Todos los atributos viajan dentro de data
                         data = customData,
+
+                        // Prioridad para entrega en Android (sin el bloque 'notification')
                         android = new
                         {
-                            priority = "high",
-                            notification = new
+                            priority = "high"
+                        },
+
+                        // Configuración de APNs para iOS / Apple (sin el bloque 'notification')
+                        apns = new
+                        {
+                            headers = new
                             {
-                                visibility = "PUBLIC",
-                                notification_priority = "PRIORITY_MAX",
-                                title = notificationRequest.Title,
-                                body  = notificationRequest.Body,
-                                icon  = notificationRequest.AndroidConfig?.Icon,
-                                image = notificationRequest.ImageUrl
+                                apns_priority = "10",
+                                apns_push_type = "alert"
+                            },
+                            payload = new
+                            {
+                                aps = new
+                                {
+                                    content_available = true
+                                }
                             }
                         },
+
+                        // Configuración WebPush (sin el bloque 'notification' para evitar el duplicado)
                         webpush = new
                         {
                             headers = new
                             {
                                 Urgency = "high"
-                            },
-                            notification = new
-                            {
-                                title = notificationRequest.Title,
-                                body  = notificationRequest.Body,
-                                icon  = notificationRequest.WebPushConfig?.Icon,
-                                badge = notificationRequest.WebPushConfig?.Badge,
-                                image = notificationRequest.ImageUrl,
-                                tag   = "pwa-notification",
-                                renotify = true,
-                                requireInteraction = true
                             },
                             data = customData
                         }
@@ -247,7 +262,6 @@ namespace ERP.Core.Infrastructure.Services.AWS
                 }
             };
         }
-        #endregion
 
         private static string? ExtractExistingEndpointArn(string errorMessage)
         {
