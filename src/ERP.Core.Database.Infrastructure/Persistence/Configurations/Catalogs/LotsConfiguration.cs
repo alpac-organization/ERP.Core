@@ -63,6 +63,31 @@ public class LotsConfiguration : IEntityTypeConfiguration<Lots>
             .HasColumnName("status_changed_at")
             .IsRequired(false);
 
+        builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
+        {
+            layaout.IsRequired();
+
+            layaout.Property(p => p.PositionX)
+                   .HasColumnName("layout_position_x")
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
+
+            layaout.Property(p => p.PositionY)
+                   .HasColumnName("layout_position_y")
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
+
+            layaout.Property(p => p.PositionZ)
+                   .HasColumnName("layout_position_z")
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
+
+            layaout.Property(p => p.RotationY)
+                   .HasColumnName("layout_rotation_y")
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
+        });
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
