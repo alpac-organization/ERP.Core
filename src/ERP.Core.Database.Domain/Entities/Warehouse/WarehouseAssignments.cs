@@ -5,26 +5,28 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class WarehouseAssignments : BaseEntity<Guid>
 {
-    // Relación 1:1 - Llave primaria y foránea al mismo tiempo
     public Guid RecordEntranceId { get; set; }
 
     public Guid WarehouseId { get; set; }
     public Guid? SectionId { get; set; }
-    public Guid RackId { get; set; }
+    public Guid? RackId { get; set; }
     public Guid? LotsId { get; set; }
     public Guid? LotsPositionsId { get; set; }
     public Guid? RackPositionsId { get; set; }
+    public DateTime? UnloadingStartTime { get; set; }
+    public DateTime? UnloadingEndTime { get; set; }
+    public string? WarehouseKeeperUserId { get; set; }
     public DateTime AssignedAt { get; set; }
     public string AssignedByUserId { get; set; } = null!;
 
-    // Propiedades de navegación
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual Warehouses Warehouse { get; set; } = null!;
-    public virtual Racks Rack { get; set; } = null!;
+    public virtual Racks? Rack { get; set; }
     public virtual Sections? Section { get; set; } = null!;
     public virtual Lots? Lot { get; set; }
     public virtual LotsPositions? LotPosition { get; set; }
     public virtual RackPositions? RackPosition { get; set; }
 
-    public virtual UnloadingDetails? UnloadingDetails { get; set; }
+    public virtual ICollection<CrewAssignments> CrewAssignments { get; set; } = [];
+    public virtual ICollection<MachineryAssignments> MachineryAssignments { get; set; } = [];
 }

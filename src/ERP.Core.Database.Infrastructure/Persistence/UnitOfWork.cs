@@ -90,11 +90,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ILotsRepository lotsRepository,
         ILotsPositionsRepository lotsPositionsRepository,
         IWarehouseAssignmentsRepository warehouseAssignmentsRepository,
-        IUnloadingDetailsRepository unloadingDetailsRepository,
-        IUnloadingCrewAssignmentsRepository unloadingCrewAssignmentsRepository,
-        IUnloadingMachineryAssignmentsRepository unloadingMachineryAssignmentsRepository,
+        ICrewAssignmentsRepository crewAssignmentsRepository,
+        IMachineryAssignmentsRepository machineryAssignmentsRepository,
         IWarehouseMachineryRepository warehouseMachineryRepository,
-        IWarehouseStaffRepository warehouseStaffRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
         ISectionCapacityRepository sectionCapacityRepository,
@@ -186,11 +184,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
         public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
-        public IUnloadingDetailsRepository UnloadingDetails => unloadingDetailsRepository;
-        public IUnloadingCrewAssignmentsRepository UnloadingCrewAssignments => unloadingCrewAssignmentsRepository;
-        public IUnloadingMachineryAssignmentsRepository UnloadingMachineryAssignments => unloadingMachineryAssignmentsRepository;
+        public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
+        public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;
         public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
-        public IWarehouseStaffRepository WarehouseStaffs => warehouseStaffRepository;
         public ISectionCapacityRepository SectionCapacity => sectionCapacityRepository;
         public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260828180758_AsignarBodega")]
+    partial class AsignarBodega
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,65 +73,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Accounting.RequisitionAccountingReview", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("requisition_accounting_review_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Comments")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("comments");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid>("PurchaseRequestId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("purchase_request_id");
-
-                    b.Property<Guid?>("ReviewedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("reviewed_by_user_id");
-
-                    b.Property<Guid>("SentByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("send_by_user_id");
-
-                    b.Property<DateOnly>("SentToReviewAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("date")
-                        .HasColumnName("send_to_review_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("accounting_review_status_enum")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'pending'::accounting_review_status_enum");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PurchaseRequestId")
-                        .IsUnique();
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.HasIndex("SentByUserId");
-
-                    b.ToTable("requisition_accounting_reviews", "public");
-                });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Device", b =>
                 {
@@ -4177,6 +4121,65 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("quotations", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("requisition_accounting_review_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Comments")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("comments");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid>("PurchaseRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("purchase_request_id");
+
+                    b.Property<Guid?>("ReviewedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reviewed_by_user_id");
+
+                    b.Property<Guid>("SentByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("send_by_user_id");
+
+                    b.Property<DateOnly>("SentToReviewAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasColumnName("send_to_review_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("accounting_review_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'::accounting_review_status_enum");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseRequestId")
+                        .IsUnique();
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.HasIndex("SentByUserId");
+
+                    b.ToTable("requisition_accounting_reviews", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionManagementReview", b =>
                 {
                     b.Property<Guid>("Id")
@@ -6309,6 +6312,46 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("warehouse_receipts", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseStaff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("full_name");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Role")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("role");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("warehouse_staff", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>
                 {
                     b.Property<Guid>("Id")
@@ -6380,32 +6423,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_warehouses_parent_wareouse_id");
 
                     b.ToTable("warehouses", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Accounting.RequisitionAccountingReview", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
-                        .WithOne("AccountingReview")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Accounting.RequisitionAccountingReview", "PurchaseRequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ReviewedByUser")
-                        .WithMany("ReviewedAccountingReviews")
-                        .HasForeignKey("ReviewedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "SentByUser")
-                        .WithMany("SentAccountingReviews")
-                        .HasForeignKey("SentByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("PurchaseRequest");
-
-                    b.Navigation("ReviewedByUser");
-
-                    b.Navigation("SentByUser");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Device", b =>
@@ -7194,6 +7211,32 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PurchaseRequestItem");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
+                        .WithOne("AccountingReview")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Shopping.RequisitionAccountingReview", "PurchaseRequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ReviewedByUser")
+                        .WithMany("ReviewedAccountingReviews")
+                        .HasForeignKey("ReviewedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "SentByUser")
+                        .WithMany("SentAccountingReviews")
+                        .HasForeignKey("SentByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PurchaseRequest");
+
+                    b.Navigation("ReviewedByUser");
+
+                    b.Navigation("SentByUser");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.RequisitionManagementReview", b =>

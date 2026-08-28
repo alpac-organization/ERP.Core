@@ -99,17 +99,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
-        public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
         public DbSet<Discrepancies> Discrepancies => Set<Discrepancies>();
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
         public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<CustomsDeclarations> CustomsDeclarations => Set<CustomsDeclarations>();
         public DbSet<CustomsDeclarationDetails> CustomsDeclarationDetails => Set<CustomsDeclarationDetails>();
-        public DbSet<UnloadingCrewAssignments> UnloadingCrewAssignments => Set<UnloadingCrewAssignments>();
-        public DbSet<UnloadingMachineryAssignments> UnloadingMachineryAssignments => Set<UnloadingMachineryAssignments>();
+        public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
+        public DbSet<MachineryAssignments> MachineryAssignments => Set<MachineryAssignments>();
         public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();
-        public DbSet<WarehouseStaff> WarehouseStaffs => Set<WarehouseStaff>();
         public DbSet<StockPlacements> StockPlacements => Set<StockPlacements>();
         public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
         public DbSet<ReassignmentSessions> ReassignmentSessions => Set<ReassignmentSessions>();
@@ -167,6 +165,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
+            modelBuilder.HasPostgresEnum<FuelType>("public", "fuel_type_enum");
+            modelBuilder.HasPostgresEnum<MachineryStatus>("public", "machinery_status_enum");
 
             modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum");
             modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum");
