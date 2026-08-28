@@ -80,19 +80,23 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
 
             layaout.Property(p => p.PositionX)
                    .HasColumnName("layout_position_x")
-                   .HasPrecision(10, 2);
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
 
             layaout.Property(p => p.PositionY)
                    .HasColumnName("layout_position_y")
-                   .HasPrecision(10, 2);
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
 
             layaout.Property(p => p.PositionZ)
                    .HasColumnName("layout_position_z")
-                   .HasPrecision(10, 2);
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
 
             layaout.Property(p => p.RotationY)
                    .HasColumnName("layout_rotation_y")
-                   .HasPrecision(10, 2);
+                   .HasPrecision(10, 2)
+                   .HasDefaultValue(0m);
         });
 
         builder.Property(e => e.CreatedAt)
