@@ -19,7 +19,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.UserId) 
+            builder.Property(e => e.UserId)
                 .HasColumnName("user_id")
                 .IsRequired();
 
@@ -32,9 +32,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasDefaultValue(true)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired();
+
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at")
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd();            
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -46,6 +50,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(p => p.Branch)
+                .WithMany(b => b.UserProfiles)
+                .HasForeignKey(p => p.BranchId)
+                .OnDelete(DeleteBehavior.Restrict);                
+
             builder.HasMany(u => u.UserModuleRole)
                 .WithOne(p => p.UserProfile)
                 .HasForeignKey(p => p.UserProfileId)
@@ -54,8 +63,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
             builder.HasMany(u => u.Devices)
                 .WithOne(p => p.UserProfile)
                 .HasForeignKey(p => p.UserProfileId)
-                .OnDelete(DeleteBehavior.Cascade);            
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(u => u.BranchId)
+                .HasDatabaseName("IX_users_profiles_branch_id");
         }
     }
-    
+
 }

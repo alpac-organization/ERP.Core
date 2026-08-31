@@ -21,9 +21,6 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public Guid AreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
 
-        public Guid BranchId { get; set; }
-        public virtual Branch Branch { get; set; } = default!;
-
         /// <summary>
         /// Control de registros y sesiones que ha relizado el usuario, para poder llevar un control de auditoría y seguridad de la aplicación.
         /// </summary>
@@ -36,8 +33,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         /// <summary>
         /// Control de auditoria de acciones del usuario.
         /// </summary>
-        public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests  { get; set; } = [];
-        public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests  { get; set; } = [];
+        public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests { get; set; } = [];
+        public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests { get; set; } = [];
 
         public virtual ICollection<RequisitionAccountingReview> SentAccountingReviews { get; set; } = [];
         public virtual ICollection<RequisitionAccountingReview> ReviewedAccountingReviews { get; set; } = [];
