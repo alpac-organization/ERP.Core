@@ -22,10 +22,10 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = null!;
 
-        //Seccionamientos de nominas.
-        public virtual ICollection<User> Users { get; set; } = [];
+        //Seccionamientos de nominas.        
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
-        public virtual ICollection<Warehouses> Warehouses {get; set;} = [];
+        public virtual ICollection<Warehouses> Warehouses { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
+        public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
     }
 }
