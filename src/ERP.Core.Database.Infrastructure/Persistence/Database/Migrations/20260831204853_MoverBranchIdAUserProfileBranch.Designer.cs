@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260831181232_AgregarBranchIdToUserProfile")]
-    partial class AgregarBranchIdToUserProfile
+    [Migration("20260831204853_MoverBranchIdAUserProfileBranch")]
+    partial class MoverBranchIdAUserProfileBranch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -507,7 +507,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("BranchId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("f9c8c488-f53e-46c2-9594-1e9b23cf805c"))
                         .HasColumnName("branch_id");
 
                     b.Property<Guid>("CompanyId")

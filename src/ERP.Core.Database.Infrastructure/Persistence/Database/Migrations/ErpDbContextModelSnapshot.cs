@@ -504,7 +504,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("BranchId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("f9c8c488-f53e-46c2-9594-1e9b23cf805c"))
                         .HasColumnName("branch_id");
 
                     b.Property<Guid>("CompanyId")

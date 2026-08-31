@@ -34,11 +34,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
 
             builder.Property(e => e.BranchId)
                 .HasColumnName("branch_id")
+                .HasDefaultValue(Guid.Parse("f9c8c488-f53e-46c2-9594-1e9b23cf805c"))                
                 .IsRequired();
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at")
-                .ValueGeneratedOnAdd();            
+                .ValueGeneratedOnAdd();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -53,7 +54,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
             builder.HasOne(p => p.Branch)
                 .WithMany(b => b.UserProfiles)
                 .HasForeignKey(p => p.BranchId)
-                .OnDelete(DeleteBehavior.Restrict);                
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(u => u.UserModuleRole)
                 .WithOne(p => p.UserProfile)
