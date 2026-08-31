@@ -14,8 +14,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
 
-        public Guid? BranchId { get; set; }
-        public virtual Branch? Branch { get; set; } = default!;
+        public Guid BranchId { get; set; }
+        public virtual Branch Branch { get; set; } = default!;
 
         public virtual ICollection<Device> Devices { get; set; } = [];
         public virtual ICollection<UserModuleRoles> UserModuleRole { get; set; } = [];

@@ -33,6 +33,39 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 type: "uuid",
                 nullable: true);
 
+            // Una sucursal por empresa (la más antigua). Ajusta el ORDER BY si quieres otra regla.
+            migrationBuilder.Sql("""
+                UPDATE public.users_profiles up
+                SET branch_id = b.branch_id
+                FROM (
+                    SELECT DISTINCT ON (company_id) company_id, branch_id
+                    FROM public.branches
+                    WHERE deleted_at IS NULL
+                    ORDER BY company_id, created_at
+                ) b
+                WHERE b.company_id = up.company_id
+                AND up.branch_id IS NULL;
+                """);
+
+            migrationBuilder.Sql("""
+                DO $$
+                DECLARE
+                    huerfanos INT;
+                BEGIN
+                    SELECT COUNT(*) INTO huerfanos
+                    FROM public.users_profiles
+                    WHERE branch_id IS NULL;
+                    IF huerfanos > 0 THEN
+                        RAISE EXCEPTION 'Existen % users_profiles sin branch_id mapeable a branches', huerfanos;
+                    END IF;
+                END $$;
+                """);
+
+            migrationBuilder.Sql("""
+                ALTER TABLE public.users_profiles
+                ALTER COLUMN branch_id SET NOT NULL;
+                """);
+
             migrationBuilder.CreateIndex(
                 name: "IX_users_profiles_branch_id",
                 schema: "public",
@@ -53,8 +86,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Restaurar users.branch_id desde perfiles ANTES de borrar users_profiles.branch_id.
-            // Sin esto EF ponía Guid.Empty y la FK a branches fallaba o dejaba basura.
             migrationBuilder.AddColumn<Guid>(
                 name: "branch_id",
                 schema: "public",
@@ -63,20 +94,38 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: true);
 
             migrationBuilder.Sql("""
-                UPDATE users u
+                UPDATE public.users u
                 SET branch_id = p.branch_id
                 FROM (
                     SELECT DISTINCT ON (user_id) user_id, branch_id
-                    FROM users_profiles
+                    FROM public.users_profiles
                     WHERE branch_id IS NOT NULL
+                      AND branch_id <> '00000000-0000-0000-0000-000000000000'
                     ORDER BY user_id, created_at
                 ) p
+                INNER JOIN public.branches b ON b.branch_id = p.branch_id
                 WHERE u.user_id = p.user_id;
                 """);
 
-            // Falla a propósito si algún usuario no tiene sucursal en ningún perfil (mejor que Guid vacío).
-            migrationBuilder.Sql(
-                "ALTER TABLE public.users ALTER COLUMN branch_id SET NOT NULL;");
+            migrationBuilder.Sql("""
+                DO $$
+                DECLARE
+                    huerfanos INT;
+                BEGIN
+                    SELECT COUNT(*) INTO huerfanos
+                    FROM public.users
+                    WHERE branch_id IS NULL;
+
+                    IF huerfanos > 0 THEN
+                        RAISE EXCEPTION 'Existen % usuarios sin branch_id restaurable desde users_profiles', huerfanos;
+                    END IF;
+                END $$;
+                """);
+
+            migrationBuilder.Sql("""
+                ALTER TABLE public.users
+                ALTER COLUMN branch_id SET NOT NULL;
+                """);
 
             migrationBuilder.DropForeignKey(
                 name: "FK_users_profiles_branches_branch_id",
