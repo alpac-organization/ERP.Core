@@ -4,7 +4,11 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
-    public class RequisitionManagementReview : BaseEntity<Guid>
+
+    /// <summary>
+    /// Solicitudes de compras revisadas por gerencia.
+    /// </summary>
+    public class PurchaseRequestsReviewedManagement : BaseEntity<Guid>
     {
         public string? Comments { get; set; }
         public DateOnly SentToReviewAt { get; set; }

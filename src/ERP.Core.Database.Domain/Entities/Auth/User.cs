@@ -31,15 +31,18 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
 
         /// <summary>
-        /// Control de auditoria de acciones del usuario.
+        /// Usuarios que crearon las sol
         /// </summary>
         public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests { get; set; } = [];
         public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests { get; set; } = [];
 
-        public virtual ICollection<RequisitionAccountingReview> SentAccountingReviews { get; set; } = [];
-        public virtual ICollection<RequisitionAccountingReview> ReviewedAccountingReviews { get; set; } = [];
+        public virtual ICollection<PurchaseOrder> SentPurchaseOrder { get; set; } = [];
+        public virtual ICollection<PurchaseOrder> ReviewedPurchaseOrder { get; set; } = [];
 
-        public virtual ICollection<RequisitionManagementReview> SentManagementReviews { get; set; } = [];
-        public virtual ICollection<RequisitionManagementReview> ReviewedManagementReviews { get; set; } = [];
+        public virtual ICollection<PurchaseRequestsReviewedAccounting> SentAccountingReviews { get; set; } = [];
+        public virtual ICollection<PurchaseRequestsReviewedAccounting> ReviewedAccountingReviews { get; set; } = [];
+
+        public virtual ICollection<PurchaseRequestsReviewedManagement> SentManagementReviews { get; set; } = [];
+        public virtual ICollection<PurchaseRequestsReviewedManagement> ReviewedManagementReviews { get; set; } = [];
     }
 }

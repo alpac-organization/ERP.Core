@@ -1,30 +1,30 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
-    public class RequisitionAccountingReviewsConfiguration : IEntityTypeConfiguration<RequisitionAccountingReview>
+    public class PurchaseRequestsReviewedManagementConfiguration : IEntityTypeConfiguration<PurchaseRequestsReviewedManagement>
     {
-        public void Configure(EntityTypeBuilder<RequisitionAccountingReview> builder)
+        public void Configure(EntityTypeBuilder<PurchaseRequestsReviewedManagement> builder)
         {
-            builder.ToTable("requisition_accounting_reviews");
+            builder.ToTable("purchase_requests_reviewed_management");
 
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("requisition_accounting_review_id")
+                .HasColumnName("purchase_requests_reviewed_management_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.Property(e => e.Status)
                 .HasColumnName("status")
-                .HasColumnType("accounting_review_status_enum")
-                .HasDefaultValueSql("'pending'::accounting_review_status_enum")
+                .HasColumnType("management_review_status_enum")
+                .HasDefaultValueSql("'pending'::management_review_status_enum")
                 .IsRequired();
-
+                
             builder.Property(e => e.SentToReviewAt)
                 .HasColumnName("send_to_review_at")
                 .HasColumnType("date")
@@ -56,17 +56,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("deleted_at");
 
             builder.HasOne(e => e.PurchaseRequest)
-                .WithOne(pr => pr.AccountingReview)
-                .HasForeignKey<RequisitionAccountingReview>(e => e.PurchaseRequestId)
+                .WithOne(pr => pr.ManagementReview)
+                .HasForeignKey<PurchaseRequestsReviewedManagement>(e => e.PurchaseRequestId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.SentByUser)
-                .WithMany(u => u.SentAccountingReviews)
+                .WithMany(u => u.SentManagementReviews)
                 .HasForeignKey(x => x.SentByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.ReviewedByUser)
-                .WithMany(u => u.ReviewedAccountingReviews)
+                .WithMany(u => u.ReviewedManagementReviews)
                 .HasForeignKey(x => x.ReviewedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

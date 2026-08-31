@@ -8,18 +8,55 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 {
     public class PurchaseRequest : BaseEntity<Guid>
     {
+        /// <summary>
+        /// Estado logico del dato de la base de datos
+        /// </summary>
         public bool IsActive { get; set; }
 
+        /// <summary>
+        /// Codigo de la solicitud de comprar unico por solicitud
+        /// </summary>
         public string? Code { get; set; }
-        public string? Observations { get; set; }
+
+        /// <summary>
+        /// Algún concepto o motivo de la solicitud
+        /// </summary>
+        public string? Concept { get; set; }
+
+        /// <summary>
+        /// Motivo de rechazo de la solicitud de compra
+        /// </summary>
         public string? ReasonRejection { get; set; }
 
+
+        /// <summary>
+        /// Fecha de la solicitud
+        /// </summary>
         public DateOnly RequestDate { get; set; }
+
+        /// <summary>
+        /// Fecha que fue revisada la solicitud
+        /// </summary>
         public DateOnly? RevisionDate { get; set; }
 
+        /// <summary>
+        /// Nivel de prioridad de la solicitud de compra
+        /// </summary>
         public PriorityLevel PriorityLevel { get; set; } = PriorityLevel.None;
+
+        /// <summary>
+        /// Registro de ubicación del inventario
+        /// </summary>
         public DestinationRequest Destination { get; set; } = DestinationRequest.Internal;
+
+        /// <summary>
+        /// Tipo de solicitud de requisición
+        /// </summary>
         public PurchaseRequestType RequestType { get; set; } = PurchaseRequestType.Requisition;
+
+        /// <summary>
+        /// Estado de la solicitud de origen
+        /// </summary>
         public PurchaseRequestStatus RequestStatus { get; set; } = PurchaseRequestStatus.Pending;
 
         /// <summary>
@@ -47,12 +84,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual WorkArea WorkArea { get; set;} = default!;
 
         /// <summary>
-        /// Auditoria de creación de requisiciónes
+        /// Flujo de revisión de solicitudes de compras
         /// </summary>
-        public virtual RequisitionAccountingReview? AccountingReview { get; set; }
-        public virtual RequisitionManagementReview? ManagementReview { get; set; }
+        public virtual PurchaseOrder? PurchaseOrder { get; set; }
+        public virtual PurchaseRequestsReviewedAccounting? AccountingReview { get; set; }
+        public virtual PurchaseRequestsReviewedManagement? ManagementReview { get; set; }
         
-
         /// <summary>
         /// Items solicitados. por el colaborador
         /// </summary>

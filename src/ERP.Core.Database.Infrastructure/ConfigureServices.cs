@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Infrastructure.Services;
@@ -174,8 +175,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICrewAssignmentsRepository, CrewAssignmentsRepository>();
             services.AddScoped<IMachineryAssignmentsRepository, MachineryAssignmentsRepository>();
             services.AddScoped<IWarehouseMachineryRepository, WarehouseMachineryRepository>();
-            services.AddScoped<IRequisitionAccountingReviewRepository, RequisitionAccountingReviewRepository>();
-            services.AddScoped<IRequisitionManagementReviewRepository, RequisitionManagementReviewRepository>();
+            services.AddScoped<IPurchaseRequestsReviewedAccountingRepository, PurchaseRequestsReviewedAccountingRepository>();
+            services.AddScoped<IPurchaseRequestsReviewedManagementRepository, PurchaseRequestsReviewedManagementRepository>();
             services.AddScoped<IStockPlacementsRepository, StockPlacementsRepository>();
             services.AddScoped<IStockFootprintCellsRepository, StockFootprintCellsRepository>();
             services.AddScoped<IReassignmentSessionsRepository, ReassignmentSessionsRepository>();
@@ -184,7 +185,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IStockMovementEventsRepository, StockMovementEventsRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
             #endregion
-
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();           
 
