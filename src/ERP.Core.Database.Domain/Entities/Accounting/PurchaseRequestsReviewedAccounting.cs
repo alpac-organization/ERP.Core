@@ -5,7 +5,10 @@ using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Domain.Entities.Accounting
 {
-    public class RequisitionAccountingReview : BaseEntity<Guid>
+    /// <summary>
+    /// Solicitudes de compras revisadas por contabilidad here.
+    /// </summary>
+    public class PurchaseRequestsReviewedAccounting : BaseEntity<Guid>
     {
         public string? Comments { get; set; }
         public DateOnly SentToReviewAt  { get; set; }

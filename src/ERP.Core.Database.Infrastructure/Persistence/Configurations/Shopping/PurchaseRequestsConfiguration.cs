@@ -23,8 +23,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("code")
                 .IsRequired();
 
-            builder.Property(e => e.Observations)
-                .HasColumnName("observations")
+            builder.Property(e => e.Concept)
+                .HasColumnName("concept")
                 .HasMaxLength(1000);
 
             builder.Property(e => e.ReasonRejection)

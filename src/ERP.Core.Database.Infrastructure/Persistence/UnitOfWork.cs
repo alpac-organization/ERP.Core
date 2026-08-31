@@ -2,9 +2,9 @@ using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -83,8 +83,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionOverflowCapacityRepository sectionOverflowCapacityRepository,
-        IRequisitionAccountingReviewRepository requisitionAccountingReviewRepository,
-        IRequisitionManagementReviewRepository requisitionManagementReviewRepository,
+        IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
+        IPurchaseRequestsReviewedManagementRepository purchaseRequestsReviewedManagementRepository,
         IRacksRepository racksRepository,
         IRackPositionsRepository rackPositionsRepository,
         ILotsRepository lotsRepository,
@@ -204,8 +204,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IPurchaseRequestsRepository PurchaseRequests => purchaseRequestsRepository;
         public IPurchaseRequestItemsRepository PurchaseRequestItems => purchaseRequestItemsRepository;
         public IPurchaseOrdersRepository PurchaseOrders => purchaseOrdersRepository;
-        public IRequisitionAccountingReviewRepository RequisitionAccountingReviews => requisitionAccountingReviewRepository;
-        public IRequisitionManagementReviewRepository RequisitionManagementReviews => requisitionManagementReviewRepository;
+        public IPurchaseRequestsReviewedAccountingRepository PurchaseRequestsReviewedAccounting => purchaseRequestsReviewedAccountingRepository;
+        public IPurchaseRequestsReviewedManagementRepository PurchaseRequestsReviewedManagement => purchaseRequestsReviewedManagementRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
