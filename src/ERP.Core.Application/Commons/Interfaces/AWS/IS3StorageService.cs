@@ -10,8 +10,6 @@ namespace ERP.Core.Application.Commons.Interfaces.AWS
 
         Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string Module, string sourceSection, string destinationSection, CancellationToken cancellationToken = default);
 
-
-        // Task<>
-
+        Task<string> UploadPdfAsync(string module, string section, Stream pdfStream, string fileName);
     }
 }

@@ -16,6 +16,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
 {
     public partial class S3StorageService(IAmazonS3 _s3Client, IOptions<S3Settings> _options, IErrorManager _errorManager) : IS3StorageService
     {
+        private static readonly int PresignedUrlExpirationMinutes = 60;
         private static readonly string[] AllowedExtensions = ["png", "jpg", "jpeg", "webp", "gif"];
 
 
@@ -523,5 +524,52 @@ namespace ERP.Core.Infrastructure.Services.AWS
         }
 
         #endregion
+
+        public async Task<string> UploadPdfAsync(string module, string section, Stream pdfStream, string fileName)
+        {
+            if (pdfStream is null)
+            {
+                return _errorManager.ThrowBadRequest<string>("El contenido del documento es requerido.", "S3_Storage_Error");
+            }
+
+            if (pdfStream.Length == 0)
+            {
+                return _errorManager.ThrowBadRequest<string>("El contenido del documento está vacío.", "S3_Storage_Error");
+            }
+
+            var folder = BuildFolder(module, section);
+            var normalizedFileName = string.IsNullOrWhiteSpace(fileName) ? "document" : Path.GetFileNameWithoutExtension(fileName);
+            var key = $"{folder}/{Nanoid.Generate(size: 12)}-{normalizedFileName}.pdf";
+
+            var settings = _options.Value;
+
+            try
+            {
+                pdfStream.Position = 0;
+
+                await _s3Client.PutObjectAsync(new PutObjectRequest
+                {
+                    BucketName = settings.BucketName,
+                    Key = key,
+                    InputStream = pdfStream,
+                    ContentType = "application/pdf"
+                });
+
+                var presignedRequest = new GetPreSignedUrlRequest
+                {
+                    BucketName = settings.BucketName,
+                    Key = key,
+                    Expires = DateTime.UtcNow.AddMinutes(PresignedUrlExpirationMinutes),
+                    Verb = HttpVerb.GET
+                };
+
+                return _s3Client.GetPreSignedURL(presignedRequest);
+            }
+            catch (AmazonS3Exception)
+            {
+                return _errorManager.ThrowInternalError<string>("Ocurrió un error al subir el documento al bucket de S3.", "S3_Storage_Error");
+            }
+        }
+        
     }
 }
