@@ -6,7 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 public class WarehouseAssignments : BaseEntity<Guid>
 {
     public Guid RecordEntranceId { get; set; }
-
+    public Guid? EntranceDucatId { get; set; }
     public Guid WarehouseId { get; set; }
     public Guid? SectionId { get; set; }
     public Guid? RackId { get; set; }
@@ -20,6 +20,7 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public string AssignedByUserId { get; set; } = null!;
 
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
+    public virtual EntranceDucats? EntranceDucat { get; set; }
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual Racks? Rack { get; set; }
     public virtual Sections? Section { get; set; } = null!;
