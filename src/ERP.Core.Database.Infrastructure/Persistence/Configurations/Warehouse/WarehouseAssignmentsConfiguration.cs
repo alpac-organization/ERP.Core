@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using erp.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 

@@ -1,4 +1,4 @@
-namespace erp.Core.Database.Domain.Enums;
+namespace ERP.Core.Database.Domain.Enums;
 
 public enum UnloadingStatus
 {

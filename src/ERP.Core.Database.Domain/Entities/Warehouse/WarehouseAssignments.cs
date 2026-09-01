@@ -1,4 +1,4 @@
-using erp.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 

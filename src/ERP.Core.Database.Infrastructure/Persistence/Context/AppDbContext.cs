@@ -183,6 +183,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<TransportUnit>("public", "transport_unit_enum");
             modelBuilder.HasPostgresEnum<DucaType>("public", "duca_type_enum");
             modelBuilder.HasPostgresEnum<ReassignmentSessionStatus>("public", "reassignment_session_status_enum");
+            modelBuilder.HasPostgresEnum<UnloadingStatus>("public", "unloading_status_enum");
 
 
 
