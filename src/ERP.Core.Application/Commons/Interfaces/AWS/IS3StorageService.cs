@@ -9,5 +9,9 @@ namespace ERP.Core.Application.Commons.Interfaces.AWS
         Task DeleteImagesAsync(IEnumerable<string> imageUrls, CancellationToken cancellationToken = default);
 
         Task<IReadOnlyList<string>> MoveImagesAsync(IEnumerable<string> sourceUrls, string Module, string sourceSection, string destinationSection, CancellationToken cancellationToken = default);
+
+
+        // Task<>
+
     }
 }
