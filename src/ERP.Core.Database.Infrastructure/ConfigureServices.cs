@@ -87,6 +87,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
                     npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
                     npgsqlOptions.MapEnum<ReassignmentSessionStatus>("reassignment_session_status_enum", "public");
+                    npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
+                    npgsqlOptions.MapEnum<FuelType>("fuel_type_enum", "public");
+                    npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
                 })
             );
 
