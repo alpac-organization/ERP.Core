@@ -6017,7 +6017,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<int>("UnloadingStatus")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("unloading_status_enum")
                         .HasDefaultValue(1)
                         .HasColumnName("unloading_status");
 

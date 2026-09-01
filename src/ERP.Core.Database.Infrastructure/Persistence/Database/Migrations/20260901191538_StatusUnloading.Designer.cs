@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260901183310_StatusUnloading")]
+    [Migration("20260901191538_StatusUnloading")]
     partial class StatusUnloading
     {
         /// <inheritdoc />
@@ -6020,7 +6020,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<int>("UnloadingStatus")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("unloading_status_enum")
                         .HasDefaultValue(1)
                         .HasColumnName("unloading_status");
 

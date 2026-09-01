@@ -11,35 +11,35 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
     {
         builder.ToTable("warehouse_assignments");
         builder.HasKey(e => e.Id);
-        
+
         builder.Property(e => e.Id)
             .HasColumnName("id")
             .IsRequired();
-        
+
         builder.Property(e => e.RecordEntranceId)
             .HasColumnName("record_entrance_id")
             .IsRequired();
-        
+
         builder.Property(e => e.WarehouseId)
             .HasColumnName("warehouse_id")
             .IsRequired();
-        
+
         builder.Property(e => e.SectionId)
             .HasColumnName("section_id")
             .IsRequired(false);
-        
+
         builder.Property(e => e.RackId)
             .HasColumnName("rack_id")
             .IsRequired(false);
-        
+
         builder.Property(e => e.LotsId)
             .HasColumnName("lots_id")
             .IsRequired(false);
-        
+
         builder.Property(e => e.LotsPositionsId)
             .HasColumnName("lots_positions_id")
             .IsRequired(false);
-        
+
         builder.Property(e => e.RackPositionsId)
             .HasColumnName("rack_positions_id")
             .IsRequired(false);
@@ -56,11 +56,11 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
             .HasColumnName("warehouse_keeper_user_id")
             .HasMaxLength(450)
             .IsRequired(false);
-        
+
         builder.Property(e => e.AssignedAt)
             .HasColumnName("assigned_at")
             .IsRequired();
-        
+
         builder.Property(e => e.AssignedByUserId)
             .HasColumnName("assigned_by_user_id")
             .HasMaxLength(450)
@@ -68,6 +68,7 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
 
         builder.Property(e => e.UnloadingStatus)
             .HasColumnName("unloading_status")
+            .HasColumnType("unloading_status_enum")
             .HasDefaultValue(UnloadingStatus.Pending);
 
         builder.Property(e => e.CreatedAt)
