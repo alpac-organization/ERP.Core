@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using erp.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -64,6 +65,10 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
             .HasColumnName("assigned_by_user_id")
             .HasMaxLength(450)
             .IsRequired();
+
+        builder.Property(e => e.UnloadingStatus)
+            .HasColumnName("unloading_status")
+            .HasDefaultValue(UnloadingStatus.Pending);
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
