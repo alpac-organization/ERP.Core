@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -18,6 +19,8 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public string? WarehouseKeeperUserId { get; set; }
     public DateTime AssignedAt { get; set; }
     public string AssignedByUserId { get; set; } = null!;
+
+    public UnloadingStatus UnloadingStatus { get; set; } = UnloadingStatus.Pending;
 
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual EntranceDucats? EntranceDucat { get; set; }
