@@ -111,7 +111,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "unloading_status",
                 schema: "public",
                 table: "warehouse_assignments",
-                type: "integer",
+                type: "unloading_status_enum",
                 nullable: false,
                 defaultValueSql: "'pending'::unloading_status_enum");
         }
