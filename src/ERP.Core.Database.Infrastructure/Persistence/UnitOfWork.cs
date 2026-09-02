@@ -105,7 +105,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IStockRepository stockRepository,
         IUnloadingDetailsRepository unloadingDetailsRepository,
         IUnloadingPalletsRepository unloadingPalletsRepository,
-        IUnloadingSuppliesRepository unloadingSuppliesRepository
+        IUnloadingSuppliesRepository unloadingSuppliesRepository,
+        ISuppliesRepository suppliesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -160,6 +161,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public IShippingComapaniesRepository ShippingComapanies => shippingComapaniesRepository;
+        public ISuppliesRepository Supplies => suppliesRepository;
         #endregion
 
         #region Warehouse

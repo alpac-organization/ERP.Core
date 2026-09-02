@@ -21,9 +21,8 @@ public class UnloadingSuppliesConfiguration : IEntityTypeConfiguration<Unloading
             .HasColumnName("unloading_details_id")
             .IsRequired();
 
-        builder.Property(x => x.Description)
-            .HasColumnName("description")
-            .HasMaxLength(500)
+        builder.Property(x => x.SuppliesId)
+            .HasColumnName("supplies_id")
             .IsRequired();
 
         builder.Property(x => x.Quantity)
