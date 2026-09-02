@@ -18,7 +18,7 @@ public class UnloadingSuppliesConfiguration : IEntityTypeConfiguration<Unloading
             .IsRequired();
 
         builder.Property(x => x.UnloadingDetailsId)
-            .HasColumnName("uloading_details_id")
+            .HasColumnName("unloading_details_id")
             .IsRequired();
 
         builder.Property(x => x.Description)

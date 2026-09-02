@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260902164534_EntidadesIniciarDescarga")]
+    [Migration("20260902170138_EntidadesIniciarDescarga")]
     partial class EntidadesIniciarDescarga
     {
         /// <inheritdoc />
@@ -6067,7 +6067,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<Guid>("UnloadingDetailsId")
                         .HasColumnType("uuid")
-                        .HasColumnName("uloading_details_id");
+                        .HasColumnName("unloading_details_id");
 
                     b.HasKey("Id");
 

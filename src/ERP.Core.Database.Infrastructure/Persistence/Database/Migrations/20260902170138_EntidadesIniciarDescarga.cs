@@ -166,7 +166,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 columns: table => new
                 {
                     unloading_supplies_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    uloading_details_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    unloading_details_id = table.Column<Guid>(type: "uuid", nullable: false),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     quantity = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -176,8 +176,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_unloading_supplies", x => x.unloading_supplies_id);
                     table.ForeignKey(
-                        name: "FK_unloading_supplies_unloading_details_uloading_details_id",
-                        column: x => x.uloading_details_id,
+                        name: "FK_unloading_supplies_unloading_details_unloading_details_id",
+                        column: x => x.unloading_details_id,
                         principalSchema: "public",
                         principalTable: "unloading_details",
                         principalColumn: "unloading_details_id",
@@ -198,10 +198,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "unloading_details_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_unloading_supplies_uloading_details_id",
+                name: "IX_unloading_supplies_unloading_details_id",
                 schema: "public",
                 table: "unloading_supplies",
-                column: "uloading_details_id");
+                column: "unloading_details_id");
         }
 
         /// <inheritdoc />

@@ -6064,7 +6064,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<Guid>("UnloadingDetailsId")
                         .HasColumnType("uuid")
-                        .HasColumnName("uloading_details_id");
+                        .HasColumnName("unloading_details_id");
 
                     b.HasKey("Id");
 
