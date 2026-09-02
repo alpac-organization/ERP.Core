@@ -102,7 +102,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IReassignmentSessionOwnershipLogRepository reassignmentSessionOwnershipLogRepository,
         IReassignmentMemoryItemsRepository reassignmentMemoryItemsRepository,
         IStockMovementEventsRepository stockMovementEventsRepository,
-        IStockRepository stockRepository
+        IStockRepository stockRepository,
+        IUnloadingDetailsRepository unloadingDetailsRepository,
+        IUnloadingPalletsRepository unloadingPalletsRepository,
+        IUnloadingSuppliesRepository unloadingSuppliesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -143,9 +146,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
         public IInssAccountingInformationRepository InssAccountingInformation => inssAccountingInformationRepository;
-        
+
         #region Catalogos
-        public IHolidaysRepository Holidays  => holidaysRepository;
+        public IHolidaysRepository Holidays => holidaysRepository;
         public IWorkAreasRepository WorkAreas => workAreasRepository;
         public ICostCentersRepository CostCenters => costCentersRepository;
         public IJobPositionsRepository JobPositions => jobPositionsRepository;
@@ -195,6 +198,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IReassignmentMemoryItemsRepository ReassignmentMemoryItems => reassignmentMemoryItemsRepository;
         public IStockMovementEventsRepository StockMovementEvents => stockMovementEventsRepository;
         public IStockRepository Stock => stockRepository;
+        public IUnloadingDetailsRepository UnloadingDetails => unloadingDetailsRepository;
+        public IUnloadingPalletsRepository UnloadingPallets => unloadingPalletsRepository;
+        public IUnloadingSuppliesRepository UnloadingSupplies => unloadingSuppliesRepository;
         #endregion
 
         #region Shopping

@@ -31,18 +31,18 @@ namespace ERP.Core.Database.Infrastructure
         {
             var connectionString = configuration.GetConnectionString("ErpConnectionDatabase");
 
-            if(string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException("No se encontró la cadena 'ErpConnectionDatabase'.");
             }
 
-            services.AddDbContext<ErpDbContext>(options => 
+            services.AddDbContext<ErpDbContext>(options =>
                 options.ConfigureWarnings(warnings =>
                         warnings.Ignore(RelationalEventId.PendingModelChangesWarning))
                     .UseNpgsql(connectionString, npgsqlOptions =>
                 {
                     npgsqlOptions.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
-                    
+
                     npgsqlOptions.MapEnum<CatalogType>("catalog_type_enum");
                     npgsqlOptions.MapEnum<RoleType>("role_type_enum");
                     npgsqlOptions.MapEnum<PermissionType>("permission_type_enum");
@@ -71,9 +71,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
-                    
-                    npgsqlOptions.MapEnum<PriorityLevel>("priority_level_enum", "public"); 
-                    npgsqlOptions.MapEnum<DestinationRequest>("destination_request_enum", "public"); 
+
+                    npgsqlOptions.MapEnum<PriorityLevel>("priority_level_enum", "public");
+                    npgsqlOptions.MapEnum<DestinationRequest>("destination_request_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
@@ -91,6 +91,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<FuelType>("fuel_type_enum", "public");
                     npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingStatus>("unloading_status_enum", "public");
+                    npgsqlOptions.MapEnum<PalletType>("pallet_type__enum", "public");
+                    npgsqlOptions.MapEnum<UnloadingMerchandiseType>("unloading_merchandise_type_enum", "public");
                 })
             );
 
@@ -147,8 +149,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
-            services.AddScoped<ISuppliersRepository, SuppliersRepository>();        
-            services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();        
+            services.AddScoped<ISuppliersRepository, SuppliersRepository>();
+            services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();
             services.AddScoped<IPurchaseOrdersRepository, PurchaseOrdersRepository>();
             services.AddScoped<IPurchaseRequestsRepository, PurchaseRequestsRepository>();
             services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
@@ -188,9 +190,12 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IReassignmentMemoryItemsRepository, ReassignmentMemoryItemsRepository>();
             services.AddScoped<IStockMovementEventsRepository, StockMovementEventsRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<IUnloadingDetailsRepository, UnloadingDetailsRepository>();
+            services.AddScoped<IUnloadingPalletsRepository, UnloadingPalletsRepository>();
+            services.AddScoped<IUnloadingSuppliesRepository, UnloadingSuppliesRepository>();
             #endregion
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();           
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Servicios 
             services.AddScoped<ICodeGenerator, CodeGenerator>();

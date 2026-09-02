@@ -114,6 +114,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ReassignmentSessionOwnershipLog> ReassignmentSessionOwnershipLogs => Set<ReassignmentSessionOwnershipLog>();
         public DbSet<ReassignmentMemoryItems> ReassignmentMemoryItems => Set<ReassignmentMemoryItems>();
         public DbSet<StockMovementEvents> StockMovementEvents => Set<StockMovementEvents>();
+        public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
+        public DbSet<UnloadingPallets> UnloadingPallets => Set<UnloadingPallets>();
+        public DbSet<UnloadingSupplies> UnloadingSupplies => Set<UnloadingSupplies>();
         #endregion
 
         #region Compras
@@ -184,6 +187,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaType>("public", "duca_type_enum");
             modelBuilder.HasPostgresEnum<ReassignmentSessionStatus>("public", "reassignment_session_status_enum");
             modelBuilder.HasPostgresEnum<UnloadingStatus>("public", "unloading_status_enum");
+            modelBuilder.HasPostgresEnum<UnloadingMerchandiseType>("public", "unloading_merchandise_type_enum");
+            modelBuilder.HasPostgresEnum<PalletType>("public", "pallet_type_enum");
 
 
 

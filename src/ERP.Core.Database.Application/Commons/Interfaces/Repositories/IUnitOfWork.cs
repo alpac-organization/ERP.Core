@@ -1,9 +1,9 @@
 
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 {
@@ -96,6 +96,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IReassignmentMemoryItemsRepository ReassignmentMemoryItems { get; }
         IStockMovementEventsRepository StockMovementEvents { get; }
         IStockRepository Stock { get; }
+        IUnloadingDetailsRepository UnloadingDetails { get; }
+        IUnloadingPalletsRepository UnloadingPallets { get; }
+        IUnloadingSuppliesRepository UnloadingSupplies { get; }
         #endregion
 
         #region ✅ Shopping
