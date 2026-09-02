@@ -9,6 +9,8 @@ using ERP.Core.Infrastructure.Settings;
 using ERP.Core.Infrastructure.Services.AWS;
 
 using ERP.Core.Application.Commons.Interfaces.AWS;
+using ERP.Core.Application.Commons.Interfaces;
+using ERP.Core.Infrastructure.Services;
 
 namespace ERP.Core.Infrastructure
 {
@@ -45,8 +47,15 @@ namespace ERP.Core.Infrastructure
                     : new AmazonS3Client(settings.AccessKey, settings.SecretKey, clientConfig);
             });
 
+            #region amazon web services
             services.AddScoped<IS3StorageService, S3StorageService>();
             services.AddScoped<ISimpleNotificationServices, SimpleNotificationServices>();
+            #endregion
+            
+            #region pdf generator
+            services.AddScoped<ITemplateServices, TemplateServices>();
+            services.AddScoped<IPdfGeneratorServices, PdfGeneratorServices>();
+            #endregion
 
             return services;
         }
