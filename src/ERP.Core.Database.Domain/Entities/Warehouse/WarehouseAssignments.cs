@@ -16,9 +16,9 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public Guid? RackPositionsId { get; set; }
     public DateTime? UnloadingStartTime { get; set; }
     public DateTime? UnloadingEndTime { get; set; }
-    public string? WarehouseKeeperUserId { get; set; }
+    public Guid? WarehouseKeeperUserId { get; set; }
     public DateTime AssignedAt { get; set; }
-    public string AssignedByUserId { get; set; } = null!;
+    public Guid AssignedByUserId { get; set; }
 
     public UnloadingStatus UnloadingStatus { get; set; } = UnloadingStatus.Pending;
 

@@ -8,7 +8,7 @@ public class WarehouseMachineryConfiguration : IEntityTypeConfiguration<Warehous
 {
     public void Configure(EntityTypeBuilder<WarehouseMachinery> builder)
     {
-        builder.ToTable("warehouse_machinery");
+        builder.ToTable("machinery_catalogs");
         builder.HasKey(w => w.Id);
 
         builder.Property(w => w.Id)

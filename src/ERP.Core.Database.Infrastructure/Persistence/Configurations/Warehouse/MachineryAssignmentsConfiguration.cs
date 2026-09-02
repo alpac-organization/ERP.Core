@@ -22,8 +22,8 @@ public class MachineryAssignmentsConfiguration : IEntityTypeConfiguration<Machin
             .HasColumnName("warehouse_assignment_id")
             .IsRequired();
 
-        builder.Property(x => x.MachineryCode)
-            .HasColumnName("machinery_code")
+        builder.Property(x => x.MachineryId)
+            .HasColumnName("machinery_id")
             .IsRequired(false);
 
         builder.Property(x => x.OperatorCollaboratorId)
@@ -60,7 +60,6 @@ public class MachineryAssignmentsConfiguration : IEntityTypeConfiguration<Machin
 
         builder.Property(x => x.AssignedByUserId)
             .HasColumnName("assigned_by_user_id")
-            .HasMaxLength(450)
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
@@ -79,7 +78,7 @@ public class MachineryAssignmentsConfiguration : IEntityTypeConfiguration<Machin
 
         builder.HasOne(x => x.Machinery)
             .WithMany(x => x.Assignments)
-            .HasForeignKey(x => x.MachineryCode)
+            .HasForeignKey(x => x.MachineryId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

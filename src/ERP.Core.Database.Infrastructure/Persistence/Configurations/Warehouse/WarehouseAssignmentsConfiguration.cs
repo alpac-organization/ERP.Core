@@ -54,7 +54,6 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
 
         builder.Property(e => e.WarehouseKeeperUserId)
             .HasColumnName("warehouse_keeper_user_id")
-            .HasMaxLength(450)
             .IsRequired(false);
 
         builder.Property(e => e.AssignedAt)
@@ -63,7 +62,6 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
 
         builder.Property(e => e.AssignedByUserId)
             .HasColumnName("assigned_by_user_id")
-            .HasMaxLength(450)
             .IsRequired();
 
         builder.Property(e => e.UnloadingStatus)
