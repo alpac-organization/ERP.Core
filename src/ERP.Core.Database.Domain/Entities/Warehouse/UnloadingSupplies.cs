@@ -4,7 +4,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
 public class UnloadingSupplies : BaseEntity<Guid>
 {
-    public Guid UloadingDetailsId { get; set; }
+    public Guid UnloadingDetailsId { get; set; }
     public string Description { get; set; } = null!;
     public decimal Quantity { get; set; }
 

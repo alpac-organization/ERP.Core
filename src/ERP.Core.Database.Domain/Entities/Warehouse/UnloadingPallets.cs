@@ -8,8 +8,8 @@ public class UnloadingPallets : BaseEntity<Guid>
     public Guid UnloadingDetailsId { get; set; }
     public PalletType PalletType { get; set; }
     public int Quantity { get; set; }
-    public decimal? LenghtMetres { get; set; }
+    public decimal? LengthMetres { get; set; }
     public decimal? WidthMetres { get; set; }
 
-    public virtual UnloadingDetails UnloadindDetails { get; set; } = null!;
+    public virtual UnloadingDetails UnloadingDetails { get; set; } = null!;
 }
