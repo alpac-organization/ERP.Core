@@ -91,7 +91,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<FuelType>("fuel_type_enum", "public");
                     npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingStatus>("unloading_status_enum", "public");
-                    npgsqlOptions.MapEnum<PalletType>("pallet_type__enum", "public");
+                    npgsqlOptions.MapEnum<PalletType>("pallet_type_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingMerchandiseType>("unloading_merchandise_type_enum", "public");
                 })
             );
