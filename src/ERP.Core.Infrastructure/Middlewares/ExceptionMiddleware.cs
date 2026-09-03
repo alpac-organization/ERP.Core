@@ -1,10 +1,11 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using ERP.Core.Domain.Entities.Exceptions;
 
 namespace ERP.Core.Infrastructure.Middlewares
 {
-    public class ExceptionMiddleware(RequestDelegate _next)
+    public class ExceptionMiddleware(RequestDelegate _next, ILogger<ExceptionMiddleware> _logger)
     {
         public async Task InvokeAsync(HttpContext context)
         {
@@ -14,11 +15,19 @@ namespace ERP.Core.Infrastructure.Middlewares
             }
             catch (CoreException ex)
             {
+                _logger.LogWarning(ex,
+                    "Excepción controlada [{TypeError}] para {Method} {Path}{Query} (status {StatusCode})",
+                    ex.ErrorData.Error.TypeError, context.Request.Method, context.Request.Path, context.Request.QueryString, ex.ErrorData.Status);
+
                 // Aquí capturamos tu ErrorResponse personalizado
                 await HandleExceptionAsync(context, ex);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,
+                    "Excepción no controlada (500) para {Method} {Path}{Query} - User: {UserId}",
+                    context.Request.Method, context.Request.Path, context.Request.QueryString, context.User.Identity?.Name);
+
                 // Error genérico para cosas que no controlamos (500)
                 await HandleInternalExceptionAsync(context, ex);
             }
