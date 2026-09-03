@@ -100,6 +100,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IUnloadingDetailsRepository UnloadingDetails { get; }
         IUnloadingPalletsRepository UnloadingPallets { get; }
         IUnloadingSuppliesRepository UnloadingSupplies { get; }
+        IUnloadingPositionsReservationsRepository UnloadingPositionsReservations { get; }
         #endregion
 
         #region ✅ Shopping
