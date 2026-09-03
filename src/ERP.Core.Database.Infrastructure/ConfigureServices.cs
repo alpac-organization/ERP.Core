@@ -194,6 +194,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IUnloadingPalletsRepository, UnloadingPalletsRepository>();
             services.AddScoped<IUnloadingSuppliesRepository, UnloadingSuppliesRepository>();
             services.AddScoped<ISuppliesRepository, SuppliesRepository>();
+            services.AddScoped<IUnloadingPositionsReservationsRepository, UnloadingPositionReservationsRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
