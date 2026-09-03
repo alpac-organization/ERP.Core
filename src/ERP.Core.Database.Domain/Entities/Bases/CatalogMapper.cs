@@ -15,6 +15,17 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? ImageUrl { get; set; }
         public string? NeutralImageUrl { get; set; }
     }
+    
+    /// <summary>
+    /// Entidad de sucursal
+    /// </summary>
+    public class BranchInformation
+    {
+        public Guid BranchId { get; set; }
+        public string? BranchCode { get; set; }
+        public string? BranchName { get; set; }
+        public string? CompanyAlias { get; set; }
+    }
 
 
     /// <summary>
