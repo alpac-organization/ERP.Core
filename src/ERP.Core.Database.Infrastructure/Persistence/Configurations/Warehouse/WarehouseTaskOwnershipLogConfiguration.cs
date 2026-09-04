@@ -49,7 +49,7 @@ public class WarehouseTaskOwnershipLogConfiguration : IEntityTypeConfiguration<W
         builder.HasOne(e => e.WarehouseTask)
             .WithMany(t => t.OwnershipLogs)
             .HasForeignKey(e => e.WarehouseTaskId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(e => new { e.WarehouseTaskId, e.TransferredAt })
             .HasDatabaseName("ix_warehouse_task_ownership_log_task_transferred_at");
