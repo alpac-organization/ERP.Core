@@ -5,36 +5,28 @@
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class RowVersion : Migration
+    public partial class DeleteRowVersion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<uint>(
+            migrationBuilder.DropColumn(
                 name: "row_version",
                 schema: "public",
-                table: "stocks",
-                type: "xmin",
-                rowVersion: true,
-                nullable: false,
-                oldClrType: typeof(byte[]),
-                oldType: "bytea",
-                oldRowVersion: true);
+                table: "stocks");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<byte[]>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "row_version",
                 schema: "public",
                 table: "stocks",
                 type: "bytea",
                 rowVersion: true,
                 nullable: false,
-                oldClrType: typeof(uint),
-                oldType: "xmin",
-                oldRowVersion: true);
+                defaultValue: new byte[0]);
         }
     }
 }

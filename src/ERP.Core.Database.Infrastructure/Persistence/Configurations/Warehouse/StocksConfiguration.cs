@@ -23,12 +23,6 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasColumnName("entrance_ducats_id")
             .IsRequired();
         
-        builder.Property(e => e.RowVersion)
-            .HasColumnName("row_version")
-            .HasColumnType("xmin")
-            .ValueGeneratedOnAddOrUpdate()
-            .IsConcurrencyToken();
-
         builder.Property(e => e.MerchandiseId)
             .HasColumnName("merchandise_id")
             .IsRequired();

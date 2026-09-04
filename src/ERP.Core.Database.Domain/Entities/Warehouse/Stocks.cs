@@ -13,8 +13,6 @@ public class Stocks : BaseEntity<Guid>
     public decimal CurrentWeightKg { get; set; }
     public DateTime StoredAt { get; set; }
 
-    public uint RowVersion { get; set; }
-
     // Propiedades de navegación
     public virtual EntranceDucats EntranceDucat { get; set; } = null!;
     public virtual CategoryProducts Product { get; set; } = null!;
