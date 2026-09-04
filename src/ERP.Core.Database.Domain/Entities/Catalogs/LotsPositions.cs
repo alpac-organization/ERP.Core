@@ -22,5 +22,5 @@ public class LotsPositions : BaseEntity<Guid>
     public string? BlockReason { get; set; }
 
     public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
-    public virtual Stocks? CurrentStock { get; set; }
+    public virtual ICollection<StockPlacements> StockPlacements { get; set; } = [];
 }

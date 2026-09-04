@@ -27,7 +27,6 @@ public class Lots : BaseEntity<Guid>
    public DateTime? StatusChangedAt { get; set; }
 
 
-   public virtual ICollection<LotsPositions> Positions { get; set; } = [];
-   public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
-   public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
+    public virtual ICollection<LotsPositions> Positions { get; set; } = [];
+    public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
 }
