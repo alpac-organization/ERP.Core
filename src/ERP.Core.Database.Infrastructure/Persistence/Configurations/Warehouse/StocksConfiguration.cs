@@ -25,7 +25,9 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
         
         builder.Property(e => e.RowVersion)
             .HasColumnName("row_version")
-            .IsRequired();
+            .HasColumnType("xmin")
+            .ValueGeneratedOnAddOrUpdate()
+            .IsConcurrencyToken();
 
         builder.Property(e => e.MerchandiseId)
             .HasColumnName("merchandise_id")
@@ -47,9 +49,6 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
         builder.Property(e => e.StoredAt)
             .HasColumnName("stored_at")
             .IsRequired();
-
-        builder.Property(e => e.RowVersion)
-            .IsRowVersion();
 
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
