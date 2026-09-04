@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260904161639_RowVersion")]
-    partial class RowVersion
+    [Migration("20260904165544_DeleteRowVersion")]
+    partial class DeleteRowVersion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -5954,12 +5954,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("MerchandiseId")
                         .HasColumnType("uuid")
                         .HasColumnName("merchandise_id");
-
-                    b.Property<uint>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xmin")
-                        .HasColumnName("row_version");
 
                     b.Property<DateTime>("StoredAt")
                         .HasColumnType("timestamp with time zone")

@@ -5952,12 +5952,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("merchandise_id");
 
-                    b.Property<uint>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xmin")
-                        .HasColumnName("row_version");
-
                     b.Property<DateTime>("StoredAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("stored_at");
