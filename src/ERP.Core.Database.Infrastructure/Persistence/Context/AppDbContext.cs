@@ -119,6 +119,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
         public DbSet<UnloadingPallets> UnloadingPallets => Set<UnloadingPallets>();
         public DbSet<UnloadingSupplies> UnloadingSupplies => Set<UnloadingSupplies>();
+        public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
+        public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
+        public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
         #endregion
 
         #region Compras
@@ -191,6 +194,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<UnloadingStatus>("public", "unloading_status_enum");
             modelBuilder.HasPostgresEnum<UnloadingMerchandiseType>("public", "unloading_merchandise_type_enum");
             modelBuilder.HasPostgresEnum<PalletType>("public", "pallet_type_enum");
+            modelBuilder.HasPostgresEnum<WarehouseTaskType>("public", "warehouse_task_type_enum");
+            modelBuilder.HasPostgresEnum<WarehouseTaskStatus>("public", "warehouse_task_status_enum");
+            modelBuilder.HasPostgresEnum<WarehouseTaskEventType>("public", "warehouse_task_event_type_enum");
 
 
 

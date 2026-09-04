@@ -107,7 +107,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IUnloadingPalletsRepository unloadingPalletsRepository,
         IUnloadingSuppliesRepository unloadingSuppliesRepository,
         ISuppliesRepository suppliesRepository,
-        IUnloadingPositionsReservationsRepository unloadingPositionsReservationsRepository
+        IUnloadingPositionsReservationsRepository unloadingPositionsReservationsRepository,
+        IWarehouseTasksRepository warehouseTasksRepository,
+        IWarehouseTaskEventsRepository warehouseTaskEventsRepository,
+        IWarehouseTaskOwnershipLogsRepository warehouseTaskOwnershipLogsRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -205,6 +208,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IUnloadingPalletsRepository UnloadingPallets => unloadingPalletsRepository;
         public IUnloadingSuppliesRepository UnloadingSupplies => unloadingSuppliesRepository;
         public IUnloadingPositionsReservationsRepository UnloadingPositionsReservations => unloadingPositionsReservationsRepository;
+        public IWarehouseTasksRepository WarehouseTasks => warehouseTasksRepository;
+        public IWarehouseTaskEventsRepository WarehouseTaskEvents => warehouseTaskEventsRepository;
+        public IWarehouseTaskOwnershipLogsRepository WarehouseTaskOwnershipLogs => warehouseTaskOwnershipLogsRepository;
         #endregion
 
         #region Shopping
