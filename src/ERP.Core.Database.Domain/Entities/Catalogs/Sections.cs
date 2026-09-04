@@ -24,7 +24,6 @@ public class Sections : BaseEntity<Guid>
    public virtual SectionCapacity? Capacity { get; set; }
 
    public virtual ICollection<Lots> Lots { get; set; } = [];
-   public virtual ICollection<Racks> Racks { get; set; } = [];
-   public virtual ICollection<Stocks> CurrentStock { get; set; } = [];
-   public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
+    public virtual ICollection<Racks> Racks { get; set; } = [];
+    public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
 }

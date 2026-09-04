@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
@@ -23,16 +23,12 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasColumnName("entrance_ducats_id")
             .IsRequired();
         
-        builder.Property(e => e.SectionId)
-            .HasColumnName("section_id")
-            .IsRequired(false);
-        
-        builder.Property(e => e.RackPositionId)
-            .HasColumnName("rack_position_id")
-            .IsRequired();
-
         builder.Property(e => e.RowVersion)
             .HasColumnName("row_version")
+            .IsRequired();
+
+        builder.Property(e => e.MerchandiseId)
+            .HasColumnName("merchandise_id")
             .IsRequired();
 
         builder.Property(e => e.CategoryProductId)
@@ -68,19 +64,16 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasForeignKey(x => x.EntranceDucatsId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Position)
-            .WithMany(x => x.CurrentStock)
-            .HasForeignKey(x => x.RackPositionId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Product)
             .WithMany()
             .HasForeignKey(x => x.CategoryProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Section)
-            .WithMany(x => x.CurrentStock)
-            .HasForeignKey(x => x.SectionId)
+        builder.HasOne(x => x.Merchandise)
+            .WithMany()
+            .HasForeignKey(x => x.MerchandiseId)
             .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
