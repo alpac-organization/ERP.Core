@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -14,8 +13,7 @@ public class Stocks : BaseEntity<Guid>
     public decimal CurrentWeightKg { get; set; }
     public DateTime StoredAt { get; set; }
 
-    [Timestamp]
-    public byte[] RowVersion { get; set; } = null!;
+    public uint RowVersion { get; set; }
 
     // Propiedades de navegación
     public virtual EntranceDucats EntranceDucat { get; set; } = null!;
