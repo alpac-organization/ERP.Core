@@ -10,6 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public Guid CompanyId { get; set;  }
         public virtual Company Company { get; set; } = default!;
-        public virtual Warehouses Warehouse { get; set; } = default!;
+
+        public virtual ICollection<Warehouses> Warehouses { get; set; } = [];
     }
 }

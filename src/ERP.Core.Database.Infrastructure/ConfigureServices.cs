@@ -148,7 +148,10 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
 
-            services.AddScoped<ICapacityRepository, CapacityRepository>();
+            services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
+            services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
+            services.AddScoped<IRackCapacityRepository, RackCapacityRepository>();
+            services.AddScoped<ILotsCapacityRepository, LotsCapacityRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
 
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();

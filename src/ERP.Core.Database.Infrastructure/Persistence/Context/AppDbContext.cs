@@ -82,7 +82,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
-        public DbSet<Capacity> Capacities => Set<Capacity>();
+        public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();
+        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
+        public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();

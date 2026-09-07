@@ -11,11 +11,10 @@ public class Warehouses : BaseEntity<Guid>
 
     // public WarehouseType WarehouseType { get; set; }
     
-    public Guid LocationId { get; set; }
+    public Guid? LocationId { get; set; }
     public virtual Location Location { get; set; } = null!;
 
-    public Guid CapacityId { get; set; }
-    public virtual Capacity CapacityDetails { get; set; } = null!;
+    public virtual WarehouseCapacity WarehouseCapacity { get; set; } = null!;
 
     public virtual ICollection<Sections> Sections { get; set; } = [];
 }

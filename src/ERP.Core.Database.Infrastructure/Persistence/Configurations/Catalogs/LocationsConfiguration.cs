@@ -25,7 +25,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
-                .IsRequired();
+                .IsRequired();            
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -34,6 +34,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");     
+
+            builder.HasMany(c => c.Warehouses)
+                .WithOne(s => s.Location)
+                .HasForeignKey(s => s.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(e => e.Id)
                 .HasDatabaseName("ix_location_id");

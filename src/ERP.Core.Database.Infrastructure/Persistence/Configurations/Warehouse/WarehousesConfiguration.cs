@@ -32,6 +32,12 @@ public class WarehousesConfiguration : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
+        // builder.Property(w => w.WarehouseType)
+        //     .HasColumnName("warehouse_type")
+        //     .HasColumnType("warehouse_type_enum")
+        //     .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
+        //     .IsRequired(); 
+
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
@@ -39,21 +45,13 @@ public class WarehousesConfiguration : IEntityTypeConfiguration<Warehouses>
 
         builder.Property(w => w.LocationId)
             .HasColumnName("location_id")
-            .IsRequired();
-
-        builder.Property(w => w.CapacityId)
-            .HasColumnName("capacity_id")
-            .IsRequired();
+            .IsRequired(false);
 
         // ---- Relationships ----
-        builder.HasOne(w => w.CapacityDetails)
-            .WithOne(c => c.Warehouse)
-            .HasForeignKey<Warehouses>(w => w.CapacityId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(w => w.Location)
-            .WithOne(l => l.Warehouse)
-            .HasForeignKey<Warehouses>(w => w.LocationId)
+            .WithMany(l => l.Warehouses)
+            .HasForeignKey(w => w.LocationId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(w => w.Sections)

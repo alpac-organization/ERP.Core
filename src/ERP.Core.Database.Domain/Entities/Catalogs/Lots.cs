@@ -16,8 +16,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       public string? UnavailableReason { get; set; }
       public DateTime? StatusChangedAt { get; set; }
 
-      public Guid CapacityId { get; set; }
-      public virtual Capacity Capacity { get; set; } = default!;
+      public virtual LotsCapacity LotsCapacity { get; set; } = default!;
 
       public Guid SectionId { get; set; }
       public virtual Sections Section { get; set; } = null!;

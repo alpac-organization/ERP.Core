@@ -69,7 +69,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILotsRepository Lots { get; }
         IRacksRepository Racks { get; }
         ISectionsRepository Sections { get; }
-        ICapacityRepository Capacities { get; }
+        IWarehouseCapacityRepository WarehouseCapacities { get; }
+        ISectionCapacityRepository SectionCapacities { get; }
+        IRackCapacityRepository RackCapacities { get; }
+        ILotsCapacityRepository LotsCapacities { get; }
         IWarehousesRepository Warehouses { get; }
 
         IRackPositionsRepository RackPositions { get; }

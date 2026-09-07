@@ -10,8 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       public bool IsActive { get; set; } = true;
       // public SectionType SectionType { get; set; }
 
-      public Guid CapacityId { get; set; }
-      public virtual Capacity Capacity { get; set; } = default!;
+      public virtual SectionCapacity SectionCapacity { get; set; } = default!;
 
       public Guid WarehouseId { get; set; }
       public virtual Warehouses Warehouse { get; set; } = null!;

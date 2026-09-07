@@ -9,10 +9,8 @@ public class Racks : BaseEntity<Guid>
 
    public Guid SectionId { get; set; }
    public virtual Sections Section { get; set; } = null!;
-
-   public Guid CapacityId { get; set; }
-   public virtual Capacity Capacity { get; set; } = null!;
-
+   
+   public virtual RackCapacity RackCapacity { get; set; } = null!;
 
    public RackUsageProfile UsageProfile { get; set; }
    public int RowNumber { get; set; }
