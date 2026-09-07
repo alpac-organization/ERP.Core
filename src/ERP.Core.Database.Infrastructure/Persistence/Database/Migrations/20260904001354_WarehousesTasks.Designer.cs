@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260904001354_WarehousesTasks")]
+    partial class WarehousesTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1147,6 +1150,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<Guid?>("CurrentStockId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
@@ -1184,6 +1190,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("row_number");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentStockId");
 
                     b.HasIndex("LotId")
                         .HasDatabaseName("ix_tramo_positions_tramo_id");
@@ -5948,9 +5956,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("entrance_ducats_id");
 
-                    b.Property<Guid>("MerchandiseId")
+                    b.Property<Guid?>("LotsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RackPositionId")
                         .HasColumnType("uuid")
-                        .HasColumnName("merchandise_id");
+                        .HasColumnName("rack_position_id");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea")
+                        .HasColumnName("row_version");
+
+                    b.Property<Guid?>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
                     b.Property<DateTime>("StoredAt")
                         .HasColumnType("timestamp with time zone")
@@ -5966,7 +5988,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("EntranceDucatsId");
 
-                    b.HasIndex("MerchandiseId");
+                    b.HasIndex("LotsId");
+
+                    b.HasIndex("RackPositionId");
+
+                    b.HasIndex("SectionId");
 
                     b.ToTable("stocks", "public");
                 });
@@ -7023,11 +7049,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", "CurrentStock")
+                        .WithMany()
+                        .HasForeignKey("CurrentStockId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
                         .WithMany("Positions")
                         .HasForeignKey("LotId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CurrentStock");
 
                     b.Navigation("Lot");
                 });
@@ -8035,7 +8067,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StockPlacements", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", "LotPosition")
-                        .WithMany("StockPlacements")
+                        .WithMany()
                         .HasForeignKey("LotPositionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -8045,7 +8077,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "RackPosition")
-                        .WithMany("StockPlacements")
+                        .WithMany()
                         .HasForeignKey("RackPositionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -8085,17 +8117,28 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Merchandises", "Merchandise")
-                        .WithMany()
-                        .HasForeignKey("MerchandiseId")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", null)
+                        .WithMany("CurrentStock")
+                        .HasForeignKey("LotsId");
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "Position")
+                        .WithMany("CurrentStock")
+                        .HasForeignKey("RackPositionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
+                        .WithMany("CurrentStock")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("EntranceDucat");
 
-                    b.Navigation("Merchandise");
+                    b.Navigation("Position");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Section");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.UnloadingDetails", b =>
@@ -8388,14 +8431,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("Assignments");
 
+                    b.Navigation("CurrentStock");
+
                     b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
                     b.Navigation("Assignments");
-
-                    b.Navigation("StockPlacements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Module", b =>
@@ -8407,7 +8450,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("Assignments");
 
-                    b.Navigation("StockPlacements");
+                    b.Navigation("CurrentStock");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Racks", b =>
@@ -8422,6 +8465,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("Capacity");
+
+                    b.Navigation("CurrentStock");
 
                     b.Navigation("Lots");
 

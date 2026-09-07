@@ -82,12 +82,12 @@ public class StockPlacementsConfiguration : IEntityTypeConfiguration<StockPlacem
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.RackPosition)
-            .WithMany()
+            .WithMany(x => x.StockPlacements)
             .HasForeignKey(e => e.RackPositionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.LotPosition)
-            .WithMany()
+            .WithMany(x => x.StockPlacements)
             .HasForeignKey(e => e.LotPositionId)
             .OnDelete(DeleteBehavior.Restrict);
 

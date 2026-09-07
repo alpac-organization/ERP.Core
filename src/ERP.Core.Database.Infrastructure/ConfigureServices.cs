@@ -93,6 +93,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<UnloadingStatus>("unloading_status_enum", "public");
                     npgsqlOptions.MapEnum<PalletType>("pallet_type_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingMerchandiseType>("unloading_merchandise_type_enum", "public");
+                    npgsqlOptions.MapEnum<WarehouseTaskType>("warehouse_task_type_enum", "public");
+                    npgsqlOptions.MapEnum<WarehouseTaskStatus>("warehouse_task_status_enum", "public");
+                    npgsqlOptions.MapEnum<WarehouseTaskEventType>("warehouse_task_event_type_enum", "public");
                 })
             );
 
@@ -187,6 +190,9 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IStockFootprintCellsRepository, StockFootprintCellsRepository>();
             services.AddScoped<IReassignmentSessionsRepository, ReassignmentSessionsRepository>();
             services.AddScoped<IReassignmentSessionOwnershipLogRepository, ReassignmentSessionOwnershipLogRepository>();
+            services.AddScoped<IWarehouseTasksRepository, WarehouseTasksRepository>();
+            services.AddScoped<IWarehouseTaskEventsRepository, WarehouseTaskEventsRepository>();
+            services.AddScoped<IWarehouseTaskOwnershipLogsRepository, WarehouseTaskOwnershipLogsRepository>();
             services.AddScoped<IReassignmentMemoryItemsRepository, ReassignmentMemoryItemsRepository>();
             services.AddScoped<IStockMovementEventsRepository, StockMovementEventsRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
