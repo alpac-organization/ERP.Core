@@ -77,10 +77,5 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .WithMany()
             .HasForeignKey(x => x.CategoryProductId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(x => x.Section)
-            .WithMany(x => x.CurrentStock)
-            .HasForeignKey(x => x.SectionId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

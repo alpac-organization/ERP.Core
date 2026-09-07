@@ -66,7 +66,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
                     npgsqlOptions.MapEnum<OSStatus>("oss_status_enum");
                     npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
-                    npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
+                    // npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
@@ -78,8 +78,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
-                    npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
-                    npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
+                    // npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
+                    // npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
                     npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
@@ -144,9 +144,10 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICustomerTypeRepository, CustomerTyperpository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
+
+            services.AddScoped<ICapacityRepository, CapacityRepository>();
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
-            services.AddScoped<IWarehouseDetailsRepository, WarehouseDetailsRepository>();
-            services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
+
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();
@@ -159,7 +160,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
             services.AddScoped<IShippingComapaniesRepository, ShippingComapaniesRepository>();
-            services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();

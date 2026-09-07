@@ -60,12 +60,6 @@ public class SectonOverflowCapacityConfiguration : IEntityTypeConfiguration<Sect
             .HasColumnName("deleted_at")
             .IsRequired(false);
 
-        // Relación 1-1 con Sección
-        builder.HasOne(o => o.Section)
-            .WithOne(s => s.OverflowCapacity)
-            .HasForeignKey<SectionOverflowCapacity>(o => o.SectionId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasIndex(o => o.SectionId)
             .IsUnique()
             .HasDatabaseName("ix_section_overflow_capacities_section_id");

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,35 +25,8 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
           .HasMaxLength(50)
           .IsRequired();
 
-      builder.Property(e => e.Name)
-          .HasColumnName("section_name")
-          .HasMaxLength(150)
-          .IsRequired();
-
-      builder.Property(s => s.SectionType)
-          .HasColumnName("section_type")
-          .HasColumnType("section_type_enum")
-          .HasDefaultValue(SectionType.Storage)
-          .IsRequired();
-
-      builder.Property(s => s.StorageType)
-          .HasColumnName("storage_type")
-          .HasColumnType("section_storage_type_enum")
-          .HasDefaultValue(SectionStorageType.Empty)
-          .IsRequired();
-
-      builder.Property(e => e.WidthMetres)
-          .HasColumnName("width_metres")
-          .HasPrecision(10, 2)
-          .IsRequired();
-
       builder.Property(e => e.WarehouseId)
           .HasColumnName("warehouse_id")
-          .IsRequired();
-
-      builder.Property(e => e.LengthMetres)
-          .HasColumnName("length_metres")
-          .HasPrecision(10, 2)
           .IsRequired();
 
       builder.Property(e => e.IsActive)
@@ -62,30 +34,30 @@ public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
           .HasDefaultValue(true)
           .IsRequired();
 
-      builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
-          {
-             layaout.IsRequired();
+    //   builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
+    //       {
+    //          layaout.IsRequired();
 
-             layaout.Property(p => p.PositionX)
-                      .HasColumnName("layout_position_x")
-                      .HasPrecision(10, 2)
-                      .HasDefaultValue(0m);
+    //          layaout.Property(p => p.PositionX)
+    //                   .HasColumnName("layout_position_x")
+    //                   .HasPrecision(10, 2)
+    //                   .HasDefaultValue(0m);
 
-             layaout.Property(p => p.PositionY)
-                      .HasColumnName("layout_position_y")
-                      .HasPrecision(10, 2)
-                      .HasDefaultValue(0m);
+    //          layaout.Property(p => p.PositionY)
+    //                   .HasColumnName("layout_position_y")
+    //                   .HasPrecision(10, 2)
+    //                   .HasDefaultValue(0m);
 
-             layaout.Property(p => p.PositionZ)
-                      .HasColumnName("layout_position_z")
-                      .HasPrecision(10, 2)
-                      .HasDefaultValue(0m);
+    //          layaout.Property(p => p.PositionZ)
+    //                   .HasColumnName("layout_position_z")
+    //                   .HasPrecision(10, 2)
+    //                   .HasDefaultValue(0m);
 
-             layaout.Property(p => p.RotationY)
-                      .HasColumnName("layout_rotation_y")
-                      .HasPrecision(10, 2)
-                      .HasDefaultValue(0m);
-          });
+    //          layaout.Property(p => p.RotationY)
+    //                   .HasColumnName("layout_rotation_y")
+    //                   .HasPrecision(10, 2)
+    //                   .HasDefaultValue(0m);
+    //       });
 
       builder.Property(e => e.CreatedAt)
           .HasColumnName("created_at")

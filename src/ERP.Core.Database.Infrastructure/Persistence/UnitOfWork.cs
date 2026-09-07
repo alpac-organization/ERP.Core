@@ -58,8 +58,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
-        IWarehouseDetailsRepository warehouseDetailsRepository,
-        IWarehouseCapacityRepository warehouseCapacityRepository,
+        ICapacityRepository capacityRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
@@ -95,7 +94,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehouseMachineryRepository warehouseMachineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
-        ISectionCapacityRepository sectionCapacityRepository,
         IStockPlacementsRepository stockPlacementsRepository,
         IStockFootprintCellsRepository stockFootprintCellsRepository,
         IReassignmentSessionsRepository reassignmentSessionsRepository,
@@ -169,8 +167,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
-        public IWarehouseDetailsRepository WarehouseDetails => warehouseDetailsRepository;
-        public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
+        public ICapacityRepository Capacities => capacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
@@ -193,7 +190,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;
         public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
-        public ISectionCapacityRepository SectionCapacity => sectionCapacityRepository;
         public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
         public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;
