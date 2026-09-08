@@ -52,7 +52,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IInssAccountingInformationRepository inssAccountingInformationRepository,
         ITypesAccountingPayrollRepository typesAccountingPayrollRepository,
         IAssistanceControlRepository assistanceControlRepository,
-        ILocationsRepository locationRepository,
+        IWarehouseLocationRepository locationRepository,
         ICategoryProductsRepository categoryProductsRepository,
         ICustomerTypeRepository customerTypeRepository,
         ICustomerRepository customerRepository,
@@ -160,7 +160,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IJobPositionsRepository JobPositions => jobPositionsRepository;
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         public IAssistanceControlRepository AssistanceControls => assistanceControlRepository;
-        public ILocationsRepository Locations => locationRepository;
+        public IWarehouseLocationRepository Locations => locationRepository;
         public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;

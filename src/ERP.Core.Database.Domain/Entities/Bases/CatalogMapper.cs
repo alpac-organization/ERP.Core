@@ -1,7 +1,16 @@
-using ERP.Core.Database.Domain.Enums;
-
 namespace ERP.Core.Database.Domain.Entities.Bases
 {
+    /// <summary>
+    /// Entidad base de ubicaciones bodegas
+    /// </summary>
+    public class Location
+    {
+        public bool IsActive { get; set; } = true;
+        public string? LocationName { get; set; }
+        public virtual CompanyInformation CompanyInformation { get; set; } = default!;
+    }
+
+
     /// <summary>
     /// Clase abstracta para mepeo de información compania
     /// </summary>

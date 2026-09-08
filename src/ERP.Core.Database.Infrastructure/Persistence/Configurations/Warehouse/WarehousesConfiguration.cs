@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
@@ -32,27 +32,18 @@ public class WarehousesConfiguration : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
-        // builder.Property(w => w.WarehouseType)
-        //     .HasColumnName("warehouse_type")
-        //     .HasColumnType("warehouse_type_enum")
-        //     .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
-        //     .IsRequired(); 
+        builder.Property(w => w.WarehouseType)
+            .HasColumnName("warehouse_type")
+            .HasColumnType("warehouse_type_enum")
+            .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
+            .IsRequired(); 
 
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
-
-        builder.Property(w => w.LocationId)
-            .HasColumnName("location_id")
-            .IsRequired(false);
-
+            
         // ---- Relationships ----
-
-        builder.HasOne(w => w.Location)
-            .WithMany(l => l.Warehouses)
-            .HasForeignKey(w => w.LocationId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(w => w.Sections)
             .WithOne(s => s.Warehouse)

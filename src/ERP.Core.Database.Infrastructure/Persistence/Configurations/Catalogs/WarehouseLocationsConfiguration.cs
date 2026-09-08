@@ -1,14 +1,15 @@
-using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using ERP.Core.Database.Domain.Entities.Catalogs;
+
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 {
-    public class LocationsConfiguration : IEntityTypeConfiguration<Location>
+    public class WarehouseLocationsConfiguration : IEntityTypeConfiguration<WarehouseLocation>
     {
-        public void Configure(EntityTypeBuilder<Location> builder)
+        public void Configure(EntityTypeBuilder<WarehouseLocation> builder)
         {
-            builder.ToTable("locations");
+            builder.ToTable("warehouse_locations");
 
             builder.HasKey(e => e.Id);
 
@@ -27,6 +28,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("company_id")
                 .IsRequired();            
 
+            builder.Property(e => e.WarehouseId)
+                .HasColumnName("warehouse_id")
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -35,9 +40,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");     
 
-            builder.HasMany(c => c.Warehouses)
-                .WithOne(s => s.Location)
-                .HasForeignKey(s => s.LocationId)
+            builder.HasOne(c => c.Warehouse)
+                .WithOne(s => s.WarehouseLocation)
+                .HasForeignKey<WarehouseLocation>(s => s.WarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(e => e.Id)

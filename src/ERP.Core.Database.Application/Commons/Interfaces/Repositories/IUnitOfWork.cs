@@ -53,7 +53,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesSubsidyRepository TypesSubsidies { get; }
         ITypesAccountingPayrollRepository TypesAccountingPayroll { get; }
         IAssistanceControlRepository AssistanceControls { get; }
-        ILocationsRepository Locations { get; }
+        IWarehouseLocationRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
         ICustomerTypeRepository CustomerType { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
