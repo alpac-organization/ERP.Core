@@ -72,13 +72,13 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
 
+                    npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
                     npgsqlOptions.MapEnum<PriorityLevel>("priority_level_enum", "public");
                     npgsqlOptions.MapEnum<DestinationRequest>("destination_request_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
-                    // npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
                     // npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
                     npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");

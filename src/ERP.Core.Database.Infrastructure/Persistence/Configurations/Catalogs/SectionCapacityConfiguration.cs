@@ -20,10 +20,6 @@ public class SectionCapacityConfiguration : IEntityTypeConfiguration<SectionCapa
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(sc => sc.LastCalculatedAt)
-            .HasColumnName("last_calculated_at")
-            .IsRequired(false);
-
         builder.Property(sc => sc.SectionId)
             .HasColumnName("section_id")
             .IsRequired();

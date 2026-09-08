@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.ValueObjects;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -8,8 +9,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
    {
       public string? Code { get; set; }
       public bool IsActive { get; set; } = true;
-      // public SectionType SectionType { get; set; }
-
+      public SectionType SectionType { get; set; }
+      
       public virtual SectionCapacity SectionCapacity { get; set; } = default!;
 
       public Guid WarehouseId { get; set; }

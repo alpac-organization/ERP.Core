@@ -14,6 +14,16 @@ public class WarehouseCapacityConfiguration : IEntityTypeConfiguration<Warehouse
             .HasColumnName("has_space_between_wall")
             .IsRequired();
 
+        builder.Property(c => c.MinimumHeight)
+            .HasColumnName("minimum_height")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
+
+        builder.Property(c => c.MaximumHeight)
+            .HasColumnName("maximum_height")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
+
         builder.Property(wc => wc.AvailableSpaceWithSpacingM3)
             .HasColumnName("available_space_with_spacing_m3")
             .HasPrecision(18, 2)

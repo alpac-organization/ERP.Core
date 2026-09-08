@@ -27,16 +27,6 @@ public class BaseCapacityConfiguration : IEntityTypeConfiguration<BaseCapacity>
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.MinimumHeight)
-            .HasColumnName("minimum_height")
-            .HasPrecision(18, 2)
-            .IsRequired(false);
-
-        builder.Property(c => c.MaximumHeight)
-            .HasColumnName("maximum_height")
-            .HasPrecision(18, 2)
-            .IsRequired(false);
-
         builder.Property(c => c.AvailableSpaceWithSpacingM2)
             .HasColumnName("available_space_with_spacing_m2")
             .HasPrecision(18, 2)
