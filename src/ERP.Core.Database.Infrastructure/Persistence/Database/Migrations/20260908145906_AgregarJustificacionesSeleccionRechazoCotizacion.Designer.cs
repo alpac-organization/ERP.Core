@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260908145906_AgregarJustificacionesSeleccionRechazoCotizacion")]
+    partial class AgregarJustificacionesSeleccionRechazoCotizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "record_entrance_status_enum", new[] { "queue", "unloading", "completed", "abandoned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_storage_type_enum", new[] { "empty", "racks", "lots" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle", "abandoned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "source_deduction_payment_enum", new[] { "payroll", "cash" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
@@ -72,7 +76,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_task_event_type_enum", new[] { "started", "paused", "resumed", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_task_status_enum", new[] { "in_progress", "paused", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_task_type_enum", new[] { "unloading", "reassignment", "dispatch" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "fiscal", "granel", "nationalized" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "warehouse_type_enum", new[] { "general", "fiscal", "galeron_techado", "patio_contenedores", "predio_abierto", "granel" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -551,66 +555,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("users_profiles", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("capacity_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<decimal>("AvailableSpaceWithSpacingM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("available_space_with_spacing_m2");
-
-                    b.Property<decimal>("AvailableSpaceWithoutSpacingM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("available_space_without_spacing_m2");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<decimal>("Length")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("length");
-
-                    b.Property<decimal>("PercenteAvailableSpaceWithSpacingM2")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("numeric(5,2)")
-                        .HasColumnName("percent_available_space_with_spacing_m2");
-
-                    b.Property<decimal>("PercenteAvailableSpaceWithSpacingM3")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("numeric(5,2)")
-                        .HasColumnName("percent_available_space_with_spacing_m3");
-
-                    b.Property<decimal?>("UnusedSpaceM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unused_space_m2");
-
-                    b.Property<decimal>("Witdh")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("width");
-
-                    b.HasKey("Id");
-
-                    b.ToTable((string)null);
-
-                    b.UseTpcMappingStrategy();
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Branch", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1027,6 +971,44 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("job_positions", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("character varying(180)")
+                        .HasColumnName("location_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("ix_location_id");
+
+                    b.ToTable("locations", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1057,6 +1039,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<decimal>("LengthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("length_metres");
+
                     b.Property<int>("NominalColumns")
                         .HasColumnType("integer")
                         .HasColumnName("nominal_columns");
@@ -1083,6 +1070,44 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("unavailable_reason");
+
+                    b.Property<decimal>("WidthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("width_metres");
+
+                    b.ComplexProperty<Dictionary<string, object>>("TransformWarehouse3D", "ERP.Core.Database.Domain.Entities.Catalogs.Lots.TransformWarehouse3D#TransformWarehouse3D", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<decimal>("PositionX")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_x");
+
+                            b1.Property<decimal>("PositionY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_y");
+
+                            b1.Property<decimal>("PositionZ")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_z");
+
+                            b1.Property<decimal>("RotationY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_rotation_y");
+                        });
 
                     b.HasKey("Id");
 
@@ -1326,6 +1351,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<decimal?>("HeightMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("height_metres");
+
+                    b.Property<decimal>("LengthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("length_metres");
+
                     b.Property<int>("LevelNumber")
                         .HasColumnType("integer")
                         .HasColumnName("level_number");
@@ -1365,6 +1400,44 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("usage_profile")
                         .HasDefaultValueSql("'active_flow'::rack_usage_profile_enum");
 
+                    b.Property<decimal>("WidthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("width_metres");
+
+                    b.ComplexProperty<Dictionary<string, object>>("TransformWarehouse3D", "ERP.Core.Database.Domain.Entities.Catalogs.Racks.TransformWarehouse3D#TransformWarehouse3D", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<decimal>("PositionX")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_x");
+
+                            b1.Property<decimal>("PositionY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_y");
+
+                            b1.Property<decimal>("PositionZ")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_z");
+
+                            b1.Property<decimal>("RotationY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_rotation_y");
+                        });
+
                     b.HasKey("Id");
 
                     b.HasIndex("SectionId")
@@ -1375,6 +1448,51 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_racks_section_id_code");
 
                     b.ToTable("racks", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_capacity_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime?>("LastCalculatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_calculated_at");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
+
+                    b.Property<decimal?>("UnusableAreaM2")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("unusable_area_m2");
+
+                    b.Property<decimal?>("UsableAreaM2")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("usable_area_m2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SectionId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_section_capacities_section_id");
+
+                    b.ToTable("section_capacities", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionOverflowCapacity", b =>
@@ -1467,15 +1585,70 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<decimal>("LengthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("length_metres");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("section_name");
+
                     b.Property<int>("SectionType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("section_type_enum")
-                        .HasColumnName("section_type")
-                        .HasDefaultValueSql("'storage'::section_type_enum");
+                        .HasDefaultValue(1)
+                        .HasColumnName("section_type");
+
+                    b.Property<int>("StorageType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("section_storage_type_enum")
+                        .HasDefaultValue(1)
+                        .HasColumnName("storage_type");
 
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("warehouse_id");
+
+                    b.Property<decimal>("WidthMetres")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("width_metres");
+
+                    b.ComplexProperty<Dictionary<string, object>>("TransformWarehouse3D", "ERP.Core.Database.Domain.Entities.Catalogs.Sections.TransformWarehouse3D#TransformWarehouse3D", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<decimal>("PositionX")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_x");
+
+                            b1.Property<decimal>("PositionY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_y");
+
+                            b1.Property<decimal>("PositionZ")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_position_z");
+
+                            b1.Property<decimal>("RotationY")
+                                .ValueGeneratedOnAdd()
+                                .HasPrecision(10, 2)
+                                .HasColumnType("numeric(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("layout_rotation_y");
+                        });
 
                     b.HasKey("Id");
 
@@ -1746,54 +1919,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("validity_deductions", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("location_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("company_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LocationName")
-                        .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("character varying(180)")
-                        .HasColumnName("location_name");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("warehouse_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("Id")
-                        .HasDatabaseName("ix_location_id");
-
-                    b.HasIndex("WarehouseId")
-                        .IsUnique();
-
-                    b.ToTable("warehouse_locations", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
@@ -6129,9 +6254,118 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("RecordEntranceId")
                         .IsUnique();
 
+                    b.HasIndex("SectionId");
+
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("warehouse_assignments", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("warehouse_capacity_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("CurrentPolinesStored")
+                        .HasColumnType("integer")
+                        .HasColumnName("current_polines_stored");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime>("LastCalculatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_calculated_at");
+
+                    b.Property<decimal>("TotalAreaM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("total_area_m2");
+
+                    b.Property<int>("TotalMaxPolines")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_max_polines");
+
+                    b.Property<decimal>("UnusableAreaM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unusable_area_m2");
+
+                    b.Property<decimal>("UsableAreaM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("usable_area_m2");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("warehouse_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_warehouse_capacities_warehouse_id");
+
+                    b.ToTable("warehouse_capacities", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("warehouse_details_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("LengthMetres")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("length_metres");
+
+                    b.Property<int?>("ParkingSpacesCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("parking_spaces_count");
+
+                    b.Property<int?>("RampsCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("ramps_count");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("warehouse_id");
+
+                    b.Property<decimal>("WitdhMetres")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("width_metres");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_warehouse_deatils_warehouse_id");
+
+                    b.ToTable("warehouse_details", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseMachinery", b =>
@@ -6522,6 +6756,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("warehouse_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -6538,11 +6776,33 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<bool>("HasChildren")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_children");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsOwner")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_owner");
+
+                    b.Property<Guid?>("ParentWarehouseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_warehouse_id");
+
+                    b.Property<string>("WarehouseName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("warehouse_name");
 
                     b.Property<int>("WarehouseType")
                         .ValueGeneratedOnAdd()
@@ -6552,126 +6812,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_warehouses_code");
+                    b.HasIndex("BranchId")
+                        .HasDatabaseName("ix_warehouses_branch_id");
+
+                    b.HasIndex("ParentWarehouseId")
+                        .HasDatabaseName("ix_warehouses_parent_wareouse_id");
 
                     b.ToTable("warehouses", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsCapacity", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity");
-
-                    b.Property<Guid>("LotsId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("lots_id");
-
-                    b.HasIndex("LotsId")
-                        .IsUnique();
-
-                    b.ToTable("lots_capacities", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RackCapacity", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity");
-
-                    b.Property<Guid>("RackId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("rack_id");
-
-                    b.HasIndex("RackId")
-                        .IsUnique();
-
-                    b.ToTable("rack_capacities", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity");
-
-                    b.Property<Guid>("SectionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_id");
-
-                    b.Property<decimal?>("UnusableAreaM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unusable_area_m2");
-
-                    b.Property<decimal?>("UsableAreaM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("usable_area_m2");
-
-                    b.HasIndex("SectionId")
-                        .IsUnique();
-
-                    b.ToTable("section_capacities", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity");
-
-                    b.Property<decimal?>("AvailableSpaceWithSpacingM3")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("available_space_with_spacing_m3");
-
-                    b.Property<decimal?>("AvailableSpaceWithoutSpacingM3")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("available_space_without_spacing_m3");
-
-                    b.Property<bool>("HasSpaceBetweenWall")
-                        .HasColumnType("boolean")
-                        .HasColumnName("has_space_between_wall");
-
-                    b.Property<decimal?>("MaximumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("maximum_height");
-
-                    b.Property<decimal?>("MinimumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("minimum_height");
-
-                    b.Property<decimal?>("SpacingBotton")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("spacing_bottom");
-
-                    b.Property<decimal?>("SpacingLeft")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("spacing_left");
-
-                    b.Property<decimal?>("SpacingRight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("spacing_right");
-
-                    b.Property<decimal?>("SpacingTop")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("spacing_top");
-
-                    b.Property<decimal?>("UnasedSpaceM3")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unused_space_m3");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("warehouse_id");
-
-                    b.HasIndex("WarehouseId")
-                        .IsUnique();
-
-                    b.ToTable("warehouse_capacities", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Accounting.PurchaseRequestsReviewedAccounting", b =>
@@ -6862,6 +7009,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("Locations")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
@@ -6906,12 +7064,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Section");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
+                        .WithOne("Capacity")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", "SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionOverflowCapacity", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
-                        .WithMany()
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("OverflowCapacity")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.SectionOverflowCapacity", "SectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -6948,25 +7117,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Catalog");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
-                        .WithMany("WarehouseLocations")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
-                        .WithOne("WarehouseLocation")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", "WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
@@ -8042,6 +8192,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
+                        .WithMany("Assignments")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
@@ -8059,6 +8214,30 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("RackPosition");
 
                     b.Navigation("RecordEntrance");
+
+                    b.Navigation("Section");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
+                        .WithOne("Capacity")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", "WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseDetails", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
+                        .WithOne("Details")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseDetails", "WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Warehouse");
                 });
@@ -8107,48 +8286,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WarehouseTask");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsCapacity", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
-                        .WithOne("LotsCapacity")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LotsCapacity", "LotsId")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany("Warehouses")
+                        .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Lot");
-                });
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "ParentWarehouse")
+                        .WithMany("SubWarehouses")
+                        .HasForeignKey("ParentWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RackCapacity", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
-                        .WithOne("RackCapacity")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.RackCapacity", "RackId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Branch");
 
-                    b.Navigation("Rack");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
-                        .WithOne("SectionCapacity")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", "SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
-                        .WithOne("WarehouseCapacity")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseCapacity", "WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Warehouse");
+                    b.Navigation("ParentWarehouse");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Role", b =>
@@ -8199,6 +8352,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PurchaseRequests");
 
                     b.Navigation("UserProfiles");
+
+                    b.Navigation("Warehouses");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Catalog", b =>
@@ -8227,9 +8382,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("JobPositions");
 
-                    b.Navigation("TypesAccountingPayroll");
+                    b.Navigation("Locations");
 
-                    b.Navigation("WarehouseLocations");
+                    b.Navigation("TypesAccountingPayroll");
 
                     b.Navigation("WorkAreas");
                 });
@@ -8242,9 +8397,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
                 {
                     b.Navigation("Assignments");
-
-                    b.Navigation("LotsCapacity")
-                        .IsRequired();
 
                     b.Navigation("Positions");
                 });
@@ -8273,19 +8425,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("Positions");
-
-                    b.Navigation("RackCapacity")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Sections", b =>
                 {
+                    b.Navigation("Assignments");
+
+                    b.Navigation("Capacity");
+
                     b.Navigation("Lots");
 
-                    b.Navigation("Racks");
+                    b.Navigation("OverflowCapacity");
 
-                    b.Navigation("SectionCapacity")
-                        .IsRequired();
+                    b.Navigation("Racks");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", b =>
@@ -8516,13 +8668,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>
                 {
+                    b.Navigation("Capacity");
+
+                    b.Navigation("Details")
+                        .IsRequired();
+
                     b.Navigation("Sections");
 
-                    b.Navigation("WarehouseCapacity")
-                        .IsRequired();
-
-                    b.Navigation("WarehouseLocation")
-                        .IsRequired();
+                    b.Navigation("SubWarehouses");
                 });
 #pragma warning restore 612, 618
         }
