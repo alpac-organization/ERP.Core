@@ -4229,10 +4229,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<decimal?>("DeliveryTime")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("delivery_time");
 
                     b.Property<int?>("DeliveryTimeType")
-                        .HasColumnType("integer");
+                        .HasColumnType("time_type_enum")
+                        .HasColumnName("delivery_time_type");
 
                     b.Property<bool>("HasDelivery")
                         .ValueGeneratedOnAdd()

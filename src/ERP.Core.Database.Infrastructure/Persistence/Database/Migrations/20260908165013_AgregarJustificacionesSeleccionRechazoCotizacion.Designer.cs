@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260908145906_AgregarJustificacionesSeleccionRechazoCotizacion")]
+    [Migration("20260908165013_AgregarJustificacionesSeleccionRechazoCotizacion")]
     partial class AgregarJustificacionesSeleccionRechazoCotizacion
     {
         /// <inheritdoc />
@@ -4232,10 +4232,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<decimal?>("DeliveryTime")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("delivery_time");
 
                     b.Property<int?>("DeliveryTimeType")
-                        .HasColumnType("integer");
+                        .HasColumnType("time_type_enum")
+                        .HasColumnName("delivery_time_type");
 
                     b.Property<bool>("HasDelivery")
                         .ValueGeneratedOnAdd()
