@@ -1,19 +1,26 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 
-namespace ERP.Core.Database.Domain.Entities.Warehouse;
-
-public class WarehouseCapacity : BaseEntity<Guid>
+namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
-    public Guid WarehouseId { get; set; }
+    public class WarehouseCapacity : BaseCapacity
+    {
+        public bool HasSpaceBetweenWall { get; set; }
 
-    public decimal TotalAreaM2 { get; set; }
-    public decimal? UsableAreaM2 { get; set; }
-    public decimal? UnusableAreaM2 { get; set; }
+        public decimal? MinimumHeight { get; set; }
+        public decimal? MaximumHeight { get; set; }
+        
+        public decimal? SpacingTop { get; set; }
+        public decimal? SpacingBotton { get; set; }
+        public decimal? SpacingRight { get; set; }
+        public decimal? SpacingLeft { get; set; }
 
-    public int? TotalMaxPolines { get; set; }
-    public int? CurrentPolinesStored { get; set; }
-
-    public DateTime? LastCalculatedAt { get; set; }
-
-    public virtual Warehouses Warehouse { get; set; } = null!;
+        //M3
+        public decimal? UnasedSpaceM3 { get; set; } 
+        public decimal? AvailableSpaceWithSpacingM3 { get; set; }
+        public decimal? AvailableSpaceWithoutSpacingM3 { get; set; }
+        
+        
+        public Guid WarehouseId { get; set;  }
+        public virtual Warehouses Warehouse { get; set; } = null!;
+    }
 }

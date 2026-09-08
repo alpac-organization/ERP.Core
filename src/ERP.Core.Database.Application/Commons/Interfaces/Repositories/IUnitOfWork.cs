@@ -53,7 +53,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ITypesSubsidyRepository TypesSubsidies { get; }
         ITypesAccountingPayrollRepository TypesAccountingPayroll { get; }
         IAssistanceControlRepository AssistanceControls { get; }
-        ILocationsRepository Locations { get; }
+        IWarehouseLocationRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
         ICustomerTypeRepository CustomerType { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
@@ -64,10 +64,20 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #region Warehouse
         ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
-        IWarehousesRepository Warehouses { get; }
         IMerchandisesRepository Merchandises { get; }
-        IWarehouseDetailsRepository WarehouseDetails { get; }
+        
+        ILotsRepository Lots { get; }
+        IRacksRepository Racks { get; }
+        ISectionsRepository Sections { get; }
         IWarehouseCapacityRepository WarehouseCapacities { get; }
+        ISectionCapacityRepository SectionCapacities { get; }
+        IRackCapacityRepository RackCapacities { get; }
+        ILotsCapacityRepository LotsCapacities { get; }
+        IWarehousesRepository Warehouses { get; }
+
+        IRackPositionsRepository RackPositions { get; }
+        ILotsPositionsRepository LotsPositions { get; }
+
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
         IEntranceDucatsRepository EntranceDucats { get; }
@@ -79,12 +89,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
         ICustomsDeclarationsRepository CustomsDeclarations { get; }
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
-        ISectionsRepository Sections { get; }
-        ISectionCapacityRepository SectionCapacity { get; }
-        IRacksRepository Racks { get; }
-        IRackPositionsRepository RackPositions { get; }
-        ILotsRepository Lots { get; }
-        ILotsPositionsRepository LotsPositions { get; }
+    
         ISectionOverflowCapacityRepository SectionOverflowCapacity { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
         ICrewAssignmentsRepository CrewAssignments { get; }

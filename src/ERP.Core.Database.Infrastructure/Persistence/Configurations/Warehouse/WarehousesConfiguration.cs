@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
-public class Warehouse : IEntityTypeConfiguration<Warehouses>
+public class WarehousesConfiguration : IEntityTypeConfiguration<Warehouses>
 {
     public void Configure(EntityTypeBuilder<Warehouses> builder)
     {
@@ -16,7 +16,7 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();
-        
+
         builder.Property(w => w.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -32,53 +32,26 @@ public class Warehouse : IEntityTypeConfiguration<Warehouses>
             .HasMaxLength(20)
             .IsRequired();
 
-        builder.Property(w => w.WarehouseName)
-            .HasColumnName("warehouse_name")
-            .HasMaxLength(100)
-            .IsRequired();
+        builder.Property(w => w.WarehouseType)
+            .HasColumnName("warehouse_type")
+            .HasColumnType("warehouse_type_enum")
+            .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
+            .IsRequired(); 
 
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
             .HasDefaultValue(true)
             .IsRequired();
+            
+        // ---- Relationships ----
 
-        builder.Property(w => w.IsOwner)
-            .HasColumnName("is_owner")
-            .HasDefaultValue(true)
-            .IsRequired();
-
-        builder.Property(w => w.HasChildren)
-            .HasColumnName("has_children")
-            .HasDefaultValue(false)
-            .IsRequired();
-
-        builder.Property(w => w.WarehouseType)
-            .HasColumnName("warehouse_type")
-            .HasColumnType("warehouse_type_enum")
-            .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
-            .IsRequired();
-
-        builder.Property(w => w.ParentWarehouseId)
-            .HasColumnName("parent_warehouse_id");
-
-        builder.Property(w => w.BranchId)
-            .HasColumnName("branch_id")
-            .IsRequired();
-
-        builder.HasOne(w => w.Branch)
-            .WithMany(e => e.Warehouses)
-            .HasForeignKey(w => w.BranchId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
-        builder.HasIndex(w => w.BranchId)
-            .HasDatabaseName("ix_warehouses_branch_id");
-
-        builder.HasOne(w => w.ParentWarehouse)
-            .WithMany(w => w.SubWarehouses)
-            .HasForeignKey(w => w.ParentWarehouseId)
+        builder.HasMany(w => w.Sections)
+            .WithOne(s => s.Warehouse)
+            .HasForeignKey(s => s.WarehouseId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(w => w.ParentWarehouseId)
-            .HasDatabaseName("ix_warehouses_parent_wareouse_id");
+        builder.HasIndex(w => w.Code)
+            .IsUnique()
+            .HasDatabaseName("ix_warehouses_code");
     }
 }

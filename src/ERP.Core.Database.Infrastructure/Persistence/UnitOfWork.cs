@@ -52,14 +52,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IInssAccountingInformationRepository inssAccountingInformationRepository,
         ITypesAccountingPayrollRepository typesAccountingPayrollRepository,
         IAssistanceControlRepository assistanceControlRepository,
-        ILocationsRepository locationRepository,
+        IWarehouseLocationRepository locationRepository,
         ICategoryProductsRepository categoryProductsRepository,
         ICustomerTypeRepository customerTypeRepository,
         ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
-        IWarehouseDetailsRepository warehouseDetailsRepository,
         IWarehouseCapacityRepository warehouseCapacityRepository,
+        ISectionCapacityRepository sectionCapacityRepository,
+        IRackCapacityRepository rackCapacityRepository,
+        ILotsCapacityRepository lotsCapacityRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
@@ -95,7 +97,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehouseMachineryRepository warehouseMachineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
-        ISectionCapacityRepository sectionCapacityRepository,
         IStockPlacementsRepository stockPlacementsRepository,
         IStockFootprintCellsRepository stockFootprintCellsRepository,
         IReassignmentSessionsRepository reassignmentSessionsRepository,
@@ -159,7 +160,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IJobPositionsRepository JobPositions => jobPositionsRepository;
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;
         public IAssistanceControlRepository AssistanceControls => assistanceControlRepository;
-        public ILocationsRepository Locations => locationRepository;
+        public IWarehouseLocationRepository Locations => locationRepository;
         public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public ICustomerTypeRepository CustomerType => customerTypeRepository;
@@ -172,8 +173,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
-        public IWarehouseDetailsRepository WarehouseDetails => warehouseDetailsRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
+        public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;
+        public IRackCapacityRepository RackCapacities => rackCapacityRepository;
+        public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
         public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
@@ -196,7 +199,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;
         public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
-        public ISectionCapacityRepository SectionCapacity => sectionCapacityRepository;
         public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
         public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;

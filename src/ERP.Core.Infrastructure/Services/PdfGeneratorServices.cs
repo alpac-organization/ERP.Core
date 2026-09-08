@@ -19,14 +19,21 @@ namespace ERP.Core.Infrastructure.Services
             {
                 if (_browser == null)
                 {
-                    // 🔥 Descargar Chromium UNA sola vez
-                    var browserFetcher = new BrowserFetcher();
-                    await browserFetcher.DownloadAsync();
+                    // Si se define un Chromium del sistema, lo usamos y evitamos la descarga en runtime.
+                    var executablePath = Environment.GetEnvironmentVariable("PUPPETEER_EXECUTABLE_PATH");
+
+                    if (string.IsNullOrWhiteSpace(executablePath))
+                    {
+                        // 🔥 Descargar Chromium UNA sola vez
+                        var browserFetcher = new BrowserFetcher();
+                        await browserFetcher.DownloadAsync();
+                    }
 
                     // 🚀 Lanzar browser
                     _browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
                         Headless = true,
+                        ExecutablePath = executablePath,
                         Args = new[]
                         {
                             "--no-sandbox",
