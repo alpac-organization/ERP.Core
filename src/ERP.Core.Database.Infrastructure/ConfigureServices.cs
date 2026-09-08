@@ -96,6 +96,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<WarehouseTaskType>("warehouse_task_type_enum", "public");
                     npgsqlOptions.MapEnum<WarehouseTaskStatus>("warehouse_task_status_enum", "public");
                     npgsqlOptions.MapEnum<WarehouseTaskEventType>("warehouse_task_event_type_enum", "public");
+                    npgsqlOptions.MapEnum<BankAccountType>("bank_account_type_enum", "public");
+                    npgsqlOptions.MapEnum<PaymentMethodType>("payment_method_type_enum", "public");
                 })
             );
 
@@ -210,6 +212,8 @@ namespace ERP.Core.Database.Infrastructure
 
             //Servicios 
             services.AddScoped<ICodeGenerator, CodeGenerator>();
+            services.AddScoped<ICalculatorCapacities, CalculatorCapacities>();
+            services.AddScoped<IWarehouseCapacityCalculator, WarehouseCapacityCalculator>();
 
             return services;
         }
