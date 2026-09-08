@@ -53,12 +53,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.CommercialName)
+                .HasColumnName("commercial_name")
+                .IsRequired(false);
+
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
             builder.HasOne(c => c.SupplierDetails)
                 .WithOne(s => s.Supplier)
                 .HasForeignKey<SupplierDetails>(s => s.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(s => s.SupplierBankAccounts)
+                .WithOne(b => b.Supplier)
+                .HasForeignKey(b => b.SupplierId)
                 .OnDelete(DeleteBehavior.Cascade);             
         }
     }
