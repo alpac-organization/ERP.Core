@@ -211,6 +211,7 @@ namespace ERP.Core.Database.Infrastructure
             //Servicios 
             services.AddScoped<ICodeGenerator, CodeGenerator>();
             services.AddScoped<ICalculatorCapacities, CalculatorCapacities>();
+            services.AddScoped<IWarehouseCapacityCalculator, WarehouseCapacityCalculator>();
 
             return services;
         }
