@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260908153530_AgregarCapacidadesPorSecciones")]
+    partial class AgregarCapacidadesPorSecciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -584,6 +587,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("length");
 
+                    b.Property<decimal?>("MaximumHeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("maximum_height");
+
+                    b.Property<decimal?>("MinimumHeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("minimum_height");
+
                     b.Property<decimal>("PercenteAvailableSpaceWithSpacingM2")
                         .HasPrecision(5, 2)
                         .HasColumnType("numeric(5,2)")
@@ -593,11 +606,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(5, 2)
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("percent_available_space_with_spacing_m3");
-
-                    b.Property<decimal?>("UnusedSpaceM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unused_space_m2");
 
                     b.Property<decimal>("Witdh")
                         .HasPrecision(18, 2)
@@ -6622,16 +6630,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("has_space_between_wall");
 
-                    b.Property<decimal?>("MaximumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("maximum_height");
-
-                    b.Property<decimal?>("MinimumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("minimum_height");
-
                     b.Property<decimal?>("SpacingBotton")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -6656,6 +6654,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("unused_space_m3");
+
+                    b.Property<decimal?>("UnusedSpaceM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unused_space_m2");
 
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uuid")

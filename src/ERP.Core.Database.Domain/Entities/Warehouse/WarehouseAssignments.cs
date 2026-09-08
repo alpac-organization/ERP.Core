@@ -26,7 +26,6 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public virtual EntranceDucats? EntranceDucat { get; set; }
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual Racks? Rack { get; set; }
-    public virtual Sections? Section { get; set; } = null!;
     public virtual Lots? Lot { get; set; }
     public virtual LotsPositions? LotPosition { get; set; }
     public virtual RackPositions? RackPosition { get; set; }

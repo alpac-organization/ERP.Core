@@ -72,14 +72,14 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
                     npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
 
+                    npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
                     npgsqlOptions.MapEnum<PriorityLevel>("priority_level_enum", "public");
                     npgsqlOptions.MapEnum<DestinationRequest>("destination_request_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
-                    npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
-                    npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
+                    // npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
                     npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
@@ -141,15 +141,19 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IHolidaysRepository, HolidaysRepository>();
             services.AddScoped<IInssAccountingInformationRepository, InssAccountingInformationRepository>();
             services.AddScoped<ITypesAccountingPayrollRepository, TypesAccountingPayrollRepository>();
-            services.AddScoped<ILocationsRepository, LocationsRepository>();
+            services.AddScoped<IWarehouseLocationRepository, WarehouseLocationRepository>();
             services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
             services.AddScoped<ICategoryProductsRepository, CategoryProductsRepository>();
             services.AddScoped<ICustomerTypeRepository, CustomerTyperpository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
-            services.AddScoped<IWarehousesRepository, WarehousesRepository>();
-            services.AddScoped<IWarehouseDetailsRepository, WarehouseDetailsRepository>();
+
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
+            services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
+            services.AddScoped<IRackCapacityRepository, RackCapacityRepository>();
+            services.AddScoped<ILotsCapacityRepository, LotsCapacityRepository>();
+            services.AddScoped<IWarehousesRepository, WarehousesRepository>();
+
             services.AddScoped<IServiceOrdersRepository, ServiceOrdersRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();
@@ -162,7 +166,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
             services.AddScoped<IShippingComapaniesRepository, ShippingComapaniesRepository>();
-            services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
 
             #region 
             services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();

@@ -1,9 +1,8 @@
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
-namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs
+namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
+
+public interface ISectionCapacityRepository : IRepository<SectionCapacity>
 {
-    public interface ISectionCapacityRepository: IRepository<SectionCapacity>
-    {
-        Task<SectionCapacity> RegisterSectionCapacity(SectionCapacity payload);
-    }
+    Task<SectionCapacity> RegisterSectionCapacity(SectionCapacity payload);
 }

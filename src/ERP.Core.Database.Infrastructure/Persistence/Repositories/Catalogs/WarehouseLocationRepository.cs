@@ -4,11 +4,11 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs
 {
-    public class LocationsRepository(ErpDbContext _context): Repository<Location>(_context), ILocationsRepository
+    public class WarehouseLocationRepository(ErpDbContext _context): Repository<WarehouseLocation>(_context), IWarehouseLocationRepository
     {
-        public async Task<Location> RegisterLocation(Location payload)
+        public async Task<WarehouseLocation> RegisterLocation(WarehouseLocation payload)
         {
-            var record = await _context.Locations.AddAsync(payload);
+            var record = await _context.WarehouseLocations.AddAsync(payload);
             return record.Entity;
         }
     }

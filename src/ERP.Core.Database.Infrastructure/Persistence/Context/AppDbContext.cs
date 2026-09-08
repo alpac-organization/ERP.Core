@@ -63,7 +63,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
-        public DbSet<Location> Locations => Set<Location>();
+        public DbSet<WarehouseLocation> WarehouseLocations => Set<WarehouseLocation>();
         public DbSet<CostCenter> CostCenters => Set<CostCenter>();
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
         public DbSet<TypesIncome> TypesIncomes => Set<TypesIncome>();
@@ -82,8 +82,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
-        public DbSet<WarehouseDetails> WarehouseDetails => Set<WarehouseDetails>();
         public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();
+        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
+        public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
@@ -183,7 +184,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PurchaseRequestStatus>("public", "purchase_request_status_enum");
             modelBuilder.HasPostgresEnum<TimeType>("public", "time_type_enum");
             modelBuilder.HasPostgresEnum<SectionType>("public", "section_type_enum");
-            modelBuilder.HasPostgresEnum<SectionStorageType>("public", "section_storage_type_enum");
+            // modelBuilder.HasPostgresEnum<SectionStorageType>("public", "section_storage_type_enum");
             modelBuilder.HasPostgresEnum<AccountingReviewStatus>("public", "accounting_review_status_enum");
             modelBuilder.HasPostgresEnum<ManagementReviewStatus>("public", "management_review_status_enum");
             modelBuilder.HasPostgresEnum<RackUsageProfile>("public", "rack_usage_profile_enum");

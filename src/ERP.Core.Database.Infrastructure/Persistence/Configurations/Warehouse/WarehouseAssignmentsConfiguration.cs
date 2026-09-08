@@ -94,11 +94,6 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
             .HasForeignKey(x => x.RackId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Section)
-            .WithMany(x => x.Assignments)
-            .HasForeignKey(x => x.SectionId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasOne(x => x.Lot)
             .WithMany(x => x.Assignments)
             .HasForeignKey(x => x.LotsId)

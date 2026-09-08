@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260908144214_EliminarRelacionDeWarehouseConSucursales")]
+    partial class EliminarRelacionDeWarehouseConSucursales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "record_entrance_status_enum", new[] { "queue", "unloading", "completed", "abandoned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "source_deduction_payment_enum", new[] { "payroll", "cash" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
@@ -584,6 +586,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("length");
 
+                    b.Property<decimal?>("MaximumHeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("maximum_height");
+
+                    b.Property<decimal?>("MinimumHeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("minimum_height");
+
                     b.Property<decimal>("PercenteAvailableSpaceWithSpacingM2")
                         .HasPrecision(5, 2)
                         .HasColumnType("numeric(5,2)")
@@ -593,11 +605,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(5, 2)
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("percent_available_space_with_spacing_m3");
-
-                    b.Property<decimal?>("UnusedSpaceM2")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unused_space_m2");
 
                     b.Property<decimal>("Witdh")
                         .HasPrecision(18, 2)
@@ -1025,6 +1032,47 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("IX_job_position_id");
 
                     b.ToTable("job_positions", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("character varying(180)")
+                        .HasColumnName("location_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("ix_location_id");
+
+                    b.ToTable("locations", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
@@ -1467,12 +1515,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
-                    b.Property<int>("SectionType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("section_type_enum")
-                        .HasColumnName("section_type")
-                        .HasDefaultValueSql("'storage'::section_type_enum");
-
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("warehouse_id");
@@ -1746,54 +1788,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("validity_deductions", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("location_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("company_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LocationName")
-                        .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("character varying(180)")
-                        .HasColumnName("location_name");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("warehouse_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("Id")
-                        .HasDatabaseName("ix_location_id");
-
-                    b.HasIndex("WarehouseId")
-                        .IsUnique();
-
-                    b.ToTable("warehouse_locations", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
@@ -6537,6 +6531,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
                     b.Property<int>("WarehouseType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("warehouse_type_enum")
@@ -6548,6 +6546,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_warehouses_code");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("warehouses", "public");
                 });
@@ -6583,6 +6583,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCapacity", b =>
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCapacity");
+
+                    b.Property<DateTime?>("LastCalculatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_calculated_at");
 
                     b.Property<Guid>("SectionId")
                         .HasColumnType("uuid")
@@ -6622,16 +6626,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("has_space_between_wall");
 
-                    b.Property<decimal?>("MaximumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("maximum_height");
-
-                    b.Property<decimal?>("MinimumHeight")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("minimum_height");
-
                     b.Property<decimal?>("SpacingBotton")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -6656,6 +6650,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("unused_space_m3");
+
+                    b.Property<decimal?>("UnusedSpaceM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unused_space_m2");
 
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uuid")
@@ -6855,6 +6854,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("Locations")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
@@ -6941,25 +6951,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Catalog");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
-                        .WithMany("WarehouseLocations")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
-                        .WithOne("WarehouseLocation")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.WarehouseLocation", "WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
@@ -8100,6 +8091,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WarehouseTask");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Location", "Location")
+                        .WithMany("Warehouses")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsCapacity", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
@@ -8220,9 +8221,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("JobPositions");
 
-                    b.Navigation("TypesAccountingPayroll");
+                    b.Navigation("Locations");
 
-                    b.Navigation("WarehouseLocations");
+                    b.Navigation("TypesAccountingPayroll");
 
                     b.Navigation("WorkAreas");
                 });
@@ -8230,6 +8231,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", b =>
                 {
                     b.Navigation("Customers");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Location", b =>
+                {
+                    b.Navigation("Warehouses");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
@@ -8512,9 +8518,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Sections");
 
                     b.Navigation("WarehouseCapacity")
-                        .IsRequired();
-
-                    b.Navigation("WarehouseLocation")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
