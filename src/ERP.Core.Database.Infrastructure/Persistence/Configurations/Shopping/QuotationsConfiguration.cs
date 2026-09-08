@@ -69,14 +69,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasMaxLength(255);
 
             builder.Property(e => e.DeliveryTime)
-                .HasColumnName("delivery_time")
-                .HasPrecision(18, 2)
-                .IsRequired(false);
+            .HasColumnName("delivery_time")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
 
             builder.Property(e => e.DeliveryTimeType)
-                .HasColumnName("delivery_time_type")
-                .HasColumnType("time_type_enum")
-                .IsRequired(false);
+            .HasColumnName("delivery_time_type")
+            .HasColumnType("time_type_enum")
+            .IsRequired(false);
+
+            builder.Property(e => e.SupplierSelectionJustification)
+            .HasColumnName("supplier_selection_justification")
+            .HasMaxLength(300)
+            .IsRequired(false);
+
+            builder.Property(e => e.SupplierRejectionJustification)
+            .HasColumnName("supplier_rejection_justification")
+            .HasMaxLength(300)
+            .IsRequired(false);
 
             builder.Property(e => e.WarrantyPeriod)
                 .HasColumnName("warranty_period")
