@@ -14,6 +14,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public string? ImageUrl { get; set; }
         public string? SuppliersLegalName { get; set; }
 
+        public string? CommercialName { get; set; }
+
         public string? IdentificationNumber { get; set; }
         public ConstitutionType ConstitutionType { get; set; }
         public IdentificationType IdentificationType { get; set; }
@@ -22,6 +24,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual User User { get; set; } = default!;
 
         public virtual SupplierDetails SupplierDetails { get; set; } = default!;
+
+        public virtual ICollection<SupplierBankAccount> SupplierBankAccounts { get; set; } = [];
 
         public virtual ICollection<Quotation> Quotations { get; set; } = [];
     } 

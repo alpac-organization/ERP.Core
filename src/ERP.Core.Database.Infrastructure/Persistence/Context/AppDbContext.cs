@@ -128,6 +128,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Compras
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
+        public DbSet<SupplierBankAccount> SupplierBankAccounts => Set<SupplierBankAccount>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
 
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
@@ -198,6 +199,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<WarehouseTaskType>("public", "warehouse_task_type_enum");
             modelBuilder.HasPostgresEnum<WarehouseTaskStatus>("public", "warehouse_task_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseTaskEventType>("public", "warehouse_task_event_type_enum");
+            modelBuilder.HasPostgresEnum<BankAccountType>("public", "bank_account_type_enum");
+            modelBuilder.HasPostgresEnum<PaymentMethodType>("public", "payment_method_type_enum");
 
 
 
