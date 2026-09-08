@@ -5,114 +5,124 @@ using ERP.Core.Database.Domain.Entities.Shopping;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
-   public class QuotationsConfiguration : IEntityTypeConfiguration<Quotation>
-   {
-      public void Configure(EntityTypeBuilder<Quotation> builder)
-      {
-         builder.ToTable("quotations");
+    public class QuotationsConfiguration : IEntityTypeConfiguration<Quotation>
+    {
+        public void Configure(EntityTypeBuilder<Quotation> builder)
+        {
+            builder.ToTable("quotations");
 
-         builder.HasKey(e => e.Id);
+            builder.HasKey(e => e.Id);
 
-         builder.Property(e => e.Id)
-             .HasColumnName("quotation_id")
-             .HasDefaultValueSql("gen_random_uuid()")
-             .ValueGeneratedOnAdd()
-             .IsRequired();
+            builder.Property(e => e.Id)
+                .HasColumnName("quotation_id")
+                .HasDefaultValueSql("gen_random_uuid()")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
 
-         builder.Property(e => e.IsActive)
-             .HasColumnName("is_active")
-             .HasDefaultValue(true)
-             .IsRequired();
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
 
-         builder.Property(e => e.HasDelivery)
-             .HasColumnName("has_delivery")
-             .HasDefaultValue(false)
-             .IsRequired();
+            builder.Property(e => e.HasDelivery)
+                .HasColumnName("has_delivery")
+                .HasDefaultValue(false)
+                .IsRequired();
 
-         builder.Property(e => e.HasGuarantee)
-             .HasColumnName("has_guarantee")
-             .HasDefaultValue(false)
-             .IsRequired();
+            builder.Property(e => e.HasGuarantee)
+                .HasColumnName("has_guarantee")
+                .HasDefaultValue(false)
+                .IsRequired();
 
-         builder.Property(e => e.IsAcceptedForPurchase)
-             .HasColumnName("is_aceepted_for_purchase")
-             .HasDefaultValue(false)
-             .IsRequired();
+            builder.Property(e => e.IsAcceptedForPurchase)
+                .HasColumnName("is_aceepted_for_purchase")
+                .HasDefaultValue(false)
+                .IsRequired();
 
-         builder.Property(e => e.Iva)
-             .HasColumnName("iva")
-             .HasPrecision(18, 2)
-             .IsRequired();
+            builder.Property(e => e.Iva)
+                .HasColumnName("iva")
+                .HasPrecision(18, 2)
+                .IsRequired();
 
-         builder.Property(e => e.Price)
-             .HasColumnName("price")
-             .HasPrecision(18, 2)
-             .IsRequired();
+            builder.Property(e => e.Price)
+                .HasColumnName("price")
+                .HasPrecision(18, 2)
+                .IsRequired();
 
-         builder.Property(e => e.PriceUnit)
-             .HasColumnName("price_unit")
-             .HasPrecision(18, 2)
-             .IsRequired();
+            builder.Property(e => e.PriceUnit)
+                .HasColumnName("price_unit")
+                .HasPrecision(18, 2)
+                .IsRequired();
 
-         builder.Property(e => e.PriceTotal)
-             .HasColumnName("price_total")
-             .HasPrecision(18, 2)
-             .IsRequired();
+            builder.Property(e => e.PriceTotal)
+                .HasColumnName("price_total")
+                .HasPrecision(18, 2)
+                .IsRequired();
 
-         builder.Property(e => e.QuoteDate)
-             .HasColumnName("quote_date")
-             .HasColumnType("date")
-             .IsRequired();
+            builder.Property(e => e.QuoteDate)
+                .HasColumnName("quote_date")
+                .HasColumnType("date")
+                .IsRequired();
 
-         builder.Property(e => e.BrandProduct)
-             .HasColumnName("brand_product")
-             .HasMaxLength(255);
+            builder.Property(e => e.BrandProduct)
+                .HasColumnName("brand_product")
+                .HasMaxLength(255);
 
-         builder.Property(e => e.SupplierSelectionJustification)
-         .HasColumnName("supplier_selection_justification")
-         .HasMaxLength(300)
-         .IsRequired(false);
+            builder.Property(e => e.DeliveryTime)
+            .HasColumnName("delivery_time")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
 
-         builder.Property(e => e.SupplierRejectionJustification)
-         .HasColumnName("supplier_rejection_justification")
-         .HasMaxLength(300)
-         .IsRequired(false);
+            builder.Property(e => e.DeliveryTimeType)
+            .HasColumnName("delivery_time_type")
+            .HasColumnType("time_type_enum")
+            .IsRequired(false);
 
-         builder.Property(e => e.WarrantyPeriod)
-             .HasColumnName("warranty_period")
-             .HasPrecision(18, 2)
-             .IsRequired(false);
+            builder.Property(e => e.SupplierSelectionJustification)
+            .HasColumnName("supplier_selection_justification")
+            .HasMaxLength(300)
+            .IsRequired(false);
 
-         builder.Property(e => e.WarrantyPeriodTimeType)
-             .HasColumnName("warranty_period_time_type")
-             .HasColumnType("time_type_enum")
-             .IsRequired(false);
+            builder.Property(e => e.SupplierRejectionJustification)
+            .HasColumnName("supplier_rejection_justification")
+            .HasMaxLength(300)
+            .IsRequired(false);
 
-         builder.Property(e => e.SupplierId)
-             .HasColumnName("supplier_id")
-             .IsRequired();
+            builder.Property(e => e.WarrantyPeriod)
+                .HasColumnName("warranty_period")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
 
-         builder.Property(e => e.PurchaseRequestItemId)
-             .HasColumnName("purchase_request_item_id")
-             .IsRequired();
+            builder.Property(e => e.WarrantyPeriodTimeType)
+                .HasColumnName("warranty_period_time_type")
+                .HasColumnType("time_type_enum")
+                .IsRequired(false);
 
-         builder.Property(e => e.CreatedAt)
-             .HasColumnName("created_at")
-             .HasDefaultValueSql("CURRENT_TIMESTAMP")
-             .ValueGeneratedOnAdd();
+            builder.Property(e => e.SupplierId)
+                .HasColumnName("supplier_id")
+                .IsRequired();
 
-         builder.Property(e => e.DeletedAt)
-             .HasColumnName("deleted_at");
+            builder.Property(e => e.PurchaseRequestItemId)
+                .HasColumnName("purchase_request_item_id")
+                .IsRequired();
 
-         builder.HasOne(e => e.Supplier)
-             .WithMany(s => s.Quotations)
-             .HasForeignKey(e => e.SupplierId)
-             .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
 
-         builder.HasOne(e => e.PurchaseRequestItem)
-             .WithMany(pri => pri.Quotations)
-             .HasForeignKey(e => e.PurchaseRequestItemId)
-             .OnDelete(DeleteBehavior.Restrict);
-      }
-   }
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Supplier)
+                .WithMany(s => s.Quotations)
+                .HasForeignKey(e => e.SupplierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.PurchaseRequestItem)
+                .WithMany(pri => pri.Quotations)
+                .HasForeignKey(e => e.PurchaseRequestItemId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
 }
