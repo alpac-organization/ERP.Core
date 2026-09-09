@@ -4,102 +4,30 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 
-namespace ERP.Core.Database.Infrastructure.Services;
+namespace ERP.Core.Database.Infrastructure.Services.WarehouseCapacities;
 
-public class WarehouseCapacityCalculator(
+public abstract class CapacityCalculatorBase(
     ICalculatorCapacities calculator,
-    IUnitOfWork unitOfWork) : IWarehouseCapacityCalculator
+    IUnitOfWork unitOfWork)
 {
-    public async Task<CalculateRackResult> CalculateRackAsync(
-        Guid sectionId,
-        decimal width, decimal length, decimal? height,
-        CancellationToken ct = default)
-    {
-        var rackCapacity = BuildRackCapacity(width, length, height);
+    protected IUnitOfWork UnitOfWork { get; } = unitOfWork;
 
-        var section = await LoadSectionWithStoragesAsync(sectionId, ct);
-        if (section?.SectionCapacity is null)
-            return new CalculateRackResult(rackCapacity, null, null);
-
-        var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
-            SelectRackCapacities(section.Racks).Append(rackCapacity),
-            SelectLotsCapacities(section.Lots));
-
-        var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, section.Id, sectionCapacity.UsableAreaM2, ct);
-
-        return new CalculateRackResult(rackCapacity, sectionCapacity, warehouse);
-    }
-
-    public async Task<CalculateLotResult> CalculateLotAsync(
-        Guid sectionId,
-        decimal width, decimal length,
-        CancellationToken ct = default)
-    {
-        var lotCapacity = BuildLotsCapacity(width, length);
-
-        var section = await LoadSectionWithStoragesAsync(sectionId, ct);
-        if (section?.SectionCapacity is null)
-            return new CalculateLotResult(lotCapacity, null, null);
-
-        var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
-            SelectRackCapacities(section.Racks),
-            SelectLotsCapacities(section.Lots).Append(lotCapacity));
-
-        var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, section.Id, sectionCapacity.UsableAreaM2, ct);
-
-        return new CalculateLotResult(lotCapacity, sectionCapacity, warehouse);
-    }
-
-    public async Task<CalculateSectionResult> CalculateSectionAsync(
-        Guid warehouseId,
-        decimal width, decimal length,
-        CancellationToken ct = default)
-    {
-        var sectionCapacity = BuildSectionCapacity(
-            width, length,
-            racks: [],
-            lots: []);
-
-        var warehouse = await RecalculateWarehouseAsync(warehouseId, null, null, ct);
-
-        return new CalculateSectionResult(sectionCapacity, warehouse);
-    }
-
-    public Task<CalculateWarehouseResult> CalculateWarehouseAsync(
-        decimal width, decimal length,
-        bool hasSpaceBetweenWall,
-        decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft,
-        CancellationToken ct = default)
-    {
-        var capacity = BuildWarehouseCapacity(width, length, hasSpaceBetweenWall,
-            minimumHeight, maximumHeight,
-            spacingTop, spacingBottom, spacingRight, spacingLeft);
-        capacity.UnusedSpaceM2 = capacity.AvailableSpaceWithSpacingM2;
-
-        return Task.FromResult(new CalculateWarehouseResult(capacity));
-    }
-
-    private async Task<Sections?> LoadSectionWithStoragesAsync(Guid sectionId, CancellationToken ct)
-        => await unitOfWork.Sections.Entities
+    protected async Task<Sections?> LoadSectionWithStoragesAsync(Guid sectionId, CancellationToken ct)
+        => await UnitOfWork.Sections.Entities
             .AsNoTracking()
             .Include(s => s.SectionCapacity)
             .Include(s => s.Racks).ThenInclude(r => r.RackCapacity)
             .Include(s => s.Lots).ThenInclude(l => l.LotsCapacity)
             .FirstOrDefaultAsync(s => s.Id == sectionId, ct);
 
-    private async Task<WarehouseCapacity?> RecalculateWarehouseAsync(
+    protected async Task<WarehouseCapacity?> RecalculateWarehouseAsync(
         Guid warehouseId,
-        Guid? replaceSectionId,
-        decimal? replaceSectionUsableM2,
-        CancellationToken ct)
+        Guid? replaceSectionId = null,
+        decimal? replaceSectionUsableM2 = null,
+        Guid? excludeSectionId = null,
+        CancellationToken ct = default)
     {
-        var warehouse = await unitOfWork.Warehouses.Entities
+        var warehouse = await UnitOfWork.Warehouses.Entities
             .AsNoTracking()
             .Include(w => w.WarehouseCapacity)
             .Include(w => w.Sections).ThenInclude(s => s.SectionCapacity)
@@ -112,17 +40,19 @@ public class WarehouseCapacityCalculator(
             saved.MinimumHeight, saved.MaximumHeight,
             saved.SpacingTop, saved.SpacingBotton, saved.SpacingRight, saved.SpacingLeft);
 
-        var usedM2 = warehouse.Sections.Sum(section =>
-            section.Id == replaceSectionId
-                ? (replaceSectionUsableM2 ?? 0)
-                : (section.SectionCapacity?.UsableAreaM2 ?? 0));
+        var usedM2 = warehouse.Sections
+            .Where(section => section.Id != excludeSectionId)
+            .Sum(section =>
+                section.Id == replaceSectionId
+                    ? (replaceSectionUsableM2 ?? 0)
+                    : (section.SectionCapacity?.UsableAreaM2 ?? 0));
 
         capacity.UnusedSpaceM2 = Math.Max(0, capacity.AvailableSpaceWithSpacingM2 - usedM2);
 
         return capacity;
     }
 
-    private static IEnumerable<RackCapacity> SelectRackCapacities(IEnumerable<Racks> racks)
+    protected static IEnumerable<RackCapacity> SelectRackCapacities(IEnumerable<Racks> racks)
     {
         foreach (var rack in racks)
         {
@@ -131,7 +61,7 @@ public class WarehouseCapacityCalculator(
         }
     }
 
-    private static IEnumerable<LotsCapacity> SelectLotsCapacities(IEnumerable<Lots> lots)
+    protected static IEnumerable<LotsCapacity> SelectLotsCapacities(IEnumerable<Lots> lots)
     {
         foreach (var lot in lots)
         {
@@ -140,7 +70,7 @@ public class WarehouseCapacityCalculator(
         }
     }
 
-    private RackCapacity BuildRackCapacity(decimal width, decimal length, decimal? height)
+    protected RackCapacity BuildRackCapacity(decimal width, decimal length, decimal? height)
     {
         var totalM2 = calculator.CalculateAreaM2(width, length);
 
@@ -157,7 +87,7 @@ public class WarehouseCapacityCalculator(
         };
     }
 
-    private LotsCapacity BuildLotsCapacity(decimal width, decimal length)
+    protected LotsCapacity BuildLotsCapacity(decimal width, decimal length)
     {
         var totalM2 = calculator.CalculateAreaM2(width, length);
 
@@ -173,7 +103,7 @@ public class WarehouseCapacityCalculator(
         };
     }
 
-    private SectionCapacity BuildSectionCapacity(
+    protected SectionCapacity BuildSectionCapacity(
         decimal width, decimal length,
         IEnumerable<RackCapacity> racks, IEnumerable<LotsCapacity> lots)
     {
@@ -197,7 +127,7 @@ public class WarehouseCapacityCalculator(
         };
     }
 
-    private WarehouseCapacity BuildWarehouseCapacity(
+    protected WarehouseCapacity BuildWarehouseCapacity(
         decimal width, decimal length,
         bool hasSpaceBetweenWall,
         decimal? minimumHeight, decimal? maximumHeight,
