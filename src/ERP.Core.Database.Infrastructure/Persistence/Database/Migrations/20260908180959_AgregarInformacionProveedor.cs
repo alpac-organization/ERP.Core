@@ -119,6 +119,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
+            migrationBuilder.RenameColumn(
+                name: "HasCredit",
+                schema: "public",
+                table: "suppliers_details",
+                newName: "has_credit");
+
+            migrationBuilder.RenameColumn(
+                name: "CreditDays",
+                schema: "public",
+                table: "suppliers_details",
+                newName: "credit_days");
+
             migrationBuilder.AlterColumn<bool>(
                 name: "has_credit",
                 schema: "public",
@@ -430,6 +442,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
+            migrationBuilder.RenameColumn(
+                name: "has_credit",
+                schema: "public",
+                table: "suppliers_details",
+                newName: "HasCredit");
+
+            migrationBuilder.RenameColumn(
+                name: "credit_days",
+                schema: "public",
+                table: "suppliers_details",
+                newName: "CreditDays");
+                
             migrationBuilder.AlterColumn<bool>(
                 name: "HasCredit",
                 schema: "public",
