@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260909232108_RefactorCapacitiesFields")]
+    [Migration("20260909233238_RefactorCapacitiesFields")]
     partial class RefactorCapacitiesFields
     {
         /// <inheritdoc />
