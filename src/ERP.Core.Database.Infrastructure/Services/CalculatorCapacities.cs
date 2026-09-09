@@ -22,8 +22,8 @@ public class CalculatorCapacities : ICalculatorCapacities
     public decimal CalculateSpacingLeftBetweenWallM2(decimal left, decimal width)
         => left * width;
 
-    public decimal CalculateAvailableSpaceWithSpacingM2(decimal unusedSpaceM2, decimal totalAreaM2)
-        => totalAreaM2 - unusedSpaceM2;
+    public decimal CalculateAvailableSpaceWithSpacingM2(decimal unusedSpaceM2, decimal CalculateAreaM2)
+        => CalculateAreaM2 - unusedSpaceM2;
 
     public decimal CalculateUnusedSpaceM2(
         decimal spacingTopBetweenWallM2,
@@ -53,9 +53,9 @@ public class CalculatorCapacities : ICalculatorCapacities
     public decimal CalculateAvailableSpaceWithoutSpacingM3(decimal unusedSpaceM3, decimal totalAreaM3)
         => totalAreaM3 - unusedSpaceM3;
 
-    public decimal CalculatePercentageAvailableSpaceWithSpacingM2(decimal availableSpaceWithSpacingM2, decimal totalAreaM2)
-        => totalAreaM2 == 0 ? 0 : (availableSpaceWithSpacingM2 / totalAreaM2) * 100;
+    public decimal CalculatePercentageAvailableSpaceWithSpacingM2(decimal availableSpaceWithSpacingM2, decimal CalculateAreaM2)
+        => CalculateAreaM2 == 0 ? 0 : (availableSpaceWithSpacingM2 / CalculateAreaM2) * 100;
 
-    public decimal CalculatePercentageAvailableSpaceWithoutSpacingM3(decimal availableSpaceWithoutSpacingM3, decimal totalAreaM3)
-        => totalAreaM3 == 0 ? 0 : (availableSpaceWithoutSpacingM3 / totalAreaM3) * 100;
+    public decimal CalculatePercentageAvailableSpaceWithoutSpacingM3(decimal availableSpaceWithoutSpacingM3, decimal CalculateAreaM3)
+        => CalculateAreaM3 == 0 ? 0 : (availableSpaceWithoutSpacingM3 / CalculateAreaM3) * 100;
 }

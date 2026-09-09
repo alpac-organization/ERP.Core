@@ -10,8 +10,8 @@ public interface ICalculatorCapacities
     decimal CalculateSpacingRightBetweenWallM2(decimal right, decimal width);
     decimal CalculateSpacingLeftBetweenWallM2(decimal left, decimal width);
 
-    decimal CalculateAvailableSpaceWithSpacingM2(decimal unusedSpaceM2, decimal totalAreaM2);
-    decimal CalculateAvailableSpaceWithoutSpacingM3(decimal unusedSpaceM3, decimal totalAreaM3);
+    decimal CalculateAvailableSpaceWithSpacingM2(decimal unusedSpaceM2, decimal CalculateAreaM2);
+    decimal CalculateAvailableSpaceWithoutSpacingM3(decimal unusedSpaceM3, decimal CalculateAreaM3);
 
     decimal CalculateUnusedSpaceM2(
         decimal spacingTopBetweenWallM2,
@@ -25,6 +25,6 @@ public interface ICalculatorCapacities
 
     decimal CalculateUnusedSpaceM3(decimal unusedSpaceM2, decimal minimumHeight);
 
-    decimal CalculatePercentageAvailableSpaceWithSpacingM2(decimal availableSpaceWithSpacingM2, decimal totalAreaM2);
-    decimal CalculatePercentageAvailableSpaceWithoutSpacingM3(decimal availableSpaceWithoutSpacingM3, decimal totalAreaM3);
+    decimal CalculatePercentageAvailableSpaceWithSpacingM2(decimal availableSpaceWithSpacingM2, decimal CalculateAreaM2);
+    decimal CalculatePercentageAvailableSpaceWithoutSpacingM3(decimal availableSpaceWithoutSpacingM3, decimal CalculateAreaM3);
 }
