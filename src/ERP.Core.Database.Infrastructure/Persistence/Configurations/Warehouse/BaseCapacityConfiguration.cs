@@ -17,7 +17,7 @@ public class BaseCapacityConfiguration : IEntityTypeConfiguration<BaseCapacity>
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.Property(c => c.Witdh)
+        builder.Property(c => c.Width)
             .HasColumnName("width")
             .HasPrecision(18, 2)
             .IsRequired();
@@ -27,23 +27,33 @@ public class BaseCapacityConfiguration : IEntityTypeConfiguration<BaseCapacity>
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.AvailableSpaceWithSpacingM2)
-            .HasColumnName("available_space_with_spacing_m2")
+        builder.Property(c => c.UnusedAreaM2)
+            .HasColumnName("unused_area_m2")
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.AvailableSpaceWithoutSpacingM2)
-            .HasColumnName("available_space_without_spacing_m2")
+        builder.Property(c => c.AvailableAreaWithMarginM2)
+            .HasColumnName("available_area_with_margin_m2")
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.PercenteAvailableSpaceWithSpacingM2)
-            .HasColumnName("percent_available_space_with_spacing_m2")
-            .HasPrecision(5, 2)
+        builder.Property(c => c.TotalAreaM2)
+            .HasColumnName("total_area_m2")
+            .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.PercenteAvailableSpaceWithSpacingM3)
-            .HasColumnName("percent_available_space_with_spacing_m3")
+        builder.Property(c => c.UnoccupiedChargeableAreaM2)
+            .HasColumnName("unoccupied_chargeable_area_m2")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(c => c.OccupiedChargeableAreaM2)
+            .HasColumnName("occupied_chargeable_area_m2")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(c => c.PercentageAvailableAreaWithMarginM2)
+            .HasColumnName("percentage_available_area_with_margin_m2")
             .HasPrecision(5, 2)
             .IsRequired();
 

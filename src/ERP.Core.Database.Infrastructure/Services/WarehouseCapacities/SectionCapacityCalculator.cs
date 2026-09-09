@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Services.WarehouseCapacities;
@@ -11,14 +12,18 @@ public class SectionCapacityCalculator(
     public async Task<CalculateSectionResult> CalculateSectionAsync(
         Guid warehouseId,
         decimal width, decimal length,
+        SectionType sectionType,
         CancellationToken ct = default)
     {
         var sectionCapacity = BuildSectionCapacity(
-            width, length,
+            width, length, sectionType,
             racks: [],
             lots: []);
 
-        var warehouse = await RecalculateWarehouseAsync(warehouseId, ct: ct);
+        var warehouse = await RecalculateWarehouseAsync(
+            warehouseId,
+            newSectionCapacity: sectionCapacity,
+            ct: ct);
 
         return new CalculateSectionResult(sectionCapacity, warehouse);
     }
@@ -35,14 +40,14 @@ public class SectionCapacityCalculator(
         var stored = section.SectionCapacity;
 
         var sectionCapacity = BuildSectionCapacity(
-            width ?? stored?.Witdh ?? 0,
+            width ?? stored?.Width ?? 0,
             length ?? stored?.Length ?? 0,
+            section.SectionType,
             SelectRackCapacities(section.Racks),
             SelectLotsCapacities(section.Lots));
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateSectionResult(sectionCapacity, warehouse);
     }

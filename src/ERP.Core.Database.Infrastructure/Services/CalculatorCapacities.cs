@@ -7,29 +7,32 @@ public class CalculatorCapacities : ICalculatorCapacities
     public decimal CalculateAreaM2(decimal width, decimal length)
         => width * length;
 
-    public decimal CalculateAreaM3(decimal areaM2, decimal maximumHeight)
-        => areaM2 * maximumHeight;
+    public decimal CalculateAreaM3(decimal areaM2, decimal height)
+        => areaM2 * height;
 
-    public decimal CalculateSpacingTopBetweenWallM2(decimal top, decimal length)
+    public decimal CalculateMarginTopM2(decimal top, decimal length)
         => top * length;
 
-    public decimal CalculateSpacingBottomBetweenWallM2(decimal bottom, decimal length)
+    public decimal CalculateMarginBottomM2(decimal bottom, decimal length)
         => bottom * length;
 
-    public decimal CalculateSpacingRightBetweenWallM2(decimal right, decimal width)
+    public decimal CalculateMarginRightM2(decimal right, decimal width)
         => right * width;
 
-    public decimal CalculateSpacingLeftBetweenWallM2(decimal left, decimal width)
+    public decimal CalculateMarginLeftM2(decimal left, decimal width)
         => left * width;
 
-    public decimal CalculateAvailableSpaceWithSpacingM2(decimal unusedSpaceM2, decimal CalculateAreaM2)
-        => CalculateAreaM2 - unusedSpaceM2;
+    public decimal CalculateAvailableAreaWithMarginM2(decimal unusedAreaM2, decimal totalAreaM2)
+        => totalAreaM2 - unusedAreaM2;
 
-    public decimal CalculateUnusedSpaceM2(
-        decimal spacingTopBetweenWallM2,
-        decimal spacingBottomBetweenWallM2,
-        decimal spacingRightBetweenWallM2,
-        decimal spacingLeftBetweenWallM2,
+    public decimal CalculateAvailableVolumenWithMarginM3(decimal unusedVolumenM3, decimal totalVolumenM3)
+        => totalVolumenM3 - unusedVolumenM3;
+
+    public decimal CalculateUnusedAreaM2(
+        decimal marginTopM2,
+        decimal marginBottomM2,
+        decimal marginRightM2,
+        decimal marginLeftM2,
         decimal top,
         decimal bottom,
         decimal right,
@@ -40,22 +43,19 @@ public class CalculatorCapacities : ICalculatorCapacities
         decimal bottomLeftCorner = bottom * left;
         decimal bottomRightCorner = bottom * right;
 
-        decimal totalMarginArea = spacingTopBetweenWallM2 + spacingBottomBetweenWallM2 +
-                                  spacingRightBetweenWallM2 + spacingLeftBetweenWallM2 -
+        decimal totalMarginArea = marginTopM2 + marginBottomM2 +
+                                  marginRightM2 + marginLeftM2 -
                                   (topLeftCorner + topRightCorner + bottomLeftCorner + bottomRightCorner);
 
         return Math.Max(0, totalMarginArea);
     }
 
-    public decimal CalculateUnusedSpaceM3(decimal unusedSpaceM2, decimal minimumHeight)
-        => unusedSpaceM2 * minimumHeight;
+    public decimal CalculateUnusedVolumenM3(decimal unusedAreaM2, decimal height)
+        => unusedAreaM2 * height;
 
-    public decimal CalculateAvailableSpaceWithoutSpacingM3(decimal unusedSpaceM3, decimal totalAreaM3)
-        => totalAreaM3 - unusedSpaceM3;
+    public decimal CalculatePercentageAvailableAreaWithMarginM2(decimal availableAreaWithMarginM2, decimal totalAreaM2)
+        => totalAreaM2 == 0 ? 0 : (availableAreaWithMarginM2 / totalAreaM2) * 100;
 
-    public decimal CalculatePercentageAvailableSpaceWithSpacingM2(decimal availableSpaceWithSpacingM2, decimal CalculateAreaM2)
-        => CalculateAreaM2 == 0 ? 0 : (availableSpaceWithSpacingM2 / CalculateAreaM2) * 100;
-
-    public decimal CalculatePercentageAvailableSpaceWithoutSpacingM3(decimal availableSpaceWithoutSpacingM3, decimal CalculateAreaM3)
-        => CalculateAreaM3 == 0 ? 0 : (availableSpaceWithoutSpacingM3 / CalculateAreaM3) * 100;
+    public decimal CalculatePercentageAvailableVolumenWithMarginM3(decimal availableVolumenWithMarginM3, decimal totalVolumenM3)
+        => totalVolumenM3 == 0 ? 0 : (availableVolumenWithMarginM3 / totalVolumenM3) * 100;
 }

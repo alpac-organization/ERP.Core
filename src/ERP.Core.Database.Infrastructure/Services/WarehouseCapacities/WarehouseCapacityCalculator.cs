@@ -11,16 +11,16 @@ public class WarehouseCapacityCalculator(
 {
     public Task<CalculateWarehouseResult> CalculateWarehouseAsync(
         decimal width, decimal length,
-        bool hasSpaceBetweenWall,
+        bool hasMargins,
         decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft,
+        decimal? marginTop, decimal? marginBottom,
+        decimal? marginRight, decimal? marginLeft,
         CancellationToken ct = default)
     {
-        var capacity = BuildWarehouseCapacity(width, length, hasSpaceBetweenWall,
+        var capacity = BuildWarehouseCapacity(width, length, hasMargins,
             minimumHeight, maximumHeight,
-            spacingTop, spacingBottom, spacingRight, spacingLeft);
-        capacity.UnusedSpaceM2 = capacity.AvailableSpaceWithSpacingM2;
+            marginTop, marginBottom, marginRight, marginLeft,
+            sections: []);
 
         return Task.FromResult(new CalculateWarehouseResult(capacity));
     }
@@ -28,16 +28,16 @@ public class WarehouseCapacityCalculator(
     public async Task<CalculateWarehouseResult> UpdateWarehouseAsync(
         Guid warehouseId,
         decimal? width, decimal? length,
-        bool? hasSpaceBetweenWall,
+        bool? hasMargins,
         decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft,
+        decimal? marginTop, decimal? marginBottom,
+        decimal? marginRight, decimal? marginLeft,
         CancellationToken ct = default)
     {
         var warehouse = await UnitOfWork.Warehouses.Entities
             .AsNoTracking()
             .Include(w => w.WarehouseCapacity)
-            .Include(w => w.Sections).ThenInclude(s => s.SectionCapacity)
+            .Include(w => w.Sections.Where(s => s.DeletedAt == null)).ThenInclude(s => s.SectionCapacity)
             .FirstOrDefaultAsync(w => w.Id == warehouseId, ct);
         if (warehouse is null)
             return new CalculateWarehouseResult(null);
@@ -45,18 +45,16 @@ public class WarehouseCapacityCalculator(
         var stored = warehouse.WarehouseCapacity;
 
         var capacity = BuildWarehouseCapacity(
-            width ?? stored?.Witdh ?? 0,
+            width ?? stored?.Width ?? 0,
             length ?? stored?.Length ?? 0,
-            hasSpaceBetweenWall ?? stored?.HasSpaceBetweenWall ?? false,
+            hasMargins ?? stored?.HasMargins ?? false,
             minimumHeight ?? stored?.MinimumHeight,
             maximumHeight ?? stored?.MaximumHeight,
-            spacingTop ?? stored?.SpacingTop,
-            spacingBottom ?? stored?.SpacingBotton,
-            spacingRight ?? stored?.SpacingRight,
-            spacingLeft ?? stored?.SpacingLeft);
-
-        var usedM2 = warehouse.Sections.Sum(s => s.SectionCapacity?.UsableAreaM2 ?? 0);
-        capacity.UnusedSpaceM2 = Math.Max(0, capacity.AvailableSpaceWithSpacingM2 - usedM2);
+            marginTop ?? stored?.MarginTop,
+            marginBottom ?? stored?.MarginBottom,
+            marginRight ?? stored?.MarginRight,
+            marginLeft ?? stored?.MarginLeft,
+            warehouse.Sections.Select(s => s.SectionCapacity));
 
         return new CalculateWarehouseResult(capacity);
     }

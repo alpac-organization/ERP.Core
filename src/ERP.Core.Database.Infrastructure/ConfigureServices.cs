@@ -81,7 +81,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
                     npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
                     npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
-                    // npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
+                    npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
                     npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
                     npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
                     npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");

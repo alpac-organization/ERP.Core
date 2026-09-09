@@ -21,13 +21,13 @@ public class RackCapacityCalculator(
             return new CalculateRackResult(rackCapacity, null, null);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             SelectRackCapacities(section.Racks).Append(rackCapacity),
             SelectLotsCapacities(section.Lots));
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateRackResult(rackCapacity, sectionCapacity, warehouse);
     }
@@ -47,7 +47,7 @@ public class RackCapacityCalculator(
         var stored = rack.RackCapacity;
 
         var rackCapacity = BuildRackCapacity(
-            width ?? stored?.Witdh ?? 0,
+            width ?? stored?.Width ?? 0,
             length ?? stored?.Length ?? 0,
             height ?? stored?.Height);
 
@@ -60,13 +60,13 @@ public class RackCapacityCalculator(
             .Append(rackCapacity);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             racks,
             SelectLotsCapacities(section.Lots));
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateRackResult(rackCapacity, sectionCapacity, warehouse);
     }
@@ -87,13 +87,13 @@ public class RackCapacityCalculator(
             .Where(c => c.RackId != rackId);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             racks,
             SelectLotsCapacities(section.Lots));
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateRackResult(null, sectionCapacity, warehouse);
     }

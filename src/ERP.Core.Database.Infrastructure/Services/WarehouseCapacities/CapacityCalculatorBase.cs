@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
@@ -16,40 +17,60 @@ public abstract class CapacityCalculatorBase(
         => await UnitOfWork.Sections.Entities
             .AsNoTracking()
             .Include(s => s.SectionCapacity)
-            .Include(s => s.Racks).ThenInclude(r => r.RackCapacity)
-            .Include(s => s.Lots).ThenInclude(l => l.LotsCapacity)
+            .Include(s => s.Racks.Where(r => r.DeletedAt == null)).ThenInclude(r => r.RackCapacity)
+            .Include(s => s.Lots.Where(l => l.DeletedAt == null)).ThenInclude(l => l.LotsCapacity)
             .FirstOrDefaultAsync(s => s.Id == sectionId, ct);
 
     protected async Task<WarehouseCapacity?> RecalculateWarehouseAsync(
         Guid warehouseId,
+        SectionCapacity? newSectionCapacity = null,
         Guid? replaceSectionId = null,
-        decimal? replaceSectionUsableM2 = null,
         Guid? excludeSectionId = null,
         CancellationToken ct = default)
     {
         var warehouse = await UnitOfWork.Warehouses.Entities
             .AsNoTracking()
             .Include(w => w.WarehouseCapacity)
-            .Include(w => w.Sections).ThenInclude(s => s.SectionCapacity)
+            .Include(w => w.Sections.Where(s => s.DeletedAt == null)).ThenInclude(s => s.SectionCapacity)
             .FirstOrDefaultAsync(w => w.Id == warehouseId, ct);
         if (warehouse?.WarehouseCapacity is null)
             return null;
 
         var saved = warehouse.WarehouseCapacity;
-        var capacity = BuildWarehouseCapacity(saved.Witdh, saved.Length, saved.HasSpaceBetweenWall,
+        var capacity = BuildWarehouseCapacity(
+            saved.Width, saved.Length, saved.HasMargins,
             saved.MinimumHeight, saved.MaximumHeight,
-            saved.SpacingTop, saved.SpacingBotton, saved.SpacingRight, saved.SpacingLeft);
-
-        var usedM2 = warehouse.Sections
-            .Where(section => section.Id != excludeSectionId)
-            .Sum(section =>
-                section.Id == replaceSectionId
-                    ? (replaceSectionUsableM2 ?? 0)
-                    : (section.SectionCapacity?.UsableAreaM2 ?? 0));
-
-        capacity.UnusedSpaceM2 = Math.Max(0, capacity.AvailableSpaceWithSpacingM2 - usedM2);
+            saved.MarginTop, saved.MarginBottom, saved.MarginRight, saved.MarginLeft,
+            BuildEffectiveSections(warehouse.Sections, newSectionCapacity, replaceSectionId, excludeSectionId));
 
         return capacity;
+    }
+
+    private static IEnumerable<SectionCapacity?> BuildEffectiveSections(
+        IEnumerable<Sections> sections,
+        SectionCapacity? newSectionCapacity,
+        Guid? replaceSectionId,
+        Guid? excludeSectionId)
+    {
+        var replaced = false;
+
+        foreach (var section in sections)
+        {
+            if (section.Id == excludeSectionId)
+                continue;
+
+            if (section.Id == replaceSectionId)
+            {
+                yield return newSectionCapacity;
+                replaced = true;
+                continue;
+            }
+
+            yield return section.SectionCapacity;
+        }
+
+        if (!replaced && replaceSectionId is null && newSectionCapacity is not null)
+            yield return newSectionCapacity;
     }
 
     protected static IEnumerable<RackCapacity> SelectRackCapacities(IEnumerable<Racks> racks)
@@ -76,14 +97,15 @@ public abstract class CapacityCalculatorBase(
 
         return new RackCapacity
         {
-            Witdh = width,
+            Width = width,
             Length = length,
             Height = height,
-            UnusedSpaceM2 = 0,
-            AvailableSpaceWithSpacingM2 = totalM2,
-            AvailableSpaceWithoutSpacingM2 = totalM2,
-            PercenteAvailableSpaceWithSpacingM2 = totalM2 == 0 ? 0 : 100,
-            PercenteAvailableSpaceWithSpacingM3 = 0
+            UnusedAreaM2 = 0,
+            AvailableAreaWithMarginM2 = totalM2,
+            TotalAreaM2 = totalM2,
+            UnoccupiedChargeableAreaM2 = totalM2,
+            OccupiedChargeableAreaM2 = 0,
+            PercentageAvailableAreaWithMarginM2 = totalM2 == 0 ? 0 : 100
         };
     }
 
@@ -93,115 +115,143 @@ public abstract class CapacityCalculatorBase(
 
         return new LotsCapacity
         {
-            Witdh = width,
+            Width = width,
             Length = length,
-            UnusedSpaceM2 = 0,
-            AvailableSpaceWithSpacingM2 = totalM2,
-            AvailableSpaceWithoutSpacingM2 = totalM2,
-            PercenteAvailableSpaceWithSpacingM2 = totalM2 == 0 ? 0 : 100,
-            PercenteAvailableSpaceWithSpacingM3 = 0
+            UnusedAreaM2 = 0,
+            AvailableAreaWithMarginM2 = totalM2,
+            TotalAreaM2 = totalM2,
+            UnoccupiedChargeableAreaM2 = totalM2,
+            OccupiedChargeableAreaM2 = 0,
+            PercentageAvailableAreaWithMarginM2 = totalM2 == 0 ? 0 : 100
         };
     }
 
     protected SectionCapacity BuildSectionCapacity(
         decimal width, decimal length,
+        SectionType sectionType,
         IEnumerable<RackCapacity> racks, IEnumerable<LotsCapacity> lots)
     {
-        var areaSection = calculator.CalculateAreaM2(width, length);
-        var sumAvailableM2 = (racks ?? []).Sum(r => r.AvailableSpaceWithoutSpacingM2)
-                           + (lots ?? []).Sum(l => l.AvailableSpaceWithoutSpacingM2);
-        var unusedSpaceM2 = Math.Max(0, areaSection - sumAvailableM2);
+        var totalM2 = calculator.CalculateAreaM2(width, length);
+        var isAisle = sectionType == SectionType.Aisle;
+
+        var unoccupiedChargeableM2 = isAisle
+            ? 0
+            : (racks ?? []).Sum(r => r.UnoccupiedChargeableAreaM2)
+            + (lots ?? []).Sum(l => l.UnoccupiedChargeableAreaM2);
+
+        var occupiedChargeableM2 = isAisle
+            ? 0
+            : (racks ?? []).Sum(r => r.OccupiedChargeableAreaM2)
+            + (lots ?? []).Sum(l => l.OccupiedChargeableAreaM2);
+
+        var unusedM2 = isAisle ? totalM2 : 0;
+        var availableM2 = totalM2 - unusedM2;
 
         return new SectionCapacity
         {
-            Witdh = width,
+            Width = width,
             Length = length,
-            UsableAreaM2 = sumAvailableM2,
-            UnusableAreaM2 = unusedSpaceM2,
-            UnusedSpaceM2 = unusedSpaceM2,
-            AvailableSpaceWithSpacingM2 = sumAvailableM2,
-            AvailableSpaceWithoutSpacingM2 = areaSection,
-            PercenteAvailableSpaceWithSpacingM2 =
-                calculator.CalculatePercentageAvailableSpaceWithSpacingM2(sumAvailableM2, areaSection),
-            PercenteAvailableSpaceWithSpacingM3 = 0
+            UnusedAreaM2 = unusedM2,
+            AvailableAreaWithMarginM2 = availableM2,
+            TotalAreaM2 = totalM2,
+            UnoccupiedChargeableAreaM2 = unoccupiedChargeableM2,
+            OccupiedChargeableAreaM2 = occupiedChargeableM2,
+            PercentageAvailableAreaWithMarginM2 =
+                calculator.CalculatePercentageAvailableAreaWithMarginM2(availableM2, totalM2)
         };
     }
 
     protected WarehouseCapacity BuildWarehouseCapacity(
         decimal width, decimal length,
-        bool hasSpaceBetweenWall,
+        bool hasMargins,
         decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft)
+        decimal? marginTop, decimal? marginBottom,
+        decimal? marginRight, decimal? marginLeft,
+        IEnumerable<SectionCapacity?> sections)
     {
         var totalM2 = calculator.CalculateAreaM2(width, length);
 
-        var spacingTopM2 = spacingTop is null
+        var marginTopM2 = marginTop is null
             ? 0
-            : calculator.CalculateSpacingTopBetweenWallM2(spacingTop.Value, length);
-        var spacingBottomM2 = spacingBottom is null
+            : calculator.CalculateMarginTopM2(marginTop.Value, length);
+        var marginBottomM2 = marginBottom is null
             ? 0
-            : calculator.CalculateSpacingBottomBetweenWallM2(spacingBottom.Value, length);
-        var spacingRightM2 = spacingRight is null
+            : calculator.CalculateMarginBottomM2(marginBottom.Value, length);
+        var marginRightM2 = marginRight is null
             ? 0
-            : calculator.CalculateSpacingRightBetweenWallM2(spacingRight.Value, width);
-        var spacingLeftM2 = spacingLeft is null
+            : calculator.CalculateMarginRightM2(marginRight.Value, width);
+        var marginLeftM2 = marginLeft is null
             ? 0
-            : calculator.CalculateSpacingLeftBetweenWallM2(spacingLeft.Value, width);
+            : calculator.CalculateMarginLeftM2(marginLeft.Value, width);
 
-        var anySpacing = spacingTop is not null
-                         || spacingBottom is not null
-                         || spacingRight is not null
-                         || spacingLeft is not null;
+        var anyMargin = marginTop is not null
+                        || marginBottom is not null
+                        || marginRight is not null
+                        || marginLeft is not null;
 
-        var unusedSpaceM2 = hasSpaceBetweenWall && anySpacing
-            ? calculator.CalculateUnusedSpaceM2(
-                spacingTopM2,
-                spacingBottomM2,
-                spacingRightM2,
-                spacingLeftM2,
-                spacingTop ?? 0,
-                spacingBottom ?? 0,
-                spacingRight ?? 0,
-                spacingLeft ?? 0)
+        var marginM2 = hasMargins && anyMargin
+            ? calculator.CalculateUnusedAreaM2(
+                marginTopM2,
+                marginBottomM2,
+                marginRightM2,
+                marginLeftM2,
+                marginTop ?? 0,
+                marginBottom ?? 0,
+                marginRight ?? 0,
+                marginLeft ?? 0)
             : 0;
 
-        var availableWithSpacingM2 = calculator.CalculateAvailableSpaceWithSpacingM2(unusedSpaceM2, totalM2);
+        var sectionsList = (sections ?? []).ToList();
 
-        var maximumHeightValue = maximumHeight ?? minimumHeight;
-        var minimumHeightValue = minimumHeight ?? maximumHeight;
+        var unusedM2 = marginM2 + sectionsList.Sum(s => s?.UnusedAreaM2 ?? 0);
+        var availableM2 = Math.Max(0, calculator.CalculateAvailableAreaWithMarginM2(unusedM2, totalM2));
 
-        var totalM3 = maximumHeightValue is null
+        var unoccupiedChargeableM2 = sectionsList.Sum(s => s?.UnoccupiedChargeableAreaM2 ?? 0);
+        var occupiedChargeableM2 = sectionsList.Sum(s => s?.OccupiedChargeableAreaM2 ?? 0);
+
+        var unusedVolumeHeight = minimumHeight ?? maximumHeight ?? 0;
+        var totalVolumeHeight = maximumHeight ?? minimumHeight ?? 0;
+        var chargeableVolumeHeight = maximumHeight ?? minimumHeight ?? 0;
+
+        var unusedVolumenM3 = unusedVolumeHeight == 0
             ? 0
-            : calculator.CalculateAreaM3(totalM2, maximumHeightValue.Value);
+            : calculator.CalculateUnusedVolumenM3(marginM2, unusedVolumeHeight);
 
-        var unusedSpaceM3 = minimumHeightValue is null
+        var totalVolumenM3 = totalVolumeHeight == 0
             ? 0
-            : calculator.CalculateUnusedSpaceM3(unusedSpaceM2, minimumHeightValue.Value);
+            : calculator.CalculateAreaM3(totalM2, totalVolumeHeight);
 
-        var availableWithoutSpacingM3 = calculator.CalculateAvailableSpaceWithoutSpacingM3(unusedSpaceM3, totalM3);
+        var availableVolumenM3 = Math.Max(0,
+            calculator.CalculateAvailableVolumenWithMarginM3(unusedVolumenM3, totalVolumenM3));
+
+        var unoccupiedChargeableVolumenM3 = unoccupiedChargeableM2 * chargeableVolumeHeight;
+        var occupiedChargeableVolumenM3 = occupiedChargeableM2 * chargeableVolumeHeight;
 
         return new WarehouseCapacity
         {
-            Witdh = width,
+            Width = width,
             Length = length,
+            HasMargins = hasMargins,
             MinimumHeight = minimumHeight,
             MaximumHeight = maximumHeight,
-            HasSpaceBetweenWall = hasSpaceBetweenWall,
-            SpacingTop = spacingTop,
-            SpacingBotton = spacingBottom,
-            SpacingRight = spacingRight,
-            SpacingLeft = spacingLeft,
-            UnusedSpaceM2 = unusedSpaceM2,
-            AvailableSpaceWithSpacingM2 = availableWithSpacingM2,
-            AvailableSpaceWithoutSpacingM2 = totalM2,
-            PercenteAvailableSpaceWithSpacingM2 =
-                calculator.CalculatePercentageAvailableSpaceWithSpacingM2(availableWithSpacingM2, totalM2),
-            UnasedSpaceM3 = unusedSpaceM3,
-            AvailableSpaceWithSpacingM3 = availableWithoutSpacingM3,
-            AvailableSpaceWithoutSpacingM3 = totalM3,
-            PercenteAvailableSpaceWithSpacingM3 =
-                calculator.CalculatePercentageAvailableSpaceWithoutSpacingM3(availableWithoutSpacingM3, totalM3)
+            MarginTop = marginTop,
+            MarginBottom = marginBottom,
+            MarginRight = marginRight,
+            MarginLeft = marginLeft,
+            UnusedAreaM2 = unusedM2,
+            AvailableAreaWithMarginM2 = availableM2,
+            TotalAreaM2 = totalM2,
+            UnoccupiedChargeableAreaM2 = unoccupiedChargeableM2,
+            OccupiedChargeableAreaM2 = occupiedChargeableM2,
+            PercentageAvailableAreaWithMarginM2 =
+                calculator.CalculatePercentageAvailableAreaWithMarginM2(availableM2, totalM2),
+            UnusedVolumenM3 = unusedVolumenM3,
+            AvailableVolumenWithMarginM3 = availableVolumenM3,
+            TotalVolumenM3 = totalVolumenM3,
+            UnoccupiedChargeableVolumenM3 = unoccupiedChargeableVolumenM3,
+            OccupiedChargeableVolumenM3 = occupiedChargeableVolumenM3,
+            PercentageAvailableVolumenWithMarginM3 =
+                calculator.CalculatePercentageAvailableVolumenWithMarginM3(availableVolumenM3, totalVolumenM3)
         };
     }
 }

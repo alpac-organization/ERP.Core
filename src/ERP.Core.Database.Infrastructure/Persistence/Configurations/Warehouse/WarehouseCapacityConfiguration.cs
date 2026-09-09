@@ -10,8 +10,8 @@ public class WarehouseCapacityConfiguration : IEntityTypeConfiguration<Warehouse
     {
         builder.ToTable("warehouse_capacities");
 
-        builder.Property(wc => wc.HasSpaceBetweenWall)
-            .HasColumnName("has_space_between_wall")
+        builder.Property(wc => wc.HasMargins)
+            .HasColumnName("has_margins")
             .IsRequired();
 
         builder.Property(c => c.MinimumHeight)
@@ -24,45 +24,55 @@ public class WarehouseCapacityConfiguration : IEntityTypeConfiguration<Warehouse
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.AvailableSpaceWithSpacingM3)
-            .HasColumnName("available_space_with_spacing_m3")
+        builder.Property(wc => wc.MarginTop)
+            .HasColumnName("margin_top")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.AvailableSpaceWithoutSpacingM3)
-            .HasColumnName("available_space_without_spacing_m3")
+        builder.Property(wc => wc.MarginBottom)
+            .HasColumnName("margin_bottom")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.SpacingTop)
-            .HasColumnName("spacing_top")
+        builder.Property(wc => wc.MarginRight)
+            .HasColumnName("margin_right")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.SpacingBotton)
-            .HasColumnName("spacing_bottom")
+        builder.Property(wc => wc.MarginLeft)
+            .HasColumnName("margin_left")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.SpacingRight)
-            .HasColumnName("spacing_right")
+        builder.Property(wc => wc.UnusedVolumenM3)
+            .HasColumnName("unused_volumen_m3")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.SpacingLeft)
-            .HasColumnName("spacing_left")
+        builder.Property(wc => wc.AvailableVolumenWithMarginM3)
+            .HasColumnName("available_volumen_with_margin_m3")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.UnusedSpaceM2)
-            .HasColumnName("unused_space_m2")
+        builder.Property(wc => wc.TotalVolumenM3)
+            .HasColumnName("total_volumen_m3")
             .HasPrecision(18, 2)
             .IsRequired(false);
 
-        builder.Property(wc => wc.UnasedSpaceM3)
-            .HasColumnName("unused_space_m3")
+        builder.Property(wc => wc.UnoccupiedChargeableVolumenM3)
+            .HasColumnName("unoccupied_chargeable_volumen_m3")
             .HasPrecision(18, 2)
             .IsRequired(false);
+
+        builder.Property(wc => wc.OccupiedChargeableVolumenM3)
+            .HasColumnName("occupied_chargeable_volumen_m3")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
+
+        builder.Property(wc => wc.PercentageAvailableVolumenWithMarginM3)
+            .HasColumnName("percentage_available_volumen_with_margin_m3")
+            .HasPrecision(5, 2)
+            .IsRequired();
 
         builder.Property(wc => wc.WarehouseId)
             .HasColumnName("warehouse_id")
