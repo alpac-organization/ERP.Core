@@ -3,17 +3,17 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services.WarehouseCap
 public interface IWarehouseCapacityCalculator
 {
     Task<CalculateWarehouseResult> CalculateWarehouseAsync(decimal width, decimal length,
-        bool hasSpaceBetweenWall,
+        bool hasMargins,
         decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft,
+        decimal? marginTop, decimal? marginBottom,
+        decimal? marginRight, decimal? marginLeft,
         CancellationToken ct = default);
 
     Task<CalculateWarehouseResult> UpdateWarehouseAsync(Guid warehouseId, decimal? width, decimal? length,
-        bool? hasSpaceBetweenWall,
+        bool? hasMargins,
         decimal? minimumHeight, decimal? maximumHeight,
-        decimal? spacingTop, decimal? spacingBottom,
-        decimal? spacingRight, decimal? spacingLeft,
+        decimal? marginTop, decimal? marginBottom,
+        decimal? marginRight, decimal? marginLeft,
         CancellationToken ct = default);
 
     Task DeleteWarehouseAsync(Guid warehouseId, CancellationToken ct = default);

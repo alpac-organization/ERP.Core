@@ -21,13 +21,13 @@ public class LotCapacityCalculator(
             return new CalculateLotResult(lotCapacity, null, null);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             SelectRackCapacities(section.Racks),
             SelectLotsCapacities(section.Lots).Append(lotCapacity));
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateLotResult(lotCapacity, sectionCapacity, warehouse);
     }
@@ -47,7 +47,7 @@ public class LotCapacityCalculator(
         var stored = lot.LotsCapacity;
 
         var lotCapacity = BuildLotsCapacity(
-            width ?? stored?.Witdh ?? 0,
+            width ?? stored?.Width ?? 0,
             length ?? stored?.Length ?? 0);
 
         var section = await LoadSectionWithStoragesAsync(lot.SectionId, ct);
@@ -59,13 +59,13 @@ public class LotCapacityCalculator(
             .Append(lotCapacity);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             SelectRackCapacities(section.Racks),
             lots);
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateLotResult(lotCapacity, sectionCapacity, warehouse);
     }
@@ -86,13 +86,13 @@ public class LotCapacityCalculator(
             .Where(c => c.LotsId != lotId);
 
         var sectionCapacity = BuildSectionCapacity(
-            section.SectionCapacity.Witdh, section.SectionCapacity.Length,
+            section.SectionCapacity.Width, section.SectionCapacity.Length,
+            section.SectionType,
             SelectRackCapacities(section.Racks),
             lots);
 
         var warehouse = await RecalculateWarehouseAsync(
-            section.WarehouseId, replaceSectionId: section.Id,
-            replaceSectionUsableM2: sectionCapacity.UsableAreaM2, ct: ct);
+            section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
         return new CalculateLotResult(null, sectionCapacity, warehouse);
     }
