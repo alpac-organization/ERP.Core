@@ -18,5 +18,10 @@ public class RackCapacityConfiguration : IEntityTypeConfiguration<RackCapacity>
             .WithOne(r => r.RackCapacity)
             .HasForeignKey<RackCapacity>(rc => rc.RackId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Property(c => c.Height)
+            .HasColumnName("height")
+            .HasPrecision(18, 2)
+            .IsRequired(false);
     }
 }

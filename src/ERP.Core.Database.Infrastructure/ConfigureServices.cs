@@ -9,6 +9,7 @@ using ERP.Core.Database.Infrastructure.Services;
 
 using ERP.Core.Database.Infrastructure.Persistence;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
+using ERP.Core.Database.Infrastructure.Services.WarehouseCapacities;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping;
@@ -22,6 +23,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Services.WarehouseCapacities;
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -96,6 +98,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<WarehouseTaskType>("warehouse_task_type_enum", "public");
                     npgsqlOptions.MapEnum<WarehouseTaskStatus>("warehouse_task_status_enum", "public");
                     npgsqlOptions.MapEnum<WarehouseTaskEventType>("warehouse_task_event_type_enum", "public");
+                    npgsqlOptions.MapEnum<BankAccountType>("bank_account_type_enum", "public");
+                    npgsqlOptions.MapEnum<PaymentMethodType>("payment_method_type_enum", "public");
                 })
             );
 
@@ -210,6 +214,11 @@ namespace ERP.Core.Database.Infrastructure
 
             //Servicios 
             services.AddScoped<ICodeGenerator, CodeGenerator>();
+            services.AddScoped<ICalculatorCapacities, CalculatorCapacities>();
+            services.AddScoped<IRackCapacityCalculator, RackCapacityCalculator>();
+            services.AddScoped<ILotCapacityCalculator, LotCapacityCalculator>();
+            services.AddScoped<ISectionCapacityCalculator, SectionCapacityCalculator>();
+            services.AddScoped<IWarehouseCapacityCalculator, WarehouseCapacityCalculator>();
 
             return services;
         }
