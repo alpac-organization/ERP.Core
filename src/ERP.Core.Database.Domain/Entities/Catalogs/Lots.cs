@@ -6,8 +6,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
    public class Lots : BaseEntity<Guid>
    {
-      public int NominalRows { get; set; }
-      public int NominalColumns { get; set; }
+      public int? NominalRows { get; set; }
+      public int? NominalColumns { get; set; }
       public bool AllowsStacking { get; set; } = true!;
 
       public string Code { get; set; } = null!;
@@ -21,7 +21,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       public Guid SectionId { get; set; }
       public virtual Sections Section { get; set; } = null!;
 
-      public virtual ICollection<LotsPositions> Positions { get; set; } = [];
+      public virtual ICollection<LotsPositions>? Positions { get; set; } = [];
       public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
    }
 }

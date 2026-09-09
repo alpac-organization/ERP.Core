@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs;
@@ -27,11 +27,11 @@ public class LotsConfiguration : IEntityTypeConfiguration<Lots>
 
         builder.Property(e => e.NominalRows)
             .HasColumnName("nominal_rows")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.NominalColumns)
             .HasColumnName("nominal_columns")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.AllowsStacking)
             .HasColumnName("allows_stacking")
