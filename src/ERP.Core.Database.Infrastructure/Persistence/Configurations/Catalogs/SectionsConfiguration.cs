@@ -40,6 +40,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValueSql("'storage'::section_type_enum")
                 .IsRequired();
 
+            builder.Property(w => w.SectionStorageType)
+                .HasColumnName("section_storage_type")
+                .HasColumnType("section_storage_type_enum")
+                .HasDefaultValueSql("'racks'::section_storage_type_enum")
+                .IsRequired();
+
             //   builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
             //       {
             //          layaout.IsRequired();

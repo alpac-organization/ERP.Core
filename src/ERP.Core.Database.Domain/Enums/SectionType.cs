@@ -6,12 +6,9 @@ namespace ERP.Core.Database.Domain.Enums
         Aisle = 2,
     }
     
-    // public enum SectionStorageType
-    // {
-    //     Empty = 1,
-    //     Racks = 2,
-    //     Lots = 3,
-    // }
-
-    //public enum useToLotsOrRacks
+    public enum SectionStorageType
+    {
+        Racks = 1,
+        Lots = 2
+    }
 }

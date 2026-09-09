@@ -6,11 +6,14 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public decimal Length { get; set; }
 
         //M2
-        public decimal? UnusedSpaceM2 { get; set; }
-        public decimal AvailableSpaceWithSpacingM2 { get; set; }
-        public decimal AvailableSpaceWithoutSpacingM2 { get; set; }
+        public decimal UnusedAreaM2 { get; set; }  //area inutil
+        public decimal AvailableAreaWithSpacingM2 { get; set; }  //area util
+        public decimal TotalAreaM2 { get; set; } //Area Total = area util + area inutil = Witdh * Length
 
-        public decimal PercenteAvailableSpaceWithSpacingM2 { get; set; }
-        public decimal PercenteAvailableSpaceWithSpacingM3 { get; set; }
+        public decimal VacantChargeableAreaM2 { get; set; } //Area Disponible para Cobro
+        public decimal OccupiedChargeableAreaM2 { get; set; } //Area Ocupada para Cobrar
+
+        public decimal PercenteAvailableAreaWithSpacingM2 { get; set; }
+        public decimal PercenteAvailableVolumenWithSpacingM3 { get; set; }
     }
 }

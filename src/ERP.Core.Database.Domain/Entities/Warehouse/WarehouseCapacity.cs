@@ -15,9 +15,12 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public decimal? SpacingLeft { get; set; }
 
         //M3
-        public decimal? UnasedSpaceM3 { get; set; } 
-        public decimal? AvailableSpaceWithSpacingM3 { get; set; }
-        public decimal? AvailableSpaceWithoutSpacingM3 { get; set; }
+        public decimal? UnasedVolumenM3 { get; set; } 
+        public decimal? AvailableVolumenWithSpacingM3 { get; set; }
+        public decimal? AvailableVolumenWithoutSpacingM3 { get; set; }
+
+        public decimal? VacantChargeableVolumenM3 { get; set; } //Volumen Disponible para Cobro
+        public decimal? OccupiedChargeableVolumenM3 { get; set; } //Volumen Ocupado para Cobrar
         
         
         public Guid WarehouseId { get; set;  }
