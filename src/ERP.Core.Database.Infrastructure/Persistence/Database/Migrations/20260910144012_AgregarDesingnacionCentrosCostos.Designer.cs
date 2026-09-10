@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260910144012_AgregarDesingnacionCentrosCostos")]
+    partial class AgregarDesingnacionCentrosCostos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3781,7 +3784,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("inss_number");
 
-                    b.Property<Guid>("JobPositionId")
+                    b.Property<Guid?>("JobPositionId")
                         .HasColumnType("uuid")
                         .HasColumnName("job_position_id");
 
@@ -3792,6 +3795,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<string>("WorkPhoneNumber")
                         .HasColumnType("text")
                         .HasColumnName("work_phone_number");
+
+                    b.Property<int>("WorkPositionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("work_position_id");
 
                     b.HasKey("Id");
 
@@ -3804,7 +3811,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CostCenterId");
 
-                    b.HasIndex("JobPositionId");
+                    b.HasIndex("WorkPositionId");
 
                     b.ToTable("working_information", "public");
                 });
@@ -7539,9 +7546,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", "JobPosition")
-                        .WithMany("WorkingInformations")
-                        .HasForeignKey("JobPositionId")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "WorkPosition")
+                        .WithMany()
+                        .HasForeignKey("WorkPositionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -7553,7 +7560,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("CostCenter");
 
-                    b.Navigation("JobPosition");
+                    b.Navigation("WorkPosition");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
@@ -8416,11 +8423,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CustomerType", b =>
                 {
                     b.Navigation("Customers");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
-                {
-                    b.Navigation("WorkingInformations");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Lots", b =>
