@@ -28,6 +28,11 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public string? ReasonRejection { get; set; }
 
+        /// <summary>
+        /// Motivo o justificación por el cual fue anulada o devuelta la solicitud
+        /// </summary>
+        public string? AnnulmentReason { get; set; }
+
 
         /// <summary>
         /// Fecha de la solicitud
@@ -70,6 +75,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public Guid RegisteredByUserId { get; set; }
         public virtual User RegistrationUser { get; set; } = default!;
+
+        /// <summary>
+        /// Usuario que anuló la solicitud.
+        /// </summary>
+        public Guid? AnnulledByUserId { get; set; }
+        public virtual User? AnnulledByUser { get; set; }
         
         /// <summary>
         /// Sucursal que necesita la requisición
