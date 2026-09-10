@@ -54,7 +54,8 @@ public class WarehouseCapacityCalculator(
             marginBottom ?? stored?.MarginBottom,
             marginRight ?? stored?.MarginRight,
             marginLeft ?? stored?.MarginLeft,
-            warehouse.Sections.Select(s => s.SectionCapacity));
+            warehouse.Sections.Select(s => new EffectiveSection(
+                s.SectionCapacity, s.SectionType, s.SectionStorageType)));
 
         return new CalculateWarehouseResult(capacity);
     }
