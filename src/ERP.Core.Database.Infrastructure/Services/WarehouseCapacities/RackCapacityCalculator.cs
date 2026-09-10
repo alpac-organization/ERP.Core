@@ -23,6 +23,7 @@ public class RackCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             SelectRackCapacities(section.Racks).Append(rackCapacity),
             SelectLotsCapacities(section.Lots));
 
@@ -62,6 +63,7 @@ public class RackCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             racks,
             SelectLotsCapacities(section.Lots));
 
@@ -75,7 +77,7 @@ public class RackCapacityCalculator(
     {
         var rack = await UnitOfWork.Racks.Entities
             .AsNoTracking()
-            .FirstOrDefaultAsync(r => r.Id == rackId, ct);
+            .FirstOrDefaultAsync(r => r.Id == rackId && r.DeletedAt == null, ct);
         if (rack is null)
             return new CalculateRackResult(null, null, null);
 
@@ -89,6 +91,7 @@ public class RackCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             racks,
             SelectLotsCapacities(section.Lots));
 

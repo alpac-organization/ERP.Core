@@ -17,12 +17,14 @@ public class SectionCapacityCalculator(
     {
         var sectionCapacity = BuildSectionCapacity(
             width, length, sectionType,
+            storageType: SectionStorageType.Lots,
             racks: [],
             lots: []);
 
         var warehouse = await RecalculateWarehouseAsync(
             warehouseId,
             newSectionCapacity: sectionCapacity,
+            newSectionType: sectionType,
             ct: ct);
 
         return new CalculateSectionResult(sectionCapacity, warehouse);
@@ -43,6 +45,7 @@ public class SectionCapacityCalculator(
             width ?? stored?.Width ?? 0,
             length ?? stored?.Length ?? 0,
             section.SectionType,
+            section.SectionStorageType,
             SelectRackCapacities(section.Racks),
             SelectLotsCapacities(section.Lots));
 
