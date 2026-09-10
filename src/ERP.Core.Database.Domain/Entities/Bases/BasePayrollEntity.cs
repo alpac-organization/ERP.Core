@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public decimal TotalToPay { get; set; }
 
         public Guid PayrollId { get; set; }
-        public virtual Payroll Payroll { get; set; } = null!;
+        public virtual Payrolls.Payroll Payroll { get; set; } = null!;
         
         public Guid CollaboratorId { get; set;}
         public virtual Collaborator Collaborator { get; set; } = null!;

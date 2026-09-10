@@ -36,6 +36,13 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? CompanyAlias { get; set; }
     }
 
+    public class JobPositionInformation
+    {
+        public Guid JobPositionId { get; set; }
+        public string? Description { get; set; }
+        public string? JobPositionName { get; set; }
+    }
+
 
     /// <summary>
     /// Entidad de area de trabajo 
