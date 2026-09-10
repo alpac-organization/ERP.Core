@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 //Centros de costos de las areas de trabajo
 namespace ERP.Core.Database.Domain.Entities.Catalogs
@@ -14,5 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public Guid WorkAreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
+
+        public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
 }

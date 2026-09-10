@@ -2,7 +2,6 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Shopping;
-using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -18,6 +17,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public bool HasWarehouse { get; set; } = false;
         public bool DoesGenerateSeniority { get; set; } = false;
 
+        
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = null!;
         
@@ -25,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
         public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
+        public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
 }

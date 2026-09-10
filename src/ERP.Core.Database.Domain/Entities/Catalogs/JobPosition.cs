@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 //Entidad de cargos de la empresa.
 namespace ERP.Core.Database.Domain.Entities.Catalogs
@@ -15,5 +16,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
+
+        public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
 }
