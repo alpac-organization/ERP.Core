@@ -8,7 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         //M2
         public decimal UnusedAreaM2 { get; set; }  //area inutil
         public decimal AvailableAreaWithMarginM2 { get; set; }  //area util
-        public decimal TotalAreaM2 { get; set; } //Area Total = area util + area inutil = Witdh * Length
+        public decimal TotalAreaM2 { get; set; } //Area Total = dimension fisica = Width * Length
 
         public decimal UnoccupiedChargeableAreaM2 { get; set; } //Area facturable desocupada
         public decimal OccupiedChargeableAreaM2 { get; set; }   //Area facturable ocupada

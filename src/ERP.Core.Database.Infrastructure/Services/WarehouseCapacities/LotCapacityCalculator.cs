@@ -23,6 +23,7 @@ public class LotCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             SelectRackCapacities(section.Racks),
             SelectLotsCapacities(section.Lots).Append(lotCapacity));
 
@@ -61,6 +62,7 @@ public class LotCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             SelectRackCapacities(section.Racks),
             lots);
 
@@ -74,7 +76,7 @@ public class LotCapacityCalculator(
     {
         var lot = await UnitOfWork.Lots.Entities
             .AsNoTracking()
-            .FirstOrDefaultAsync(l => l.Id == lotId, ct);
+            .FirstOrDefaultAsync(l => l.Id == lotId && l.DeletedAt == null, ct);
         if (lot is null)
             return new CalculateLotResult(null, null, null);
 
@@ -88,6 +90,7 @@ public class LotCapacityCalculator(
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
+            section.SectionStorageType,
             SelectRackCapacities(section.Racks),
             lots);
 

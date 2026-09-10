@@ -13,17 +13,24 @@ public abstract class CapacityCalculatorBase(
 {
     protected IUnitOfWork UnitOfWork { get; } = unitOfWork;
 
+    protected sealed record EffectiveSection(
+        SectionCapacity? Capacity,
+        SectionType SectionType,
+        SectionStorageType? StorageType);
+
     protected async Task<Sections?> LoadSectionWithStoragesAsync(Guid sectionId, CancellationToken ct)
         => await UnitOfWork.Sections.Entities
             .AsNoTracking()
             .Include(s => s.SectionCapacity)
             .Include(s => s.Racks.Where(r => r.DeletedAt == null)).ThenInclude(r => r.RackCapacity)
             .Include(s => s.Lots.Where(l => l.DeletedAt == null)).ThenInclude(l => l.LotsCapacity)
-            .FirstOrDefaultAsync(s => s.Id == sectionId, ct);
+            .FirstOrDefaultAsync(s => s.Id == sectionId && s.DeletedAt == null, ct);
 
     protected async Task<WarehouseCapacity?> RecalculateWarehouseAsync(
         Guid warehouseId,
         SectionCapacity? newSectionCapacity = null,
+        SectionType? newSectionType = null,
+        SectionStorageType? newSectionStorageType = null,
         Guid? replaceSectionId = null,
         Guid? excludeSectionId = null,
         CancellationToken ct = default)
@@ -41,14 +48,17 @@ public abstract class CapacityCalculatorBase(
             saved.Width, saved.Length, saved.HasMargins,
             saved.MinimumHeight, saved.MaximumHeight,
             saved.MarginTop, saved.MarginBottom, saved.MarginRight, saved.MarginLeft,
-            BuildEffectiveSections(warehouse.Sections, newSectionCapacity, replaceSectionId, excludeSectionId));
+            BuildEffectiveSections(warehouse.Sections, newSectionCapacity, newSectionType, newSectionStorageType,
+                replaceSectionId, excludeSectionId));
 
         return capacity;
     }
 
-    private static IEnumerable<SectionCapacity?> BuildEffectiveSections(
+    private static IEnumerable<EffectiveSection> BuildEffectiveSections(
         IEnumerable<Sections> sections,
         SectionCapacity? newSectionCapacity,
+        SectionType? newSectionType,
+        SectionStorageType? newSectionStorageType,
         Guid? replaceSectionId,
         Guid? excludeSectionId)
     {
@@ -61,16 +71,19 @@ public abstract class CapacityCalculatorBase(
 
             if (section.Id == replaceSectionId)
             {
-                yield return newSectionCapacity;
+                yield return new EffectiveSection(newSectionCapacity, section.SectionType, section.SectionStorageType);
                 replaced = true;
                 continue;
             }
 
-            yield return section.SectionCapacity;
+            yield return new EffectiveSection(section.SectionCapacity, section.SectionType, section.SectionStorageType);
         }
 
         if (!replaced && replaceSectionId is null && newSectionCapacity is not null)
-            yield return newSectionCapacity;
+            yield return new EffectiveSection(
+                newSectionCapacity,
+                newSectionType ?? SectionType.Storage,
+                newSectionStorageType ?? SectionStorageType.Lots);
     }
 
     protected static IEnumerable<RackCapacity> SelectRackCapacities(IEnumerable<Racks> racks)
@@ -129,23 +142,33 @@ public abstract class CapacityCalculatorBase(
     protected SectionCapacity BuildSectionCapacity(
         decimal width, decimal length,
         SectionType sectionType,
+        SectionStorageType storageType,
         IEnumerable<RackCapacity> racks, IEnumerable<LotsCapacity> lots)
     {
         var totalM2 = calculator.CalculateAreaM2(width, length);
         var isAisle = sectionType == SectionType.Aisle;
 
+        var racksSelected = !isAisle && storageType == SectionStorageType.Racks ? racks ?? [] : [];
+        var lotsSelected = !isAisle && storageType == SectionStorageType.Lots ? lots ?? [] : [];
+
+        var unusedM2 = isAisle
+            ? totalM2
+            : racksSelected.Sum(r => r.UnusedAreaM2) + lotsSelected.Sum(l => l.UnusedAreaM2);
+
+        var availableM2 = isAisle
+            ? 0
+            : racksSelected.Sum(r => r.AvailableAreaWithMarginM2)
+              + lotsSelected.Sum(l => l.AvailableAreaWithMarginM2);
+
         var unoccupiedChargeableM2 = isAisle
             ? 0
-            : (racks ?? []).Sum(r => r.UnoccupiedChargeableAreaM2)
-            + (lots ?? []).Sum(l => l.UnoccupiedChargeableAreaM2);
+            : racksSelected.Sum(r => r.UnoccupiedChargeableAreaM2)
+              + lotsSelected.Sum(l => l.UnoccupiedChargeableAreaM2);
 
         var occupiedChargeableM2 = isAisle
             ? 0
-            : (racks ?? []).Sum(r => r.OccupiedChargeableAreaM2)
-            + (lots ?? []).Sum(l => l.OccupiedChargeableAreaM2);
-
-        var unusedM2 = isAisle ? totalM2 : 0;
-        var availableM2 = totalM2 - unusedM2;
+            : racksSelected.Sum(r => r.OccupiedChargeableAreaM2)
+              + lotsSelected.Sum(l => l.OccupiedChargeableAreaM2);
 
         return new SectionCapacity
         {
@@ -167,7 +190,7 @@ public abstract class CapacityCalculatorBase(
         decimal? minimumHeight, decimal? maximumHeight,
         decimal? marginTop, decimal? marginBottom,
         decimal? marginRight, decimal? marginLeft,
-        IEnumerable<SectionCapacity?> sections)
+        IEnumerable<EffectiveSection> sections)
     {
         var totalM2 = calculator.CalculateAreaM2(width, length);
 
@@ -203,11 +226,29 @@ public abstract class CapacityCalculatorBase(
 
         var sectionsList = (sections ?? []).ToList();
 
-        var unusedM2 = marginM2 + sectionsList.Sum(s => s?.UnusedAreaM2 ?? 0);
-        var availableM2 = Math.Max(0, calculator.CalculateAvailableAreaWithMarginM2(unusedM2, totalM2));
+        var isRackSection = (EffectiveSection s) => s.SectionType == SectionType.Storage
+            && s.StorageType == SectionStorageType.Racks;
+        var isAisleSection = (EffectiveSection s) => s.SectionType == SectionType.Aisle;
+        var isLotsSection = (EffectiveSection s) => s.SectionType == SectionType.Storage
+            && s.StorageType == SectionStorageType.Lots;
 
-        var unoccupiedChargeableM2 = sectionsList.Sum(s => s?.UnoccupiedChargeableAreaM2 ?? 0);
-        var occupiedChargeableM2 = sectionsList.Sum(s => s?.OccupiedChargeableAreaM2 ?? 0);
+        var hasLotsSections = sectionsList.Any(isLotsSection);
+
+        var unusedM2 = marginM2 + sectionsList
+            .Where(s => !isRackSection(s))
+            .Sum(s => s.Capacity?.UnusedAreaM2 ?? 0);
+
+        var availableM2 = hasLotsSections
+            ? sectionsList.Where(isLotsSection).Sum(s => s.Capacity?.AvailableAreaWithMarginM2 ?? 0)
+            : Math.Max(0, calculator.CalculateAvailableAreaWithMarginM2(unusedM2, totalM2));
+
+        var unoccupiedChargeableM2 = sectionsList
+            .Where(s => !isAisleSection(s))
+            .Sum(s => s.Capacity?.UnoccupiedChargeableAreaM2 ?? 0);
+
+        var occupiedChargeableM2 = sectionsList
+            .Where(s => !isAisleSection(s))
+            .Sum(s => s.Capacity?.OccupiedChargeableAreaM2 ?? 0);
 
         var unusedVolumeHeight = minimumHeight ?? maximumHeight ?? 0;
         var totalVolumeHeight = maximumHeight ?? minimumHeight ?? 0;
@@ -215,7 +256,7 @@ public abstract class CapacityCalculatorBase(
 
         var unusedVolumenM3 = unusedVolumeHeight == 0
             ? 0
-            : calculator.CalculateUnusedVolumenM3(marginM2, unusedVolumeHeight);
+            : calculator.CalculateUnusedVolumenM3(unusedM2, unusedVolumeHeight);
 
         var totalVolumenM3 = totalVolumeHeight == 0
             ? 0
