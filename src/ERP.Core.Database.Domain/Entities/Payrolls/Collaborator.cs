@@ -22,11 +22,13 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? ThirdName { get; set; }
         public string? SecondLastname { get; set; }
         public string? RegisteredBy { get; set; }
-
-        public Guid? AccountingPayrollId { get; set; }
-
-        public GenderType Gender { get; set; }
+        
         public CollaboratorStatus Status { get; set; }
+
+        /// <summary>
+        /// pendiente a establecer el colaborador
+        /// </summary>
+        public Guid? AccountingPayrollId { get; set; }
 
         public bool IsFirstTimeRegister { get; set; } = true;
         public IdentificationType IdentificationType { get; set; }

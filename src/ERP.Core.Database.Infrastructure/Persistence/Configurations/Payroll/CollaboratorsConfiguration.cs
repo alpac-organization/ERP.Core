@@ -78,11 +78,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("collaborator_status_enum")
                 .IsRequired();
 
-            builder.Property(e => e.Gender)
-                .HasColumnName("gender")
-                .HasColumnType("gender_type_enum")
-                .IsRequired();
-
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
                 .IsRequired();
