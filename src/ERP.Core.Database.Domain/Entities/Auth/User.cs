@@ -35,6 +35,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         /// </summary>
         public virtual ICollection<PurchaseRequest> RevisedPurchaseRequests { get; set; } = [];
         public virtual ICollection<PurchaseRequest> RegisteredPurchaseRequests { get; set; } = [];
+        public virtual ICollection<PurchaseRequest> AnnulledPurchaseRequests { get; set; } = [];
 
         public virtual ICollection<PurchaseOrder> SentPurchaseOrder { get; set; } = [];
         public virtual ICollection<PurchaseOrder> ReviewedPurchaseOrder { get; set; } = [];
