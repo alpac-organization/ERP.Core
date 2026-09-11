@@ -8,7 +8,7 @@ public class BasePositionsPalletsConfiguration : IEntityTypeConfiguration<BasePo
 {
     public void Configure(EntityTypeBuilder<BasePositionsPallets> builder)
     {
-        builder.ToTable("base_posiions_pallets");
+        builder.UseTpcMappingStrategy();
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
