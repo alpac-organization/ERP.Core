@@ -31,6 +31,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("reason_rejection")
                 .HasMaxLength(1000);
 
+            builder.Property(e => e.AnnulmentReason)
+                .HasColumnName("annulment_reason")
+                .HasMaxLength(1000)
+                .IsRequired(false);
+
             builder.Property(e => e.RequestDate)
                 .HasColumnName("request_date")
                 .HasColumnType("date")
@@ -78,6 +83,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("registered_by_user_id")
                 .IsRequired();
 
+            builder.Property(e => e.AnnulledByUserId)
+                .HasColumnName("annulled_by_user_id")
+                .IsRequired(false);
+
             builder.Property(e => e.BranchId)
                 .HasColumnName("branch_id")
                 .IsRequired();
@@ -112,6 +121,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(e => e.UserRevision)
                 .WithMany(rp => rp.RevisedPurchaseRequests)
                 .HasForeignKey(e => e.UserRevisionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.AnnulledByUser)
+                .WithMany(rp => rp.AnnulledPurchaseRequests)
+                .HasForeignKey(e => e.AnnulledByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
