@@ -60,6 +60,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehousesRepository warehouseRepository,
         IWarehouseCapacityRepository warehouseCapacityRepository,
         ISectionCapacityRepository sectionCapacityRepository,
+        ISectionCoordinatesRepository sectionCoordinatesRepository,
         IRackCapacityRepository rackCapacityRepository,
         ILotsCapacityRepository lotsCapacityRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
@@ -175,6 +176,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
         public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;
+        public ISectionCoordinatesRepository SectionCoordinates => sectionCoordinatesRepository;
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;

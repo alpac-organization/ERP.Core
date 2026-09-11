@@ -72,6 +72,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
+        public DbSet<SectionCoordinates> SectionCoordinates => Set<SectionCoordinates>();
         public DbSet<Supplies> Supplies => Set<Supplies>();
         public DbSet<UnloadingPositionReservations> UnloadingPositionReservations => Set<UnloadingPositionReservations>();
         #endregion
