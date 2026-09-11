@@ -89,7 +89,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
-        public DbSet<SectionOverflowCapacity> SectionOverflowCapacities => Set<SectionOverflowCapacity>();
+        public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
         public DbSet<Lots> Lots => Set<Lots>();

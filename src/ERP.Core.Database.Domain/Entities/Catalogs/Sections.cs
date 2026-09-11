@@ -22,5 +22,18 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       /// </summary>
       public virtual ICollection<Lots> Lots { get; set; } = [];
       public virtual ICollection<Racks> Racks { get; set; } = [];
+
+
+      /// <summary>
+      /// Auditoria para pasillos
+      /// </summary>
+      public bool? AllowsStorageAisle { get; set; } = false;
+      public bool? IsStorageEnabledAisle { get; set; } = false;
+      public int? MaxPalletsPerLevelAisle { get; set; }
+
+      public string? EnabledByUserName { get; set; }
+      public DateOnly? EnabledDate { get; set; }
+      public TimeOnly? EnabledTime { get; set; }
+
    }
 }
