@@ -88,7 +88,79 @@ namespace ERP.Core.Database.Infrastructure.Services
             return username;   
         }
 
+        #region Codigos de posicion para almacen
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueStorageCodeAsync(
+            StorageEntityType entityType,
+            Guid sectionId,
+            CancellationToken ct = default)
+        {
+            var (isSuccess, codes) = await GenerateUniqueStorageCodesAsync(entityType, sectionId, 1, ct);
+
+            return isSuccess ? (true, codes[0]) : (false, string.Empty);
+        }
+
+        public async Task<(bool IsSuccess, IReadOnlyList<string> Codes)> GenerateUniqueStorageCodesAsync(
+            StorageEntityType entityType,
+            Guid sectionId,
+            int count,
+            CancellationToken ct = default)
+        {
+            if (count <= 0)
+            {
+                return (false, []);
+            }
+
+            var section = await _unitOfWork.Sections.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Id == sectionId && s.DeletedAt == null, ct);
+
+            if (section is null || string.IsNullOrWhiteSpace(section.Code))
+            {
+                return (false, []);
+            }
+
+            var typeCode = GetStorageTypeCode(entityType);
+            var pattern = $"{section.Code}-{typeCode}-";
+
+            var existingCodes = entityType switch
+            {
+                StorageEntityType.Lot => await _unitOfWork.Lots.Entities
+                    .AsNoTracking()
+                    .Where(l => l.SectionId == sectionId && l.DeletedAt == null)
+                    .Select(l => l.Code)
+                    .ToListAsync(ct),
+                _ => []
+            };
+
+            int maxSequence = existingCodes
+                .Where(c => c is not null && c.StartsWith(pattern, StringComparison.OrdinalIgnoreCase))
+                .Select(c => int.TryParse(c[pattern.Length..], out var sequence) ? sequence : 0)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            var codes = new List<string>(count);
+
+            for (int i = 1; i <= count; i++)
+            {
+                string sequenceFormatted = (maxSequence + i).ToString().PadLeft(2, '0');
+                codes.Add($"{pattern}{sequenceFormatted}");
+            }
+
+            return (true, codes);
+        }
+
+        public string GeneratePositionCode(string lotCode, int row, int column)
+            => $"{lotCode}-{row}{column}";
+        #endregion Codigos de posicion para almacen
+
         #region Metodos Privados
+        private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
+        {
+            StorageEntityType.Lot => "LOT",
+            StorageEntityType.Rack => "RACK",
+            _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Tipo de entidad de almacenamiento no soportado.")
+        };
+
         private static string GetRandomSuffix()
         {
             const string alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
