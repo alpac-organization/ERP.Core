@@ -60,8 +60,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IWarehousesRepository warehouseRepository,
         IWarehouseCapacityRepository warehouseCapacityRepository,
         ISectionCapacityRepository sectionCapacityRepository,
+        ISectionCoordinatesRepository sectionCoordinatesRepository,
         IRackCapacityRepository rackCapacityRepository,
         ILotsCapacityRepository lotsCapacityRepository,
+        IRackCoordinateRepository rackCoordinateRepository,
+        ILotCoordinateRepository lotCoordinateRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
@@ -175,6 +178,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
         public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;
+        public ISectionCoordinatesRepository SectionCoordinates => sectionCoordinatesRepository;
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
@@ -192,8 +196,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISectionsRepository Sections => sectionsRepository;
         public IRacksRepository Racks => racksRepository;
         public IRackPositionsRepository RackPositions => rackPositionsRepository;
+        public IRackCoordinateRepository RackCoordinates => rackCoordinateRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
+        public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;

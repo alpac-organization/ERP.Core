@@ -71,7 +71,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
-        public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
         public DbSet<Supplies> Supplies => Set<Supplies>();
         public DbSet<UnloadingPositionReservations> UnloadingPositionReservations => Set<UnloadingPositionReservations>();
         #endregion
@@ -82,18 +81,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
-        public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();
-        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
-        public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
+        public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();        
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
+        public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
+        public DbSet<SectionCoordinates> SectionCoordinates => Set<SectionCoordinates>();
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
+        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
+        public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         public DbSet<Lots> Lots => Set<Lots>();
         public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
+        public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
+        public DbSet<LotsCoordinates> LotsCoordinates => Set<LotsCoordinates>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
         public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();

@@ -65,18 +65,21 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
         IMerchandisesRepository Merchandises { get; }
-        
+
         ILotsRepository Lots { get; }
         IRacksRepository Racks { get; }
         ISectionsRepository Sections { get; }
         IWarehouseCapacityRepository WarehouseCapacities { get; }
         ISectionCapacityRepository SectionCapacities { get; }
+        ISectionCoordinatesRepository SectionCoordinates { get; }
         IRackCapacityRepository RackCapacities { get; }
         ILotsCapacityRepository LotsCapacities { get; }
         IWarehousesRepository Warehouses { get; }
 
         IRackPositionsRepository RackPositions { get; }
         ILotsPositionsRepository LotsPositions { get; }
+        IRackCoordinateRepository RackCoordinates { get; }
+        ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IServiceOrdersRepository ServiceOrders { get; }
@@ -89,7 +92,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
         ICustomsDeclarationsRepository CustomsDeclarations { get; }
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
-    
+
         ISectionPositionsRepository SectionPositionsRepository { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
         ICrewAssignmentsRepository CrewAssignments { get; }
