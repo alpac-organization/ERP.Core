@@ -9,5 +9,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         public string GenerateUsername(string subject);
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId);
+
+        Task<(bool IsSuccess, string Code)> GenerateUniqueStorageCodeAsync(StorageEntityType entityType, Guid sectionId, CancellationToken ct = default);
+
+        public string GeneratePositionCode(string lotCode, int row, int column);
     }
 }
