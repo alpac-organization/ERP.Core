@@ -94,13 +94,29 @@ namespace ERP.Core.Database.Infrastructure.Services
             Guid sectionId,
             CancellationToken ct = default)
         {
+            var (isSuccess, codes) = await GenerateUniqueStorageCodesAsync(entityType, sectionId, 1, ct);
+
+            return isSuccess ? (true, codes[0]) : (false, string.Empty);
+        }
+
+        public async Task<(bool IsSuccess, IReadOnlyList<string> Codes)> GenerateUniqueStorageCodesAsync(
+            StorageEntityType entityType,
+            Guid sectionId,
+            int count,
+            CancellationToken ct = default)
+        {
+            if (count <= 0)
+            {
+                return (false, []);
+            }
+
             var section = await _unitOfWork.Sections.Entities
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == sectionId && s.DeletedAt == null, ct);
 
             if (section is null || string.IsNullOrWhiteSpace(section.Code))
             {
-                return (false, string.Empty);
+                return (false, []);
             }
 
             var typeCode = GetStorageTypeCode(entityType);
@@ -122,14 +138,20 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .DefaultIfEmpty(0)
                 .Max();
 
-            string sequenceFormatted = (maxSequence + 1).ToString().PadLeft(2, '0');
-            string code = $"{pattern}{sequenceFormatted}";
+            var codes = new List<string>(count);
 
-            return (true, code);
+            for (int i = 1; i <= count; i++)
+            {
+                string sequenceFormatted = (maxSequence + i).ToString().PadLeft(2, '0');
+                codes.Add($"{pattern}{sequenceFormatted}");
+            }
+
+            return (true, codes);
         }
 
         public string GeneratePositionCode(string lotCode, int row, int column)
             => $"{lotCode}-{row}{column}";
+        #endregion Codigos de posicion para almacen
 
         #region Metodos Privados
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
@@ -138,7 +160,6 @@ namespace ERP.Core.Database.Infrastructure.Services
             StorageEntityType.Rack => "RACK",
             _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Tipo de entidad de almacenamiento no soportado.")
         };
-        #endregion
 
         private static string GetRandomSuffix()
         {

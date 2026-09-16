@@ -14,23 +14,33 @@ public class LotCapacityCalculator(
         decimal width, decimal length,
         CancellationToken ct = default)
     {
-        var lotCapacity = BuildLotsCapacity(width, length);
+        var result = await CalculateLotsAsync(sectionId, [(width, length)], ct);
+
+        return new CalculateLotResult(result.Lots.Single(), result.Section, result.Warehouse);
+    }
+
+    public async Task<CalculateLotsResult> CalculateLotsAsync(
+        Guid sectionId,
+        IReadOnlyCollection<(decimal Width, decimal Length)> lots,
+        CancellationToken ct = default)
+    {
+        var lotCapacities = lots.Select(l => BuildLotsCapacity(l.Width, l.Length)).ToArray();
 
         var section = await LoadSectionWithStoragesAsync(sectionId, ct);
         if (section?.SectionCapacity is null)
-            return new CalculateLotResult(lotCapacity, null, null);
+            return new CalculateLotsResult(lotCapacities, null, null);
 
         var sectionCapacity = BuildSectionCapacity(
             section.SectionCapacity.Width, section.SectionCapacity.Length,
             section.SectionType,
             section.SectionStorageType,
             SelectRackCapacities(section.Racks),
-            SelectLotsCapacities(section.Lots).Append(lotCapacity));
+            SelectLotsCapacities(section.Lots).Concat(lotCapacities));
 
         var warehouse = await RecalculateWarehouseAsync(
             section.WarehouseId, newSectionCapacity: sectionCapacity, replaceSectionId: section.Id, ct: ct);
 
-        return new CalculateLotResult(lotCapacity, sectionCapacity, warehouse);
+        return new CalculateLotsResult(lotCapacities, sectionCapacity, warehouse);
     }
 
     public async Task<CalculateLotResult> UpdateLotAsync(
