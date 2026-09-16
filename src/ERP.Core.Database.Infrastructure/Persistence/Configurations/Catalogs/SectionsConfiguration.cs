@@ -6,8 +6,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 {
     public class SectionsConfiguration : IEntityTypeConfiguration<Sections>
     {
-    public void Configure(EntityTypeBuilder<Sections> builder)
-    {
+        public void Configure(EntityTypeBuilder<Sections> builder)
+        {
             builder.ToTable("sections");
             builder.HasKey(e => e.Id);
 
@@ -46,31 +46,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValueSql("'racks'::section_storage_type_enum")
                 .IsRequired();
 
-            //   builder.ComplexProperty(e => e.TransformWarehouse3D, layaout =>
-            //       {
-            //          layaout.IsRequired();
-
-            //          layaout.Property(p => p.PositionX)
-            //                   .HasColumnName("layout_position_x")
-            //                   .HasPrecision(10, 2)
-            //                   .HasDefaultValue(0m);
-
-            //          layaout.Property(p => p.PositionY)
-            //                   .HasColumnName("layout_position_y")
-            //                   .HasPrecision(10, 2)
-            //                   .HasDefaultValue(0m);
-
-            //          layaout.Property(p => p.PositionZ)
-            //                   .HasColumnName("layout_position_z")
-            //                   .HasPrecision(10, 2)
-            //                   .HasDefaultValue(0m);
-
-            //          layaout.Property(p => p.RotationY)
-            //                   .HasColumnName("layout_rotation_y")
-            //                   .HasPrecision(10, 2)
-            //                   .HasDefaultValue(0m);
-            //       });
-
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -86,6 +61,34 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .WithMany(x => x.Sections)
                 .HasForeignKey(x => x.WarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(o => o.AllowsStorageAisle)
+                .HasColumnName("allows_storage_aisle")
+                .HasDefaultValue(false)
+                .IsRequired(false);
+
+            builder.Property(o => o.IsStorageEnabledAisle)
+                .HasColumnName("is_storage_enable_aisle")
+                .HasDefaultValue(false)
+                .IsRequired(false);
+
+            builder.Property(o => o.MaxPalletsPerLevelAisle)
+                .HasColumnName("max_pallets_per_level_aisle")
+                .IsRequired(false);
+
+            builder.Property(o => o.EnabledByUserName)
+                .HasColumnName("enabled_by_user_name")
+                .IsRequired(false);
+
+            builder.Property(o => o.EnabledDate)
+                .HasColumnName("enabled_date")
+                .HasColumnType("date")
+                .IsRequired(false);
+
+            builder.Property(o => o.EnabledTime)
+                .HasColumnName("enabled_time")
+                .HasColumnType("time without time zone")
+                .IsRequired(false);
         }
     }
 }

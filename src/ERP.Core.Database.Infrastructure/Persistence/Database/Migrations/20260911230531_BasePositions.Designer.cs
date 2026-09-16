@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260911230531_BasePositions")]
+    partial class BasePositions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -674,9 +677,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable((string)null);
+                    b.ToTable("base_posiions_pallets", "public");
 
-                    b.UseTpcMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Branch", b =>
@@ -8230,6 +8233,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Bases.BasePositionsPallets", null)
+                        .WithOne()
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
                         .WithMany("Positions")
                         .HasForeignKey("LotId")
@@ -8241,6 +8250,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Bases.BasePositionsPallets", null)
+                        .WithOne()
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
                         .WithMany("Positions")
                         .HasForeignKey("RackId")
@@ -8252,6 +8267,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Bases.BasePositionsPallets", null)
+                        .WithOne()
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")

@@ -85,7 +85,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
-        ISectionOverflowCapacityRepository sectionOverflowCapacityRepository,
+        ISectionPositionsRepository sectionPositionsRepository,
         IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
         IPurchaseRequestsReviewedManagementRepository purchaseRequestsReviewedManagementRepository,
         IRacksRepository racksRepository,
@@ -196,7 +196,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IRackPositionsRepository RackPositions => rackPositionsRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
-        public ISectionOverflowCapacityRepository SectionOverflowCapacity => sectionOverflowCapacityRepository;
+        public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;

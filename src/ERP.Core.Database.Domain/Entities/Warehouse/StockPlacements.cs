@@ -14,6 +14,9 @@ public class StockPlacements : BaseEntity<Guid>
     public Guid? LotPositionId { get; set; }
     public virtual LotsPositions? LotPosition { get; set; }
 
+    public Guid? SectionPositionId { get; set; }
+    public virtual SectionPositions? SectionPosition { get; set; }
+
     public DateOnly PlacedAtDate { get; set; }
     public TimeOnly PlacedAtTime { get; set; }
     public string PlacedByUserId { get; set; } = null!;
@@ -24,7 +27,7 @@ public class StockPlacements : BaseEntity<Guid>
     public string VacatedByUserId { get; set; } = null!;
 
     public Guid? PlacedByMemoryItemId { get; set; }
-    public virtual ReassignmentMemoryItems? PlacedByMemoryItem  { get; set; }
+    public virtual ReassignmentMemoryItems? PlacedByMemoryItem { get; set; }
 
     public Guid? VacatedByMemoryItemId { get; set; }
     public virtual ReassignmentMemoryItems? VacatedByMemoryItem { get; set; }

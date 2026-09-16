@@ -90,8 +90,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
         ICustomsDeclarationsRepository CustomsDeclarations { get; }
         ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
-
-        ISectionOverflowCapacityRepository SectionOverflowCapacity { get; }
+    
+        ISectionPositionsRepository SectionPositionsRepository { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
         ICrewAssignmentsRepository CrewAssignments { get; }
         IMachineryAssignmentsRepository MachineryAssignments { get; }

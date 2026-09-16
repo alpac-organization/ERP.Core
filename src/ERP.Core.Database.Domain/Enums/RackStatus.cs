@@ -12,5 +12,8 @@ public enum RackStatus
     UnderMaintenance = 3,
 
     /// Inhabilitado por otra causa
-    Blocked = 4
+    Blocked = 4,
+
+    /// Reservado por una tarea en ejecucion
+    Reserved = 5
 }
