@@ -7,6 +7,8 @@ public sealed record CalculateRackResult(RackCapacity? Rack, SectionCapacity? Se
 
 public sealed record CalculateLotResult(LotsCapacity? Lot, SectionCapacity? Section, WarehouseCapacity? Warehouse);
 
+public sealed record CalculateLotsResult(IReadOnlyList<LotsCapacity> Lots, SectionCapacity? Section, WarehouseCapacity? Warehouse);
+
 public sealed record CalculateSectionResult(SectionCapacity? Section, WarehouseCapacity? Warehouse);
 
 public sealed record CalculateWarehouseResult(WarehouseCapacity? Warehouse);
