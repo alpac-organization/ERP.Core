@@ -14,6 +14,10 @@ public class SectionCoordinatesConfiguration : IEntityTypeConfiguration<SectionC
             .HasColumnName("section_id")
             .IsRequired();
 
+        builder.HasIndex(sc => sc.SectionId)
+            .IsUnique()
+            .HasDatabaseName("ux_section_coordinates_section_id");
+
         builder.HasOne(sc => sc.Section)
             .WithOne(s => s.SectionCoordinates)
             .HasForeignKey<SectionCoordinates>(sc => sc.SectionId)

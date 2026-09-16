@@ -63,6 +63,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         ISectionCoordinatesRepository sectionCoordinatesRepository,
         IRackCapacityRepository rackCapacityRepository,
         ILotsCapacityRepository lotsCapacityRepository,
+        IRackCoordinateRepository rackCoordinateRepository,
+        ILotCoordinateRepository lotCoordinateRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
@@ -194,8 +196,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISectionsRepository Sections => sectionsRepository;
         public IRacksRepository Racks => racksRepository;
         public IRackPositionsRepository RackPositions => rackPositionsRepository;
+        public IRackCoordinateRepository RackCoordinates => rackCoordinateRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
+        public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
