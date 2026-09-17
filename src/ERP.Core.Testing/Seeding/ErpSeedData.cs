@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Testing.Seeding;
 
@@ -26,4 +27,11 @@ public class ErpSeedData
     public List<Role> Roles {get;} = []; 
 
     #endregion 
+
+    #region Almacenes
+    public List<Warehouses> Warehouses {get;} = [];
+    public List<WarehouseCapacity> WarehouseCapacities {get;} = [];
+    public List<Sections> Sections {get;} = [];
+    public List<SectionCapacity> SectionCapacities {get;} = [];
+    #endregion
 }

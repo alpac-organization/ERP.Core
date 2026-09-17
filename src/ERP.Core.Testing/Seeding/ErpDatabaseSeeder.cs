@@ -21,6 +21,13 @@ namespace ERP.Core.Testing.Seeding
             dbContext.Devices.AddRange(seedData.Devices);
             #endregion
 
+            #region Almacenes
+            dbContext.Warehouses.AddRange(seedData.Warehouses);
+            dbContext.WarehouseCapacities.AddRange(seedData.WarehouseCapacities);
+            dbContext.Sections.AddRange(seedData.Sections);
+            dbContext.SectionCapacities.AddRange(seedData.SectionCapacities);
+            #endregion
+
             await dbContext.SaveChangesAsync();
         }
     }
