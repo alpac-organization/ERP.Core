@@ -13,12 +13,23 @@ namespace ERP.Core.Testing.Seeding
         public static readonly Guid AlpacAreaTiId = Guid.Parse("11111111-0000-0000-0000-000000000001");
         private static readonly string DefaultPasswordHash = BCrypt.Net.BCrypt.HashPassword(DefaultPassword, workFactor: 11);
 
+        #region RolesId
+        private static readonly Guid RoleAdministratorId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000001");
+        private static readonly Guid RoleOperatorId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000002");
+        private static readonly Guid RoleSupervisorId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000003");
+        private static readonly Guid RoleManagerId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000004");
+
+        #endregion
+
+
         public static ErpSeedData CreateScenario()
         {
             Randomizer.Seed = new Random(Seed);
             var faker = new Faker("es");
             var data = new ErpSeedData();
 
+            SeedBaseRoles(data);
+            SeedBaseModules(data);
             // Agregar Semillas de Companies
             SeedBaseCompanies(data, faker);
 
@@ -33,6 +44,8 @@ namespace ERP.Core.Testing.Seeding
 
             // Agregar Semillas de Perfiles por empresa
             SeedBaseProfiles(data, faker);
+
+            
 
             return data;
         }
@@ -91,6 +104,73 @@ namespace ERP.Core.Testing.Seeding
             data.Companies.AddRange(companies);
         }
 
+        public static void SeedBaseModules(ErpSeedData data)
+        {
+            List<Module> modules = [
+                new Module{
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000001"),
+                    Code = "COM-129U",
+                    ModuleName = "Gestión de compras",
+                    Description = "Módulo de compras",
+                    PathRedirect = "purchasing",
+                    ImageUrl = null,
+                    IsActive = true 
+                },
+                new Module{
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000002"),
+                    Code = "FIN-567W",
+                    ModuleName = "Gestión de Finanzas",
+                    Description = "Módulo de Finanzas",
+                    PathRedirect = "finance",
+                    ImageUrl = null,
+                    IsActive = true 
+                },
+                new Module{
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000003"),
+                    Code = "GRC-873Y",
+                    ModuleName = "Gestión de Gerencia",
+                    Description = "Módulo de Gerencia",
+                    PathRedirect = "management",
+                    ImageUrl = null,
+                    IsActive = true 
+                },
+            ];
+
+            data.Modules.AddRange(modules);
+        }
+        public static void SeedBaseRoles(ErpSeedData data)
+        {
+            List<Role> roles = [
+                new Role{
+                    Id          = RoleAdministratorId,
+                    RoleName    = "Administrator",
+                    Description = "Administrator for ERP-System",
+                    RoleType    = RoleType.Administrator,
+                },
+                new Role{
+
+                    Id          = RoleSupervisorId,
+                    RoleName    = "Supervisor",
+                    Description = "Supervisor for ERP-System",
+                    RoleType    = RoleType.Supervisor,
+                },
+                new Role{
+
+                    Id          = RoleManagerId,
+                    RoleName    = "Manager",
+                    Description = "Manager for ERP-System",
+                    RoleType    = RoleType.Manager,
+                },
+                new Role{
+
+                    Id          = RoleOperatorId,
+                    RoleName    = "Operator",
+                    Description = "Operator for ERP-System",
+                    RoleType    = RoleType.Operator,
+                },
+            ];
+            data.Roles.AddRange(roles);
+        }
         private static void SeedBaseWorkAreas(ErpSeedData data, Faker faker)
         {
             List<WorkArea> workAreas = [

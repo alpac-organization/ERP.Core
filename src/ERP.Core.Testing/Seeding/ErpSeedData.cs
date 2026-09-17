@@ -13,6 +13,7 @@ public class ErpSeedData
     public List<Company> Companies { get; }  = [];
     public List<Branch> Branches { get; }    = [];
     public List<WorkArea> WorkAreas { get; } = [];
+    public List<Module> Modules {get;}       = [];   
 
     #endregion
 
@@ -22,7 +23,7 @@ public class ErpSeedData
     public List<UserProfile> Profiles { get; } = [];
     public List<Device> Devices { get; }       = [];
     public List<Notification> Notifications { get; } = [];
-    
-    #endregion
-    
+    public List<Role> Roles {get;} = []; 
+
+    #endregion 
 }

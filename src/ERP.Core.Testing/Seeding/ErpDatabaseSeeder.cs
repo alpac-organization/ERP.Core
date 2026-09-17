@@ -10,9 +10,11 @@ namespace ERP.Core.Testing.Seeding
             dbContext.Companies.AddRange(seedData.Companies);
             dbContext.Branches.AddRange(seedData.Branches);
             dbContext.WorkAreas.AddRange(seedData.WorkAreas);
+            dbContext.Modules.AddRange(seedData.Modules);
             #endregion
 
             #region Autenticación
+            dbContext.Roles.AddRange(seedData.Roles);
             dbContext.Users.AddRange(seedData.Users);
             dbContext.Profiles.AddRange(seedData.Profiles);
             dbContext.Notifications.AddRange(seedData.Notifications);
