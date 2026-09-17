@@ -7,6 +7,8 @@
     <RootNamespace>ERP.Core.Testing</RootNamespace>
     <PackageId>ERP.Core.Testing</PackageId>
     <Version>1.130.0</Version>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Data inicial ficticia (Bogus) y seeder para pruebas de integración de ERP.Core.</Description>
   </PropertyGroup>
 

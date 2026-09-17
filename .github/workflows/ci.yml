@@ -1,0 +1,425 @@
+name: CI/CD - Build, Migrate, Package & Test
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+env:
+  PACKAGE_VERSION: "1.130.0"
+  NUGET_SOURCE: "https://nuget.pkg.github.com/alpac-organization/index.json"
+  NUGET_PACKAGES: "ERP.Core.Testing;ERP.Core.Infrastructure;ERP.Core.Database.Infrastructure"
+
+jobs:
+  # ──────────────────────────────────────────────────────
+  # JOB 1: Build → Migrate → Conditional Pack/Publish
+  # Order: Build first → Migrations → Only on success, pack
+  # ──────────────────────────────────────────────────────
+  build-migrate-package:
+    name: Build DB Migrate & Package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: EnvironmentalVariables
+    outputs:
+      build-status: ${{ steps.build.outcome }}
+      migration-status: ${{ steps.migration.outputs.status }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      # Setup NuGet feed para paquetes privados de GitHub
+      - name: Setup private NuGet feed
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        shell: bash
+        run: |
+          dotnet nuget add source "${{ env.NUGET_SOURCE }}" \
+            -n "github" \
+            -u "$GH_USER" \
+            -p "$GH_PACKAGE_TOKEN" \
+            --store-password-in-clear-text
+
+      - name: Restore all dependencies
+        shell: bash
+        run: dotnet restore
+
+      # ── STEP 1: VERIFY BUILD FIRST ──
+      # Si el build falla, pipeline se detiene — no migraciones, no paquete
+      - name: Build (verify compilation)
+        id: build
+        shell: bash
+        run: |
+          echo "🔨 Verificando que el proyecto compila..."
+          dotnet build -c Release --no-restore 2>&1
+
+          if [ $? -ne 0 ]; then
+            echo "::error::❌ El BUILD FALLÓ. Pipeline detenido — no se aplican migraciones ni se actualiza paquete."
+            exit 1
+          fi
+
+          echo "✅ Build exitoso"
+
+      # ── STEP 2: Apply EF Migrations (only if build succeeded) ──
+      # Si las migraciones fallan, NO se actualiza el paquete
+      - name: Apply EF Migrations
+        if: success() && steps.build.outcome == 'success'
+        id: migration
+        shell: bash
+        env:
+          ConnectionStrings__ErpConnectionDatabase: ${{ secrets.ERP_CONNECTION_STRING }}
+        run: |
+          echo "🔄 Aplicando migraciones a la base de datos..."
+
+          if [ -z "${{ secrets.ERP_CONNECTION_STRING }}" ]; then
+            echo "::error::ERP_CONNECTION_STRING no está configurado en los secrets del repositorio"
+            echo "status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          cd src/ERP.Core.Database.Infrastructure
+          dotnet ef database update --context ErpDbContext 2>&1
+
+          if [ $? -ne 0 ]; then
+            echo "::error::❌ Las migraciones FALLARON. El paquete NO se actualizará."
+            echo "status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          echo "✅ Migraciones aplicadas exitosamente"
+          echo "status=success" >> $GITHUB_OUTPUT
+
+      # ── STEP 3: Pack ERP.Core.Testing (only if build AND migrations succeeded) ──
+      - name: Pack ERP.Core.Testing
+        if: steps.build.outcome == 'success' && steps.migration.outputs.status == 'success'
+        shell: bash
+        run: |
+          echo "📦 Generando paquete NuGet ERP.Core.Testing v${{ env.PACKAGE_VERSION }}..."
+
+          cd src/ERP.Core.Testing
+          dotnet pack -c Release /p:Version=${{ env.PACKAGE_VERSION }} --no-restore 2>&1
+
+          if [ $? -ne 0 ]; then
+            echo "::error::❌ Error al generar ERP.Core.Testing"
+            exit 1
+          fi
+
+          echo "✅ ERP.Core.Testing generado exitosamente"
+
+      # ── STEP 4: Pack ERP.Core.Infrastructure ──
+      - name: Pack ERP.Core.Infrastructure
+        if: steps.build.outcome == 'success' && steps.migration.outputs.status == 'success'
+        shell: bash
+        run: |
+          echo "📦 Generando paquete NuGet ERP.Core.Infrastructure v${{ env.PACKAGE_VERSION }}..."
+
+          cd src/ERP.Core.Infrastructure
+          dotnet pack -c Release /p:Version=${{ env.PACKAGE_VERSION }} --no-restore 2>&1
+
+          if [ $? -ne 0 ]; then
+            echo "::error::❌ Error al generar ERP.Core.Infrastructure"
+            exit 1
+          fi
+
+          echo "✅ ERP.Core.Infrastructure generado exitosamente"
+
+      # ── STEP 5: Pack ERP.Core.Database.Infrastructure ──
+      - name: Pack ERP.Core.Database.Infrastructure
+        if: steps.build.outcome == 'success' && steps.migration.outputs.status == 'success'
+        shell: bash
+        run: |
+          echo "📦 Generando paquete NuGet ERP.Core.Database.Infrastructure v${{ env.PACKAGE_VERSION }}..."
+
+          cd src/ERP.Core.Database.Infrastructure
+          dotnet pack -c Release /p:Version=${{ env.PACKAGE_VERSION }} --no-restore 2>&1
+
+          if [ $? -ne 0 ]; then
+            echo "::error::❌ Error al generar ERP.Core.Database.Infrastructure"
+            exit 1
+          fi
+
+          echo "✅ ERP.Core.Database.Infrastructure generado exitosamente"
+
+      # ── STEP 6: Publish ALL packages (only if everything succeeded) ──
+      - name: Publish NuGet Packages
+        if: steps.build.outcome == 'success' && steps.migration.outputs.status == 'success'
+        shell: bash
+        env:
+          GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        run: |
+          echo "🚀 Publicando paquetes ERP.Core v${{ env.PACKAGE_VERSION }}..."
+
+          for PKG in ${{ env.NUGET_PACKAGES }}; do
+            echo "📦 Publicando $PKG..."
+            NUGET_PKG=$(find src/$PKG/bin/Release -name "$PKG.${{ env.PACKAGE_VERSION }}.nupkg" | head -1)
+
+            if [ -z "$NUGET_PKG" ]; then
+              echo "::error::No se encontró $PKG.${{ env.PACKAGE_VERSION }}.nupkg"
+              ls -la src/$PKG/bin/Release/ || true
+              exit 1
+            fi
+
+            dotnet nuget push "$NUGET_PKG" \
+              --source "${{ env.NUGET_SOURCE }}" \
+              --api-key "$GH_PACKAGE_TOKEN" \
+              --skip-duplicate
+
+            echo "✅ $PKG v${{ env.PACKAGE_VERSION }} publicado"
+          done
+
+          echo "✅ Todos los paquetes publicados exitosamente"
+
+      # ── STEP 7: Notify if build failed ──
+      - name: Build Failed - Pipeline Stopped
+        if: steps.build.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "::warning::⚠️ El BUILD falló. Pipeline detenido."
+          echo "No se aplicaron migraciones y NO se actualizó ningún paquete."
+
+      # ── STEP 8: Notify if migration failed ──
+      - name: Migration Failed - No Package Update
+        if: steps.migration.outputs.status == 'failed'
+        shell: bash
+        run: |
+          echo "::warning::⚠️ Las migraciones fallaron. El paquete NO se actualizó."
+          echo "El build compiló correctamente pero la migración DB falló."
+
+  # ──────────────────────────────────────────────────────
+  # JOB 2: Docker validation
+  # ──────────────────────────────────────────────────────
+  docker-validate:
+    name: Docker Build & Startup Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: EnvironmentalVariables
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup private NuGet feed
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        shell: bash
+        run: |
+          dotnet nuget add source "${{ env.NUGET_SOURCE }}" \
+            -n "github" \
+            -u "$GH_USER" \
+            -p "$GH_PACKAGE_TOKEN" \
+            --store-password-in-clear-text
+
+      - name: Build Docker image
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        run: |
+          docker build \
+            --build-arg GH_USER="$GH_USER" \
+            --build-arg GH_PACKAGE_TOKEN="$GH_PACKAGE_TOKEN" \
+            -t erp-test .
+
+      - name: Run app and capture logs
+        run: |
+          echo "🚀 Iniciando contenedor..."
+          timeout 25s docker run --name test-container erp-test > output.log 2>&1 || true
+          echo "📄 Logs capturados:"
+          cat output.log
+
+      - name: Cleanup container
+        run: docker rm -f test-container || true
+
+  # ──────────────────────────────────────────────────────
+  # JOB 3: SonarQube analysis
+  # ──────────────────────────────────────────────────────
+  sonarqube:
+    name: Build, Tests & SonarQube Analysis
+    needs: [build-migrate-package, docker-validate]
+    runs-on: ubuntu-latest
+    environment: EnvironmentalVariables
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir -p "${{ runner.temp }}/scanner"
+          dotnet tool update dotnet-sonarscanner --tool-path "${{ runner.temp }}/scanner"
+
+      - name: Setup private NuGet feed
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        shell: bash
+        run: |
+          dotnet nuget add source "${{ env.NUGET_SOURCE }}" \
+            -n "github" \
+            -u "$GH_USER" \
+            -p "$GH_PACKAGE_TOKEN" \
+            --store-password-in-clear-text
+
+      - name: Ensure Postgres test image
+        shell: bash
+        run: docker pull postgres:16-alpine
+
+      - name: Verify Docker daemon can run containers
+        shell: bash
+        run: |
+          docker info > /dev/null
+          docker run --rm postgres:16-alpine postgres --version
+
+      - name: Begin Sonar analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          BRANCH_NAME: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          BRANCH_ARG=""
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            BRANCH_ARG="/d:sonar.branch.name=$BRANCH_NAME"
+          fi
+          "${{ runner.temp }}/scanner/dotnet-sonarscanner" begin \
+            /k:"alpac-organization_ERP.Core.Manager.Api" \
+            /o:"alpac-organization" \
+            /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.cs.opencover.reportsPaths="$GITHUB_WORKSPACE/coverage/coverage.opencover.xml" \
+            $BRANCH_ARG
+
+      - name: Restore
+        shell: bash
+        run: dotnet restore
+
+      - name: Build
+        shell: bash
+        run: dotnet build -c Release --no-restore
+
+      - name: Run tests with coverage
+        shell: bash
+        run: |
+          dotnet test -c Release --no-build \
+            /p:CollectCoverage=true \
+            /p:CoverletOutput="$GITHUB_WORKSPACE/coverage/coverage.opencover.xml" \
+            /p:CoverletOutputFormat=opencover \
+            /p:IncludeTestAssembly=false \
+            --logger "console;verbosity=normal"
+
+      - name: Prepare coverage report for Sonar
+        shell: bash
+        run: |
+          COV="$GITHUB_WORKSPACE/coverage/coverage.opencover.xml"
+          if [ ! -f "$COV" ]; then
+            echo "::error::No se generó $COV — el profiler de coverlet no emitió reporte."
+            ls -la "$GITHUB_WORKSPACE/coverage" || true
+            exit 1
+          fi
+          echo "Reporte de cobertura: $COV"
+          head -c 500 "$COV"
+          echo ""
+
+          VISITED=$(grep -m 1 -o 'visitedSequencePoints="[0-9]*"' "$COV" | tr -dc '0-9' || true)
+          echo "visitedSequencePoints: ${VISITED:-desconocido}"
+
+          if [ -z "$VISITED" ] || [ "$VISITED" -eq 0 ]; then
+            echo "::error::El reporte no tiene líneas cubiertas (visitedSequencePoints=0). Los tests de integración probablemente se omitieron por Docker/Testcontainers."
+            exit 1
+          fi
+
+      - name: Publish total coverage in job summary
+        if: always()
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          COV="$GITHUB_WORKSPACE/coverage/coverage.opencover.xml"
+          if [ ! -f "$COV" ]; then
+            echo "No hay reporte de cobertura para resumir." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          COVERAGE=$(grep -m 1 -o 'sequenceCoverage="[0-9.]*"' "$COV" | tr -dc '0-9.' || true)
+          VISITED=$(grep -m 1 -o 'visitedSequencePoints="[0-9]*"' "$COV" | tr -dc '0-9' || true)
+          TOTAL=$(grep -m 1 -o 'numSequencePoints="[0-9]*"' "$COV" | tr -dc '0-9' || true)
+
+          {
+            echo "## Cobertura total de pruebas (OpenCover)"
+            echo ""
+            echo "| Métrica | Valor |"
+            echo "|---|---|"
+            echo "| Cobertura total (líneas) | ${COVERAGE:-0}% |"
+            echo "| Líneas cubiertas | ${VISITED:-0} / ${TOTAL:-0} |"
+            echo "| Rama | ${BRANCH_NAME:-N/A} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: End Sonar analysis
+        if: always()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          "${{ runner.temp }}/scanner/dotnet-sonarscanner" end /d:sonar.token="$SONAR_TOKEN"
+
+  # ──────────────────────────────────────────────────────
+  # JOB 4: Notify docs
+  # ──────────────────────────────────────────────────────
+  notify-docs:
+    name: Disparar actualización de documentación
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')
+    needs: [build-migrate-package]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch repository_dispatch a ERP.Core.Docs.Api
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.DOCS_DISPATCH_TOKEN }}
+          script: |
+            const branch = (context.ref || '').replace('refs/heads/', '');
+            await github.rest.repos.createDispatchEvent({
+              owner: 'alpac-organization',
+              repo: 'ERP.Core.Docs.Api',
+              event_type: 'api-updated',
+              client_payload: {
+                ref: branch,
+                repo: context.payload.repository?.full_name ?? context.ref,
+              },
+            });
