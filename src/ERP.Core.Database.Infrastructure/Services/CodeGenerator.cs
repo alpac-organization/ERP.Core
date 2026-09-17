@@ -150,7 +150,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         public string GeneratePositionCode(string lotCode, int row, int column)
-            => $"{lotCode}-{row}{column}";
+            => $"{lotCode}-F{row}C{column}";
         #endregion Codigos de posicion para almacen
 
         #region Metodos Privados
