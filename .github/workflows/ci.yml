@@ -88,36 +88,49 @@ jobs:
       - name: Run tests
         run: dotnet test --configuration Release --no-build --verbosity normal
 
-      - name: Pack
-        if: >
-          github.event_name == 'push' &&
-          github.ref == 'refs/heads/master' &&
-          steps.version.outputs.should_publish == 'true'
-        run: |
-          dotnet pack \
-            --configuration Release \
-            --no-build \
-            --output out \
-            /p:PackageVersion=${{ steps.version.outputs.version }} \
-            /p:IncludeSymbols=true \
-            /p:SymbolPackageFormat=snupkg
+  deploy-migrations-staging:
+    name: Deploy Migrations (Staging)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    environment: staging
 
-      - name: Upload package artifact
-        if: >
-          github.event_name == 'push' &&
-          github.ref == 'refs/heads/master' &&
-          steps.version.outputs.should_publish == 'true'
-        uses: actions/upload-artifact@v4
+    if: >
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/master' &&
+      needs.build-and-test.outputs.should_publish == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          name: nuget-package
-          path: out/
-          retention-days: 7
+          dotnet-version: "9.x"
+
+      - name: Install dotnet-ef tool
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Apply pending migrations
+        run: |
+          dotnet ef database update \
+            --project src/ERP.Core.Database.Infrastructure \
+            --startup-project src/ERP.Core.Database.Infrastructure \
+            --connection "${{ secrets.DB_CONNECTION_STRING_STAGING }}"
+        # Si no hay migraciones pendientes, este comando termina en éxito igualmente.
+        # Si falla al aplicar una migración pendiente, el job falla y "publish"
+        # se salta automáticamente (no se genera nueva versión de paquete).
 
   publish:
     name: Publish to GitHub Packages
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: [build-and-test, deploy-migrations-staging]
 
+    # Este job solo se ejecuta si deploy-migrations-staging tuvo éxito
+    # (needs falla en cascada automáticamente si el job anterior falla).
     if: >
       github.event_name == 'push' &&
       github.ref == 'refs/heads/master' &&
@@ -138,11 +151,21 @@ jobs:
         with:
           dotnet-version: "9.x"
 
-      - name: Download package artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: nuget-package
-          path: out/
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack (todas las capas/proyectos empaquetables)
+        run: |
+          dotnet pack \
+            --configuration Release \
+            --no-build \
+            --output out \
+            /p:PackageVersion=${{ needs.build-and-test.outputs.version }} \
+            /p:IncludeSymbols=true \
+            /p:SymbolPackageFormat=snupkg
 
       - name: Configure GitHub Packages
         run: |
@@ -215,36 +238,3 @@ jobs:
               --notes "${NOTES:-No changelog available}" \
               --verify-tag
           fi
-
-  deploy-migrations-staging:
-    name: Deploy Migrations (Staging)
-    runs-on: ubuntu-latest
-    needs: [build-and-test, publish]
-    environment: staging
-    
-    if: >
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/master' &&
-      needs.build-and-test.outputs.should_publish == 'true'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-
-      - name: Install dotnet-ef tool
-        run: dotnet tool install --global dotnet-ef
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Apply pending migrations
-        run: |
-          dotnet ef database update \
-            --project src/ERP.Core.Database.Infrastructure \
-            --startup-project src/ERP.Core.Database.Infrastructure \
-            --connection "${{ secrets.DB_CONNECTION_STRING_STAGING }}"
