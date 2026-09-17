@@ -7,6 +7,7 @@
     <RootNamespace>ERP.Core.Testing</RootNamespace>
     <PackageId>ERP.Core.Testing</PackageId>
     <Description>Data inicial ficticia (Bogus) y seeder para pruebas de integración de ERP.Core.</Description>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,9 +24,5 @@
   <ItemGroup>
     <ProjectReference Include="..\ERP.Core.Database.Infrastructure\ERP.Core.Database.Infrastructure.csproj" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
 
 </Project>
