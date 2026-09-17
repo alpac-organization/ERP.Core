@@ -120,17 +120,12 @@ jobs:
             --project src/ERP.Core.Database.Infrastructure \
             --startup-project src/ERP.Core.Database.Infrastructure \
             --connection "${{ secrets.DB_CONNECTION_STRING_STAGING }}"
-        # Si no hay migraciones pendientes, este comando termina en éxito igualmente.
-        # Si falla al aplicar una migración pendiente, el job falla y "publish"
-        # se salta automáticamente (no se genera nueva versión de paquete).
 
   publish:
     name: Publish to GitHub Packages
     runs-on: ubuntu-latest
     needs: [build-and-test, deploy-migrations-staging]
 
-    # Este job solo se ejecuta si deploy-migrations-staging tuvo éxito
-    # (needs falla en cascada automáticamente si el job anterior falla).
     if: >
       github.event_name == 'push' &&
       github.ref == 'refs/heads/master' &&
