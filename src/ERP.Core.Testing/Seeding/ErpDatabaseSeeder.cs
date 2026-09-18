@@ -11,6 +11,9 @@ namespace ERP.Core.Testing.Seeding
             dbContext.Branches.AddRange(seedData.Branches);
             dbContext.WorkAreas.AddRange(seedData.WorkAreas);
             dbContext.Modules.AddRange(seedData.Modules);
+            dbContext.CategoryProducts.AddRange(seedData.CategoryProducts);
+            dbContext.UnitsMeasurement.AddRange(seedData.UnitMeasures);
+            dbContext.Products.AddRange(seedData.Products);
             #endregion
 
             #region Autenticación

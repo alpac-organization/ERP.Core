@@ -22,6 +22,14 @@ namespace ERP.Core.Testing.Seeding
 
         #endregion
 
+        #region ProductAndCatalogIds
+        public static readonly Guid CategoryGeneralId = Guid.Parse("cccccccc-0000-0000-0000-000000000001");
+        public static readonly Guid UnitMeasureWeightId = Guid.Parse("dddddddd-0000-0000-0000-000000000001");
+        public static readonly Guid UnitMeasureUnitId   = Guid.Parse("dddddddd-0000-0000-0000-000000000002");
+        public static readonly Guid ProductOfficeId   = Guid.Parse("eeeeeeee-0000-0000-0000-000000000001");
+        public static readonly Guid ProductSupplyId   = Guid.Parse("eeeeeeee-0000-0000-0000-000000000002");
+
+        #endregion
 
         public static ErpSeedData CreateScenario()
         {
@@ -30,7 +38,10 @@ namespace ERP.Core.Testing.Seeding
             var data = new ErpSeedData();
 
             SeedBaseRoles(data);
+
             SeedBaseModules(data);
+
+            SeedBaseProductCatalog(data);   
             // Agregar Semillas de Companies
             SeedBaseCompanies(data, faker);
 
@@ -108,6 +119,60 @@ namespace ERP.Core.Testing.Seeding
             data.Companies.AddRange(companies);
         }
 
+        private static void SeedBaseProductCatalog(ErpSeedData data)
+        {
+            data.CategoryProducts.Add(new CategoryProducts
+            {
+                Id = CategoryGeneralId,
+                Name = "Categoría general",
+                Code = "CAT-GEN",
+                IsActive = true
+            });
+
+            data.UnitMeasures.AddRange([
+
+            new UnitMeasure
+            {
+                 Id = UnitMeasureUnitId,
+                 Code = "UND",
+                 Name = "Unidad",
+                 Symbol = "u",
+                 Type = UnitMeasureType.Unit, 
+                 IsActive = true
+            },
+
+            new UnitMeasure
+            {
+                Id = UnitMeasureWeightId,
+                Code = "KG",
+                Name = "Kilogramo",
+                Symbol = "kg",
+                Type = UnitMeasureType.Weight,
+                IsActive = true
+            }
+
+           ]);
+
+            data.Products.AddRange([
+
+             new Product
+            {
+                Id = ProductOfficeId,
+                ProductName = "Producto oficina",
+                Description = "Producto seed para tests",
+                CategoryId = CategoryGeneralId
+            },
+
+            new Product
+            {
+               Id = ProductSupplyId,
+               ProductName = "Insumo general",
+               Description = "Producto seed alterno",
+               CategoryId = CategoryGeneralId
+            }
+            ]);
+
+        }
         public static void SeedBaseModules(ErpSeedData data)
         {
             List<Module> modules = [

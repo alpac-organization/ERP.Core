@@ -11,10 +11,14 @@ namespace ERP.Core.Testing.Seeding;
 public class ErpSeedData
 {
     #region Catalogos
-    public List<Company> Companies { get; }  = [];
-    public List<Branch> Branches { get; }    = [];
-    public List<WorkArea> WorkAreas { get; } = [];
-    public List<Module> Modules {get;}       = [];   
+    public List<Company> Companies { get; }        = [];
+    public List<Branch> Branches { get; }          = [];
+    public List<WorkArea> WorkAreas { get; }       = [];
+    public List<Module> Modules {get;}             = [];   
+    public List<CategoryProducts> CategoryProducts = [];
+    public List<UnitMeasure> UnitMeasures          = [];
+    public List<Product> Products                  = [];
+
 
     #endregion
 
