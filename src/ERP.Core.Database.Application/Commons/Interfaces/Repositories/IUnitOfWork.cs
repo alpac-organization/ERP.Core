@@ -4,6 +4,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 {
@@ -55,14 +56,12 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IAssistanceControlRepository AssistanceControls { get; }
         IWarehouseLocationRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
-        ICustomerTypeRepository CustomerType { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
         IShippingComapaniesRepository ShippingComapanies { get; }
         ISuppliesRepository Supplies { get; }
         #endregion
 
         #region Warehouse
-        ICustomerRepository Customers { get; }
         IProductsRepository Products { get; }
         IMerchandisesRepository Merchandises { get; }
 
@@ -82,7 +81,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
-        IServiceOrdersRepository ServiceOrders { get; }
         IEntranceDucatsRepository EntranceDucats { get; }
         IDucatRegistryRepository DucatRegistries { get; }
         IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
@@ -112,6 +110,14 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWarehouseTasksRepository WarehouseTasks { get; }
         IWarehouseTaskEventsRepository WarehouseTaskEvents { get; }
         IWarehouseTaskOwnershipLogsRepository WarehouseTaskOwnershipLogs { get; }
+        #endregion
+
+        #region Operations
+        ICustomersRepository Customers { get; }
+        IInvoicesRepository Invoices { get; }
+        IOperationalOrdersRepository OperationalOrders { get; }
+        IOperationalServicesRepository OperationalServices { get; }
+        IServicesOrdersRepository ServicesOrders { get; }
         #endregion
 
         #region ✅ Shopping

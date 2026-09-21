@@ -6,6 +6,7 @@ using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -76,14 +77,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #endregion
 
         #region Bodegas y Clientes
-        public DbSet<Customer> Customers => Set<Customer>();
-        public DbSet<CustomerType> CustomersTypes => Set<CustomerType>();
+        public DbSet<Customers> Customers => Set<Customers>();
+        public DbSet<Invoice> Invoices => Set<Invoice>();
+        public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
+        public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
+        public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();        
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
-        public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
         public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
@@ -169,7 +172,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status_enum");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
-            modelBuilder.HasPostgresEnum<OSStatus>("public", "oss_status_enum");
             modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public", "record_entrance_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
@@ -205,6 +207,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<BankAccountType>("public", "bank_account_type_enum");
             modelBuilder.HasPostgresEnum<PaymentMethodType>("public", "payment_method_type_enum");
 
+            modelBuilder.HasPostgresEnum<CustomerType>("public", "customer_type_enum");
+            modelBuilder.HasPostgresEnum<OperationalOrderStatus>("public", "operational_order_status_enum");
+            modelBuilder.HasPostgresEnum<InvoiceStatus>("public", "invoice_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

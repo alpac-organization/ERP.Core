@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -15,6 +16,6 @@ public class EntranceDucats : BaseEntity<Guid>
 
     public Guid? ServiceOrderId { get; set; }
     public string? ServiceOrderCode { get; set; }
-    public virtual ServiceOrder? ServiceOrder { get; set; }
+    public virtual ServicesOrder? ServiceOrder { get; set; }
 
 }

@@ -67,6 +67,7 @@ public class ManifestCancellationsConfiguration : IEntityTypeConfiguration<Manif
         builder.HasOne(e => e.ServiceOrder)
             .WithMany()
             .HasForeignKey(e => e.ServiceOrdersId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
     }
 }
