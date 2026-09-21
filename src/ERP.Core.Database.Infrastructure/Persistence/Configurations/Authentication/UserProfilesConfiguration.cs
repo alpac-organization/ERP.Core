@@ -55,6 +55,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(p => p.WorkArea)
+                .WithMany(u => u.UserProfiles)
+                .HasForeignKey(p => p.AreaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(u => u.UserModuleRole)
                 .WithOne(p => p.UserProfile)
                 .HasForeignKey(p => p.UserProfileId)
