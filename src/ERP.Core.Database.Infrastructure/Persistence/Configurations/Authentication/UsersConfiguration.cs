@@ -30,9 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("email")
                 .IsRequired();
 
-            builder.Property(e => e.AreaId)
-                .HasColumnName("area_id");
-
             builder.Property(e => e.IdentificationNumber)
                 .HasColumnName("identification_number")
                 .IsRequired();
@@ -58,11 +55,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
-
-            builder.HasOne(e => e.WorkArea)
-               .WithMany(u => u.Users)
-               .HasForeignKey(e => e.AreaId)
-               .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(u => u.Profiles)
                 .WithOne(p => p.User)

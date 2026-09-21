@@ -10,7 +10,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
         public void Configure(EntityTypeBuilder<Customers> builder)
         {
             builder.ToTable("customers");
-            
+
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Id)
@@ -36,15 +36,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(c => c.IdentificationNumber)
                 .HasColumnName("identification_number")
-                .HasMaxLength(30)
                 .IsRequired(false);
 
             builder.Property(c => c.CustomerType)
                 .HasColumnName("customer_type")
+                .HasColumnType("customer_type_enum")
+                .HasDefaultValueSql("'juridical'::customer_type_enum")
                 .IsRequired();
 
             builder.Property(c => c.IdentificationType)
                 .HasColumnName("identification_type")
+                .HasColumnType("identification_type_enum")
+                .HasDefaultValueSql("'ruc'::identification_type_enum")
                 .IsRequired();
 
             builder.Property(c => c.CompanyId)

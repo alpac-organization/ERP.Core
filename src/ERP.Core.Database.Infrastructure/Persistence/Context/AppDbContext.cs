@@ -209,6 +209,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
             modelBuilder.HasPostgresEnum<CustomerType>("public", "customer_type_enum");
             modelBuilder.HasPostgresEnum<OperationalOrderStatus>("public", "operational_order_status_enum");
+            modelBuilder.HasPostgresEnum<InvoiceStatus>("public", "invoice_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

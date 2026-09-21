@@ -18,11 +18,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
-
+            
             builder.Property(i => i.Status)
                 .HasColumnName("status")
-                .HasMaxLength(50)
-                .IsRequired(false);
+                .HasColumnType("invoice_status_enum")
+                .HasDefaultValueSql("'pending'::invoice_status_enum")
+                .IsRequired();
 
             builder.Property(i => i.InvoiceCode)
                 .HasColumnName("invoice_code")

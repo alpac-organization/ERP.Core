@@ -101,6 +101,9 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<WarehouseTaskEventType>("warehouse_task_event_type_enum", "public");
                     npgsqlOptions.MapEnum<BankAccountType>("bank_account_type_enum", "public");
                     npgsqlOptions.MapEnum<PaymentMethodType>("payment_method_type_enum", "public");
+                    npgsqlOptions.MapEnum<InvoiceStatus>("invoice_status_enum", "public");
+                    npgsqlOptions.MapEnum<CustomerType>("customer_type_enum", "public");
+                    npgsqlOptions.MapEnum<OperationalOrderStatus>("operational_order_status_enum", "public");
                 })
             );
 

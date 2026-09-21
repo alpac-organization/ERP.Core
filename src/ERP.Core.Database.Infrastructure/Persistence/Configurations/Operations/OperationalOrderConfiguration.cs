@@ -31,6 +31,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.Status)
                 .HasColumnName("status")
+                .HasColumnType("operational_order_status_enum")
+                .HasDefaultValueSql("'in_progress'::operational_order_status_enum")
                 .IsRequired();
 
             builder.Property(o => o.CostCenterId)

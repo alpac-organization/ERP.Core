@@ -13,9 +13,10 @@ public class CustomsDeclarations : BaseEntity<Guid>
     public virtual CustomsDeclarationDetails? Details { get; set; }
 
     public Guid? ServiceOrderId { get; set; }
+    public virtual ServicesOrder? ServiceOrder { get; set; }
+    
     public string? ServiceOrderCode { get; set; }
     public DucaStatus Status { get; set; }
 
-    public virtual ServicesOrder? ServiceOrder { get; set; }
 
 }
