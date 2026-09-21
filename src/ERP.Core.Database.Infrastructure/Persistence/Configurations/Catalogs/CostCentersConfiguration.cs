@@ -56,6 +56,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasForeignKey(s => s.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasMany(c => c.UserProfiles)
+                .WithOne(s => s.CostCenter)
+                .HasForeignKey(s => s.CostCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             #region Indices de la tabla
             
             builder.HasIndex(e => e.Id)
