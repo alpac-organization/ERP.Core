@@ -58,8 +58,8 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
             .IsRequired(false);
 
         builder.HasOne(d => d.ServiceOrder)
-           .WithOne(so => so.EntranceDucat)
-           .HasForeignKey<EntranceDucats>(d => d.ServiceOrderId)
+           .WithMany()
+           .HasForeignKey("ServiceOrderId")
            .OnDelete(DeleteBehavior.Restrict)
            .IsRequired(false);
     }

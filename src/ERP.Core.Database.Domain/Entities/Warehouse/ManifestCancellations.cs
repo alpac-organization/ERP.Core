@@ -1,5 +1,6 @@
 
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -16,5 +17,5 @@ public class ManifestCancellations : BaseEntity<Guid>
 
     // Propiedades de navegación
     public virtual RecordEntrance RecordEntrance { get; set; } = null!;
-    public virtual ServiceOrder ServiceOrder { get; set; } = null!;
+    public virtual ServicesOrder ServiceOrder { get; set; } = null!;
 }

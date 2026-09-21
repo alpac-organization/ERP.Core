@@ -5,10 +5,11 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
-    public class UnitOfWork(
+public class UnitOfWork(
         ErpDbContext _context,
         ICompaniesRepository companiesRepository,
         IModulesRepository modulesRepository,
@@ -54,8 +55,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IAssistanceControlRepository assistanceControlRepository,
         IWarehouseLocationRepository locationRepository,
         ICategoryProductsRepository categoryProductsRepository,
-        ICustomerTypeRepository customerTypeRepository,
-        ICustomerRepository customerRepository,
         IProductsRepository productsRepository,
         IWarehousesRepository warehouseRepository,
         IWarehouseCapacityRepository warehouseCapacityRepository,
@@ -66,7 +65,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IRackCoordinateRepository rackCoordinateRepository,
         ILotCoordinateRepository lotCoordinateRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
-        IServiceOrdersRepository serviceOrdersRepository,
         IEntranceDucatsRepository entranceDucatsRepository,
         IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
         IDucatRegistryRepository ducatRegistryRepository,
@@ -78,13 +76,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IQuotesRepository quotesRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
-
         IPurchaseRequestsRepository purchaseRequestsRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
         ICustomsDeclarationsRepository customsDeclarationsRepository,
         ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
-
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
@@ -114,7 +110,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         IUnloadingPositionsReservationsRepository unloadingPositionsReservationsRepository,
         IWarehouseTasksRepository warehouseTasksRepository,
         IWarehouseTaskEventsRepository warehouseTaskEventsRepository,
-        IWarehouseTaskOwnershipLogsRepository warehouseTaskOwnershipLogsRepository
+        IWarehouseTaskOwnershipLogsRepository warehouseTaskOwnershipLogsRepository,
+        ICustomersRepository customersRepository,
+        IInvoicesRepository invoicesRepository,
+        IOperationalOrdersRepository operationalOrdersRepository,
+        IOperationalServicesRepository operationalServicesRepository,
+        IServicesOrdersRepository servicesOrdersRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -166,14 +167,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehouseLocationRepository Locations => locationRepository;
         public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
-        public ICustomerTypeRepository CustomerType => customerTypeRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public IShippingComapaniesRepository ShippingComapanies => shippingComapaniesRepository;
         public ISuppliesRepository Supplies => suppliesRepository;
         #endregion
 
         #region Warehouse
-        public ICustomerRepository Customers => customerRepository;
         public IProductsRepository Products => productsRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
@@ -182,7 +181,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
-        public IServiceOrdersRepository ServiceOrders => serviceOrdersRepository;
         public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
         public IMerchandisesRepository Merchandises => merchandisesRepository;
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
@@ -219,6 +217,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IWarehouseTasksRepository WarehouseTasks => warehouseTasksRepository;
         public IWarehouseTaskEventsRepository WarehouseTaskEvents => warehouseTaskEventsRepository;
         public IWarehouseTaskOwnershipLogsRepository WarehouseTaskOwnershipLogs => warehouseTaskOwnershipLogsRepository;
+        #endregion
+
+        #region Operations
+        public ICustomersRepository Customers => customersRepository;
+        public IInvoicesRepository Invoices => invoicesRepository;
+        public IOperationalOrdersRepository OperationalOrders => operationalOrdersRepository;
+        public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
+        public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
         #endregion
 
         #region Shopping

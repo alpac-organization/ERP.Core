@@ -52,8 +52,8 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
             .HasDefaultValue(DucaStatus.Pending);
 
         builder.HasOne(d => d.ServiceOrder)
-            .WithOne(so => so.CustomsDeclarations)
-            .HasForeignKey<CustomsDeclarations>(d => d.ServiceOrderId)   // 👈 debe ser CustomsDeclarations, no EntranceDucats
+            .WithMany()
+            .HasForeignKey("ServiceOrderId")
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 
