@@ -11,6 +11,9 @@ namespace ERP.Core.Testing.Seeding
             dbContext.Branches.AddRange(seedData.Branches);
             dbContext.WorkAreas.AddRange(seedData.WorkAreas);
             dbContext.Modules.AddRange(seedData.Modules);
+            dbContext.CategoryProducts.AddRange(seedData.CategoryProducts);
+            dbContext.UnitsMeasurement.AddRange(seedData.UnitMeasures);
+            dbContext.Products.AddRange(seedData.Products);
             #endregion
 
             #region Autenticación
@@ -19,6 +22,13 @@ namespace ERP.Core.Testing.Seeding
             dbContext.Profiles.AddRange(seedData.Profiles);
             dbContext.Notifications.AddRange(seedData.Notifications);
             dbContext.Devices.AddRange(seedData.Devices);
+            #endregion
+
+            #region Almacenes
+            dbContext.Warehouses.AddRange(seedData.Warehouses);
+            dbContext.WarehouseCapacities.AddRange(seedData.WarehouseCapacities);
+            dbContext.Sections.AddRange(seedData.Sections);
+            dbContext.SectionCapacities.AddRange(seedData.SectionCapacities);
             #endregion
 
             await dbContext.SaveChangesAsync();

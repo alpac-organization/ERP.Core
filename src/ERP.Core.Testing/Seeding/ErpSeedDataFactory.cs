@@ -1,6 +1,7 @@
 using Bogus;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Testing.Seeding
@@ -21,6 +22,14 @@ namespace ERP.Core.Testing.Seeding
 
         #endregion
 
+        #region ProductAndCatalogIds
+        public static readonly Guid CategoryGeneralId = Guid.Parse("cccccccc-0000-0000-0000-000000000001");
+        public static readonly Guid UnitMeasureWeightId = Guid.Parse("dddddddd-0000-0000-0000-000000000001");
+        public static readonly Guid UnitMeasureUnitId   = Guid.Parse("dddddddd-0000-0000-0000-000000000002");
+        public static readonly Guid ProductOfficeId   = Guid.Parse("eeeeeeee-0000-0000-0000-000000000001");
+        public static readonly Guid ProductSupplyId   = Guid.Parse("eeeeeeee-0000-0000-0000-000000000002");
+
+        #endregion
 
         public static ErpSeedData CreateScenario()
         {
@@ -29,7 +38,10 @@ namespace ERP.Core.Testing.Seeding
             var data = new ErpSeedData();
 
             SeedBaseRoles(data);
+
             SeedBaseModules(data);
+
+            SeedBaseProductCatalog(data);   
             // Agregar Semillas de Companies
             SeedBaseCompanies(data, faker);
 
@@ -45,7 +57,10 @@ namespace ERP.Core.Testing.Seeding
             // Agregar Semillas de Perfiles por empresa
             SeedBaseProfiles(data, faker);
 
-            
+            SeedBaseWarehouses(data);
+            SeedBaseWarehouseCapacities(data);
+            SeedBaseSections(data);
+            SeedBaseSectionCapacities(data);
 
             return data;
         }
@@ -104,6 +119,60 @@ namespace ERP.Core.Testing.Seeding
             data.Companies.AddRange(companies);
         }
 
+        private static void SeedBaseProductCatalog(ErpSeedData data)
+        {
+            data.CategoryProducts.Add(new CategoryProducts
+            {
+                Id = CategoryGeneralId,
+                Name = "Categoría general",
+                Code = "CAT-GEN",
+                IsActive = true
+            });
+
+            data.UnitMeasures.AddRange([
+
+            new UnitMeasure
+            {
+                 Id = UnitMeasureUnitId,
+                 Code = "UND",
+                 Name = "Unidad",
+                 Symbol = "u",
+                 Type = UnitMeasureType.Unit, 
+                 IsActive = true
+            },
+
+            new UnitMeasure
+            {
+                Id = UnitMeasureWeightId,
+                Code = "KG",
+                Name = "Kilogramo",
+                Symbol = "kg",
+                Type = UnitMeasureType.Weight,
+                IsActive = true
+            }
+
+           ]);
+
+            data.Products.AddRange([
+
+             new Product
+            {
+                Id = ProductOfficeId,
+                ProductName = "Producto oficina",
+                Description = "Producto seed para tests",
+                CategoryId = CategoryGeneralId
+            },
+
+            new Product
+            {
+               Id = ProductSupplyId,
+               ProductName = "Insumo general",
+               Description = "Producto seed alterno",
+               CategoryId = CategoryGeneralId
+            }
+            ]);
+
+        }
         public static void SeedBaseModules(ErpSeedData data)
         {
             List<Module> modules = [
@@ -131,6 +200,15 @@ namespace ERP.Core.Testing.Seeding
                     ModuleName = "Gestión de Gerencia",
                     Description = "Módulo de Gerencia",
                     PathRedirect = "management",
+                    ImageUrl = null,
+                    IsActive = true 
+                },
+                new Module{
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000004"),
+                    Code = "ALM-MAN-2KE4",
+                    ModuleName = "Almacen Managua",
+                    Description = "Gestion de Almacen Managua",
+                    PathRedirect = "warehouse",
                     ImageUrl = null,
                     IsActive = true 
                 },
@@ -293,6 +371,152 @@ namespace ERP.Core.Testing.Seeding
             ];
 
             data.Branches.AddRange(branches);
+        }
+
+        private static void SeedBaseWarehouses(ErpSeedData data)
+        {
+            List<Warehouses> warehouses = [
+                new Warehouses
+                {
+                    Id = Guid.Parse("66666666-b000-0000-0000-000000000001"),
+                    Code = "B2F",
+                    IsActive = true,
+                    WarehouseType = WarehouseType.Fiscal,
+                },
+                new Warehouses
+                {
+                    Id = Guid.Parse("66666666-b000-0000-0000-000000000002"),
+                    Code = "B3F",
+                    IsActive = true,
+                    WarehouseType = WarehouseType.Fiscal,
+                },
+            ];
+
+            data.Warehouses.AddRange(warehouses);
+        }
+
+        private static void SeedBaseWarehouseCapacities(ErpSeedData data)
+        {
+            List<WarehouseCapacity> warehouseCapacities = [
+                new WarehouseCapacity
+                {
+                    Id = Guid.Parse("77777777-b000-0000-0000-000000000001"),
+                    WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000001"),
+                    HasMargins = true,
+                    MinimumHeight = 3.12m,
+                    MaximumHeight = 5.12m,
+                    MarginTop = 0.6m,
+                    MarginBottom = 0.6m,
+                    MarginLeft = 0.6m,
+                    MarginRight = 0.6m,
+                    Width = 12.50m,
+                    Length = 18.00m,
+                    UnusedAreaM2 = 18.00m,
+                    AvailableAreaWithMarginM2 = 198.00m,
+                    TotalAreaM2 = 225.00m,
+                    UnoccupiedChargeableAreaM2 = 30.00m,
+                    OccupiedChargeableAreaM2 = 45.00m,
+                    PercentageAvailableAreaWithMarginM2 = 88.00m,
+                    UnusedVolumenM3 = 36.00m,
+                    AvailableVolumenWithMarginM3 = 540.00m,
+                    TotalVolumenM3 = 585.00m,
+                    UnoccupiedChargeableVolumenM3 = 65.00m,
+                    OccupiedChargeableVolumenM3 = 80.00m,
+                    PercentageAvailableVolumenWithMarginM3 = 92.31m,
+                },
+                new WarehouseCapacity
+                {
+                    Id = Guid.Parse("77777777-b000-0000-0000-000000000002"),
+                    WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000002"),
+                    HasMargins = true,
+                    MinimumHeight = 2.80m,
+                    MaximumHeight = 4.90m,
+                    MarginTop = 0.5m,
+                    MarginBottom = 0.5m,
+                    MarginLeft = 0.5m,
+                    MarginRight = 0.5m,
+                    Width = 14.00m,
+                    Length = 20.00m,
+                    UnusedAreaM2 = 20.00m,
+                    AvailableAreaWithMarginM2 = 252.00m,
+                    TotalAreaM2 = 280.00m,
+                    UnoccupiedChargeableAreaM2 = 35.00m,
+                    OccupiedChargeableAreaM2 = 52.00m,
+                    PercentageAvailableAreaWithMarginM2 = 90.00m,
+                    UnusedVolumenM3 = 40.00m,
+                    AvailableVolumenWithMarginM3 = 610.00m,
+                    TotalVolumenM3 = 650.00m,
+                    UnoccupiedChargeableVolumenM3 = 70.00m,
+                    OccupiedChargeableVolumenM3 = 88.00m,
+                    PercentageAvailableVolumenWithMarginM3 = 93.85m,
+                },
+            ];
+
+            data.WarehouseCapacities.AddRange(warehouseCapacities);
+        }
+
+        private static void SeedBaseSections(ErpSeedData data)
+        {
+            List<Sections> sections = [
+                new Sections
+                {
+                    Id = Guid.Parse("88888888-b000-0000-0000-000000000001"),
+                    Code = "SEC-B2F-01",
+                    IsActive = true,
+                    SectionType = SectionType.Storage,
+                    SectionStorageType = SectionStorageType.Racks,
+                    WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000001"),
+                    AllowsStorageAisle = false,
+                    IsStorageEnabledAisle = false,
+                },
+                new Sections
+                {
+                    Id = Guid.Parse("88888888-b000-0000-0000-000000000002"),
+                    Code = "SEC-B3F-01",
+                    IsActive = true,
+                    SectionType = SectionType.Storage,
+                    SectionStorageType = SectionStorageType.Lots,
+                    WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000002"),
+                    AllowsStorageAisle = false,
+                    IsStorageEnabledAisle = false,
+                },
+            ];
+
+            data.Sections.AddRange(sections);
+        }
+
+        private static void SeedBaseSectionCapacities(ErpSeedData data)
+        {
+            List<SectionCapacity> sectionCapacities = [
+                new SectionCapacity
+                {
+                    Id = Guid.Parse("99999999-b000-0000-0000-000000000001"),
+                    SectionId = Guid.Parse("88888888-b000-0000-0000-000000000001"),
+                    Width = 6.00m,
+                    Length = 18.00m,
+                    UnusedAreaM2 = 12.00m,
+                    AvailableAreaWithMarginM2 = 84.00m,
+                    TotalAreaM2 = 108.00m,
+                    UnoccupiedChargeableAreaM2 = 15.00m,
+                    OccupiedChargeableAreaM2 = 22.00m,
+                    PercentageAvailableAreaWithMarginM2 = 77.78m,
+                },
+                new SectionCapacity
+                {
+                    Id = Guid.Parse("99999999-b000-0000-0000-000000000002"),
+                    SectionId = Guid.Parse("88888888-b000-0000-0000-000000000002"),
+                    Width = 8.00m,
+                    Length = 20.00m,
+                    UnusedAreaM2 = 16.00m,
+                    AvailableAreaWithMarginM2 = 120.00m,
+                    TotalAreaM2 = 160.00m,
+                    UnoccupiedChargeableAreaM2 = 18.00m,
+                    OccupiedChargeableAreaM2 = 26.00m,
+                    PercentageAvailableAreaWithMarginM2 = 75.00m,
+                },
+            ];
+
+            data.SectionCapacities.AddRange(sectionCapacities);
         }
 
         private static readonly Dictionary<string, string> CompanyDomains = new()

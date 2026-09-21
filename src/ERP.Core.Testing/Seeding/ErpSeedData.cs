@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Testing.Seeding;
 
@@ -10,10 +11,14 @@ namespace ERP.Core.Testing.Seeding;
 public class ErpSeedData
 {
     #region Catalogos
-    public List<Company> Companies { get; }  = [];
-    public List<Branch> Branches { get; }    = [];
-    public List<WorkArea> WorkAreas { get; } = [];
-    public List<Module> Modules {get;}       = [];   
+    public List<Company> Companies { get; }        = [];
+    public List<Branch> Branches { get; }          = [];
+    public List<WorkArea> WorkAreas { get; }       = [];
+    public List<Module> Modules {get;}             = [];   
+    public List<CategoryProducts> CategoryProducts = [];
+    public List<UnitMeasure> UnitMeasures          = [];
+    public List<Product> Products                  = [];
+
 
     #endregion
 
@@ -26,4 +31,11 @@ public class ErpSeedData
     public List<Role> Roles {get;} = []; 
 
     #endregion 
+
+    #region Almacenes
+    public List<Warehouses> Warehouses {get;} = [];
+    public List<WarehouseCapacity> WarehouseCapacities {get;} = [];
+    public List<Sections> Sections {get;} = [];
+    public List<SectionCapacity> SectionCapacities {get;} = [];
+    #endregion
 }
