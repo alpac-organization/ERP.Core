@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
     {
         protected readonly ErpDbContext _context = context;
         private readonly DbSet<T> _dbSet = context.Set<T>();
-        
+
         public IQueryable<T> Entities => _dbSet;
 
         public async Task<T?> GetByIdAsync(object id, CancellationToken ct = default) => await _dbSet.FindAsync([id], ct);
@@ -22,8 +22,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            
+
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveRangeAsync(IEnumerable<T> entities)
+        {
+            _dbSet.RemoveRange(entities);
             return Task.CompletedTask;
         }
     }
-}   
+}

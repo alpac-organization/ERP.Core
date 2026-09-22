@@ -6,6 +6,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces
     {
         IQueryable<T> Entities { get; }
         Task UpdateAsync(T entity);
+        Task RemoveRangeAsync(IEnumerable<T> entities);
         Task<List<T>> ToListAsync(IQueryable<T> query, CancellationToken ct);
         Task<T?> GetByIdAsync(object id, CancellationToken cancellationToken);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken ct);
