@@ -95,6 +95,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("area_id")
                 .IsRequired();
 
+            builder.Property(e => e.CostCenterId)
+                .HasColumnName("cost_center_id")
+                .IsRequired(false);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -106,6 +110,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(e => e.WorkArea)
                 .WithMany(rp => rp.PurchaseRequests)
                 .HasForeignKey(e => e.AreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.HasOne(e => e.CostCenter)
+                .WithMany(rp => rp.PurchaseRequests)
+                .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Branch)

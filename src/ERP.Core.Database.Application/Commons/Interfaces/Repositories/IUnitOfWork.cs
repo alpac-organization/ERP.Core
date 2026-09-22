@@ -118,6 +118,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IOperationalOrdersRepository OperationalOrders { get; }
         IOperationalServicesRepository OperationalServices { get; }
         IServicesOrdersRepository ServicesOrders { get; }
+        ICustomerBranchesRepository CustomerBranches { get; }
+        ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
         #endregion
 
         #region ✅ Shopping

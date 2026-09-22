@@ -1,6 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Operations;
-
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Operations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
@@ -32,6 +31,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(c => c.CustomerCode)
                 .HasColumnName("customer_code")
                 .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(c => c.Cif)
+                .HasColumnName("cif")
+                .HasMaxLength(20)
                 .IsRequired(false);
 
             builder.Property(c => c.IdentificationNumber)
@@ -72,12 +76,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(c => c.CustomerCode)
+            builder.HasMany(c => c.CustomerBranches)
+                .WithOne(cb => cb.Customer)
+                .HasForeignKey(cb => cb.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(c => new { c.CompanyId, c.CustomerCode })
                 .HasDatabaseName("ix_customers_customer_code")
                 .IsUnique();
 
             builder.HasIndex(c => c.IdentificationNumber)
-                .HasDatabaseName("ix_customers_identification_number");
+                .HasDatabaseName("ix_customers_identification_number")
+                .IsUnique();
         }
     }
 }

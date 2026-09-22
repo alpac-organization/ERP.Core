@@ -54,8 +54,14 @@ public class CalculatorCapacities : ICalculatorCapacities
         => unusedAreaM2 * height;
 
     public decimal CalculatePercentageAvailableAreaWithMarginM2(decimal availableAreaWithMarginM2, decimal totalAreaM2)
-        => totalAreaM2 == 0 ? 0 : (availableAreaWithMarginM2 / totalAreaM2) * 100;
+    {
+        if (totalAreaM2 == 0) return 0;
+        return Math.Clamp((availableAreaWithMarginM2 / totalAreaM2) * 100, 0, 100);
+    }
 
     public decimal CalculatePercentageAvailableVolumenWithMarginM3(decimal availableVolumenWithMarginM3, decimal totalVolumenM3)
-        => totalVolumenM3 == 0 ? 0 : (availableVolumenWithMarginM3 / totalVolumenM3) * 100;
+    {
+        if (totalVolumenM3 == 0) return 0;
+        return Math.Clamp((availableVolumenWithMarginM3 / totalVolumenM3) * 100, 0, 100);
+    }
 }

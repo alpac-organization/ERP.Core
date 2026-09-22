@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260922184913_AgregarCentroCostoEnSolicitudesCompras")]
+    partial class AgregarCentroCostoEnSolicitudesCompras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "constitution_type_enum", new[] { "natural", "legal" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "credit_status_enum", new[] { "active", "blocked", "suspended", "overdue" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "currency_enum", new[] { "nio", "usd" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "customer_type_enum", new[] { "natural", "juridical" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "deduction_payment_status_enum", new[] { "paid", "pending" });
@@ -47,7 +49,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "operational_order_status_enum", new[] { "in_progress", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "pallet_type_enum", new[] { "standard", "oversized" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_condition_enum", new[] { "credit", "cash" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_method_type_enum", new[] { "ach", "local_transfer", "check", "cash", "international_wire" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
@@ -1808,134 +1809,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("workflow_step_definitions", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_branch_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("address");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("code");
-
-                    b.Property<string>("Contact")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("contact");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_id");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("email");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsMainBranch")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_main_branch");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("phone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_customer_branches_customer_id");
-
-                    b.ToTable("customer_branches", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_credit_information_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("branch_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("CreditDays")
-                        .HasColumnType("integer")
-                        .HasColumnName("credit_days");
-
-                    b.Property<int>("CreditStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("credit_status_enum")
-                        .HasColumnName("credit_status")
-                        .HasDefaultValueSql("'active'::credit_status_enum");
-
-                    b.Property<int>("Currency")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("currency_enum")
-                        .HasColumnName("currency")
-                        .HasDefaultValueSql("'nio'::currency_enum");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<decimal>("MaxBalance")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("max_balance");
-
-                    b.Property<int>("PaymentCondition")
-                        .HasColumnType("payment_condition_enum")
-                        .HasColumnName("payment_condition");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId")
-                        .HasDatabaseName("ix_customer_credit_information_branch_id");
-
-                    b.HasIndex("BranchId", "PaymentCondition")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customer_credit_information_branch_payment_condition");
-
-                    b.ToTable("customer_credit_information", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1943,11 +1816,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Cif")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("cif");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid")
@@ -1997,13 +1865,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentificationNumber")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customers_identification_number");
+                    b.HasIndex("CompanyId");
 
-                    b.HasIndex("CompanyId", "CustomerCode")
+                    b.HasIndex("CustomerCode")
                         .IsUnique()
                         .HasDatabaseName("ix_customers_customer_code");
+
+                    b.HasIndex("IdentificationNumber")
+                        .HasDatabaseName("ix_customers_identification_number");
 
                     b.ToTable("customers", "public");
                 });
@@ -7406,28 +7275,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
-                        .WithMany("CustomerBranches")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", "Branch")
-                        .WithMany("CreditInformation")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
@@ -8893,15 +8740,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("RecordEntrances");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Navigation("CreditInformation");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
-                    b.Navigation("CustomerBranches");
-
                     b.Navigation("OperationalOrders");
                 });
 

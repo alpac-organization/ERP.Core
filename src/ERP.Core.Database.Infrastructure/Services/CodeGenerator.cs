@@ -153,6 +153,52 @@ namespace ERP.Core.Database.Infrastructure.Services
             => $"{lotCode}-F{row}C{column}";
         #endregion Codigos de posicion para almacen
 
+        #region Codigos de clientes
+        public async Task<(bool IsSuccess, CustomerCodesToRegister CustomerCodes)> GenerateUniqueCustomerCodesAsync(
+            Guid companyId,
+            int branchCount,
+            CancellationToken ct = default)
+        {
+            if (branchCount <= 0)
+            {
+                return (false, default!);
+            }
+
+            var companyExists = await _unitOfWork.Companies.Entities
+                .AsNoTracking()
+                .AnyAsync(c => c.Id == companyId, ct);
+
+            if (!companyExists)
+            {
+                return (false, default!);
+            }
+
+            var lastCustomerCodes = await _unitOfWork.Customers.Entities
+                .AsNoTracking()
+                .Where(c => c.CompanyId == companyId && c.DeletedAt == null)
+                .Select(c => c.CustomerCode)
+                .ToListAsync(ct);
+
+            int maxSequence = lastCustomerCodes
+                .Where(code => code is not null)
+                .Select(code => int.TryParse(code, out var sequence) ? sequence : 0)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            int nextSequence = maxSequence + 1;
+
+            string customerCode = nextSequence.ToString().PadLeft(6, '0');
+
+            var branchCodes = Enumerable.Range(1, branchCount)
+                .Select(i => i.ToString().PadLeft(2, '0'))
+                .ToList();
+
+            string customerCif = $"{nextSequence.ToString().PadLeft(2, '0')}-{branchCodes[0]}";
+
+            return (true, new CustomerCodesToRegister(customerCode, customerCif, branchCodes));
+        }
+        #endregion Codigos de clientes
+
         #region Metodos Privados
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
         {
