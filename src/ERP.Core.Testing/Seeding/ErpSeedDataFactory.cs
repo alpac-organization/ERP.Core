@@ -31,6 +31,16 @@ namespace ERP.Core.Testing.Seeding
 
         #endregion
 
+        #region CostCenterIds
+        public static readonly Guid CostCenterAlpacItId = Guid.Parse("ffffffff-0000-0000-0000-000000000001");
+        public static readonly Guid CostCenterAlpacWhId = Guid.Parse("ffffffff-0000-0000-0000-000000000002");
+        public static readonly Guid CostCenterAminsaId  = Guid.Parse("ffffffff-0000-0000-0000-000000000003");
+        public static readonly Guid CostCenterAvasaId   = Guid.Parse("ffffffff-0000-0000-0000-000000000004");
+        public static readonly Guid CostCenterVigemsaId = Guid.Parse("ffffffff-0000-0000-0000-000000000005");
+        public static readonly Guid CostCenterTmnId     = Guid.Parse("ffffffff-0000-0000-0000-000000000006");
+
+        #endregion
+
         public static ErpSeedData CreateScenario()
         {
             Randomizer.Seed = new Random(Seed);
@@ -47,6 +57,9 @@ namespace ERP.Core.Testing.Seeding
 
             // Agregar Semillas de WorkAreas
             SeedBaseWorkAreas(data, faker);
+
+            // Agregar Semillas de CostCenters
+            SeedBaseCostCenters(data);
 
             // Agregar Semillas de Branches (sucursales)
             SeedBaseBranches(data, faker);
@@ -373,6 +386,87 @@ namespace ERP.Core.Testing.Seeding
             data.Branches.AddRange(branches);
         }
 
+        private static void SeedBaseCostCenters(ErpSeedData data)
+        {
+            var costCenters = new List<CostCenter>
+            {
+                // ALPAC - Tecnología de la Información
+                new CostCenter
+                {
+                    Id = CostCenterAlpacItId,
+                    CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000001"),
+                    CostCenterName = "Gerencia de Informática",
+                    Description = "Centro de costos de TI",
+                    CostCenterCode = 1001,
+                    CoilCode = 10,
+                    IsActive = true
+                },
+                // ALPAC - Almacén y Logística
+                new CostCenter
+                {
+                    Id = CostCenterAlpacWhId,
+                    CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000002"),
+                    CostCenterName = "Almacén y Logística",
+                    Description = "Centro de costos de almacén",
+                    CostCenterCode = 1002,
+                    CoilCode = 20,
+                    IsActive = true
+                },
+                // AMINSA
+                new CostCenter
+                {
+                    Id = CostCenterAminsaId,
+                    CompanyId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                    WorkAreaId = Guid.Parse("22222222-0000-0000-0000-000000000001"),
+                    CostCenterName = "Operaciones Marítimas",
+                    Description = "Centro de costos operaciones",
+                    CostCenterCode = 2001,
+                    CoilCode = 10,
+                    IsActive = true
+                },
+                // AVASA
+                new CostCenter
+                {
+                    Id = CostCenterAvasaId,
+                    CompanyId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    WorkAreaId = Guid.Parse("33333333-0000-0000-0000-000000000001"),
+                    CostCenterName = "Producción y Granja",
+                    Description = "Centro de costos producción",
+                    CostCenterCode = 3001,
+                    CoilCode = 10,
+                    IsActive = true
+                },
+                // VIGEMSA
+                new CostCenter
+                {
+                    Id = CostCenterVigemsaId,
+                    CompanyId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                    WorkAreaId = Guid.Parse("44444444-0000-0000-0000-000000000001"),
+                    CostCenterName = "Seguridad Operativa",
+                    Description = "Centro de costos seguridad",
+                    CostCenterCode = 4001,
+                    CoilCode = 10,
+                    IsActive = true
+                },
+                // TMN
+                new CostCenter
+                {
+                    Id = CostCenterTmnId,
+                    CompanyId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                    WorkAreaId = Guid.Parse("55555555-0000-0000-0000-000000000001"),
+                    CostCenterName = "Flotas y Transportación",
+                    Description = "Centro de costos flotas",
+                    CostCenterCode = 5001,
+                    CoilCode = 10,
+                    IsActive = true
+                }
+            };
+
+            data.CostCenters.AddRange(costCenters);
+        }
+
         private static void SeedBaseWarehouses(ErpSeedData data)
         {
             List<Warehouses> warehouses = [
@@ -548,13 +642,17 @@ namespace ERP.Core.Testing.Seeding
 
                 foreach (var area in areas)
                 {
+                    // Obtener el CostCenterId correspondiente al área
+                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == area.Id && c.CompanyId == companyId);
+                    var costCenterId = costCenter?.Id ?? Guid.Empty;
+
                     for (int i = 0; i < 2; i++)
                     {
                         var user = NewUser(faker, Guid.NewGuid(), domain);
                         data.Users.Add(user);
                         
                         var branch = data.Branches.First(b => b.CompanyId == companyId);
-                        data.Profiles.Add(NewProfile(faker, user.Id, companyId, branch.Id));
+                        data.Profiles.Add(NewProfile(faker, user.Id, companyId, branch.Id, costCenterId));
                     }
                 }
             }
@@ -582,7 +680,12 @@ namespace ERP.Core.Testing.Seeding
                 foreach (var companyId in otherCompanies)
                 {
                     var branch = data.Branches.First(b => b.CompanyId == companyId);
-                    data.Profiles.Add(NewProfile(faker, userId, companyId, branch.Id));
+                    // Get the cost center for this company (first work area's cost center)
+                    var workArea = data.WorkAreas.First(w => w.CompanyId == companyId);
+                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == workArea.Id && c.CompanyId == companyId);
+                    var costCenterId = costCenter?.Id ?? Guid.Empty;
+                    
+                    data.Profiles.Add(NewProfile(faker, userId, companyId, branch.Id, costCenterId));
                 }
             }
         }
@@ -610,12 +713,13 @@ namespace ERP.Core.Testing.Seeding
             };
         }
 
-        private static UserProfile NewProfile(Faker faker, Guid userId, Guid companyId, Guid branchId) => new()
+        private static UserProfile NewProfile(Faker faker, Guid userId, Guid companyId, Guid branchId, Guid costCenterId) => new()
         {
             Id = Guid.NewGuid(),
             UserId = userId,
             CompanyId = companyId,
             BranchId = branchId,
+            CostCenterId = costCenterId,
             IsActive = true
         };
 

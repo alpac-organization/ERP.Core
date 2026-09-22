@@ -18,6 +18,7 @@ public class ErpSeedData
     public List<CategoryProducts> CategoryProducts = [];
     public List<UnitMeasure> UnitMeasures          = [];
     public List<Product> Products                  = [];
+    public List<CostCenter> CostCenters            = [];
 
 
     #endregion
