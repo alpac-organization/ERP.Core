@@ -26,15 +26,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
                 .IsRequired();
-
+                
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
-                .HasDefaultValue(true)
-                .ValueGeneratedOnAdd();
+                .HasDefaultValue(true);
             
             builder.Property(e => e.CostCenterId)
                 .HasColumnName("cost_center_id")
-                .IsRequired(false);
+                .IsRequired();
+
+            builder.Property(e => e.AreaId)
+                .HasColumnName("area_id")
+                .IsRequired();
 
             builder.Property(e => e.BranchId)
                 .HasColumnName("branch_id")
