@@ -82,6 +82,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
         public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
         public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
+        public DbSet<CustomerBranch> CustomerBranches => Set<CustomerBranch>();
+        public DbSet<CustomerContacts> CustomerContacts => Set<CustomerContacts>();
+        public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
@@ -210,6 +213,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<CustomerType>("public", "customer_type_enum");
             modelBuilder.HasPostgresEnum<OperationalOrderStatus>("public", "operational_order_status_enum");
             modelBuilder.HasPostgresEnum<InvoiceStatus>("public", "invoice_status_enum");
+            modelBuilder.HasPostgresEnum<PaymentCondition>("public", "payment_condition_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
