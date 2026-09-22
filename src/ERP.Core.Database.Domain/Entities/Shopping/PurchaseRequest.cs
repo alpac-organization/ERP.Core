@@ -83,6 +83,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual User? AnnulledByUser { get; set; }
         
         /// <summary>
+        /// Centro de costo designado.
+        /// </summary>
+        public Guid? CostCenterId { get; set; }
+        public virtual CostCenter CostCenter { get; set; } = default!;
+        
+        /// <summary>
         /// Sucursal que necesita la requisición
         /// </summary>
         public Guid BranchId { get; set; }
