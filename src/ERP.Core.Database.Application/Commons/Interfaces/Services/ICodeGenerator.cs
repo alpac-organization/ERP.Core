@@ -15,5 +15,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, IReadOnlyList<string> Codes)> GenerateUniqueStorageCodesAsync(StorageEntityType entityType, Guid sectionId, int count, CancellationToken ct = default);
 
         public string GeneratePositionCode(string lotCode, int row, int column);
+
+        Task<(bool IsSuccess, CustomerCodesToRegister CustomerCodes)> GenerateUniqueCustomerCodesAsync(Guid companyId, int branchCount, CancellationToken ct = default);
     }
 }

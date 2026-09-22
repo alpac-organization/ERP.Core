@@ -81,7 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasForeignKey(cb => cb.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(c => c.CustomerCode)
+            builder.HasIndex(c => new { c.CompanyId, c.CustomerCode })
                 .HasDatabaseName("ix_customers_customer_code")
                 .IsUnique();
 
