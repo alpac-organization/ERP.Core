@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -35,7 +36,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<WarehouseLocation> WarehouseLocations { get; set; } = [];
 
         //Clientes Propios de la empresa.
-        public virtual ICollection<Customer> Customers { get; set; } = [];
+        public virtual ICollection<Customers> Customers { get; set; } = [];
 
         //Control de nominas contables o descriptions
         public virtual ICollection<TypesAccountingPayroll> TypesAccountingPayroll { get; set; } = [];

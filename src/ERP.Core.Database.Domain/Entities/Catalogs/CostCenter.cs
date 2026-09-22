@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 
@@ -15,7 +16,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public Guid WorkAreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
-
+        
+        public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
 }

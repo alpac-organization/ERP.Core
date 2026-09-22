@@ -56,11 +56,5 @@ public class EntranceDucatsConfiguration : IEntityTypeConfiguration<EntranceDuca
             .HasColumnName("service_order_code")
             .HasMaxLength(50)
             .IsRequired(false);
-
-        builder.HasOne(d => d.ServiceOrder)
-           .WithOne(so => so.EntranceDucat)
-           .HasForeignKey<EntranceDucats>(d => d.ServiceOrderId)
-           .OnDelete(DeleteBehavior.Restrict)
-           .IsRequired(false);
     }
 }

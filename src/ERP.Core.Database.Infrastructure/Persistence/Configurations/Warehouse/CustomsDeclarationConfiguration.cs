@@ -51,12 +51,6 @@ public class CustomsDeclarationConfiguration : IEntityTypeConfiguration<CustomsD
             .HasColumnType("duca_status_enum")
             .HasDefaultValue(DucaStatus.Pending);
 
-        builder.HasOne(d => d.ServiceOrder)
-            .WithOne(so => so.CustomsDeclarations)
-            .HasForeignKey<CustomsDeclarations>(d => d.ServiceOrderId)   // 👈 debe ser CustomsDeclarations, no EntranceDucats
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired(false);
-
 
     }
 }

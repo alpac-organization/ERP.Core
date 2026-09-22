@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260921221118_AgregarModeloNegocioAlmacenFiscal")]
+    partial class AgregarModeloNegocioAlmacenFiscal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,9 +510,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("user_profile_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid?>("AreaId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("BranchId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
@@ -546,8 +546,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
 
                     b.HasIndex("BranchId")
                         .HasDatabaseName("IX_users_profiles_branch_id");
@@ -7086,11 +7084,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.UserProfile", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
-                        .WithMany("UserProfiles")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
                         .WithMany("UserProfiles")
                         .HasForeignKey("BranchId")
@@ -7121,8 +7114,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CostCenter");
 
                     b.Navigation("User");
-
-                    b.Navigation("WorkArea");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Branch", b =>
@@ -8708,8 +8699,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CostCenters");
 
                     b.Navigation("PurchaseRequests");
-
-                    b.Navigation("UserProfiles");
 
                     b.Navigation("WorkingInformations");
                 });

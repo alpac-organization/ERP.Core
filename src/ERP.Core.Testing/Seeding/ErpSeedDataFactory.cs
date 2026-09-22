@@ -550,8 +550,11 @@ namespace ERP.Core.Testing.Seeding
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        var user = NewUser(faker, Guid.NewGuid(), area.Id, domain);
+                        var user = NewUser(faker, Guid.NewGuid(), domain);
                         data.Users.Add(user);
+                        
+                        var branch = data.Branches.First(b => b.CompanyId == companyId);
+                        data.Profiles.Add(NewProfile(faker, user.Id, companyId, branch.Id));
                     }
                 }
             }
@@ -565,26 +568,21 @@ namespace ERP.Core.Testing.Seeding
             var companyVigemsa = Guid.Parse("44444444-4444-4444-4444-444444444444");
             var companyTmn = Guid.Parse("55555555-5555-5555-5555-555555555555");
 
-            var areaTiAlpac = Guid.Parse("11111111-0000-0000-0000-000000000001");
+            // Profiles are already created in SeedBaseUsers, just add cross-company profiles for ALPAC users
+            var alpacUserIds = data.Profiles
+                .Where(p => p.CompanyId == companyAlpac)
+                .Select(p => p.UserId)
+                .Distinct()
+                .ToList();
 
-
-
-            foreach (var user in data.Users)
-            {
-                var area = data.WorkAreas.First(w => w.Id == user.AreaId);
-                var branch = data.Branches.First(b => b.CompanyId == area.CompanyId);
-                data.Profiles.Add(NewProfile(faker, user.Id, area.CompanyId, branch.Id));
-            }
-
-            var tiUsers = data.Users.Where(u => u.AreaId == areaTiAlpac).ToList();
             var otherCompanies = new[] { companyAminsa, companyAvasa, companyVigemsa, companyTmn };
 
-            foreach (var user in tiUsers)
+            foreach (var userId in alpacUserIds)
             {
                 foreach (var companyId in otherCompanies)
                 {
                     var branch = data.Branches.First(b => b.CompanyId == companyId);
-                    data.Profiles.Add(NewProfile(faker, user.Id, companyId, branch.Id));
+                    data.Profiles.Add(NewProfile(faker, userId, companyId, branch.Id));
                 }
             }
         }
@@ -593,7 +591,7 @@ namespace ERP.Core.Testing.Seeding
 
         #region Constructores
 
-        private static User NewUser(Faker faker, Guid userId, Guid areaId, string domain)
+        private static User NewUser(Faker faker, Guid userId, string domain)
         {
             var firstName = faker.Name.FirstName();
             var lastName = faker.Name.LastName();
@@ -609,7 +607,6 @@ namespace ERP.Core.Testing.Seeding
                 IdentificationNumber = faker.Random.ReplaceNumbers("001-######-000#") + faker.Random.String2(1, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
                 UserType = UserType.StandardUser,
                 UserStatus = UserStatus.Active,
-                AreaId = areaId,
             };
         }
 

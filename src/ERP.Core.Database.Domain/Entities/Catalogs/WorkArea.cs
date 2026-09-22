@@ -16,8 +16,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
 
-        public virtual ICollection<User> Users { get; set; } = [];
         public virtual ICollection<CostCenter> CostCenters { get; set; } = [];
+        public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
     }
