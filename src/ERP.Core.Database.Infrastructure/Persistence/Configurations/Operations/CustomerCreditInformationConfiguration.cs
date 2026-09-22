@@ -22,6 +22,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("credit_days")
                 .IsRequired();
 
+            builder.Property(ci => ci.MaxBalance)
+                .HasColumnName("max_balance")
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
             builder.Property(ci => ci.PaymentCondition)
                 .HasColumnName("payment_condition")
                 .HasColumnType("payment_condition_enum")
@@ -31,6 +36,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("currency")
                 .HasColumnType("currency_enum")
                 .HasDefaultValueSql("'nio'::currency_enum")
+                .IsRequired();
+
+            builder.Property(ci => ci.CreditStatus)
+                .HasColumnName("credit_status")
+                .HasColumnType("credit_status_enum")
+                .HasDefaultValueSql("'active'::credit_status_enum")
                 .IsRequired();
 
             builder.Property(ci => ci.BranchId)

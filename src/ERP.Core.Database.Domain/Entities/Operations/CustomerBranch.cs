@@ -8,19 +8,17 @@ namespace ERP.Core.Database.Domain.Entities.Operations
     public class CustomerBranch : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
+        public bool IsMainBranch { get; set; }
 
-        public string? BranchName { get; set; }
+        public string? Code { get; set; }
+        public string? Description { get; set; }
         public string? Address { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+        public string? Contact { get; set; }
 
         public Guid CustomerId { get; set; }
         public virtual Customers Customer { get; set; } = default!;
-
-        public Guid OperationalServiceId { get; set; }
-        public virtual OperationalService OperationalService { get; set; } = default!;
-
-        //Contactos de la sucursal.
-        public virtual ICollection<CustomerContacts> Contacts { get; set; } = [];
 
         //Informacion crediticia de la sucursal.
         public virtual ICollection<CustomerCreditInformation> CreditInformation { get; set; } = [];

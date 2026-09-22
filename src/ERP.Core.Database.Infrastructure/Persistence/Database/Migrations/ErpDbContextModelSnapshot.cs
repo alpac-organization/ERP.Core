@@ -46,7 +46,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "operational_order_status_enum", new[] { "in_progress", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "pallet_type_enum", new[] { "standard", "oversized" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_condition_enum", new[] { "credit", "cash" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_method_type_enum", new[] { "ach", "local_transfer", "check", "cash", "international_wire" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
@@ -1807,169 +1806,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("workflow_step_definitions", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_branch_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("address");
-
-                    b.Property<string>("BranchName")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("branch_name");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_id");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<Guid>("OperationalServiceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("operational_service_id");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("phone_number");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_customer_branches_customer_id");
-
-                    b.HasIndex("OperationalServiceId")
-                        .HasDatabaseName("ix_customer_branches_operational_service_id");
-
-                    b.ToTable("customer_branches", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerContacts", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_contact_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("branch_id");
-
-                    b.Property<string>("ContactName")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("contact_name");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("email");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsPrimary")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_primary");
-
-                    b.Property<string>("Position")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("position");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId")
-                        .HasDatabaseName("ix_customer_contacts_branch_id");
-
-                    b.ToTable("customer_contacts", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_credit_information_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("branch_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("CreditDays")
-                        .HasColumnType("integer")
-                        .HasColumnName("credit_days");
-
-                    b.Property<int>("Currency")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("currency_enum")
-                        .HasColumnName("currency")
-                        .HasDefaultValueSql("'nio'::currency_enum");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<int>("PaymentCondition")
-                        .HasColumnType("payment_condition_enum")
-                        .HasColumnName("payment_condition");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId")
-                        .HasDatabaseName("ix_customer_credit_information_branch_id");
-
-                    b.HasIndex("BranchId", "PaymentCondition")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customer_credit_information_branch_payment_condition");
-
-                    b.ToTable("customer_credit_information", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2033,7 +1869,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_customers_customer_code");
 
                     b.HasIndex("IdentificationNumber")
-                        .IsUnique()
                         .HasDatabaseName("ix_customers_identification_number");
 
                     b.ToTable("customers", "public");
@@ -7431,47 +7266,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
-                        .WithMany("CustomerBranches")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalService", "OperationalService")
-                        .WithMany()
-                        .HasForeignKey("OperationalServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("OperationalService");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerContacts", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", "Branch")
-                        .WithMany("Contacts")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", "Branch")
-                        .WithMany("CreditInformation")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
@@ -8928,17 +8722,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("RecordEntrances");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Navigation("Contacts");
-
-                    b.Navigation("CreditInformation");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
-                    b.Navigation("CustomerBranches");
-
                     b.Navigation("OperationalOrders");
                 });
 

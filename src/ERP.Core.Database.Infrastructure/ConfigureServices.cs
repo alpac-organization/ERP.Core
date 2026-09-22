@@ -105,6 +105,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<CustomerType>("customer_type_enum", "public");
                     npgsqlOptions.MapEnum<OperationalOrderStatus>("operational_order_status_enum", "public");
                     npgsqlOptions.MapEnum<PaymentCondition>("payment_condition_enum", "public");
+                    npgsqlOptions.MapEnum<CreditStatus>("credit_status_enum", "public");
                 })
             );
 
@@ -172,7 +173,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IOperationalServicesRepository, OperationalServicesRepository>();
             services.AddScoped<IServicesOrdersRepository, ServicesOrdersRepository>();
             services.AddScoped<ICustomerBranchesRepository, CustomerBranchesRepository>();
-            services.AddScoped<ICustomerContactsRepository, CustomerContactsRepository>();
             services.AddScoped<ICustomerCreditInformationsRepository, CustomerCreditInformationsRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();
             services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();

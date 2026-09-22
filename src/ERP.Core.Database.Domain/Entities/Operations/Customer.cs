@@ -14,6 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         public string? LegalName { get; set; }
         public string? CustomerCode { get; set; }
+        public string? Cif { get; set; }
         public string? IdentificationNumber { get; set; }
 
         public CustomerType CustomerType { get; set; }

@@ -117,7 +117,6 @@ public class UnitOfWork(
         IOperationalServicesRepository operationalServicesRepository,
         IServicesOrdersRepository servicesOrdersRepository,
         ICustomerBranchesRepository customerBranchesRepository,
-        ICustomerContactsRepository customerContactsRepository,
         ICustomerCreditInformationsRepository customerCreditInformationsRepository
     ) : IUnitOfWork
     {
@@ -229,7 +228,6 @@ public class UnitOfWork(
         public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
         public ICustomerBranchesRepository CustomerBranches => customerBranchesRepository;
-        public ICustomerContactsRepository CustomerContacts => customerContactsRepository;
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         #endregion
 

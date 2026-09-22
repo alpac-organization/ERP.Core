@@ -23,8 +23,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(true)
                 .IsRequired();
 
-            builder.Property(cb => cb.BranchName)
-                .HasColumnName("branch_name")
+            builder.Property(cb => cb.IsMainBranch)
+                .HasColumnName("is_main_branch")
+                .IsRequired();
+
+            builder.Property(cb => cb.Code)
+                .HasColumnName("code")
+                .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(cb => cb.Description)
+                .HasColumnName("description")
                 .HasMaxLength(200)
                 .IsRequired(false);
 
@@ -33,17 +42,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(500)
                 .IsRequired(false);
 
-            builder.Property(cb => cb.PhoneNumber)
-                .HasColumnName("phone_number")
+            builder.Property(cb => cb.Email)
+                .HasColumnName("email")
+                .HasMaxLength(200)
+                .IsRequired(false);
+
+            builder.Property(cb => cb.Phone)
+                .HasColumnName("phone")
                 .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(cb => cb.Contact)
+                .HasColumnName("contact")
+                .HasMaxLength(200)
                 .IsRequired(false);
 
             builder.Property(cb => cb.CustomerId)
                 .HasColumnName("customer_id")
-                .IsRequired();
-
-            builder.Property(cb => cb.OperationalServiceId)
-                .HasColumnName("operational_service_id")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
@@ -59,16 +74,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasForeignKey(cb => cb.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(cb => cb.OperationalService)
-                .WithMany()
-                .HasForeignKey(cb => cb.OperationalServiceId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(cb => cb.Contacts)
-                .WithOne(cc => cc.Branch)
-                .HasForeignKey(cc => cc.BranchId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasMany(cb => cb.CreditInformation)
                 .WithOne(ci => ci.Branch)
                 .HasForeignKey(ci => ci.BranchId)
@@ -76,9 +81,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(cb => cb.CustomerId)
                 .HasDatabaseName("ix_customer_branches_customer_id");
-
-            builder.HasIndex(cb => cb.OperationalServiceId)
-                .HasDatabaseName("ix_customer_branches_operational_service_id");
         }
     }
 }

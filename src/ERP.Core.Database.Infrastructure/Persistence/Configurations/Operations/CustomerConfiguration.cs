@@ -33,6 +33,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(50)
                 .IsRequired(false);
 
+            builder.Property(c => c.Cif)
+                .HasColumnName("cif")
+                .HasMaxLength(20)
+                .IsRequired(false);
+
             builder.Property(c => c.IdentificationNumber)
                 .HasColumnName("identification_number")
                 .IsRequired(false);
