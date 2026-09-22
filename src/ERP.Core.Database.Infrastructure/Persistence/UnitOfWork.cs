@@ -115,7 +115,9 @@ public class UnitOfWork(
         IInvoicesRepository invoicesRepository,
         IOperationalOrdersRepository operationalOrdersRepository,
         IOperationalServicesRepository operationalServicesRepository,
-        IServicesOrdersRepository servicesOrdersRepository
+        IServicesOrdersRepository servicesOrdersRepository,
+        ICustomerBranchesRepository customerBranchesRepository,
+        ICustomerCreditInformationsRepository customerCreditInformationsRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -225,6 +227,8 @@ public class UnitOfWork(
         public IOperationalOrdersRepository OperationalOrders => operationalOrdersRepository;
         public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
+        public ICustomerBranchesRepository CustomerBranches => customerBranchesRepository;
+        public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         #endregion
 
         #region Shopping
