@@ -394,7 +394,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterAlpacItId,
-                    CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000001"),
                     CostCenterName = "Gerencia de Informática",
                     Description = "Centro de costos de TI",
@@ -406,7 +405,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterAlpacWhId,
-                    CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000002"),
                     CostCenterName = "Almacén y Logística",
                     Description = "Centro de costos de almacén",
@@ -418,7 +416,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterAminsaId,
-                    CompanyId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                     WorkAreaId = Guid.Parse("22222222-0000-0000-0000-000000000001"),
                     CostCenterName = "Operaciones Marítimas",
                     Description = "Centro de costos operaciones",
@@ -430,7 +427,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterAvasaId,
-                    CompanyId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                     WorkAreaId = Guid.Parse("33333333-0000-0000-0000-000000000001"),
                     CostCenterName = "Producción y Granja",
                     Description = "Centro de costos producción",
@@ -442,7 +438,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterVigemsaId,
-                    CompanyId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
                     WorkAreaId = Guid.Parse("44444444-0000-0000-0000-000000000001"),
                     CostCenterName = "Seguridad Operativa",
                     Description = "Centro de costos seguridad",
@@ -454,7 +449,6 @@ namespace ERP.Core.Testing.Seeding
                 new CostCenter
                 {
                     Id = CostCenterTmnId,
-                    CompanyId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
                     WorkAreaId = Guid.Parse("55555555-0000-0000-0000-000000000001"),
                     CostCenterName = "Flotas y Transportación",
                     Description = "Centro de costos flotas",
@@ -643,7 +637,7 @@ namespace ERP.Core.Testing.Seeding
                 foreach (var area in areas)
                 {
                     // Obtener el CostCenterId correspondiente al área
-                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == area.Id && c.CompanyId == companyId);
+                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == area.Id);
                     var costCenterId = costCenter?.Id ?? Guid.Empty;
 
                     for (int i = 0; i < 2; i++)
@@ -682,7 +676,7 @@ namespace ERP.Core.Testing.Seeding
                     var branch = data.Branches.First(b => b.CompanyId == companyId);
                     // Get the cost center for this company (first work area's cost center)
                     var workArea = data.WorkAreas.First(w => w.CompanyId == companyId);
-                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == workArea.Id && c.CompanyId == companyId);
+                    var costCenter = data.CostCenters.FirstOrDefault(c => c.WorkAreaId == workArea.Id);
                     var costCenterId = costCenter?.Id ?? Guid.Empty;
                     
                     data.Profiles.Add(NewProfile(faker, userId, companyId, branch.Id, costCenterId));
