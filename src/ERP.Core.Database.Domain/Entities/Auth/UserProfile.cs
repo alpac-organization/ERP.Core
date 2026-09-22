@@ -17,10 +17,10 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
 
-        public Guid? CostCenterId { get; set; }
+        public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
-        public Guid? AreaId { get; set; }
+        public Guid AreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
 
         public virtual ICollection<Device> Devices { get; set; } = [];
