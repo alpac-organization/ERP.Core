@@ -21,7 +21,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public Guid CustomBranchId { get; set; }  //aduana
         public virtual CustomsBranches CustomsBranches { get; set; } = null!;
 
-        public JsonNode? AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
 
         public virtual ReceptionTransportEntrance ReceptionTransport { get; set; } = default!;
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
