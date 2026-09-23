@@ -42,9 +42,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("customer_id")
                 .IsRequired(false);
 
-            builder.Property(o => o.DucaNumber)
-                .HasColumnName("duca_number")
+            builder.Property(o => o.DocumentNumber)
+                .HasColumnName("document_number")
                 .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(o => o.PackagesCount)
+                .HasColumnName("packages_count")
+                .IsRequired(false);
+
+            builder.Property(o => o.Weight)
+                .HasColumnName("weight")
+                .HasPrecision(8,2)
                 .IsRequired(false);
 
             builder.Property(o => o.ReceptionId)
@@ -89,7 +98,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.HasIndex(o => o.CostCenterId)
                 .HasDatabaseName("ix_operational_orders_cost_center_id");
 
-            builder.HasIndex(o => o.DucaNumber)
+            builder.HasIndex(o => o.DocumentNumber)
                 .HasDatabaseName("ix_operational_orders_duca_number");
 
             builder.HasIndex(o => o.ReceptionId)
