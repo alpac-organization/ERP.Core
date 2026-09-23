@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Operations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse;
 
@@ -17,4 +18,12 @@ public class ReceptionEntrance : BaseEntity<Guid>
 
     public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
     public virtual ReceptionTransportEntrance ReceptionTransport { get; set; } = default!;
+}
+
+public class AdditionalReceptionEntranceData
+{
+    public List<string> DocumentNumbers { get; set; } = [];
+
+    [Column(TypeName = "text[]")]
+    public List<string> EvidenceUrls { get; set; } = [];
 }
