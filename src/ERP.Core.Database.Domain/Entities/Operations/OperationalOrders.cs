@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
     {
         public string? OpCode { get; set; }
         public string? Description { get; set; }
+        public string? DucaNumber { get; set; } // 1:1
 
         public OperationalOrderStatus Status { get; set; }
 
@@ -26,7 +27,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         //reference with warehouse...
         public Guid? ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
-        public string? DucaNumber { get; set; } // 1:1
 
         //Información de la factura
 

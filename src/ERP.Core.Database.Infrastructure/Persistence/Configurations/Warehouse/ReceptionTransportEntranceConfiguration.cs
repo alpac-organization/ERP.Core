@@ -62,11 +62,6 @@ public class ReceptionTransportEntranceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("container_exit_time")
             .IsRequired(false);
 
-        builder.Property(e => e.AdditionalData)
-            .HasColumnName("additional_data")
-            .HasColumnType("jsonb")
-            .IsRequired(false);
-
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -74,5 +69,10 @@ public class ReceptionTransportEntranceConfiguration : IEntityTypeConfiguration<
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
+
+        builder.HasOne(c => c.ReceptionEntrance)
+                .WithOne(s => s.ReceptionTransport)
+                .HasForeignKey<ReceptionTransportEntrance>(s => s.ReceptionEntranceId)
+                .OnDelete(DeleteBehavior.Cascade);
     }
 }
