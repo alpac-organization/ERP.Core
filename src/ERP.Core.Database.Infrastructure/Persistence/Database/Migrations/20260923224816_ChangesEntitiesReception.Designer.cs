@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260923224816_ChangesEntitiesReception")]
+    partial class ChangesEntitiesReception
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "machinery_type_enum", new[] { "forklift", "crane", "pallet_jack", "conveyor", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "management_review_status_enum", new[] { "pending", "approved", "rejected" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "marital_status_enum", new[] { "none", "single", "married", "divorced", "widowed", "domestic_partner", "separated", "other" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "operational_order_status_enum", new[] { "completed", "pending_document" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "operational_order_status_enum", new[] { "in_progress", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "pallet_type_enum", new[] { "standard", "oversized" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_condition_enum", new[] { "credit", "cash" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_method_type_enum", new[] { "ach", "local_transfer", "check", "cash", "international_wire" });
@@ -2097,7 +2100,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("operational_order_status_enum")
                         .HasColumnName("status")
-                        .HasDefaultValueSql("'pending_document'::operational_order_status_enum");
+                        .HasDefaultValueSql("'in_progress'::operational_order_status_enum");
 
                     b.Property<decimal?>("Weight")
                         .HasPrecision(8, 2)

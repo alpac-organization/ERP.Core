@@ -2,7 +2,7 @@ namespace ERP.Core.Database.Domain.Enums
 {
     public enum OperationalOrderStatus
     {
-        InProgress = 1,
-        Completed = 2,
+        Completed = 1,
+        PendingDocument = 2
     }
 }
