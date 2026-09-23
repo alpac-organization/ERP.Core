@@ -129,6 +129,11 @@ namespace ERP.Core.Database.Infrastructure.Services
                     .Where(l => l.SectionId == sectionId && l.DeletedAt == null)
                     .Select(l => l.Code)
                     .ToListAsync(ct),
+                StorageEntityType.Rack => await _unitOfWork.Racks.Entities
+                    .AsNoTracking()
+                    .Where(r => r.SectionId == sectionId && r.DeletedAt == null)
+                    .Select(r => r.Code)
+                    .ToListAsync(ct),
                 _ => []
             };
 
