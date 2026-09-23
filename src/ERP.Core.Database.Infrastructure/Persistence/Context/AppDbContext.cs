@@ -206,7 +206,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PaymentMethodType>("public", "payment_method_type_enum");
 
             modelBuilder.HasPostgresEnum<CustomerType>("public", "customer_type_enum");
-            modelBuilder.HasPostgresEnum<OperationalOrderStatus>("public", "operational_order_status_enum");
+            // modelBuilder.HasPostgresEnum<OperationalOrderStatus>("public", "operational_order_status_enum");
             modelBuilder.HasPostgresEnum<InvoiceStatus>("public", "invoice_status_enum");
             modelBuilder.HasPostgresEnum<PaymentCondition>("public", "payment_condition_enum");
             modelBuilder.HasPostgresEnum<CreditStatus>("public", "credit_status_enum");

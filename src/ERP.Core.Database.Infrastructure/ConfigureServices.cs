@@ -103,7 +103,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PaymentMethodType>("payment_method_type_enum", "public");
                     npgsqlOptions.MapEnum<InvoiceStatus>("invoice_status_enum", "public");
                     npgsqlOptions.MapEnum<CustomerType>("customer_type_enum", "public");
-                    npgsqlOptions.MapEnum<OperationalOrderStatus>("operational_order_status_enum", "public");
+                    // npgsqlOptions.MapEnum<OperationalOrderStatus>("operational_order_status_enum", "public");
                     npgsqlOptions.MapEnum<PaymentCondition>("payment_condition_enum", "public");
                     npgsqlOptions.MapEnum<CreditStatus>("credit_status_enum", "public");
                 })
