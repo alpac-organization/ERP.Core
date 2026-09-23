@@ -68,6 +68,7 @@ public class UnitOfWork(
         IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
         IDucatRegistryRepository ducatRegistryRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
+        IReceptionTransportEntranceRepository receptionTransportEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
         ISuppliersRepository suppliersRepository,
         IQuotesRepository quotesRepository,
@@ -182,6 +183,7 @@ public class UnitOfWork(
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
         public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
+        public IReceptionTransportEntranceRepository ReceptionTransportEntrance => receptionTransportEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
         public ISectionsRepository Sections => sectionsRepository;
         public IRacksRepository Racks => racksRepository;

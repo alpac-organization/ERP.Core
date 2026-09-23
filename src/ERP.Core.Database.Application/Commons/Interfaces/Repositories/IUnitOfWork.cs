@@ -84,6 +84,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IDucatRegistryRepository DucatRegistries { get; }
         IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
+        IReceptionTransportEntranceRepository ReceptionTransportEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
 
         ISectionPositionsRepository SectionPositionsRepository { get; }
