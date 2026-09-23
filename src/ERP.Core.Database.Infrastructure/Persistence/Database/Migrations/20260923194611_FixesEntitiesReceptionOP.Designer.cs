@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260923182624_FixesEntitiesReceptionOP")]
+    [Migration("20260923194611_FixesEntitiesReceptionOP")]
     partial class FixesEntitiesReceptionOP
     {
         /// <inheritdoc />
