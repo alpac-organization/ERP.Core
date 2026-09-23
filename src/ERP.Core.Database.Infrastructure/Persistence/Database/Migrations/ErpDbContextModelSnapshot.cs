@@ -5564,18 +5564,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("reception_entrance_id");
 
-                    b.Property<JsonNode>("AdditionalData")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("additional_data");
-
-                    b.Property<DateOnly?>("ContainerExitDate")
-                        .HasColumnType("date")
-                        .HasColumnName("container_exit_date");
-
-                    b.Property<TimeOnly?>("ContainerExitTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("container_exit_time");
-
                     b.Property<string>("ContainerNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -5608,6 +5596,49 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("document_type_enum")
                         .HasColumnName("document_type");
 
+                    b.Property<string>("SealNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("seal_number");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomBranchId");
+
+                    b.HasIndex("CustomsBranchesId");
+
+                    b.ToTable("reception_entrance", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionTransportEntrance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reception_transport_entrance_id");
+
+                    b.Property<JsonNode>("AdditionalData")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("additional_data");
+
+                    b.Property<DateOnly?>("ContainerExitDate")
+                        .HasColumnType("date")
+                        .HasColumnName("container_exit_date");
+
+                    b.Property<TimeOnly?>("ContainerExitTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("container_exit_time");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("DriverLicense")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -5619,12 +5650,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("driver_name");
-
-                    b.Property<string>("SealNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("seal_number");
 
                     b.Property<int>("TransportUnit")
                         .HasColumnType("transport_unit_enum")
@@ -5658,11 +5683,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomBranchId");
-
-                    b.HasIndex("CustomsBranchesId");
-
-                    b.ToTable("reception_entrance", "public");
+                    b.ToTable("reception_transport_entrance", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StepExecutionLogs", b =>
@@ -7962,6 +7983,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CustomsBranches");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionTransportEntrance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", null)
+                        .WithOne("ReceptionTransport")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionTransportEntrance", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StockMovementEvents", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentMemoryItems", "MemoryItem")
@@ -8610,6 +8640,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
                 {
                     b.Navigation("OperationalOrders");
+
+                    b.Navigation("ReceptionTransport")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.UnloadingDetails", b =>
