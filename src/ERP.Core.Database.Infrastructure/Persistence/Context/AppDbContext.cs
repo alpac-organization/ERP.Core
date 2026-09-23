@@ -89,7 +89,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();        
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
-        public DbSet<WorkflowStepDefinition> WorkflowStepDefinitions => Set<WorkflowStepDefinition>();
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
@@ -104,9 +103,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<LotsCoordinates> LotsCoordinates => Set<LotsCoordinates>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
-        public DbSet<RecordEntrance> RecordEntrances => Set<RecordEntrance>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
-        public DbSet<EntranceDucats> EntranceDucats => Set<EntranceDucats>();
         public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
@@ -114,8 +111,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
         public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
-        public DbSet<CustomsDeclarations> CustomsDeclarations => Set<CustomsDeclarations>();
-        public DbSet<CustomsDeclarationDetails> CustomsDeclarationDetails => Set<CustomsDeclarationDetails>();
         public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
         public DbSet<MachineryAssignments> MachineryAssignments => Set<MachineryAssignments>();
         public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();

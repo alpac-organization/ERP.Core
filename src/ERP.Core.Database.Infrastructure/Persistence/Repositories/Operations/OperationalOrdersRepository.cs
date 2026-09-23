@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations
 {

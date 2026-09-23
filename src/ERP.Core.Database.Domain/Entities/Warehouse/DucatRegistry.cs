@@ -27,7 +27,6 @@ public class DucatRegistry : BaseEntity<Guid>
 
 
 
-    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual ICollection<DucatRegistryDetails> Details { get; set; } = [];
     public virtual ShippingCompanies ShippingCompany { get; set; } = null!;
 }

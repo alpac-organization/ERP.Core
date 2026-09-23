@@ -41,7 +41,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.CustomerId)
                 .HasColumnName("customer_id")
-                .IsRequired();
+                .IsRequired(false);
+
+            builder.Property(o => o.DucaNumber)
+                .HasColumnName("duca_number")
+                .HasMaxLength(50)
+                .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -75,6 +80,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(o => o.CostCenterId)
                 .HasDatabaseName("ix_operational_orders_cost_center_id");
+
+            builder.HasIndex(o => o.DucaNumber)
+                .HasDatabaseName("ix_operational_orders_duca_number");
         }
     }
 }

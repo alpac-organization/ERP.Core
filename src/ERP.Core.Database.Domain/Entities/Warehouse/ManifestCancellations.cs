@@ -16,6 +16,5 @@ public class ManifestCancellations : BaseEntity<Guid>
     public string WarehouseChiefSignature { get; set; } = null!;
 
     // Propiedades de navegación
-    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
     public virtual ServicesOrder ServiceOrder { get; set; } = null!;
 }

@@ -58,9 +58,5 @@ public class WarehouseReceiptsConfiguration : IEntityTypeConfiguration<Warehouse
             .HasColumnName("deleted_at");
 
 
-        builder.HasOne(e => e.RecordEntrance)
-            .WithOne(e => e.WarehouseReceipt)
-            .HasForeignKey<WarehouseReceipts>(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

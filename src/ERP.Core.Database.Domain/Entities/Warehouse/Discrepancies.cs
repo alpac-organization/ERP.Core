@@ -13,8 +13,6 @@ public class Discrepancies : BaseEntity<Guid>
 
     // Propiedades de navegación
     public Guid RecordEntranceId { get; set; }
-    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
 
     public Guid EntranceDucatsId { get; set; }
-    public virtual EntranceDucats EntranceDucat { get; set; } = null!;
 }

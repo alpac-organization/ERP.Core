@@ -65,22 +65,17 @@ public class UnitOfWork(
         IRackCoordinateRepository rackCoordinateRepository,
         ILotCoordinateRepository lotCoordinateRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
-        IEntranceDucatsRepository entranceDucatsRepository,
         IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
         IDucatRegistryRepository ducatRegistryRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
-        IRecordEntranceRepository recordEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
         ISuppliersRepository suppliersRepository,
-        IWorkflowStepDefinitionsRepository workflowStepDefinitionsRepository,
         IQuotesRepository quotesRepository,
         IUnitsMeasurementRepository unitsMeasurementRepository,
         ISuppliersDetailsRepository suppliersDetailsRepository,
         IPurchaseRequestsRepository purchaseRequestsRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
-        ICustomsDeclarationsRepository customsDeclarationsRepository,
-        ICustomsDeclarationDetailsRepository customsDeclarationDetailsRepository,
         IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
@@ -183,16 +178,11 @@ public class UnitOfWork(
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
-        public IEntranceDucatsRepository EntranceDucats => entranceDucatsRepository;
         public IMerchandisesRepository Merchandises => merchandisesRepository;
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
         public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
-        public IRecordEntranceRepository RecordEntrance => recordEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
-        public IWorkflowStepDefinitionsRepository WorkflowStepDefinitions => workflowStepDefinitionsRepository;
-        public ICustomsDeclarationsRepository CustomsDeclarations => customsDeclarationsRepository;
-        public ICustomsDeclarationDetailsRepository CustomsDeclarationDetails => customsDeclarationDetailsRepository;
         public ISectionsRepository Sections => sectionsRepository;
         public IRacksRepository Racks => racksRepository;
         public IRackPositionsRepository RackPositions => rackPositionsRepository;
