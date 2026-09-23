@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Catalogs;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,10 +15,19 @@ public class CustomBranchesConfiguration : IEntityTypeConfiguration<CustomsBranc
         builder.Property(e => e.Id)
             .HasColumnName("custom_branch_id");
         
-        builder.Property(e => e.Name)
-            .HasColumnName("name")
+        builder.Property(e => e.CustomsBranchName)
+            .HasColumnName("customs_branch_name")
             .IsRequired();
-        
+
+        builder.Property(e => e.Code)
+            .HasColumnName("code")
+            .IsRequired();
+
+        builder.Property(e => e.IsActive)
+            .HasColumnName("is_active")
+            .HasDefaultValue(true)
+            .IsRequired();
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
