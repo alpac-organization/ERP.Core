@@ -55,16 +55,10 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(e => e.EvidenceUrls)
-            .HasColumnName("evidence_urls")
-            .HasColumnType("text[]")
+        builder.Property(e => e.AdditionalData)
+            .HasColumnName("additional_data")
+            .HasColumnType("jsonb")
             .IsRequired(false);
-
-        builder.Property(e => e.DucaNumbers)
-            .HasColumnName("duca_numbers")
-            .HasColumnType("text[]")
-            .IsRequired(false);
-
 
         builder.Property(e => e.DocumentType)
             .HasColumnName("document_type")
@@ -101,25 +95,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
 
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
-
-        builder.Property(e => e.UpdatedDate)
-            .HasColumnName("updated_date")
-            .HasColumnType("date")
-            .IsRequired(false);
-
-        builder.Property(e => e.UpdatedTime)
-            .HasColumnName("updated_time")
-            .IsRequired(false);
-
-        builder.Property(e => e.UpdatedByUserId)
-            .HasColumnName("updated_by_user_id")
-            .HasMaxLength(450)
-            .IsRequired(false);
-
-        builder.Property(e => e.UpdatedByUserName)
-            .HasColumnName("updated_by_user_name")
-            .HasMaxLength(450)
-            .IsRequired(false);
 
         builder.HasOne(e => e.CustomsBranches)
             .WithMany()
