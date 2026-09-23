@@ -42,14 +42,14 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
+        builder.Property(e => e.AdditionalData)
+            .HasColumnName("additional_data")
+            .HasColumnType("jsonb")
+            .IsRequired(false);
+
         builder.HasOne(e => e.CustomsBranches)
-            .WithMany()
+            .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CustomBranchId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(e => e.ReceptionTransport)
-            .WithOne()
-            .HasForeignKey<ReceptionTransportEntrance>(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
