@@ -108,10 +108,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "warehouse_receipts");
 
-            migrationBuilder.DropIndex(
-                name: "IX_warehouse_assignments_EntranceDucatId",
-                schema: "public",
-                table: "warehouse_assignments");
+            migrationBuilder.Sql(@"DROP INDEX IF EXISTS public.""IX_warehouse_assignments_EntranceDucatId"";");
 
             migrationBuilder.DropIndex(
                 name: "IX_warehouse_assignments_record_entrance_id",
@@ -771,12 +768,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "warehouse_receipts",
                 column: "record_entrance_id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_warehouse_assignments_EntranceDucatId",
-                schema: "public",
-                table: "warehouse_assignments",
-                column: "EntranceDucatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_warehouse_assignments_record_entrance_id",
