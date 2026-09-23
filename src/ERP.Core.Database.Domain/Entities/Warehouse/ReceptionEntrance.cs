@@ -7,7 +7,7 @@ using ERP.Core.Database.Domain.Entities.Operations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
-{    
+{
     public class ReceptionEntrance : BaseEntity<Guid>
     {
         // informacion de OP
@@ -20,16 +20,15 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 
         public Guid CustomBranchId { get; set; }  //aduana
         public virtual CustomsBranches CustomsBranches { get; set; } = null!;
-        
+
         public JsonNode? AdditionalData { get; set; }
 
         public virtual ReceptionTransportEntrance ReceptionTransport { get; set; } = default!;
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
     }
-}
-
-public class AdditionalReceptionEntranceData
-{
-    public List<string> DocumentNumbers { get; set; } = [];
-    public List<string> EvidenceUrls { get; set; } = [];
+    public class AdditionalReceptionEntranceData
+    {
+        public List<string> DocumentNumbers { get; set; } = [];
+        public List<string> EvidenceUrls { get; set; } = [];
+    }
 }
