@@ -1767,6 +1767,47 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("work_areas", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<int>("ExecutionOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("execution_order");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("workflow_step_definitions", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2053,7 +2094,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<Guid?>("CustomerId")
+                    b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
@@ -2065,11 +2106,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("description");
-
-                    b.Property<string>("DucaNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("duca_number");
 
                     b.Property<string>("OpCode")
                         .HasMaxLength(50)
@@ -2089,9 +2125,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CustomerId")
                         .HasDatabaseName("ix_operational_orders_customer_id");
-
-                    b.HasIndex("DucaNumber")
-                        .HasDatabaseName("ix_operational_orders_duca_number");
 
                     b.HasIndex("OpCode")
                         .IsUnique()
@@ -4808,6 +4841,102 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("crew_assignments", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("customs_declaration_detail_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Customer")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("customer");
+
+                    b.Property<Guid>("CustomsDeclarationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<int>("Packages")
+                        .HasColumnType("integer")
+                        .HasColumnName("packages");
+
+                    b.Property<string>("Product")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("product");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomsDeclarationId")
+                        .IsUnique();
+
+                    b.ToTable("customs_declaration_details", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("customs_declaration_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("CustomsDeclarationNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid>("RecordEntranceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_id");
+
+                    b.Property<string>("ServiceOrderCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("service_order_code");
+
+                    b.Property<Guid?>("ServiceOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("service_order_id");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("duca_status_enum")
+                        .HasDefaultValue(1)
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceId")
+                        .IsUnique();
+
+                    b.HasIndex("ServiceOrderId");
+
+                    b.ToTable("customs_declarations", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4852,6 +4981,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("entrance_ducats_id");
 
+                    b.Property<Guid?>("EntranceDucatsId1")
+                        .HasColumnType("uuid");
+
                     b.Property<decimal>("FoundQuantity")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -4865,11 +4997,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("record_entrance_id");
 
+                    b.Property<Guid?>("RecordEntranceId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EntranceDucatsId");
+
+                    b.HasIndex("EntranceDucatsId1")
+                        .IsUnique();
 
                     b.HasIndex("Id")
                         .IsUnique()
                         .HasDatabaseName("ix_discrepancy_id");
+
+                    b.HasIndex("RecordEntranceId");
+
+                    b.HasIndex("RecordEntranceId1");
 
                     b.ToTable("discrepancies", "public");
                 });
@@ -4959,6 +5103,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("updated_time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceId")
+                        .IsUnique();
 
                     b.HasIndex("ShippingCompanyId");
 
@@ -5080,9 +5227,62 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("DucatRegistryId");
 
+                    b.HasIndex("EntranceDucatId")
+                        .IsUnique();
+
                     b.HasIndex("MerchandiseId");
 
                     b.ToTable("ducat_registry_details", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("entrance_ducat_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("DucatNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ducat_number");
+
+                    b.Property<Guid>("RecordEntranceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_id");
+
+                    b.Property<string>("ServiceOrderCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("service_order_code");
+
+                    b.Property<Guid?>("ServiceOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("service_order_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("duca_status_enum")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceId");
+
+                    b.HasIndex("ServiceOrderId");
+
+                    b.ToTable("entrance_ducats", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.MachineryAssignments", b =>
@@ -5216,6 +5416,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("warehouse_chief_signature");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceId")
+                        .IsUnique();
 
                     b.HasIndex("ServiceOrdersId");
 
@@ -5581,6 +5784,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.PrimitiveCollection<List<string>>("DeletedEvidenceUrls")
+                        .HasColumnType("text[]")
+                        .HasColumnName("deleted_evidence_urls");
+
                     b.Property<int>("DocumentType")
                         .HasColumnType("document_type_enum")
                         .HasColumnName("document_type");
@@ -5597,13 +5804,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("driver_name");
 
-                    b.PrimitiveCollection<List<string>>("DucaNumbers")
-                        .HasColumnType("text[]")
-                        .HasColumnName("duca_numbers");
-
                     b.PrimitiveCollection<List<string>>("EvidenceUrls")
                         .HasColumnType("text[]")
                         .HasColumnName("evidence_urls");
+
+                    b.Property<Guid>("RecordEntranceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_id");
 
                     b.Property<string>("SealNumber")
                         .IsRequired()
@@ -5663,7 +5870,58 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CustomBranchId");
 
+                    b.HasIndex("RecordEntranceId")
+                        .IsUnique();
+
                     b.ToTable("reception_entrance", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("record_entrance_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateOnly?>("ClosedAtDate")
+                        .HasColumnType("date")
+                        .HasColumnName("closed_at_date");
+
+                    b.Property<TimeOnly?>("ClosedAtTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("closed_at_time");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("CurrentStepCode")
+                        .IsRequired()
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("current_step_code");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsConsolidated")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_consolidated");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("record_entrance_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("queue");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrentStepCode");
+
+                    b.ToTable("record_entrances", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StepExecutionLogs", b =>
@@ -5728,10 +5986,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("WorkflowStepDefinitionCode")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("workflow_step_definition_code");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RecordEntranceId");
+
+                    b.HasIndex("WorkflowStepDefinitionCode");
 
                     b.ToTable("step_execution_logs", "public");
                 });
@@ -5943,6 +6205,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryProductId");
+
+                    b.HasIndex("EntranceDucatsId");
 
                     b.HasIndex("MerchandiseId");
 
@@ -6209,6 +6473,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EntranceDucatId");
+
                     b.HasIndex("LotsId");
 
                     b.HasIndex("LotsPositionsId");
@@ -6216,6 +6482,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("RackId");
 
                     b.HasIndex("RackPositionsId");
+
+                    b.HasIndex("RecordEntranceId")
+                        .IsUnique();
 
                     b.HasIndex("WarehouseId");
 
@@ -6412,6 +6681,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ReceiptNumber")
+                        .IsUnique();
+
+                    b.HasIndex("RecordEntranceId")
                         .IsUnique();
 
                     b.ToTable("warehouse_receipts", "public");
@@ -7189,7 +7461,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
                         .WithMany("OperationalOrders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("CostCenter");
 
@@ -7820,13 +8093,76 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WarehouseAssignment");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", "CustomsDeclarations")
+                        .WithOne("Details")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarationDetails", "CustomsDeclarationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CustomsDeclarations");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("CustomsDeclarations")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.ServicesOrder", "ServiceOrder")
+                        .WithMany()
+                        .HasForeignKey("ServiceOrderId");
+
+                    b.Navigation("RecordEntrance");
+
+                    b.Navigation("ServiceOrder");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "EntranceDucat")
+                        .WithMany()
+                        .HasForeignKey("EntranceDucatsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", null)
+                        .WithOne("Discrepancy")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.Discrepancies", "EntranceDucatsId1");
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithMany()
+                        .HasForeignKey("RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", null)
+                        .WithMany("Discrepancies")
+                        .HasForeignKey("RecordEntranceId1");
+
+                    b.Navigation("EntranceDucat");
+
+                    b.Navigation("RecordEntrance");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("DucatRegistry")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.ShippingCompanies", "ShippingCompany")
                         .WithMany("DucatRegistries")
                         .HasForeignKey("ShippingCompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("RecordEntrance");
 
                     b.Navigation("ShippingCompany");
                 });
@@ -7839,6 +8175,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "EntranceDucat")
+                        .WithOne("RegistryDetail")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistryDetails", "EntranceDucatId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Merchandises", "Merchandise")
                         .WithMany("DucatRegistryDetails")
                         .HasForeignKey("MerchandiseId")
@@ -7847,7 +8189,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("DucatRegistry");
 
+                    b.Navigation("EntranceDucat");
+
                     b.Navigation("Merchandise");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithMany("EntranceDucats")
+                        .HasForeignKey("RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.ServicesOrder", "ServiceOrder")
+                        .WithMany()
+                        .HasForeignKey("ServiceOrderId");
+
+                    b.Navigation("RecordEntrance");
+
+                    b.Navigation("ServiceOrder");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.MachineryAssignments", b =>
@@ -7870,10 +8231,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ManifestCancellations", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("ManifestCancellation")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.ManifestCancellations", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.ServicesOrder", "ServiceOrder")
                         .WithMany()
                         .HasForeignKey("ServiceOrdersId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("RecordEntrance");
 
                     b.Navigation("ServiceOrder");
                 });
@@ -7949,7 +8318,47 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("ReceptionEntrance")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("CustomsBranches");
+
+                    b.Navigation("RecordEntrance");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", "CurrentStep")
+                        .WithMany("RecordEntrances")
+                        .HasForeignKey("CurrentStepCode")
+                        .HasPrincipalKey("Code")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CurrentStep");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StepExecutionLogs", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithMany("ExecutionLogs")
+                        .HasForeignKey("RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", "WorkflowStepDefinition")
+                        .WithMany()
+                        .HasForeignKey("WorkflowStepDefinitionCode")
+                        .HasPrincipalKey("Code")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("RecordEntrance");
+
+                    b.Navigation("WorkflowStepDefinition");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StockMovementEvents", b =>
@@ -8032,11 +8441,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "EntranceDucat")
+                        .WithMany()
+                        .HasForeignKey("EntranceDucatsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Merchandises", "Merchandise")
                         .WithMany()
                         .HasForeignKey("MerchandiseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("EntranceDucat");
 
                     b.Navigation("Merchandise");
 
@@ -8097,6 +8514,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseAssignments", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", "EntranceDucat")
+                        .WithMany()
+                        .HasForeignKey("EntranceDucatId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
                         .WithMany("Assignments")
                         .HasForeignKey("LotsId")
@@ -8115,11 +8536,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .WithMany()
                         .HasForeignKey("RackPositionsId");
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("Assignment")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseAssignments", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("EntranceDucat");
 
                     b.Navigation("Lot");
 
@@ -8129,7 +8558,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("RackPosition");
 
+                    b.Navigation("RecordEntrance");
+
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseReceipts", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", "RecordEntrance")
+                        .WithOne("WarehouseReceipt")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseReceipts", "RecordEntranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("RecordEntrance");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseTask", b =>
@@ -8446,6 +8888,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkingInformations");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkflowStepDefinition", b =>
+                {
+                    b.Navigation("RecordEntrances");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
                 {
                     b.Navigation("CreditInformation");
@@ -8563,9 +9010,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CustomsDeclarations", b =>
+                {
+                    b.Navigation("Details");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
                 {
                     b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.EntranceDucats", b =>
+                {
+                    b.Navigation("Discrepancy");
+
+                    b.Navigation("RegistryDetail");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Merchandises", b =>
@@ -8590,6 +9049,27 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("MemoryItems");
 
                     b.Navigation("OwnershipLog");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.RecordEntrance", b =>
+                {
+                    b.Navigation("Assignment");
+
+                    b.Navigation("CustomsDeclarations");
+
+                    b.Navigation("Discrepancies");
+
+                    b.Navigation("DucatRegistry");
+
+                    b.Navigation("EntranceDucats");
+
+                    b.Navigation("ExecutionLogs");
+
+                    b.Navigation("ManifestCancellation");
+
+                    b.Navigation("ReceptionEntrance");
+
+                    b.Navigation("WarehouseReceipt");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.UnloadingDetails", b =>
