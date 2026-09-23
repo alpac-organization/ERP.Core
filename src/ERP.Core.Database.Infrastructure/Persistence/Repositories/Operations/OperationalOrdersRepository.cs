@@ -12,12 +12,5 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations
             await _context.OperationalOrders.AddAsync(payload);
             return payload;
         }
-
-        public async Task<OperationalOrder?> GetByDucaNumberAsync(string ducaNumber, CancellationToken ct = default)
-        {
-            return await _context.OperationalOrders
-                .Where(o => o.DucaNumber == ducaNumber && o.DeletedAt == null)
-                .FirstOrDefaultAsync(ct);
-        }
     }
 }
