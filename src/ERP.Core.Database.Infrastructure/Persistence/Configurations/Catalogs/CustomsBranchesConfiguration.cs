@@ -17,11 +17,11 @@ public class CustomBranchesConfiguration : IEntityTypeConfiguration<CustomsBranc
         
         builder.Property(e => e.CustomsBranchName)
             .HasColumnName("customs_branch_name")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.Code)
             .HasColumnName("code")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active")

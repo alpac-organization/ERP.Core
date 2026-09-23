@@ -1,6 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Operations;
-
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Operations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
@@ -48,6 +47,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(50)
                 .IsRequired(false);
 
+            builder.Property(o => o.ReceptionId)
+                .HasColumnName("reception_id")
+                .IsRequired(false);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -64,6 +67,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.HasOne(o => o.Customer)
                 .WithMany(c => c.OperationalOrders)
                 .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(o => o.Reception)
+                .WithMany(r => r.OperationalOrders)
+                .HasForeignKey(o => o.ReceptionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(o => o.ServicesOrders)
@@ -83,6 +91,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(o => o.DucaNumber)
                 .HasDatabaseName("ix_operational_orders_duca_number");
+
+            builder.HasIndex(o => o.ReceptionId)
+                .HasDatabaseName("ix_operational_orders_reception_id");
         }
     }
 }

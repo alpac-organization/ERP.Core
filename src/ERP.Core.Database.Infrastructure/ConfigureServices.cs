@@ -187,6 +187,7 @@ namespace ERP.Core.Database.Infrastructure
 
             #region 
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
+            services.AddScoped<IReceptionTransportEntranceRepository, ReceptionTransportEntranceRepository>();
             services.AddScoped<IDucatRegistryDetailsRepository, DucatRegistryDetailsRepository>();
             services.AddScoped<IDucatRegistryRepository, DucatRegistryRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();

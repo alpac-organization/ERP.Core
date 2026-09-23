@@ -104,6 +104,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
+        public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
         public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
