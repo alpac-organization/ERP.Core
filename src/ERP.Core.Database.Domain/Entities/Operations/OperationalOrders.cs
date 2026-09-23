@@ -13,16 +13,18 @@ namespace ERP.Core.Database.Domain.Entities.Operations
     {
         public string? OpCode { get; set; }
         public string? Description { get; set; }
-        
+
         public OperationalOrderStatus Status { get; set; }
 
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public virtual Customers Customer { get; set; } = default!;
 
-        //Add optional reference with warehouse...
+
+        //reference with warehouse...
+        public string? DucaNumber { get; set; } // 1:1
 
         //Información de la factura
 

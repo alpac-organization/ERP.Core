@@ -52,11 +52,6 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(x => x.EntranceDucat)
-            .WithMany()
-            .HasForeignKey(x => x.EntranceDucatsId)
-            .OnDelete(DeleteBehavior.Restrict);
-
 
         builder.HasOne(x => x.Product)
             .WithMany()

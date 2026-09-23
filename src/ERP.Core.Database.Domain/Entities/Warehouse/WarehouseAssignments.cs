@@ -22,8 +22,6 @@ public class WarehouseAssignments : BaseEntity<Guid>
 
     public UnloadingStatus UnloadingStatus { get; set; } = UnloadingStatus.Pending;
 
-    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
-    public virtual EntranceDucats? EntranceDucat { get; set; }
     public virtual Warehouses Warehouse { get; set; } = null!;
     public virtual Racks? Rack { get; set; }
     public virtual Lots? Lot { get; set; }

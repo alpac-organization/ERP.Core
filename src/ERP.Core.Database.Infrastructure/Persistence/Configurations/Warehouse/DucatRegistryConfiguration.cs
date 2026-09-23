@@ -94,10 +94,6 @@ public class DucatRegistryConfiguration : IEntityTypeConfiguration<DucatRegistry
 
 
         // Relación 1:1 con la entrada principal
-        builder.HasOne(e => e.RecordEntrance)
-            .WithOne(r => r.DucatRegistry)
-            .HasForeignKey<DucatRegistry>(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.ShippingCompany)
             .WithMany(c => c.DucatRegistries)

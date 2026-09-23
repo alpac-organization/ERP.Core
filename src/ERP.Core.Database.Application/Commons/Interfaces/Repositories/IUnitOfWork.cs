@@ -81,15 +81,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
-        IEntranceDucatsRepository EntranceDucats { get; }
         IDucatRegistryRepository DucatRegistries { get; }
         IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
-        IRecordEntranceRepository RecordEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
-        IWorkflowStepDefinitionsRepository WorkflowStepDefinitions { get; }
-        ICustomsDeclarationsRepository CustomsDeclarations { get; }
-        ICustomsDeclarationDetailsRepository CustomsDeclarationDetails { get; }
 
         ISectionPositionsRepository SectionPositionsRepository { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }

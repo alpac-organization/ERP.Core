@@ -14,7 +14,6 @@ public class Stocks : BaseEntity<Guid>
     public DateTime StoredAt { get; set; }
 
     // Propiedades de navegación
-    public virtual EntranceDucats EntranceDucat { get; set; } = null!;
     public virtual CategoryProducts Product { get; set; } = null!;
     public virtual Merchandises Merchandise { get; set; } = null!;
 }

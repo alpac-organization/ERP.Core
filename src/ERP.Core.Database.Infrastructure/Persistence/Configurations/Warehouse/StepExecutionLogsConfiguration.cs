@@ -1,5 +1,5 @@
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
@@ -71,15 +71,5 @@ public class StepExecutionLogsConfiguration : IEntityTypeConfiguration<StepExecu
             .HasColumnName("deleted_at");
 
 
-        builder.HasOne(e => e.RecordEntrance)
-            .WithMany(e => e.ExecutionLogs)
-            .HasForeignKey(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(e => e.WorkflowStepDefinition)
-            .WithMany()
-            .HasForeignKey(e => e.WorkflowStepDefinitionCode)
-            .HasPrincipalKey(w => w.Code)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -13,5 +13,4 @@ public class WarehouseReceipts : BaseEntity<Guid>
     public DateTime? ReceiptCancellationDate { get; set; }
 
     // Propiedades de navegación
-    public virtual RecordEntrance RecordEntrance { get; set; } = null!;
 }

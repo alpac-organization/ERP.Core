@@ -77,10 +77,6 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasForeignKey(e => e.DucatRegistryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.EntranceDucat)
-            .WithOne(h => h.RegistryDetail)
-            .HasForeignKey<DucatRegistryDetails>(e => e.EntranceDucatId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.Merchandise)
             .WithMany(m => m.DucatRegistryDetails)

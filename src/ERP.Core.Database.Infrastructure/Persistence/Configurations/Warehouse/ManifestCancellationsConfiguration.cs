@@ -59,10 +59,6 @@ public class ManifestCancellationsConfiguration : IEntityTypeConfiguration<Manif
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(e => e.RecordEntrance)
-            .WithOne(e => e.ManifestCancellation)
-            .HasForeignKey<ManifestCancellations>(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.ServiceOrder)
             .WithMany()

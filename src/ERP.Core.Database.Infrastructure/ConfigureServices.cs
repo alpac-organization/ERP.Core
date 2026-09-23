@@ -186,16 +186,11 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IShippingComapaniesRepository, ShippingComapaniesRepository>();
 
             #region 
-            services.AddScoped<IRecordEntranceRepository, RecordEntranceRepository>();
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
-            services.AddScoped<IEntranceDucatsRepository, EntranceDucatsRepository>();
             services.AddScoped<IDucatRegistryDetailsRepository, DucatRegistryDetailsRepository>();
             services.AddScoped<IDucatRegistryRepository, DucatRegistryRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
-            services.AddScoped<IWorkflowStepDefinitionsRepository, WorkflowStepDefinitionsRepository>();
-            services.AddScoped<ICustomsDeclarationsRepository, CustomsDeclarationsRepository>();
-            services.AddScoped<ICustomsDeclarationDetailsRepository, CustomsDeclarationDetailsRepository>();
             services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
             services.AddScoped<IRacksRepository, RacksRepository>();

@@ -16,7 +16,6 @@ public class DucatRegistryDetails : BaseEntity<Guid>
     public string Sender { get; set; } = null!;
     public string? DestinationAreaObservation { get; set; }
     public virtual DucatRegistry DucatRegistry { get; set; } = null!;
-    public virtual EntranceDucats EntranceDucat { get; set; } = null!;
     public virtual Merchandises Merchandise { get; set; } = default!;
 
 

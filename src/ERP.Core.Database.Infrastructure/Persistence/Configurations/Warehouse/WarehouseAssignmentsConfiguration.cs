@@ -77,12 +77,6 @@ public class WarehouseAssignmentsConfiguration : IEntityTypeConfiguration<Wareho
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        // Relación 1:1 con la entrada principal
-        builder.HasOne(x => x.RecordEntrance)
-            .WithOne(x => x.Assignment)
-            .HasForeignKey<WarehouseAssignments>(x => x.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         // Relaciones con los catálogos del layout regional
         builder.HasOne(x => x.Warehouse)
             .WithMany()

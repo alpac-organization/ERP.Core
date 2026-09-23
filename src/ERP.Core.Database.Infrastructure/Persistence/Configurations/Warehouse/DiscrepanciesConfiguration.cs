@@ -65,14 +65,5 @@ public class DiscrepanciesConfiguration : IEntityTypeConfiguration<Discrepancies
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(e => e.RecordEntrance)
-            .WithMany()
-            .HasForeignKey(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(e => e.EntranceDucat)
-            .WithMany()
-            .HasForeignKey(e => e.EntranceDucatsId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

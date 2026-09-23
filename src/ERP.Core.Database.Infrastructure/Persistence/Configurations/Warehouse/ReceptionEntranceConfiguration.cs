@@ -14,9 +14,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         builder.Property(e => e.Id)
            .HasColumnName("reception_entrance_id");
 
-        builder.Property(e => e.RecordEntranceId)
-            .HasColumnName("record_entrance_id")
-            .IsRequired();
 
         builder.Property(e => e.CountryOfOrigin)
             .HasColumnName("country_of_origin")
@@ -63,10 +60,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasColumnType("text[]")
             .IsRequired(false);
 
-        builder.Property(e => e.DeletedEvidenceUrls)
-            .HasColumnName("deleted_evidence_urls")
+        builder.Property(e => e.DucaNumbers)
+            .HasColumnName("duca_numbers")
             .HasColumnType("text[]")
             .IsRequired(false);
+
 
         builder.Property(e => e.DocumentType)
             .HasColumnName("document_type")
@@ -128,9 +126,5 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasForeignKey(e => e.CustomBranchId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.RecordEntrance)
-            .WithOne(e => e.ReceptionEntrance)
-            .HasForeignKey<ReceptionEntrance>(e => e.RecordEntranceId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }
