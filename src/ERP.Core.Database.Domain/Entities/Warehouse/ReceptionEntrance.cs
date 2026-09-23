@@ -31,7 +31,5 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 public class AdditionalReceptionEntranceData
 {
     public List<string> DocumentNumbers { get; set; } = [];
-
-    [Column(TypeName = "text[]")]
     public List<string> EvidenceUrls { get; set; } = [];
 }
