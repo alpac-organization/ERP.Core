@@ -5,5 +5,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operatio
     public interface IOperationalOrdersRepository : IRepository<OperationalOrder>
     {
         Task<OperationalOrder> RegisterOperationalOrder(OperationalOrder payload);
+        Task<OperationalOrder?> GetByDucaNumberAsync(string ducaNumber, CancellationToken ct = default);
     }
 }

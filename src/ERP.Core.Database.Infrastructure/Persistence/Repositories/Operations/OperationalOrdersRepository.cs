@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations
 {
@@ -10,6 +11,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations
         {
             await _context.OperationalOrders.AddAsync(payload);
             return payload;
+        }
+
+        public async Task<OperationalOrder?> GetByDucaNumberAsync(string ducaNumber, CancellationToken ct = default)
+        {
+            return await _context.OperationalOrders
+                .Where(o => o.DucaNumber == ducaNumber && o.DeletedAt == null)
+                .FirstOrDefaultAsync(ct);
         }
     }
 }
