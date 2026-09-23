@@ -17,7 +17,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public int? PackagesCount { get; set; }
         public decimal? Weight { get; set; }
 
-        // public OperationalOrderStatus Status { get; set; }
+        public OperationalOrderStatus Status { get; set; }
 
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
