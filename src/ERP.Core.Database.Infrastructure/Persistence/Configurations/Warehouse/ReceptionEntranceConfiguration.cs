@@ -29,11 +29,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(e => e.DocumentType)
-            .HasColumnName("document_type")
-            .HasColumnType("document_type_enum")
-            .IsRequired();
-
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
