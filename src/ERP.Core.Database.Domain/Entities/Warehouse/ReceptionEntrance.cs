@@ -27,7 +27,13 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     public class AdditionalReceptionEntranceData
     {
         public List<DocumentInformation> DocumentNumbers { get; set; } = [];
-        public List<string> EvidenceUrls { get; set; } = [];
+        public List<ImagesInformation> EvidenceUrls { get; set; } = [];
+    }
+
+    public class ImagesInformation
+    {
+        public Guid ImageId { get; set; }
+        public string? ImageUrl { get; set; }
     }
 
     public class DocumentInformation

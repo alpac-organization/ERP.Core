@@ -270,7 +270,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("11111111-0000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                    WorkAreaCode = 10,
+                    WorkAreaCode = "10",
                     WorkAreaName = "Tecnología de la Información",
                     Description = "Soporte, desarrollo e infraestructura tecnológica",
                     IsActive = true
@@ -279,7 +279,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("11111111-0000-0000-0000-000000000002"),
                     CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                    WorkAreaCode = 20,
+                    WorkAreaCode = "20",
                     WorkAreaName = "Almacén y Logística",
                     Description = "Gestión de bodegas e inventario",
                     IsActive = true
@@ -290,7 +290,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("22222222-0000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                    WorkAreaCode = 10,
+                    WorkAreaCode = "10",
                     WorkAreaName = "Operaciones Marítimas",
                     Description = "Coordinación de embarques y logística naviera",
                     IsActive = true
@@ -301,7 +301,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("33333333-0000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                    WorkAreaCode = 10,
+                    WorkAreaCode = "10",
                     WorkAreaName = "Producción y Granja",
                     Description = "Control de procesos productivos agropecuarios",
                     IsActive = true
@@ -312,7 +312,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("44444444-0000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
-                    WorkAreaCode = 10,
+                    WorkAreaCode = "10",
                     WorkAreaName = "Seguridad Operativa",
                     Description = "Supervisión de personal de campo y guardias",
                     IsActive = true
@@ -323,7 +323,7 @@ namespace ERP.Core.Testing.Seeding
                 {
                     Id = Guid.Parse("55555555-0000-0000-0000-000000000001"),
                     CompanyId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
-                    WorkAreaCode = 10,
+                    WorkAreaCode = "10",
                     WorkAreaName = "Flotas y Transportación",
                     Description = "Mantenimiento de unidades y rutas de transporte",
                     IsActive = true
@@ -397,7 +397,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000001"),
                     CostCenterName = "Gerencia de Informática",
                     Description = "Centro de costos de TI",
-                    CostCenterCode = 1001,
+                    CostCenterCode = "1001",
                     CoilCode = 10,
                     IsActive = true
                 },
@@ -408,7 +408,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("11111111-0000-0000-0000-000000000002"),
                     CostCenterName = "Almacén y Logística",
                     Description = "Centro de costos de almacén",
-                    CostCenterCode = 1002,
+                    CostCenterCode = "1002",
                     CoilCode = 20,
                     IsActive = true
                 },
@@ -419,7 +419,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("22222222-0000-0000-0000-000000000001"),
                     CostCenterName = "Operaciones Marítimas",
                     Description = "Centro de costos operaciones",
-                    CostCenterCode = 2001,
+                    CostCenterCode = "2001",
                     CoilCode = 10,
                     IsActive = true
                 },
@@ -430,7 +430,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("33333333-0000-0000-0000-000000000001"),
                     CostCenterName = "Producción y Granja",
                     Description = "Centro de costos producción",
-                    CostCenterCode = 3001,
+                    CostCenterCode = "3001",
                     CoilCode = 10,
                     IsActive = true
                 },
@@ -441,7 +441,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("44444444-0000-0000-0000-000000000001"),
                     CostCenterName = "Seguridad Operativa",
                     Description = "Centro de costos seguridad",
-                    CostCenterCode = 4001,
+                    CostCenterCode = "4001",
                     CoilCode = 10,
                     IsActive = true
                 },
@@ -452,7 +452,7 @@ namespace ERP.Core.Testing.Seeding
                     WorkAreaId = Guid.Parse("55555555-0000-0000-0000-000000000001"),
                     CostCenterName = "Flotas y Transportación",
                     Description = "Centro de costos flotas",
-                    CostCenterCode = 5001,
+                    CostCenterCode = "5001",
                     CoilCode = 10,
                     IsActive = true
                 }

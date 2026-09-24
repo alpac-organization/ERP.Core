@@ -13,7 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public string? CostCenterName { get; set; }
 
         public int CoilCode { get; set; }
-        public int CostCenterCode { get; set; }
+        public string CostCenterCode { get; set; } = null!;
 
         public Guid WorkAreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
