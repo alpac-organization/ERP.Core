@@ -45,6 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(e => e.DocumentType)
                 .HasColumnName("document_type")
                 .HasColumnType("document_type_enum")
+                .HasDefaultValueSql("'duca'::document_type_enum")
                 .IsRequired();
 
             builder.Property(o => o.DocumentNumber)

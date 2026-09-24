@@ -2080,8 +2080,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("document_number");
 
                     b.Property<int>("DocumentType")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("document_type_enum")
-                        .HasColumnName("document_type");
+                        .HasColumnName("document_type")
+                        .HasDefaultValueSql("'duca'::document_type_enum");
 
                     b.Property<string>("OpCode")
                         .HasMaxLength(50)

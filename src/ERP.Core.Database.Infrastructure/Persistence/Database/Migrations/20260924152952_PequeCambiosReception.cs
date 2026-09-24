@@ -153,7 +153,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "operational_orders",
                 type: "document_type_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'duca'::document_type_enum");
         }
 
         /// <inheritdoc />
