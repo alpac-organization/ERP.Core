@@ -46,6 +46,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(e => e.InventoryAvailable)
+                .HasColumnName("inventory_available")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.Property(e => e.IsAcceptedForPurchase)
                 .HasColumnName("is_aceepted_for_purchase")
                 .HasDefaultValue(false)
@@ -84,6 +89,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("delivery_time")
                 .HasPrecision(18, 2)
                 .IsRequired(false);
+            
+            builder.Property(e => e.AvailabilityTime)
+                .HasColumnName("availability_time")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
+
+            builder.Property(e => e.DeliveryTimeType)
+                .HasColumnName("delivery_time_type")
+                .HasColumnType("time_type_enum")
+                .IsRequired(false);
 
             builder.Property(e => e.DeliveryTimeType)
                 .HasColumnName("delivery_time_type")
@@ -107,6 +122,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.Property(e => e.WarrantyPeriodTimeType)
                 .HasColumnName("warranty_period_time_type")
+                .HasColumnType("time_type_enum")
+                .IsRequired(false);
+            
+            builder.Property(e => e.AvailabilityTimeType)
+                .HasColumnName("availability_time_type")
                 .HasColumnType("time_type_enum")
                 .IsRequired(false);
 
