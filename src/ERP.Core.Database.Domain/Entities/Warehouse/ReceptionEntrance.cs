@@ -11,8 +11,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     public class ReceptionEntrance : BaseEntity<Guid>
     {
         // informacion de OP
-        public DocumentType DocumentType { get; set; }
-
         public bool IsActive { get; set; }
         public string SealNumber { get; set; } = null!;  // marchamo | precinto
         public string ContainerNumber { get; set; } = null!;
@@ -28,7 +26,14 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     }
     public class AdditionalReceptionEntranceData
     {
-        public List<string> DocumentNumbers { get; set; } = [];
+        public List<DocumentInformation> DocumentNumbers { get; set; } = [];
         public List<string> EvidenceUrls { get; set; } = [];
+    }
+
+    public class DocumentInformation
+    {
+        public Guid DocumentId { get; set; }
+        public DocumentType DocumentType { get; set; }
+        public string? DocumentNumbers { get; set; }
     }
 }

@@ -42,6 +42,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("customer_id")
                 .IsRequired(false);
 
+            builder.Property(e => e.DocumentType)
+                .HasColumnName("document_type")
+                .HasColumnType("document_type_enum")
+                .IsRequired();
+
             builder.Property(o => o.DocumentNumber)
                 .HasColumnName("document_number")
                 .HasMaxLength(50)
@@ -49,12 +54,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.PackagesCount)
                 .HasColumnName("packages_count")
-                .HasPrecision(8,2)
+                .HasPrecision(8, 2)
                 .IsRequired(false);
 
             builder.Property(o => o.Weight)
                 .HasColumnName("weight")
-                .HasPrecision(8,2)
+                .HasPrecision(8, 2)
                 .IsRequired(false);
 
             builder.Property(o => o.ReceptionId)

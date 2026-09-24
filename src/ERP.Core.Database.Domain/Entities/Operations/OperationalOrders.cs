@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
     {
         public string? OpCode { get; set; }
         public string? Description { get; set; }
+        public DocumentType DocumentType { get; set; }
         public string? DocumentNumber { get; set; } // 1:1
         public decimal? PackagesCount { get; set; }
         public decimal? Weight { get; set; }
