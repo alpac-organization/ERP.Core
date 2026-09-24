@@ -20,11 +20,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public int CreditDays { get; set; }
         public bool HasCredit { get; set; }
-        
+
         public decimal? CreditLimit { get; set; }
         public Currency? CreditCurrency { get; set; }
         public int AlertDaysBeforeDue { get; set; }
         public PaymentMethodType PreferredPaymentMethod { get; set; }
+
         public bool ApplyIrRetention { get; set; }
         public bool ApplyMunicipalRetention { get; set; }
         public bool IsTaxExempt { get; set; }

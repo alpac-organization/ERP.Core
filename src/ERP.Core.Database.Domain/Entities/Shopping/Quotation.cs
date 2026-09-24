@@ -17,6 +17,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
       public string? SupplierSelectionJustification { get; set; }
       public string? SupplierRejectionJustification { get; set; }
 
+      public ProductQuality ProductQuality { get; set; }
+      public PaymentCondition PaymentCondition { get; set; }
+
       public DateOnly QuoteDate { get; set; }
       public string? BrandProduct { get; set; }
 
