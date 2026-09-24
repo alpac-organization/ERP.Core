@@ -19,6 +19,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(e => e.PaymentCondition)
+                .HasColumnName("payment_condition")
+                .HasColumnType("payment_condition_enum")
+                .HasDefaultValueSql("'cash'::payment_condition_enum")
+                .IsRequired();
+
+            builder.Property(e => e.ProductQuality)
+                .HasColumnName("product_quality")
+                .HasColumnType("product_quality_enum")
+                .HasDefaultValueSql("'good'::product_quality_enum")
+                .IsRequired();
+
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true)
@@ -69,24 +81,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasMaxLength(255);
 
             builder.Property(e => e.DeliveryTime)
-            .HasColumnName("delivery_time")
-            .HasPrecision(18, 2)
-            .IsRequired(false);
+                .HasColumnName("delivery_time")
+                .HasPrecision(18, 2)
+                .IsRequired(false);
 
             builder.Property(e => e.DeliveryTimeType)
-            .HasColumnName("delivery_time_type")
-            .HasColumnType("time_type_enum")
-            .IsRequired(false);
+                .HasColumnName("delivery_time_type")
+                .HasColumnType("time_type_enum")
+                .IsRequired(false);
 
             builder.Property(e => e.SupplierSelectionJustification)
-            .HasColumnName("supplier_selection_justification")
-            .HasMaxLength(300)
-            .IsRequired(false);
+                .HasColumnName("supplier_selection_justification")
+                .HasMaxLength(300)
+                .IsRequired(false);
 
             builder.Property(e => e.SupplierRejectionJustification)
-            .HasColumnName("supplier_rejection_justification")
-            .HasMaxLength(300)
-            .IsRequired(false);
+                .HasColumnName("supplier_rejection_justification")
+                .HasMaxLength(300)
+                .IsRequired(false);
 
             builder.Property(e => e.WarrantyPeriod)
                 .HasColumnName("warranty_period")
