@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public string? OpCode { get; set; }
         public string? Description { get; set; }
         public string? DocumentNumber { get; set; } // 1:1
-        public int? PackagesCount { get; set; }
+        public decimal? PackagesCount { get; set; }
         public decimal? Weight { get; set; }
 
         public OperationalOrderStatus Status { get; set; }

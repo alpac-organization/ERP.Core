@@ -49,6 +49,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.PackagesCount)
                 .HasColumnName("packages_count")
+                .HasPrecision(8,2)
                 .IsRequired(false);
 
             builder.Property(o => o.Weight)
