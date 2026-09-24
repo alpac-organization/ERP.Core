@@ -29,7 +29,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
       public decimal? WarrantyPeriod { get; set; }
       public TimeType? WarrantyPeriodTimeType { get; set; }
-      
+
       public decimal? AvailabilityTime { get; set; }
       public TimeType? AvailabilityTimeType { get; set; }
 
@@ -38,5 +38,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
       public Guid PurchaseRequestItemId { get; set; }
       public virtual PurchaseRequestItem PurchaseRequestItem { get; set; } = default!;
+      
    }
 }
