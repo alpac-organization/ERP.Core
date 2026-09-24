@@ -8,6 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
       public bool IsActive { get; set; }
       public bool HasDelivery { get; set; }
       public bool HasGuarantee { get; set; }
+      public bool InventoryAvailable { get; set; }
       public bool IsAcceptedForPurchase { get; set; }
 
       public decimal Iva { get; set; }
@@ -28,6 +29,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
       public decimal? WarrantyPeriod { get; set; }
       public TimeType? WarrantyPeriodTimeType { get; set; }
+      
+      public decimal? AvailabilityTime { get; set; }
+      public TimeType? AvailabilityTimeType { get; set; }
 
       public Guid SupplierId { get; set; }
       public virtual Supplier Supplier { get; set; } = default!;
