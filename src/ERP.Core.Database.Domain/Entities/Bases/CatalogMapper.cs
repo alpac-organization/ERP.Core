@@ -66,6 +66,6 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? Description { get; set; }
         public string? CostCenterName { get; set; }
         public int CoilCode { get; set; }
-        public int CostCenterCode { get; set; }
+        public string CostCenterCode { get; set; } = default!;
     }
 }
