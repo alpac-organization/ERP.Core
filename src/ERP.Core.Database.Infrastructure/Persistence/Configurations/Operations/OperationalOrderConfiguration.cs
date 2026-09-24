@@ -97,7 +97,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(o => o.OpCode)
                 .HasDatabaseName("ix_operational_orders_op_code")
-                .IsUnique();
+                .IsUnique(false);
 
             builder.HasIndex(o => o.CustomerId)
                 .HasDatabaseName("ix_operational_orders_customer_id");
