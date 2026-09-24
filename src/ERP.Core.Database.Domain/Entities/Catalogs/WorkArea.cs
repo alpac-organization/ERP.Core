@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
     public class WorkArea : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
-        public int WorkAreaCode { get; set; }
+        public string? WorkAreaCode { get; set; }
         public string? Description { get; set; }
         public string? WorkAreaName { get; set; }
 

@@ -17,5 +17,11 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         public string GeneratePositionCode(string lotCode, int row, int column);
 
         Task<(bool IsSuccess, CustomerCodesToRegister CustomerCodes)> GenerateUniqueCustomerCodesAsync(Guid companyId, int branchCount, CancellationToken ct = default);
+
+        Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(Guid companyId, CancellationToken ct = default);
+
+        Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(Guid areaId, CancellationToken ct = default);
+
+        Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
     }
 }

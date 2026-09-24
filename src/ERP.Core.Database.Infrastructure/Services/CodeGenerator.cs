@@ -204,6 +204,90 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion Codigos de clientes
 
+        #region WorkAreas
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(
+            Guid companyId,
+            CancellationToken ct = default)
+        {
+            var company = await _unitOfWork.Companies.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == companyId && c.DeletedAt == null, ct);
+
+            if (company is null || string.IsNullOrWhiteSpace(company.Code))
+            {
+                return (false, string.Empty);
+            }
+
+            var prefix = $"{company.Code}-";
+
+            var existingCodes = await _unitOfWork.WorkAreas.Entities
+                .AsNoTracking()
+                .Where(wa => wa.CompanyId == companyId && wa.DeletedAt == null)
+                .Select(wa => wa.WorkAreaCode)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+
+            return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+        #endregion WorkAreas
+
+        #region CostCenters
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(
+            Guid areaId,
+            CancellationToken ct = default)
+        {
+            var area = await _unitOfWork.WorkAreas.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(wa => wa.Id == areaId && wa.DeletedAt == null, ct);
+
+            if (area is null || string.IsNullOrWhiteSpace(area.WorkAreaCode))
+            {
+                return (false, string.Empty);
+            }
+
+            var prefix = $"{area.WorkAreaCode}-";
+
+            var existingCodes = await _unitOfWork.CostCenters.Entities
+                .AsNoTracking()
+                .Where(cc => cc.WorkAreaId == areaId && cc.DeletedAt == null)
+                .Select(cc => cc.CostCenterCode)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+
+            return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+        #endregion CostCenters
+
+        #region OperationalOrders
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync(
+            Guid costCenterId,
+            CancellationToken ct = default)
+        {
+            var costCenter = await _unitOfWork.CostCenters.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cc => cc.Id == costCenterId && cc.DeletedAt == null, ct);
+
+            if (costCenter is null || string.IsNullOrWhiteSpace(costCenter.CostCenterCode))
+            {
+                return (false, string.Empty);
+            }
+
+            var prefix = $"{costCenter.CostCenterCode}-";
+
+            var existingCodes = await _unitOfWork.OperationalOrders.Entities
+                .AsNoTracking()
+                .Where(o => o.CostCenterId == costCenterId && o.DeletedAt == null)
+                .Select(o => o.OpCode)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+
+            return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+        #endregion OperationalOrders
+
         #region Metodos Privados
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
         {
@@ -211,6 +295,13 @@ namespace ERP.Core.Database.Infrastructure.Services
             StorageEntityType.Rack => "RACK",
             _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Tipo de entidad de almacenamiento no soportado.")
         };
+
+        private static int GetMaxSequence(string prefix, IEnumerable<string?> codes)
+            => codes
+            .Where(c => !string.IsNullOrWhiteSpace(c) && c!.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            .Select(c => int.TryParse(c![prefix.Length..], out var sequence) ? sequence : 0)
+            .DefaultIfEmpty(0)
+            .Max();
 
         private static string GetRandomSuffix()
         {
