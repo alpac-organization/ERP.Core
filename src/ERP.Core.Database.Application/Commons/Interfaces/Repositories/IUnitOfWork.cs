@@ -91,7 +91,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
         ICrewAssignmentsRepository CrewAssignments { get; }
         IMachineryAssignmentsRepository MachineryAssignments { get; }
-        IWarehouseMachineryRepository WarehouseMachineries { get; }
+        IMachineryRepository Machineries { get; }
         IStockPlacementsRepository StockPlacements { get; }
         IStockFootprintCellsRepository StockFootprintCells { get; }
         IReassignmentSessionsRepository ReassignmentSessions { get; }

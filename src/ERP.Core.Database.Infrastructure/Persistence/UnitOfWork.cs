@@ -89,7 +89,7 @@ public class UnitOfWork(
         IWarehouseAssignmentsRepository warehouseAssignmentsRepository,
         ICrewAssignmentsRepository crewAssignmentsRepository,
         IMachineryAssignmentsRepository machineryAssignmentsRepository,
-        IWarehouseMachineryRepository warehouseMachineryRepository,
+        IMachineryRepository machineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
         IStockPlacementsRepository stockPlacementsRepository,
@@ -196,7 +196,7 @@ public class UnitOfWork(
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;
-        public IWarehouseMachineryRepository WarehouseMachineries => warehouseMachineryRepository;
+        public IMachineryRepository Machineries => machineryRepository;
         public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
         public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;

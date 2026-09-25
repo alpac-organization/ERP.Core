@@ -16,5 +16,4 @@ public class MachineryAssignments : BaseEntity<Guid>
     public Guid AssignedByUserId { get; set; }
 
     public virtual WarehouseAssignments WarehouseAssignment { get; set; } = null!;
-    public virtual WarehouseMachinery? Machinery { get; set; }
 }

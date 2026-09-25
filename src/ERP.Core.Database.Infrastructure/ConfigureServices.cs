@@ -90,8 +90,6 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
                     npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
                     npgsqlOptions.MapEnum<ReassignmentSessionStatus>("reassignment_session_status_enum", "public");
-                    npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
-                    npgsqlOptions.MapEnum<FuelType>("fuel_type_enum", "public");
                     npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingStatus>("unloading_status_enum", "public");
                     npgsqlOptions.MapEnum<PalletType>("pallet_type_enum", "public");
@@ -201,7 +199,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehouseAssignmentsRepository, WarehouseAssignmentsRepository>();
             services.AddScoped<ICrewAssignmentsRepository, CrewAssignmentsRepository>();
             services.AddScoped<IMachineryAssignmentsRepository, MachineryAssignmentsRepository>();
-            services.AddScoped<IWarehouseMachineryRepository, WarehouseMachineryRepository>();
+            services.AddScoped<IMachineryRepository, MachineryRepository>();
             services.AddScoped<IPurchaseRequestsReviewedAccountingRepository, PurchaseRequestsReviewedAccountingRepository>();
             services.AddScoped<IPurchaseRequestsReviewedManagementRepository, PurchaseRequestsReviewedManagementRepository>();
             services.AddScoped<IStockPlacementsRepository, StockPlacementsRepository>();
