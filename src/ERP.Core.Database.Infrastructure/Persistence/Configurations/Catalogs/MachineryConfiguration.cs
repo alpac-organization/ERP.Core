@@ -46,6 +46,12 @@ public class MachineryConfiguration : IEntityTypeConfiguration<Machinery>
             .HasMaxLength(4)
             .IsRequired();
 
+        builder.Property(w => w.Type)
+            .HasColumnName("type")
+            .HasColumnType("machinery_type_enum")
+            .HasDefaultValueSql("'forklift'::machinery_type_enum")
+            .IsRequired();
+
         builder.Property(w => w.Status)
             .HasColumnName("status")
             .HasColumnType("machinery_status_enum")

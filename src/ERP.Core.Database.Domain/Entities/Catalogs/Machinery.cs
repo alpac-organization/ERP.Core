@@ -15,6 +15,7 @@ public class Machinery : BaseEntity<Guid>
     public string? Color { get; set; } = null!;
 
     public MachineryStatus Status { get; set; }
+    public MachineryType Type { get; set; }
     public bool IsActive { get; set; } = true;
 
     public virtual Branch Branch { get; set; } = default!;

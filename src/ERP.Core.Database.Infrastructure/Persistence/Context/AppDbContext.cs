@@ -212,6 +212,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<CreditStatus>("public", "credit_status_enum");
             modelBuilder.HasPostgresEnum<ProductQuality>("public", "product_quality_enum");
             modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
+            modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
