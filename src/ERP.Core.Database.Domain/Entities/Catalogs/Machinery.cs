@@ -12,6 +12,7 @@ public class Machinery : BaseEntity<Guid>
     public string Year { get; set; } = null!;
     public string Model { get; set; } = null!;
     public string SerialNumber { get; set; } = null!;
+    public string? Color { get; set; } = null!;
 
     public MachineryStatus Status { get; set; }
     public bool IsActive { get; set; } = true;

@@ -66,6 +66,12 @@ public class MachineryConfiguration : IEntityTypeConfiguration<Machinery>
         builder.Property(w => w.DeletedAt)
             .HasColumnName("deleted_at")
             .IsRequired(false);
+        
+        
+        builder.Property(w => w.Color)
+            .HasColumnName("color")
+            .HasMaxLength(100)
+            .IsRequired(false);
 
         builder.HasOne(e => e.Branch)
             .WithMany(s => s.Machinery)
