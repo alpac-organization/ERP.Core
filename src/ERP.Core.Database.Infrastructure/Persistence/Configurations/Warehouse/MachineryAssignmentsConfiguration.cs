@@ -76,9 +76,5 @@ public class MachineryAssignmentsConfiguration : IEntityTypeConfiguration<Machin
             .HasForeignKey(x => x.WarehouseAssignmentId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(x => x.Machinery)
-            .WithMany(x => x.Assignments)
-            .HasForeignKey(x => x.MachineryId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

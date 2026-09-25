@@ -114,7 +114,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
         public DbSet<MachineryAssignments> MachineryAssignments => Set<MachineryAssignments>();
-        public DbSet<WarehouseMachinery> WarehouseMachineries => Set<WarehouseMachinery>();
+        public DbSet<Machinery> Machineries => Set<Machinery>();
         public DbSet<StockPlacements> StockPlacements => Set<StockPlacements>();
         public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
         public DbSet<ReassignmentSessions> ReassignmentSessions => Set<ReassignmentSessions>();
@@ -177,8 +177,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductUsageType>("public", "product_usage_type_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
-            modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
-            modelBuilder.HasPostgresEnum<FuelType>("public", "fuel_type_enum");
             modelBuilder.HasPostgresEnum<MachineryStatus>("public", "machinery_status_enum");
 
             modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum");
