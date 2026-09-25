@@ -29,7 +29,6 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
         builder.Property(ac => ac.Role)
             .HasColumnName("role")
             .HasColumnType("assignment_collaborators_roles_enum")
-            .HasDefaultValueSql("'WarehouseAssistant'::assignment_collaborators_roles_enum")
             .IsRequired();
 
         builder.Property(ac => ac.IsActive)
