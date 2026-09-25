@@ -41,6 +41,11 @@ public class MachineryConfiguration : IEntityTypeConfiguration<Machinery>
             .HasMaxLength(100)
             .IsRequired();
 
+        builder.Property(w => w.Year)
+            .HasColumnName("year")
+            .HasMaxLength(4)
+            .IsRequired();
+
         builder.Property(w => w.Status)
             .HasColumnName("status")
             .HasColumnType("machinery_status_enum")

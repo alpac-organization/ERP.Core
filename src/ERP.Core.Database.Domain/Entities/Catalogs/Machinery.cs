@@ -9,7 +9,7 @@ public class Machinery : BaseEntity<Guid>
 
     public string Brand { get; set; } = null!;
     public string Code { get; set; } = null!;
-    public int Year { get; set; }
+    public string Year { get; set; } = null!;
     public string Model { get; set; } = null!;
     public string SerialNumber { get; set; } = null!;
 
