@@ -17,7 +17,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "operational_orders",
                 type: "uuid",
                 nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+                defaultValue: new Guid("7708d447-1b6a-4194-a877-7e6f49cd80b4"),
                 oldClrType: typeof(Guid),
                 oldType: "uuid",
                 oldNullable: true);
