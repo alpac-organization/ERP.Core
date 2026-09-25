@@ -28,7 +28,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
 
         //reference with warehouse...
-        public Guid? ReceptionId { get; set; }
+        public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
         //Información de la factura

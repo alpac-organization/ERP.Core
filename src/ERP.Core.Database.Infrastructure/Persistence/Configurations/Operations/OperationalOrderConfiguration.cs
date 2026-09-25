@@ -65,7 +65,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.ReceptionId)
                 .HasColumnName("reception_id")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
