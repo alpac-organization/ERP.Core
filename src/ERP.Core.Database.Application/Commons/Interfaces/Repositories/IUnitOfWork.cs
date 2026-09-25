@@ -90,7 +90,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISectionPositionsRepository SectionPositionsRepository { get; }
         IWarehouseAssignmentsRepository WarehouseAssignments { get; }
         ICrewAssignmentsRepository CrewAssignments { get; }
-        IMachineryAssignmentsRepository MachineryAssignments { get; }
         IMachineryRepository Machineries { get; }
         IStockPlacementsRepository StockPlacements { get; }
         IStockFootprintCellsRepository StockFootprintCells { get; }
@@ -116,6 +115,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IServicesOrdersRepository ServicesOrders { get; }
         ICustomerBranchesRepository CustomerBranches { get; }
         ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
+        IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
+        IAssignmentsMachineryRepository AssignmentsMachineries { get; }
         #endregion
 
         #region ✅ Shopping

@@ -29,5 +29,5 @@ public class WarehouseAssignments : BaseEntity<Guid>
     public virtual RackPositions? RackPosition { get; set; }
 
     public virtual ICollection<CrewAssignments> CrewAssignments { get; set; } = [];
-    public virtual ICollection<MachineryAssignments> MachineryAssignments { get; set; } = [];
+
 }

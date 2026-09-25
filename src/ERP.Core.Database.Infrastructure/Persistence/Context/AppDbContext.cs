@@ -7,6 +7,7 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -113,7 +114,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
-        public DbSet<MachineryAssignments> MachineryAssignments => Set<MachineryAssignments>();
         public DbSet<Machinery> Machineries => Set<Machinery>();
         public DbSet<StockPlacements> StockPlacements => Set<StockPlacements>();
         public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
@@ -127,6 +127,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
         public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
         public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
+        public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
+        public DbSet<AssignmentsMachinery> AssignmentsMachineries => Set<AssignmentsMachinery>();
         #endregion
 
         #region Compras
@@ -209,6 +211,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PaymentCondition>("public", "payment_condition_enum");
             modelBuilder.HasPostgresEnum<CreditStatus>("public", "credit_status_enum");
             modelBuilder.HasPostgresEnum<ProductQuality>("public", "product_quality_enum");
+            modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
