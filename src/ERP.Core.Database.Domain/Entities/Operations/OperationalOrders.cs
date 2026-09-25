@@ -20,6 +20,8 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         public OperationalOrderStatus Status { get; set; }
 
+        public Guid CompanyId { get; set; }
+        public virtual Company Company { get; set; } = default!;
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
@@ -28,12 +30,14 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
 
         //reference with warehouse...
-        public Guid? ReceptionId { get; set; }
+        public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
         //Información de la factura
 
         //Servicios abjuntados a la orden operativa
         public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
+        public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
+        public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
     }
 }

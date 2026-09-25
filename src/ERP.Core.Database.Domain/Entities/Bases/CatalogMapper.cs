@@ -1,3 +1,5 @@
+using ERP.Core.Database.Domain.Enums;
+
 namespace ERP.Core.Database.Domain.Entities.Bases
 {
     /// <summary>
@@ -24,7 +26,7 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? ImageUrl { get; set; }
         public string? NeutralImageUrl { get; set; }
     }
-    
+
     /// <summary>
     /// Entidad de sucursal
     /// </summary>
@@ -67,5 +69,26 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? CostCenterName { get; set; }
         public int CoilCode { get; set; }
         public string CostCenterCode { get; set; } = default!;
+    }
+    public class CustomerInformation
+    {
+        public Guid CustomerId { get; set; }
+
+        public string? Cif { get; set; }
+
+        public string? LegalName { get; set; }
+
+        public string? PictureUrl { get; set; }
+
+        public string? IdentificationNumber { get; set; }
+
+        public IdentificationType IdentificationType { get; set; }
+    }
+
+    public class CustomBranchesInformation
+    {
+        public string? Code { get; set; }
+        public string? CustomsBranchName { get; set; }
+
     }
 }

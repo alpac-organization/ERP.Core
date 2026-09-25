@@ -105,6 +105,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PaymentCondition>("payment_condition_enum", "public");
                     npgsqlOptions.MapEnum<CreditStatus>("credit_status_enum", "public");
                     npgsqlOptions.MapEnum<ProductQuality>("product_quality_enum", "public");
+                    npgsqlOptions.MapEnum<AssignmentCollaboratorsRoles>("assignment_collaborators_roles_enum", "public");
+                    npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
                 })
             );
 
@@ -199,7 +201,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ISectionPositionsRepository, SectionPositionRepository>();
             services.AddScoped<IWarehouseAssignmentsRepository, WarehouseAssignmentsRepository>();
             services.AddScoped<ICrewAssignmentsRepository, CrewAssignmentsRepository>();
-            services.AddScoped<IMachineryAssignmentsRepository, MachineryAssignmentsRepository>();
             services.AddScoped<IMachineryRepository, MachineryRepository>();
             services.AddScoped<IPurchaseRequestsReviewedAccountingRepository, PurchaseRequestsReviewedAccountingRepository>();
             services.AddScoped<IPurchaseRequestsReviewedManagementRepository, PurchaseRequestsReviewedManagementRepository>();
@@ -218,6 +219,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IUnloadingSuppliesRepository, UnloadingSuppliesRepository>();
             services.AddScoped<ISuppliesRepository, SuppliesRepository>();
             services.AddScoped<IUnloadingPositionsReservationsRepository, UnloadingPositionReservationsRepository>();
+            services.AddScoped<IAssignmentsMachineryRepository, AssignmentMachineryRepository>();
+            services.AddScoped<IAssignmentCollaboratorsRepository, AssignmentCollaboratorRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

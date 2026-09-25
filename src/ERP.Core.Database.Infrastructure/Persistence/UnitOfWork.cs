@@ -88,7 +88,6 @@ public class UnitOfWork(
         ILotsPositionsRepository lotsPositionsRepository,
         IWarehouseAssignmentsRepository warehouseAssignmentsRepository,
         ICrewAssignmentsRepository crewAssignmentsRepository,
-        IMachineryAssignmentsRepository machineryAssignmentsRepository,
         IMachineryRepository machineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
@@ -114,7 +113,9 @@ public class UnitOfWork(
         IServicesOrdersRepository servicesOrdersRepository,
         ICustomerBranchesRepository customerBranchesRepository,
         ICustomerCreditInformationsRepository customerCreditInformationsRepository,
-        ISupplierPaymentMethodRepository supplierPaymentMethodRepository
+        ISupplierPaymentMethodRepository supplierPaymentMethodRepository,
+        IAssignmentsMachineryRepository assignmentsMachineryRepository,
+        IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -196,7 +197,6 @@ public class UnitOfWork(
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
-        public IMachineryAssignmentsRepository MachineryAssignments => machineryAssignmentsRepository;
         public IMachineryRepository Machineries => machineryRepository;
         public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
@@ -222,6 +222,8 @@ public class UnitOfWork(
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
         public ICustomerBranchesRepository CustomerBranches => customerBranchesRepository;
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
+        public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
+        public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
         #endregion
 
         #region Shopping

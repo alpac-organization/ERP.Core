@@ -38,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("cost_center_id")
                 .IsRequired();
 
+            builder.Property(o => o.CompanyId)
+                .HasColumnName("company_id")
+                .IsRequired();
+
             builder.Property(o => o.CustomerId)
                 .HasColumnName("customer_id")
                 .IsRequired(false);
@@ -65,7 +69,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(o => o.ReceptionId)
                 .HasColumnName("reception_id")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -78,6 +82,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.HasOne(o => o.CostCenter)
                 .WithMany()
                 .HasForeignKey(o => o.CostCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(o => o.Company)
+                .WithMany()
+                .HasForeignKey(o => o.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(o => o.Customer)
@@ -104,6 +113,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(o => o.CostCenterId)
                 .HasDatabaseName("ix_operational_orders_cost_center_id");
+
+            builder.HasIndex(o => o.CompanyId)
+                .HasDatabaseName("ix_operational_orders_company_id");
 
             builder.HasIndex(o => o.DocumentNumber)
                 .HasDatabaseName("ix_operational_orders_duca_number");
