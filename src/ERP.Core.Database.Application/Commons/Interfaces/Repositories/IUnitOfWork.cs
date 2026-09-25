@@ -127,6 +127,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IPurchaseRequestItemsRepository PurchaseRequestItems { get; }
         IPurchaseRequestsReviewedAccountingRepository PurchaseRequestsReviewedAccounting { get; }
         IPurchaseRequestsReviewedManagementRepository PurchaseRequestsReviewedManagement { get; }
+        ISupplierPaymentMethodRepository SupplierPaymentMethods { get; }
         #endregion
 
 

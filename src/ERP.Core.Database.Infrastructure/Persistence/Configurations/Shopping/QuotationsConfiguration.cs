@@ -19,16 +19,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.PaymentCondition)
-                .HasColumnName("payment_condition")
-                .HasColumnType("payment_condition_enum")
-                .HasDefaultValueSql("'cash'::payment_condition_enum")
-                .IsRequired();
-
             builder.Property(e => e.ProductQuality)
                 .HasColumnName("product_quality")
                 .HasColumnType("product_quality_enum")
                 .HasDefaultValueSql("'good'::product_quality_enum")
+                .IsRequired();
+
+            builder.Property(e => e.PaymentMethodType)
+                .HasColumnName("payment_method_type")
+                .HasColumnType("payment_method_type_enum")
+                .HasDefaultValueSql("'ach'::payment_method_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.IsActive)
