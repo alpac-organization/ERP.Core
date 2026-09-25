@@ -1,10 +1,7 @@
-using System.Text.Json.Nodes;
-
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Operations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {

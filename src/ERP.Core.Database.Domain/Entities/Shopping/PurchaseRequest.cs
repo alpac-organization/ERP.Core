@@ -69,12 +69,17 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public Guid? UserRevisionId { get; set; }
         public virtual User UserRevision { get; set; } = default!;
-
+        
         /// <summary>
         /// Usuario que registro la solicitud y area de origin.
         /// </summary>
         public Guid RegisteredByUserId { get; set; }
         public virtual User RegistrationUser { get; set; } = default!;
+
+        /// <summary>
+        /// Data Adicional del flujo de compras
+        /// </summary>
+        public string? AdditionalData { get; set; }
 
         /// <summary>
         /// Usuario que anuló la solicitud.
@@ -111,5 +116,16 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// Items solicitados. por el colaborador
         /// </summary>
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
+    }
+
+    public class PurchaseRequestAdditionalData
+    {
+        public string? NewField { get; set; }
+        public string? OldFields { get; set; }
+        public string? Description { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
+
+        public UserInformation UserInformation { get; set; } = new();
     }
 }

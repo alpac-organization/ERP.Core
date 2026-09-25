@@ -36,6 +36,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasMaxLength(1000)
                 .IsRequired(false);
 
+            builder.Property(e => e.AdditionalData)
+                .HasColumnName("additional_data")
+                .HasColumnType("jsonb")
+                .IsRequired(false);
+
             builder.Property(e => e.RequestDate)
                 .HasColumnName("request_date")
                 .HasColumnType("date")
