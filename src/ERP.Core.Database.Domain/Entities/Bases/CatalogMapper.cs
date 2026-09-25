@@ -84,4 +84,11 @@ namespace ERP.Core.Database.Domain.Entities.Bases
 
         public IdentificationType IdentificationType { get; set; }
     }
+
+    public class CustomBranchesInformation
+    {
+        public string? Code { get; set; }
+        public string? CustomsBranchName { get; set; }
+
+    }
 }
