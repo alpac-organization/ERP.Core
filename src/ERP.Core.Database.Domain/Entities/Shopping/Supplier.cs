@@ -27,6 +27,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public virtual ICollection<SupplierBankAccount> SupplierBankAccounts { get; set; } = [];
 
+        public virtual ICollection<SupplierPaymentMethod> SupplierPaymentMethods { get; set; } = [];
+
         public virtual ICollection<Quotation> Quotations { get; set; } = [];
     } 
 }

@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260924235009_AgregarMapeoActualizacionInformacionSolicitudCompra")]
+    partial class AgregarMapeoActualizacionInformacionSolicitudCompra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4503,11 +4506,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("iva");
 
-                    b.Property<int>("PaymentMethodType")
+                    b.Property<int>("PaymentCondition")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("payment_method_type_enum")
-                        .HasColumnName("payment_method_type")
-                        .HasDefaultValueSql("'ach'::payment_method_type_enum");
+                        .HasColumnType("payment_condition_enum")
+                        .HasColumnName("payment_condition")
+                        .HasDefaultValueSql("'cash'::payment_condition_enum");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -4812,55 +4815,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("suppliers_details", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierPaymentMethod", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_payment_method_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("notes");
-
-                    b.Property<int>("PaymentMethodType")
-                        .HasColumnType("payment_method_type_enum")
-                        .HasColumnName("payment_method_type");
-
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SupplierId")
-                        .HasDatabaseName("ix_supplier_payment_methods_supplier_id");
-
-                    b.HasIndex("SupplierId", "PaymentMethodType")
-                        .IsUnique()
-                        .HasDatabaseName("ix_supplier_payment_methods_supplier_payment_type");
-
-                    b.ToTable("supplier_payment_methods", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CrewAssignments", b =>
@@ -7934,17 +7888,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierPaymentMethod", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.Supplier", "Supplier")
-                        .WithMany("SupplierPaymentMethods")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Supplier");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CrewAssignments", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.WarehouseAssignments", "WarehouseAssignment")
@@ -8713,8 +8656,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("SupplierDetails")
                         .IsRequired();
-
-                    b.Navigation("SupplierPaymentMethods");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
