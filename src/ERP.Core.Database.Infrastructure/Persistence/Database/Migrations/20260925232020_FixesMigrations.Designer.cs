@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260925223131_MachineryType")]
-    partial class MachineryType
+    [Migration("20260925232020_FixesMigrations")]
+    partial class FixesMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1895,10 +1895,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("operational_order_id");
 
                     b.Property<int>("Role")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("assignment_collaborators_roles_enum")
-                        .HasColumnName("role")
-                        .HasDefaultValueSql("'WarehouseAssistant'::assignment_collaborators_roles_enum");
+                        .HasColumnName("role");
 
                     b.HasKey("Id");
 
