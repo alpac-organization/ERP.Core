@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AssignmentsEntities : Migration
+    public partial class FixesMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
                 .Annotation("Npgsql:Enum:public.invoice_status_enum", "pending,paid,overdue")
                 .Annotation("Npgsql:Enum:public.machinery_status_enum", "available,in_use,in_maintenance,out_of_service")
+                .Annotation("Npgsql:Enum:public.machinery_type_enum", "forklift")
                 .Annotation("Npgsql:Enum:public.management_review_status_enum", "pending,approved,rejected")
                 .Annotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
                 .Annotation("Npgsql:Enum:public.operational_order_status_enum", "completed,pending_document,assignment")
@@ -142,6 +143,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
+            migrationBuilder.AddColumn<int>(
+                name: "type",
+                schema: "public",
+                table: "machineries",
+                type: "machinery_type_enum",
+                nullable: false,
+                defaultValueSql: "'forklift'::machinery_type_enum");
+
             migrationBuilder.CreateTable(
                 name: "assignment_collaborators",
                 schema: "public",
@@ -150,7 +159,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     assignment_collaborator_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     operational_order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     collaborator_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    role = table.Column<int>(type: "assignment_collaborators_roles_enum", nullable: false, defaultValueSql: "'WarehouseAssistant'::assignment_collaborators_roles_enum"),
+                    role = table.Column<int>(type: "assignment_collaborators_roles_enum", nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -272,6 +281,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "operational_orders");
 
+            migrationBuilder.DropColumn(
+                name: "type",
+                schema: "public",
+                table: "machineries");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
                 .Annotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
@@ -351,6 +365,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
                 .OldAnnotation("Npgsql:Enum:public.invoice_status_enum", "pending,paid,overdue")
                 .OldAnnotation("Npgsql:Enum:public.machinery_status_enum", "available,in_use,in_maintenance,out_of_service")
+                .OldAnnotation("Npgsql:Enum:public.machinery_type_enum", "forklift")
                 .OldAnnotation("Npgsql:Enum:public.management_review_status_enum", "pending,approved,rejected")
                 .OldAnnotation("Npgsql:Enum:public.marital_status_enum", "none,single,married,divorced,widowed,domestic_partner,separated,other")
                 .OldAnnotation("Npgsql:Enum:public.operational_order_status_enum", "completed,pending_document,assignment")

@@ -12,7 +12,7 @@ public class AssignmentCollaborators : BaseEntity<Guid>
     public Guid CollaboratorId { get; set; }
     public virtual Collaborator Collaborator { get; set; } = default!;
 
-    public AssignmentCollaboratorsRoles Role { get; set; } = AssignmentCollaboratorsRoles.WarehouseAssistant;
+    public AssignmentCollaboratorsRoles Role { get; set; }
 
     public bool IsActive { get; set; } = true;
 }

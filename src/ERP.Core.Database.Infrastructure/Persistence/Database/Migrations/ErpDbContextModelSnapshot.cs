@@ -1892,10 +1892,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("operational_order_id");
 
                     b.Property<int>("Role")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("assignment_collaborators_roles_enum")
-                        .HasColumnName("role")
-                        .HasDefaultValueSql("'WarehouseAssistant'::assignment_collaborators_roles_enum");
+                        .HasColumnName("role");
 
                     b.HasKey("Id");
 
