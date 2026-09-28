@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260928170608_FildsBoolToPO")]
+    partial class FildsBoolToPO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5898,10 +5901,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by_user_id");
-
                     b.Property<Guid>("CustomBranchId")
                         .HasColumnType("uuid")
                         .HasColumnName("custom_branch_id");
@@ -5920,8 +5919,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("seal_number");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("CustomBranchId");
 
@@ -8247,12 +8244,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionEntrance", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
-                        .WithMany("ReceptionEntrances")
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CustomsBranches", "CustomsBranches")
                         .WithMany("ReceptionEntrances")
                         .HasForeignKey("CustomBranchId")
@@ -8260,8 +8251,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("CustomsBranches");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReceptionTransportEntrance", b =>
@@ -8612,8 +8601,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("Profiles");
-
-                    b.Navigation("ReceptionEntrances");
 
                     b.Navigation("RegisteredPurchaseRequests");
 

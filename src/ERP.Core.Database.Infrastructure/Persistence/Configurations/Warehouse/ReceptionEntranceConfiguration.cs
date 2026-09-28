@@ -33,6 +33,10 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(r => r.CreatedByUserId)
+            .HasColumnName("created_by_user_id")
+            .IsRequired();
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -49,6 +53,11 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
         builder.HasOne(e => e.CustomsBranches)
             .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CustomBranchId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(e => e.User)
+            .WithMany(e => e.ReceptionEntrances)
+            .HasForeignKey(e => e.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

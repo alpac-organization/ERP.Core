@@ -32,13 +32,19 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public Guid? WarehouseId { get; set; }
         public virtual Warehouses Warehouse { get; set; } = default!;
 
-        //reference with warehouse...
+        public string? AdditionalData { get; set; } = "{}";
+
+        //reference with warehouse flow...
         public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
+        //referencias a asignamiento
+        public bool HasCollaboratorsAssigned { get; set; }
+        public bool HasMachineryAssigned { get; set; }
+
         //Información de la factura
 
-        //Servicios abjuntados a la orden operativa
+        //Servicios abjuntados a la orden operativa / navegaciones
         public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
         public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
