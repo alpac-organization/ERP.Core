@@ -11,23 +11,27 @@ namespace ERP.Core.Database.Domain.Entities.Operations
     /// </summary>
     public class OperationalOrder : BaseEntity<Guid>
     {
-        public string? OpCode { get; set; }
+        public string? PoCode { get; set; }
         public string? Description { get; set; }
-        public DocumentType DocumentType { get; set; }
-        public string? DocumentNumber { get; set; } // 1:1
-        public decimal? PackagesCount { get; set; }
-        public decimal? Weight { get; set; }
+        public string? DocumentNumber { get; set; }
 
+        public decimal? Weight { get; set; }
+        public decimal? PackagesCount { get; set; }
+
+        public DocumentType DocumentType { get; set; }
         public OperationalOrderStatus Status { get; set; }
 
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = default!;
+
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
         public Guid? CustomerId { get; set; }
         public virtual Customers Customer { get; set; } = default!;
 
+        public Guid? WarehouseId { get; set; }
+        public virtual Warehouses Warehouse { get; set; } = default!;
 
         //reference with warehouse...
         public Guid ReceptionId { get; set; }
@@ -37,7 +41,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         //Servicios abjuntados a la orden operativa
         public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
-        public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
+        public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
     }
 }

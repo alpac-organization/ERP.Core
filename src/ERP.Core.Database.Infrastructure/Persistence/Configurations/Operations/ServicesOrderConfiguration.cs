@@ -21,8 +21,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(so => so.ServiceOrderCode)
                 .HasColumnName("service_order_code")
-                .HasMaxLength(50)
-                .IsRequired(false);
+                .IsRequired();
+
+            builder.Property(so => so.Concept)
+                .HasColumnName("concept")
+                .IsRequired();
+
+            builder.Property(so => so.CreatedByUserId)
+                .HasColumnName("created_by_user_id")
+                .IsRequired();
 
             builder.Property(so => so.OperationalServiceId)
                 .HasColumnName("operational_service_id")
@@ -40,6 +47,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
+
+            //Relaciones de las tablas
+            builder.HasOne(so => so.User)
+                .WithMany(os => os.ServicesOrders)
+                .HasForeignKey(so => so.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(so => so.OperationalService)
                 .WithMany(os => os.ServicesOrders)
                 .HasForeignKey(so => so.OperationalServiceId)
@@ -48,8 +62,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.HasOne(so => so.OperationalOrder)
                 .WithMany(o => o.ServicesOrders)
                 .HasForeignKey(so => so.OperationalOrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
+
+            //Indices de busqueda.
             builder.HasIndex(so => so.ServiceOrderCode)
                 .HasDatabaseName("ix_services_orders_service_order_code")
                 .IsUnique();

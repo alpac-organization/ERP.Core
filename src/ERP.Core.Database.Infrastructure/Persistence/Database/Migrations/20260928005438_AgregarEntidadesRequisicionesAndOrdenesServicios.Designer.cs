@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260928005438_AgregarEntidadesRequisicionesAndOrdenesServicios")]
+    partial class AgregarEntidadesRequisicionesAndOrdenesServicios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4778,9 +4781,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("AdditionalData")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("additional_data");
+                        .HasColumnType("text");
 
                     b.Property<string>("Concept")
                         .IsRequired()
@@ -4805,17 +4806,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("PurchaseRequestId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("purchase_request_id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ServiceOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("service_order_id");
 
                     b.Property<string>("SoRequitionCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("so_requisition_code");
+                        .HasColumnType("text");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -4836,7 +4834,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_services_orders_requisition_code");
 
-                    b.ToTable("services_orders_requistions", "public");
+                    b.ToTable("service_order_requistions", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.Supplier", b =>

@@ -18,8 +18,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(o => o.OpCode)
-                .HasColumnName("op_code")
+            builder.Property(o => o.PoCode)
+                .HasColumnName("po_code")
                 .HasMaxLength(50)
                 .IsRequired(false);
 
@@ -104,7 +104,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasForeignKey(so => so.OperationalOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(o => o.OpCode)
+            builder.HasIndex(o => o.PoCode)
                 .HasDatabaseName("ix_operational_orders_op_code")
                 .IsUnique(false);
 

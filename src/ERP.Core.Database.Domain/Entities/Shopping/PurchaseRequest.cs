@@ -111,11 +111,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual PurchaseOrder? PurchaseOrder { get; set; }
         public virtual PurchaseRequestsReviewedAccounting? AccountingReview { get; set; }
         public virtual PurchaseRequestsReviewedManagement? ManagementReview { get; set; }
-        
+
         /// <summary>
-        /// Items solicitados. por el colaborador
+        /// Relaciones Generales de los item solicitados.
         /// </summary>
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
+        public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];        
     }
 
     public class PurchaseRequestAdditionalData

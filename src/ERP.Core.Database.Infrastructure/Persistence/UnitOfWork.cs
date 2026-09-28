@@ -115,7 +115,8 @@ public class UnitOfWork(
         ICustomerCreditInformationsRepository customerCreditInformationsRepository,
         ISupplierPaymentMethodRepository supplierPaymentMethodRepository,
         IAssignmentsMachineryRepository assignmentsMachineryRepository,
-        IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository
+        IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository,
+        IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -236,6 +237,7 @@ public class UnitOfWork(
         public IPurchaseRequestsReviewedAccountingRepository PurchaseRequestsReviewedAccounting => purchaseRequestsReviewedAccountingRepository;
         public IPurchaseRequestsReviewedManagementRepository PurchaseRequestsReviewedManagement => purchaseRequestsReviewedManagementRepository;
         public ISupplierPaymentMethodRepository SupplierPaymentMethods => supplierPaymentMethodRepository;
+        public IServicesOrdersRequisitionsRepository ServicesOrdersRequisitions => servicesOrdersRequisitionsRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
