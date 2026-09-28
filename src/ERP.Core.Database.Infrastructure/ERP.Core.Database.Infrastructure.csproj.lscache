@@ -481,6 +481,8 @@ Persistence/
   20260928011320_AgreagarRenombramientoColumnasOrdenesServicios.Designer.cs
   20260928011517_EstablecerTipoDeDatoParaInformacionAdicional.cs
   20260928011517_EstablecerTipoDeDatoParaInformacionAdicional.Designer.cs
+  20260928023251_AgregarReparacionesEnumsEstado.cs
+  20260928023251_AgregarReparacionesEnumsEstado.Designer.cs
   ErpDbContextModelSnapshot.cs
  Factory/ErpDbContextFactory.cs
  Repositories/

@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Infrastructure.Services;
 
 using ERP.Core.Database.Infrastructure.Persistence;
@@ -46,67 +45,6 @@ namespace ERP.Core.Database.Infrastructure
                     .UseNpgsql(connectionString, npgsqlOptions =>
                 {
                     npgsqlOptions.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
-
-                    npgsqlOptions.MapEnum<CatalogType>("catalog_type_enum");
-                    npgsqlOptions.MapEnum<RoleType>("role_type_enum");
-                    npgsqlOptions.MapEnum<PermissionType>("permission_type_enum");
-                    npgsqlOptions.MapEnum<UserType>("user_type_enum");
-                    npgsqlOptions.MapEnum<UserStatus>("user_status_enum");
-                    npgsqlOptions.MapEnum<GenderType>("gender_type_enum");
-                    npgsqlOptions.MapEnum<IdentificationType>("identification_type_enum");
-                    npgsqlOptions.MapEnum<CollaboratorStatus>("collaborator_status_enum");
-                    npgsqlOptions.MapEnum<SalaryType>("salary_type_enum");
-                    npgsqlOptions.MapEnum<Currency>("currency_enum");
-                    npgsqlOptions.MapEnum<PermitApplicationStatus>("permit_application_status_enum");
-                    npgsqlOptions.MapEnum<PermitApplicationType>("permit_application_type_enum");
-                    npgsqlOptions.MapEnum<MaritalStatus>("marital_status_enum");
-                    npgsqlOptions.MapEnum<DeductionType>("deduction_type_enum");
-                    npgsqlOptions.MapEnum<PayrollStatus>("payroll_status_enum");
-                    npgsqlOptions.MapEnum<PayrollType>("payroll_type_enum");
-                    npgsqlOptions.MapEnum<TaxType>("tax_type_enum");
-                    npgsqlOptions.MapEnum<SourceDeductionPayment>("source_deduction_payment_enum");
-                    npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
-                    npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status_enum");
-                    npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
-                    npgsqlOptions.MapEnum<RecordEntranceStatus>("record_entrance_status_enum");
-                    npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
-                    npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
-                    npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
-                    npgsqlOptions.MapEnum<ProductUsageType>("product_usage_type_enum", "public");
-                    npgsqlOptions.MapEnum<DucaStatus>("duca_status_enum", "public");
-
-                    npgsqlOptions.MapEnum<SectionType>("section_type_enum", "public");
-                    npgsqlOptions.MapEnum<PriorityLevel>("priority_level_enum", "public");
-                    npgsqlOptions.MapEnum<DestinationRequest>("destination_request_enum", "public");
-                    npgsqlOptions.MapEnum<PurchaseRequestType>("purchase_request_type_enum", "public");
-                    npgsqlOptions.MapEnum<PurchaseRequestStatus>("purchase_request_status_enum", "public");
-                    npgsqlOptions.MapEnum<DocumentType>("document_type_enum", "public");
-                    npgsqlOptions.MapEnum<TimeType>("time_type_enum", "public");
-                    npgsqlOptions.MapEnum<SectionStorageType>("section_storage_type_enum", "public");
-                    npgsqlOptions.MapEnum<AccountingReviewStatus>("accounting_review_status_enum", "public");
-                    npgsqlOptions.MapEnum<ManagementReviewStatus>("management_review_status_enum", "public");
-                    npgsqlOptions.MapEnum<RackUsageProfile>("rack_usage_profile_enum", "public");
-                    npgsqlOptions.MapEnum<RackStatus>("rack_status_enum", "public");
-                    npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
-                    npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
-                    npgsqlOptions.MapEnum<ReassignmentSessionStatus>("reassignment_session_status_enum", "public");
-                    npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
-                    npgsqlOptions.MapEnum<UnloadingStatus>("unloading_status_enum", "public");
-                    npgsqlOptions.MapEnum<PalletType>("pallet_type_enum", "public");
-                    npgsqlOptions.MapEnum<UnloadingMerchandiseType>("unloading_merchandise_type_enum", "public");
-                    npgsqlOptions.MapEnum<WarehouseTaskType>("warehouse_task_type_enum", "public");
-                    npgsqlOptions.MapEnum<WarehouseTaskStatus>("warehouse_task_status_enum", "public");
-                    npgsqlOptions.MapEnum<WarehouseTaskEventType>("warehouse_task_event_type_enum", "public");
-                    npgsqlOptions.MapEnum<BankAccountType>("bank_account_type_enum", "public");
-                    npgsqlOptions.MapEnum<PaymentMethodType>("payment_method_type_enum", "public");
-                    npgsqlOptions.MapEnum<InvoiceStatus>("invoice_status_enum", "public");
-                    npgsqlOptions.MapEnum<CustomerType>("customer_type_enum", "public");
-                    npgsqlOptions.MapEnum<OperationalOrderStatus>("operational_order_status_enum", "public");
-                    npgsqlOptions.MapEnum<PaymentCondition>("payment_condition_enum", "public");
-                    npgsqlOptions.MapEnum<CreditStatus>("credit_status_enum", "public");
-                    npgsqlOptions.MapEnum<ProductQuality>("product_quality_enum", "public");
-                    npgsqlOptions.MapEnum<AssignmentCollaboratorsRoles>("assignment_collaborators_roles_enum", "public");
-                    npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
                 })
             );
 
@@ -221,6 +159,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IUnloadingPositionsReservationsRepository, UnloadingPositionReservationsRepository>();
             services.AddScoped<IAssignmentsMachineryRepository, AssignmentMachineryRepository>();
             services.AddScoped<IAssignmentCollaboratorsRepository, AssignmentCollaboratorRepository>();
+            services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
