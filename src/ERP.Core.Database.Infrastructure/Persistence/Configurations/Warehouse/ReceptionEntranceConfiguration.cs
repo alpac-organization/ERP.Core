@@ -33,6 +33,10 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(r => r.CreatedByUserId)
+            .HasColumnName("created_by_user_id")
+            .IsRequired();
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
