@@ -40,8 +40,8 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
         //referencias a asignamiento
-        public bool HasCollaboratorsAssigned { get; set; } = false;
-        public bool HasMachineryAssigned { get; set; } = false;
+        public bool HasCollaboratorsAssigned { get; set; }
+        public bool HasMachineryAssigned { get; set; }
 
         //Información de la factura
 
