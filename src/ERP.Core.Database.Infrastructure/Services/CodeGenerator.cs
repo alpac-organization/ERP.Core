@@ -18,11 +18,11 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static string GetTypeCode(PurchaseRequestType type) => type switch
         {
             PurchaseRequestType.Requisition => "REQ",
-            PurchaseRequestType.Eventual    => "EVE",
-            PurchaseRequestType.Monthly     => "MEN",
+            PurchaseRequestType.Eventual => "EVE",
+            PurchaseRequestType.Monthly => "MEN",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de solicitud no soportado.")
         };
-        
+
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId)
         {
             var branch = await _unitOfWork.Branches.Entities
@@ -66,7 +66,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             string cleanName = GenerateModuleCode().Replace(subject.Trim().ToUpper(), "");
 
-            string prefix = cleanName.Length >= 3 
+            string prefix = cleanName.Length >= 3
                 ? cleanName[..3]
                 : cleanName.PadRight(3, 'X');
 
@@ -86,7 +86,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             string username = $"{parts[0]}.{parts[parts.Length - 1]}";
 
-            return username;   
+            return username;
         }
 
         #region Codigos de posicion para almacen
@@ -157,7 +157,55 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         public string GeneratePositionCode(string lotCode, int row, int column)
             => $"{lotCode}-F{row}C{column}";
+
         #endregion Codigos de posicion para almacen
+
+        #region Codigos de secciones de almacen
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueSectionCodeAsync(
+            Guid warehouseId,
+            SectionType sectionType,
+            SectionStorageType sectionStorageType,
+            CancellationToken ct = default)
+        {
+            var warehouseExists = await _unitOfWork.Warehouses.Entities
+                .AsNoTracking()
+                .AnyAsync(w => w.Id == warehouseId && w.DeletedAt == null, ct);
+
+            if (!warehouseExists)
+            {
+                return (false, string.Empty);
+            }
+
+            var prefixType = GetSectionPrefix(sectionType, sectionStorageType);
+
+            if (prefixType is null)
+            {
+                return (false, string.Empty);
+            }
+
+            var prefix = $"{prefixType}-";
+
+            var existingCodes = await _unitOfWork.Sections.Entities
+                .AsNoTracking()
+                .Where(s => s.WarehouseId == warehouseId && s.DeletedAt == null)
+                .Select(s => s.Code)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+
+            return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+
+        private static string? GetSectionPrefix(SectionType sectionType, SectionStorageType sectionStorageType)
+            => (sectionType, sectionStorageType) switch
+            {
+                (SectionType.Aisle, _) => "SP",  // Secciones de pasillos
+                (SectionType.Storage, SectionStorageType.Racks) => "SR", // Secciones de Racks
+                (SectionType.Storage, SectionStorageType.Lots) => "ST", // Secciones de Tramos
+                _ => null
+            };
+
+        #endregion Codigos de secciones de almacen
 
         #region Codigos de clientes
         public async Task<(bool IsSuccess, CustomerCodesToRegister CustomerCodes)> GenerateUniqueCustomerCodesAsync(
@@ -273,7 +321,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Where(po => po.PoCode != null && po.PoCode.StartsWith(prefix))
                 .Select(po => po.PoCode)
                 .ToListAsync();
-            
+
             return BuildSequenceCode(prefix, existingCodes);
         }
 
@@ -286,7 +334,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Where(os => os.ServiceOrderCode != null && os.ServiceOrderCode.StartsWith(prefix))
                 .Select(os => os.ServiceOrderCode)
                 .ToListAsync();
-            
+
             return BuildSequenceCode(prefix, existingCodes);
         }
 
@@ -294,7 +342,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Metodos Privados
 
-        private static (bool IsSuccess, string Code) BuildSequenceCode(string prefix, IEnumerable<string?>existingCodes)
+        private static (bool IsSuccess, string Code) BuildSequenceCode(string prefix, IEnumerable<string?> existingCodes)
             => (true, $"{prefix}{GetMaxSequence(prefix, existingCodes) + 1:D2}");
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
         {
@@ -333,6 +381,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             return stringBuilder.ToString().Normalize(System.Text.NormalizationForm.FormC);
         }
+
         #endregion Metodos Privado
     }
 }
