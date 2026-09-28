@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -265,18 +266,36 @@ namespace ERP.Core.Database.Infrastructure.Services
         #region Operationals
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync()
         {
+            const string prefix = "PO-";
+
+            var existingCodes = await _unitOfWork.OperationalOrders.Entities
+                .AsNoTracking()
+                .Where(po => po.PoCode != null && po.PoCode.StartsWith(prefix))
+                .Select(po => po.PoCode)
+                .ToListAsync();
             
-            return (true, string.Empty);
+            return BuildSequenceCode(prefix, existingCodes);
         }
 
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder()
         {
-            return (true, string.Empty);
+            const string prefix = "OS-";
+
+            var existingCodes = await _unitOfWork.ServicesOrders.Entities
+                .AsNoTracking()
+                .Where(os => os.ServiceOrderCode != null && os.ServiceOrderCode.StartsWith(prefix))
+                .Select(os => os.ServiceOrderCode)
+                .ToListAsync();
+            
+            return BuildSequenceCode(prefix, existingCodes);
         }
 
         #endregion OperationalOrders
 
         #region Metodos Privados
+
+        private static (bool IsSuccess, string Code) BuildSequenceCode(string prefix, IEnumerable<string?>existingCodes)
+            => (true, $"{prefix}{GetMaxSequence(prefix, existingCodes) + 1:D2}");
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
         {
             StorageEntityType.Lot => "LOT",

@@ -76,7 +76,6 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(e => new { e.SectionId, e.Code })
-            .IsUnique()
             .HasDatabaseName("ix_racks_section_id_code");
     }
 }
