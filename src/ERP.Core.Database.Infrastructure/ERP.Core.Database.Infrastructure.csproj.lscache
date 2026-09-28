@@ -477,6 +477,10 @@ Persistence/
   20260925232020_FixesMigrations.Designer.cs
   20260928005438_AgregarEntidadesRequisicionesAndOrdenesServicios.cs
   20260928005438_AgregarEntidadesRequisicionesAndOrdenesServicios.Designer.cs
+  20260928011320_AgreagarRenombramientoColumnasOrdenesServicios.cs
+  20260928011320_AgreagarRenombramientoColumnasOrdenesServicios.Designer.cs
+  20260928011517_EstablecerTipoDeDatoParaInformacionAdicional.cs
+  20260928011517_EstablecerTipoDeDatoParaInformacionAdicional.Designer.cs
   ErpDbContextModelSnapshot.cs
  Factory/ErpDbContextFactory.cs
  Repositories/

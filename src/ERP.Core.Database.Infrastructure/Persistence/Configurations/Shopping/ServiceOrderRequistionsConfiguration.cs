@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
     {
         public void Configure(EntityTypeBuilder<ServiceOrderRequistions> builder)
         {
-            builder.ToTable("service_order_requistions");
+            builder.ToTable("services_orders_requistions");
 
             builder.HasKey(so => so.Id);
 
@@ -17,6 +17,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("services_order_requisition_id")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            builder.Property(so => so.SoRequitionCode)
+                .HasColumnName("so_requisition_code")
+                .IsRequired();
+
+            builder.Property(so => so.AdditionalData)
+                .HasColumnName("additional_data")
+                .HasColumnType("jsonb")
+                .IsRequired();
+
+            builder.Property(so => so.PurchaseRequestId)
+                .HasColumnName("purchase_request_id")
                 .IsRequired();
 
             builder.Property(so => so.ServiceOrderId)
