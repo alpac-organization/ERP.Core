@@ -260,32 +260,20 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion CostCenters
 
-        #region OperationalOrders
-        public async Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync(
-            Guid costCenterId,
-            CancellationToken ct = default)
+
+
+        #region Operationals
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync()
         {
-            var costCenter = await _unitOfWork.CostCenters.Entities
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cc => cc.Id == costCenterId && cc.DeletedAt == null, ct);
-
-            if (costCenter is null || string.IsNullOrWhiteSpace(costCenter.CostCenterCode))
-            {
-                return (false, string.Empty);
-            }
-
-            var prefix = $"{costCenter.CostCenterCode}-";
-
-            var existingCodes = await _unitOfWork.OperationalOrders.Entities
-                .AsNoTracking()
-                .Where(o => o.CostCenterId == costCenterId && o.DeletedAt == null)
-                .Select(o => o.PoCode)
-                .ToListAsync(ct);
-
-            int maxSequence = GetMaxSequence(prefix, existingCodes);
-
-            return (true, $"{prefix}{maxSequence + 1:D2}");
+            
+            return (true, string.Empty);
         }
+
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder()
+        {
+            return (true, string.Empty);
+        }
+
         #endregion OperationalOrders
 
         #region Metodos Privados
