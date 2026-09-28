@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Infrastructure.Services;
 
 using ERP.Core.Database.Infrastructure.Persistence;
