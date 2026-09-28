@@ -19,6 +19,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(so => so.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.Property(so => so.SoRequitionCode)
                 .HasColumnName("so_requisition_code")
                 .IsRequired();
