@@ -8,6 +8,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         
         public string GenerateUsername(string subject);
 
+        public Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder();
+        public Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync();
+
         Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId);
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueStorageCodeAsync(StorageEntityType entityType, Guid sectionId, CancellationToken ct = default);
@@ -22,7 +25,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(Guid areaId, CancellationToken ct = default);
 
-        Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
         Task<(bool IsSuccess, string Code)> GenerateUniqueServiceOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
     }
 }
