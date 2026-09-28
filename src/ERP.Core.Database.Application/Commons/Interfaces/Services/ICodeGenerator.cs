@@ -5,7 +5,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
     public interface ICodeGenerator
     {
         public string GenerateModuleCode(string subject);
-        
+
         public string GenerateUsername(string subject);
 
         public Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder();
@@ -24,7 +24,5 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(Guid companyId, CancellationToken ct = default);
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(Guid areaId, CancellationToken ct = default);
-
-        Task<(bool IsSuccess, string Code)> GenerateUniqueServiceOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
     }
 }
