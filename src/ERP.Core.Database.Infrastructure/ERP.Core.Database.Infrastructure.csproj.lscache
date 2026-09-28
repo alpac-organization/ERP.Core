@@ -1,4 +1,4 @@
-version=1
+version=2.2
 
 # This file caches language service data to improve the performance of C# Dev Kit.
 # It is not intended for manual editing. It can safely be deleted and will be
@@ -8,21 +8,22 @@ version=1
 #   "dotnet.projectsystem.cacheInProjectFolder": true
 
 [project]
+project=ERP.Core.Database.Infrastructure.csproj
 language=C#
 primary
 lastDtbSucceeded
 
 [properties]
 AssemblyName=ERP.Core.Database.Infrastructure
-CommandLineArgsForDesignTimeEvaluation=-langversion:13.0 -define:TRACE
-CompilerGeneratedFilesOutputPath=
+BaseIntermediateOutputPath=obj/
+BaseOutputPath=bin/
 MaxSupportedLangVersion=13.0
+OutputType=Library
 ProjectAssetsFile=<PATH>obj/project.assets.json
 RootNamespace=ERP.Core.Database.Infrastructure
-RunAnalyzers=
-RunAnalyzersDuringLiveAnalysis=
-SolutionPath=<PATH>../../ERP.Core.sln
+TargetFramework=net9.0
 TargetFrameworkIdentifier=.NETCoreApp
+TargetFrameworkVersion=v9.0
 TargetPath=<PATH>bin/Debug/net9.0/ERP.Core.Database.Infrastructure.dll
 TargetRefPath=<PATH>obj/Debug/net9.0/ref/ERP.Core.Database.Infrastructure.dll
 TemporaryDependencyNodeTargetIdentifier=net9.0
@@ -31,7 +32,7 @@ TemporaryDependencyNodeTargetIdentifier=net9.0
 /noconfig
 /unsafe-
 /checked-
-/nowarn:1701,1702,1701,1702
+/nowarn:1701,1702,1701,1702,8002
 /fullpaths
 /nostdlib+
 /errorreport:prompt
@@ -43,8 +44,8 @@ TemporaryDependencyNodeTargetIdentifier=net9.0
 /debug:portable
 /filealign:512
 /optimize-
-/out:obj\Debug\net9.0\ERP.Core.Database.Infrastructure.dll
-/refout:obj\Debug\net9.0\refint\ERP.Core.Database.Infrastructure.dll
+/out:obj/Debug/net9.0/ERP.Core.Database.Infrastructure.dll
+/refout:obj/Debug/net9.0/refint/ERP.Core.Database.Infrastructure.dll
 /target:library
 /warnaserror-
 /utf8output
@@ -53,355 +54,571 @@ TemporaryDependencyNodeTargetIdentifier=net9.0
 /warnaserror+:NU1605,SYSLIB0011
 
 [sourceFiles]
-ConfigureServices.cs
 obj/Debug/net9.0/
  .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
  ERP.Core.Database.Infrastructure.AssemblyInfo.cs
  ERP.Core.Database.Infrastructure.GlobalUsings.g.cs
-Persistence/Configurations/Authentication/
- PermissionsConfiguration.cs
- RolesConfiguration.cs
- SessionsConfiguration.cs
- UserModuleRolesConfiguration.cs
- UserProfilesConfiguration.cs
- UsersConfiguration.cs
-Persistence/Configurations/Catalogs/
- BranchesConfiguration.cs
- CatalogsConfiguration.cs
- CompaniesConfiguration.cs
- ModulesConfiguration.cs
- SubCatalogsConfiguration.cs
- TypesIncomeConfiguration.cs
- ValidityDeductionsConfiguration.cs
-Persistence/Configurations/Payroll/
- AssignedTravelExpensesConfiguration.cs
- AssignedTravelExpensesHistoryConfiguration.cs
- CollaboratorsConfiguration.cs
- DeductionPaymentHistoriesConfiguration.cs
- DeductionsConfiguration.cs
- IncomeConfiguration.cs
- IncomeTaxAccrualConfiguration.cs
- OrdinaryPayrollsConfiguration.cs
- PayrollsConfiguration.cs
- PermitApplicationConfiguration.cs
- PersonalInformationConfiguration.cs
- ProfessionalServicesPayrollConfiguration.cs
- SalariesConfiguration.cs
- VacationsConfiguration.cs
- WorkingInformationConfiguaration.cs
- WorkPositionsHistory.Configuration.cs
 Persistence/
+ Configurations/
+  Authentication/
+   DevicesConfiguration.cs
+   NotificationsConfiguration.cs
+   PermissionsConfiguration.cs
+   RolesConfiguration.cs
+   SessionsConfiguration.cs
+   UserModuleRolesConfiguration.cs
+   UserProfilesConfiguration.cs
+   UsersConfiguration.cs
+  Catalogs/
+   BasePositionsPalletsConfiguration.cs
+   BranchesConfiguration.cs
+   CatalogsConfiguration.cs
+   CategoryProductsConfiguration.cs
+   CompaniesConfiguration.cs
+   CostCentersConfiguration.cs
+   CustomsBranchesConfiguration.cs
+   JobPositionsConfiguration.cs
+   LotsCapacityConfiguration.cs
+   LotsConfiguration.cs
+   LotsCoordinatesConfiguration.cs
+   LotsPositionsConfiguration.cs
+   MachineryConfiguration.cs
+   ModulesConfiguration.cs
+   PaymentFeesConfiguration.cs
+   RackCapacityConfiguration.cs
+   RacksConfiguration.cs
+   RacksCoordinatesConfiguration.cs
+   RacksPositionsConfiguration.cs
+   SectionCapacityConfiguration.cs
+   SectionCoordinatesConfiguration.cs
+   SectionPositionsConfiguration.cs
+   SectionsConfiguration.cs
+   ShippingCompaniesConfiguration.cs
+   StockFootprintCellsConfiguration .cs
+   SubCatalogsConfiguration.cs
+   SuppliesConfiguration.cs
+   TypesAccountingPayrollConfiguration.cs
+   TypesIncomeConfiguration.cs
+   TypesSubsidyConfiguration.cs
+   UnitsMeasurementConfiguration.cs
+   ValidityDeductionsConfiguration.cs
+   WarehouseLocationsConfiguration.cs
+   WorkAreasConfiguration.cs
+  Operations/
+   AssignmentCollaboratorsConfiguration.cs
+   CustomerBranchConfiguration.cs
+   CustomerConfiguration.cs
+   CustomerCreditInformationConfiguration.cs
+   InvoiceConfiguration.cs
+   MachineryAssignmentsConfiguration.cs
+   OperationalOrderConfiguration.cs
+   OperationalServiceConfiguration.cs
+   ServicesOrderConfiguration.cs
+  Payroll/
+   AssignedTravelExpensesConfiguration.cs
+   AssistanceControlConfiguration.cs
+   ChristmasBonusAccrualConfiguration.cs
+   CollaboratorsConfiguration.cs
+   DeductionPaymentHistoriesConfiguration.cs
+   DeductionsConfiguration.cs
+   HolidaysConfiguration.cs
+   IncomeConfiguration.cs
+   IncomeTaxAccrualConfiguration.cs
+   InssAccountingInformationConfiguration.cs
+   OrdinaryPayrollsConfiguration.cs
+   PayrollsConfiguration.cs
+   PermitApplicationConfiguration.cs
+   PermitApplicationPendingConfiguration.cs
+   PersonalInformationConfiguration.cs
+   ProfessionalServicesPayrollConfiguration.cs
+   RecordsTravelExpensePaymentsConfiguration.cs
+   SalariesConfiguration.cs
+   SubsidyConfiguration.cs
+   VacationAccrualConfiguration.cs
+   VacationsConfiguration.cs
+   WorkingInformationConfiguration.cs
+   WorkPositionsHistory.Configuration.cs
+  Shopping/
+   PurchaseOrdersConfiguration.cs
+   PurchaseRequestItemsConfiguration.cs
+   PurchaseRequestsConfiguration.cs
+   PurchaseRequestsReviewedAccountingConfiguration.cs
+   PurchaseRequestsReviewedManagementConfiguration.cs
+   QuotationsConfiguration.cs
+   ServiceOrderRequistionsConfiguration.cs
+   SupplierBankAccountConfiguration.cs
+   SupplierPaymentMethodsConfiguration.cs
+   SuppliersConfiguration.cs
+   SuppliersDetailsConfiguration.cs
+  Warehouse/
+   BaseCapacityConfiguration.cs
+   BaseCoordinatesConfiguration.cs
+   CrewAssignmentsConfiguration.cs
+   DiscrepanciesConfiguration.cs
+   DucatRegistryConfiguration.cs
+   DucatRegistryDetailsConfiguration.cs
+   IUnloadingPositionsReservationsConfigurations.cs
+   ManifestCancellationsConfiguration.cs
+   MerchandisesConfiguration.cs
+   OutsourcedWarehousesConfigurations.cs
+   ProductsConfiguration.cs
+   ReassignmentMemoryItemsConfiguration .cs
+   ReassignmentSessionOwnershipLogConfiguration .cs
+   ReassignmentSessionsConfiguration .cs
+   ReceptionEntranceConfiguration.cs
+   ReceptionTransportEntranceConfiguration.cs
+   StepExecutionLogsConfiguration.cs
+   StockMovementEventsConfiguration .cs
+   StockPlacementsConfiguration.cs
+   StocksConfiguration.cs
+   UnloadingDetailsConfiguration.cs
+   UnloadingPalletsConfiguration.cs
+   UnloadingSuppliesConfiguration.cs
+   WarehouseAssignmentsConfiguration.cs
+   WarehouseCapacityConfiguration.cs
+   WarehouseReceiptsConfiguration.cs
+   WarehousesConfiguration.cs
+   WarehouseTaskConfiguration.cs
+   WarehouseTaskEventConfiguration.cs
+   WarehouseTaskOwnershipLogConfiguration.cs
  Context/AppDbContext.cs
  Database/Migrations/
-  20260406195907_InitialMigration.cs
-  20260406195907_InitialMigration.Designer.cs
-  20260406212344_AgregarCampoOpcionalesPermisos.cs
-  20260406212344_AgregarCampoOpcionalesPermisos.Designer.cs
-  20260407214132_AgregarCatalogGlobales.cs
-  20260407214132_AgregarCatalogGlobales.Designer.cs
-  20260407225840_AgregarOpcionalCatalog.cs
-  20260407225840_AgregarOpcionalCatalog.Designer.cs
-  20260407231705_IsGlobalIsRequered.cs
-  20260407231705_IsGlobalIsRequered.Designer.cs
-  20260408230959_AgregarCampoParaSolicitarPermiso.cs
-  20260408230959_AgregarCampoParaSolicitarPermiso.Designer.cs
-  20260408234813_CambiarTiposDatos.cs
-  20260408234813_CambiarTiposDatos.Designer.cs
-  20260409181345_AgregarCampoVacacacionesDonadas.cs
-  20260409181345_AgregarCampoVacacacionesDonadas.Designer.cs
-  20260409181935_OpcionalCampoSolicitudes.cs
-  20260409181935_OpcionalCampoSolicitudes.Designer.cs
-  20260410220312_DropIndex.cs
-  20260410220312_DropIndex.Designer.cs
-  20260411012953_CambiarEntidadPermisos.cs
-  20260411012953_CambiarEntidadPermisos.Designer.cs
-  20260411013249_EliminarColumna.cs
-  20260411013249_EliminarColumna.Designer.cs
-  20260414171639_AgregarDeduciones.cs
-  20260414171639_AgregarDeduciones.Designer.cs
-  20260416190821_AgregarTablasNominasAndDeducciones.cs
-  20260416190821_AgregarTablasNominasAndDeducciones.Designer.cs
-  20260416191942_CorregirColumnasNomina.cs
-  20260416191942_CorregirColumnasNomina.Designer.cs
-  20260416194448_AgregarHistorialTrabajo.cs
-  20260416194448_AgregarHistorialTrabajo.Designer.cs
-  20260416215716_AgregarCampoTipoNomina.cs
-  20260416215716_AgregarCampoTipoNomina.Designer.cs
-  20260417194042_AgregarTablaIr.cs
-  20260417194042_AgregarTablaIr.Designer.cs
-  20260420153932_AgregarEntidadDeduccionesLey.cs
-  20260420153932_AgregarEntidadDeduccionesLey.Designer.cs
-  20260420163340_AgregarConfiguracionesDeLey.cs
-  20260420163340_AgregarConfiguracionesDeLey.Designer.cs
-  20260421161616_AgregarNuevoValorEnumsNomina.cs
-  20260421161616_AgregarNuevoValorEnumsNomina.Designer.cs
-  20260421181356_AgregarRelacionCatalogos.cs
-  20260421181356_AgregarRelacionCatalogos.Designer.cs
-  20260421204551_AgregarColumnaRuc.cs
-  20260421204551_AgregarColumnaRuc.Designer.cs
-  20260421215614_AgregarSucursales.cs
-  20260421215614_AgregarSucursales.Designer.cs
-  20260421215836_AgregarColumnasSucursales.cs
-  20260421215836_AgregarColumnasSucursales.Designer.cs
-  20260422145655_AgregarRelacionDeSucursales.cs
-  20260422145655_AgregarRelacionDeSucursales.Designer.cs
-  20260422153818_EliminarColumnaDeNomina.cs
-  20260422153818_EliminarColumnaDeNomina.Designer.cs
-  20260422214605_AgregarHistorialPagos.cs
-  20260422214605_AgregarHistorialPagos.Designer.cs
-  20260424225852_AgregarColumnasDetallesNomina.cs
-  20260424225852_AgregarColumnasDetallesNomina.Designer.cs
-  20260427171904_AgregarColumnasTablas.cs
-  20260427171904_AgregarColumnasTablas.Designer.cs
-  20260427232546_AgregarTablasIngreso.cs
-  20260427232546_AgregarTablasIngreso.Designer.cs
-  20260428020812_AgregarColumnaCodigo.cs
-  20260428020812_AgregarColumnaCodigo.Designer.cs
-  20260429194347_AgregarTablaAcumulacionSalario.cs
-  20260429194347_AgregarTablaAcumulacionSalario.Designer.cs
-  20260430011341_CambiarLogitudDeDecimales.cs
-  20260430011341_CambiarLogitudDeDecimales.Designer.cs
-  20260504145110_ModificarNombresColumnas.cs
-  20260504145110_ModificarNombresColumnas.Designer.cs
-  20260504221054_EliminarEspacionColumnas.cs
-  20260504221054_EliminarEspacionColumnas.Designer.cs
-  20260505211730_SyncModel.cs
-  20260505211730_SyncModel.Designer.cs
-  20260511171207_DejarOpcionalCamposDeducciones.cs
-  20260511171207_DejarOpcionalCamposDeducciones.Designer.cs
-  20260512194137_AgregarCambiosColumnasDeducciones.cs
-  20260512194137_AgregarCambiosColumnasDeducciones.Designer.cs
-  20260512200822_AgregarColumnasRenombrar.cs
-  20260512200822_AgregarColumnasRenombrar.Designer.cs
-  20260512200955_AgregarCambioDeColumnas.cs
-  20260512200955_AgregarCambioDeColumnas.Designer.cs
-  20260512201500_AgregarPuntosPresicion.cs
-  20260512201500_AgregarPuntosPresicion.Designer.cs
-  20260512201559_AgregarNuevaColumna.cs
-  20260512201559_AgregarNuevaColumna.Designer.cs
-  20260512211922_AgregarCambiosColumnas.cs
-  20260512211922_AgregarCambiosColumnas.Designer.cs
-  20260512215709_AgregarCambiosColumnasNominaProfesional.cs
-  20260512215709_AgregarCambiosColumnasNominaProfesional.Designer.cs
-  20260512225000_AgregarRegistroEnumDeDeduccion.cs
-  20260512225000_AgregarRegistroEnumDeDeduccion.Designer.cs
-  20260513013432_AgregarDaemInformacion.cs
-  20260513013432_AgregarDaemInformacion.Designer.cs
-  20260513193637_AgregarComoDecimalHorasExtras.cs
-  20260513193637_AgregarComoDecimalHorasExtras.Designer.cs
-  20260514004813_AgregarBanderaAngituedad.cs
-  20260514004813_AgregarBanderaAngituedad.Designer.cs
-  20260514005538_AgregarAcumuladoAntiguedad.cs
-  20260514005538_AgregarAcumuladoAntiguedad.Designer.cs
-  20260514015651_AgregarColumnaTotalIngreso.cs
-  20260514015651_AgregarColumnaTotalIngreso.Designer.cs
-  20260515163128_AgregarBanderaViaticos.cs
-  20260515163128_AgregarBanderaViaticos.Designer.cs
-  20260515170829_AgregarDatosEnums.cs
-  20260515170829_AgregarDatosEnums.Designer.cs
-  AppDbContextModelSnapshot.cs
+  20260711001227_InitialMigrations.cs
+  20260711001227_InitialMigrations.Designer.cs
+  20260711004203_AgregarNuevoTipoDeduccion.cs
+  20260711004203_AgregarNuevoTipoDeduccion.Designer.cs
+  20260713160320_EliminarIndiceDeVacationAccrual.cs
+  20260713160320_EliminarIndiceDeVacationAccrual.Designer.cs
+  20260713203141_AgregarConfiguracionClientes.cs
+  20260713203141_AgregarConfiguracionClientes.Designer.cs
+  20260713232047_CambioDeNombreTablaWarehouse.cs
+  20260713232047_CambioDeNombreTablaWarehouse.Designer.cs
+  20260714213227_RenombrarEntidadesWarehouse.cs
+  20260714213227_RenombrarEntidadesWarehouse.Designer.cs
+  20260714231539_AgregarWarehouseTercerizada.cs
+  20260714231539_AgregarWarehouseTercerizada.Designer.cs
+  20260715160808_AgregarCorrecionesTablaAlmacenes.cs
+  20260715160808_AgregarCorrecionesTablaAlmacenes.Designer.cs
+  20260715232608_AgregarTablaProveedores.cs
+  20260715232608_AgregarTablaProveedores.Designer.cs
+  20260716213905_EliminarTablaConflicto.cs
+  20260716213905_EliminarTablaConflicto.Designer.cs
+  20260716220810_CrearTablaEliminda.cs
+  20260716220810_CrearTablaEliminda.Designer.cs
+  20260717144638_AgregarContizacionesUnidadesMedida.cs
+  20260717144638_AgregarContizacionesUnidadesMedida.Designer.cs
+  20260717174027_FixTimeDateColumns.cs
+  20260717174027_FixTimeDateColumns.Designer.cs
+  20260717194733_AgregarCambioNombreTablasWarehouses.cs
+  20260717194733_AgregarCambioNombreTablasWarehouses.Designer.cs
+  20260721164540_CamposAuditoriaCambios.cs
+  20260721164540_CamposAuditoriaCambios.Designer.cs
+  20260722154652_AgregarSincronizacionTablas.cs
+  20260722154652_AgregarSincronizacionTablas.Designer.cs
+  20260722165041_AgregarComoOpcionarLaIdentificacionProveedor.cs
+  20260722165041_AgregarComoOpcionarLaIdentificacionProveedor.Designer.cs
+  20260722202153_AgregarEliminacionRelacionCustomerConProductos.cs
+  20260722202153_AgregarEliminacionRelacionCustomerConProductos.Designer.cs
+  20260722213219_AdicionCamposAuditables.cs
+  20260722213219_AdicionCamposAuditables.Designer.cs
+  20260724230414_CambiosEntidadesDuca.cs
+  20260724230414_CambiosEntidadesDuca.Designer.cs
+  20260727210246_AgregarRefactorizacionTablasCotizacion.cs
+  20260727210246_AgregarRefactorizacionTablasCotizacion.Designer.cs
+  20260727211702_AgregarCambiosNombreColumnasCotizacion.cs
+  20260727211702_AgregarCambiosNombreColumnasCotizacion.Designer.cs
+  20260727215505_CorregirTablaDetallesCotizacion.cs
+  20260727215505_CorregirTablaDetallesCotizacion.Designer.cs
+  20260727233046_QuitarConsignatarioRecepcion.cs
+  20260727233046_QuitarConsignatarioRecepcion.Designer.cs
+  20260728201426_CampoStatusDuca.cs
+  20260728201426_CampoStatusDuca.Designer.cs
+  20260729194446_AgregarTablasControlRegistroSolicitudesCompras.cs
+  20260729194446_AgregarTablasControlRegistroSolicitudesCompras.Designer.cs
+  20260729203834_CorrecionRecordEstatusEnum.cs
+  20260729203834_CorrecionRecordEstatusEnum.Designer.cs
+  20260729215253_AgregarColumnaCodigo.cs
+  20260729215253_AgregarColumnaCodigo.Designer.cs
+  20260729222453_RetornoEnum.cs
+  20260729222453_RetornoEnum.Designer.cs
+  20260730000524_AgregarColumnaJustificacionTablaProductosSolicitados.cs
+  20260730000524_AgregarColumnaJustificacionTablaProductosSolicitados.Designer.cs
+  20260731023952_CampoNombreNuevo.cs
+  20260731023952_CampoNombreNuevo.Designer.cs
+  20260731194339_AgregarRelacionUsuarioConAreas.cs
+  20260731194339_AgregarRelacionUsuarioConAreas.Designer.cs
+  20260801014655_AgregarIdUsuarioReviewer.cs
+  20260801014655_AgregarIdUsuarioReviewer.Designer.cs
+  20260803142900_AuditoriaEnDuca.cs
+  20260803142900_AuditoriaEnDuca.Designer.cs
+  20260803144420_CamposEnDucaAuditable.cs
+  20260803144420_CamposEnDucaAuditable.Designer.cs
+  20260803152920_AgregarColumnaDeEstadoSolicitudesCompras.cs
+  20260803152920_AgregarColumnaDeEstadoSolicitudesCompras.Designer.cs
+  20260803180503_TiempoDucaControl.cs
+  20260803180503_TiempoDucaControl.Designer.cs
+  20260804211313_AgregarRefactorModeloNegocioCotizaciones.cs
+  20260804211313_AgregarRefactorModeloNegocioCotizaciones.Designer.cs
+  20260804212707_AgregarRelacionRegistroProveedores.cs
+  20260804212707_AgregarRelacionRegistroProveedores.Designer.cs
+  20260804213748_AgregarRelacionRegistrosCotizaciones.cs
+  20260804213748_AgregarRelacionRegistrosCotizaciones.Designer.cs
+  20260804214426_AgregarLogicaRelacion.cs
+  20260804214426_AgregarLogicaRelacion.Designer.cs
+  20260804230723_BranchToUsers.cs
+  20260804230723_BranchToUsers.Designer.cs
+  20260805234118_IndependenceOs.cs
+  20260805234118_IndependenceOs.Designer.cs
+  20260806031000_AgregarRefactorFinalSolicitudesCompras.cs
+  20260806031000_AgregarRefactorFinalSolicitudesCompras.Designer.cs
+  20260806220626_AgregarCambiosFinalesContizaciones.cs
+  20260806220626_AgregarCambiosFinalesContizaciones.Designer.cs
+  20260806232401_MerchandiseEntity.cs
+  20260806232401_MerchandiseEntity.Designer.cs
+  20260808012651_WarehouseRefactor.cs
+  20260808012651_WarehouseRefactor.Designer.cs
+  20260808031258_SectionsEntities.cs
+  20260808031258_SectionsEntities.Designer.cs
+  20260811161159_EliminarEnumQuotationStatus.cs
+  20260811161159_EliminarEnumQuotationStatus.Designer.cs
+  20260811173500_AgregarEntidadDeRevicionesPorContabilidad.cs
+  20260811173500_AgregarEntidadDeRevicionesPorContabilidad.Designer.cs
+  20260811190524_RefactorRacks.cs
+  20260811190524_RefactorRacks.Designer.cs
+  20260811205229_NewLotsEntity.cs
+  20260811205229_NewLotsEntity.Designer.cs
+  20260811215331_AgregarNuevoEstado.cs
+  20260811215331_AgregarNuevoEstado.Designer.cs
+  20260811221509_FieldsNullWarehouse.cs
+  20260811221509_FieldsNullWarehouse.Designer.cs
+  20260812014830_AgregarEstadoRevicionSolicitudCompra.cs
+  20260812014830_AgregarEstadoRevicionSolicitudCompra.Designer.cs
+  20260812145150_UnicidadCode.cs
+  20260812145150_UnicidadCode.Designer.cs
+  20260812161141_AgregarFechayUsuarioEnvioSolicitudRevicion.cs
+  20260812161141_AgregarFechayUsuarioEnvioSolicitudRevicion.Designer.cs
+  20260812163615_AgregarRenombramientoColumnaSendByUserId.cs
+  20260812163615_AgregarRenombramientoColumnaSendByUserId.Designer.cs
+  20260812200601_CampoNullRack.cs
+  20260812200601_CampoNullRack.Designer.cs
+  20260813155122_AgregarCampoAceptacionCompraCotizacion.cs
+  20260813155122_AgregarCampoAceptacionCompraCotizacion.Designer.cs
+  20260813160620_AgregarBanderaSeleccionCotizacionParaCompras.cs
+  20260813160620_AgregarBanderaSeleccionCotizacionParaCompras.Designer.cs
+  20260813181843_EnumStorageTypeSections.cs
+  20260813181843_EnumStorageTypeSections.Designer.cs
+  20260813211638_PositionsRacks.cs
+  20260813211638_PositionsRacks.Designer.cs
+  20260813214824_AgregarTablasRevisionGerenciaSolicitudes.cs
+  20260813214824_AgregarTablasRevisionGerenciaSolicitudes.Designer.cs
+  20260814050537_AgregarPaso3AsignacionBodega.cs
+  20260814050537_AgregarPaso3AsignacionBodega.Designer.cs
+  20260814135953_StatusMerchandiseRegistry.cs
+  20260814135953_StatusMerchandiseRegistry.Designer.cs
+  20260814220023_RefactorReceptionStep.cs
+  20260814220023_RefactorReceptionStep.Designer.cs
+  20260817173646_TransportUnitEnum.cs
+  20260817173646_TransportUnitEnum.Designer.cs
+  20260817190300_AgregarEliminacionDelEnum.cs
+  20260817190300_AgregarEliminacionDelEnum.Designer.cs
+  20260817191027_AgregarCorreccionEnumNivelPrioridad.cs
+  20260817191027_AgregarCorreccionEnumNivelPrioridad.Designer.cs
+  20260817202521_RemoveEnumNivelPrioridadErroneo.cs
+  20260817202521_RemoveEnumNivelPrioridadErroneo.Designer.cs
+  20260817202654_AgregarEnumNivelDePrioridadRestaurado.cs
+  20260817202654_AgregarEnumNivelDePrioridadRestaurado.Designer.cs
+  20260818144425_RefactorSectionMerchandiseRegistry.cs
+  20260818144425_RefactorSectionMerchandiseRegistry.Designer.cs
+  20260819190451_EvidenceReception.cs
+  20260819190451_EvidenceReception.Designer.cs
+  20260819195221_AgregarDeviceTokenToProfile.cs
+  20260819195221_AgregarDeviceTokenToProfile.Designer.cs
+  20260820222208_CapacitiesWarehouses.cs
+  20260820222208_CapacitiesWarehouses.Designer.cs
+  20260821204125_ChildrenFlag.cs
+  20260821204125_ChildrenFlag.Designer.cs
+  20260824205626_AgregarDispositivosUsuario.cs
+  20260824205626_AgregarDispositivosUsuario.Designer.cs
+  20260825152240_AgregarCorreccionListadoCliente.cs
+  20260825152240_AgregarCorreccionListadoCliente.Designer.cs
+  20260825221139_AgregarIndiceFcmTokenDevices.cs
+  20260825221139_AgregarIndiceFcmTokenDevices.Designer.cs
+  20260825225141_TablasMovimientoBodega.cs
+  20260825225141_TablasMovimientoBodega.Designer.cs
+  20260827014253_PositionReserved.cs
+  20260827014253_PositionReserved.Designer.cs
+  20260827223049_CrearTablaCordenadasCartesianas.cs
+  20260827223049_CrearTablaCordenadasCartesianas.Designer.cs
+  20260828011240_EliminarTablaLayoutTransformsWarehouse.cs
+  20260828011240_EliminarTablaLayoutTransformsWarehouse.Designer.cs
+  20260828142937_AgregarTransformWarehouse3DComplexProperty.cs
+  20260828142937_AgregarTransformWarehouse3DComplexProperty.Designer.cs
+  20260828180758_AsignarBodega.cs
+  20260828180758_AsignarBodega.Designer.cs
+  20260828203402_DeleteWarehouseStaff.cs
+  20260828203402_DeleteWarehouseStaff.Designer.cs
+  20260831204853_MoverBranchIdAUserProfileBranch.cs
+  20260831204853_MoverBranchIdAUserProfileBranch.Designer.cs
+  20260831205817_AgregarRefactorizacionEntidadesModuloCompras.cs
+  20260831205817_AgregarRefactorizacionEntidadesModuloCompras.Designer.cs
+  20260901163457_ActualizarAssigments.cs
+  20260901163457_ActualizarAssigments.Designer.cs
+  20260901191538_StatusUnloading.cs
+  20260901191538_StatusUnloading.Designer.cs
+  20260901225348_AgregarNuevosValuesASectionType.cs
+  20260901225348_AgregarNuevosValuesASectionType.Designer.cs
+  20260902170138_EntidadesIniciarDescarga.cs
+  20260902170138_EntidadesIniciarDescarga.Designer.cs
+  20260902210843_SupplyResponsability.cs
+  20260902210843_SupplyResponsability.Designer.cs
+  20260902222134_RenombrarPropiedadesAsignar.cs
+  20260902222134_RenombrarPropiedadesAsignar.Designer.cs
+  20260903151504_ReservationUnloading.cs
+  20260903151504_ReservationUnloading.Designer.cs
+  20260904001354_WarehousesTasks.cs
+  20260904001354_WarehousesTasks.Designer.cs
+  20260904145309_StocksForUnloading.cs
+  20260904145309_StocksForUnloading.Designer.cs
+  20260904165544_DeleteRowVersion.cs
+  20260904165544_DeleteRowVersion.Designer.cs
+  20260907234731_AgregarEntidadesRefactorizadasWarehouse.cs
+  20260907234731_AgregarEntidadesRefactorizadasWarehouse.Designer.cs
+  20260908143739_AgregarTipoDeWarehouseCorregido.cs
+  20260908143739_AgregarTipoDeWarehouseCorregido.Designer.cs
+  20260908144214_EliminarRelacionDeWarehouseConSucursales.cs
+  20260908144214_EliminarRelacionDeWarehouseConSucursales.Designer.cs
+  20260908151110_AgregarActualizacionWarehouseLocations.cs
+  20260908151110_AgregarActualizacionWarehouseLocations.Designer.cs
+  20260908151346_AgregarLimpiaDeTablasLocations.cs
+  20260908151346_AgregarLimpiaDeTablasLocations.Designer.cs
+  20260908152853_AgregarTipoSecciones.cs
+  20260908152853_AgregarTipoSecciones.Designer.cs
+  20260908153530_AgregarCapacidadesPorSecciones.cs
+  20260908153530_AgregarCapacidadesPorSecciones.Designer.cs
+  20260908154451_AgregarRefactorEntidadesConfiguracion.cs
+  20260908154451_AgregarRefactorEntidadesConfiguracion.Designer.cs
+  20260908165013_AgregarJustificacionesSeleccionRechazoCotizacion.cs
+  20260908165013_AgregarJustificacionesSeleccionRechazoCotizacion.Designer.cs
+  20260908180959_AgregarInformacionProveedor.cs
+  20260908180959_AgregarInformacionProveedor.Designer.cs
+  20260908202758_HeightToRacks.cs
+  20260908202758_HeightToRacks.Designer.cs
+  20260909165209_NullPositionsLots.cs
+  20260909165209_NullPositionsLots.Designer.cs
+  20260909233238_RefactorCapacitiesFields.cs
+  20260909233238_RefactorCapacitiesFields.Designer.cs
+  20260910144012_AgregarDesingnacionCentrosCostos.cs
+  20260910144012_AgregarDesingnacionCentrosCostos.Designer.cs
+  20260910172607_AgregarConfiguracionesCargosColaboradores.cs
+  20260910172607_AgregarConfiguracionesCargosColaboradores.Designer.cs
+  20260910173958_AgregarUsoCorrectoCatalogoCargos.cs
+  20260910173958_AgregarUsoCorrectoCatalogoCargos.Designer.cs
+  20260910200957_RepararDistribucionDatosColaborador.cs
+  20260910200957_RepararDistribucionDatosColaborador.Designer.cs
+  20260910222222_AgregarCamposAnulacionPurchaseRequest.cs
+  20260910222222_AgregarCamposAnulacionPurchaseRequest.Designer.cs
+  20260911230531_BasePositions.cs
+  20260911230531_BasePositions.Designer.cs
+  20260911234252_FixBasePositions.cs
+  20260911234252_FixBasePositions.Designer.cs
+  20260916164516_AgregarCoordenadasSeccionRackLot.cs
+  20260916164516_AgregarCoordenadasSeccionRackLot.Designer.cs
+  20260921221118_AgregarModeloNegocioAlmacenFiscal.cs
+  20260921221118_AgregarModeloNegocioAlmacenFiscal.Designer.cs
+  20260921235058_AgregarRelacionAreaTrabajo.cs
+  20260921235058_AgregarRelacionAreaTrabajo.Designer.cs
+  20260922150803_EstablecerComoRequeridoLosCamposDePerfilesUsuarios.cs
+  20260922150803_EstablecerComoRequeridoLosCamposDePerfilesUsuarios.Designer.cs
+  20260922184913_AgregarCentroCostoEnSolicitudesCompras.cs
+  20260922184913_AgregarCentroCostoEnSolicitudesCompras.Designer.cs
+  20260922194328_CustomersSupportsInformation.cs
+  20260922194328_CustomersSupportsInformation.Designer.cs
+  20260922212713_GenerateCustomerCodes.cs
+  20260922212713_GenerateCustomerCodes.Designer.cs
+  20260923145635_AgregarRestructuracionColumnasCatalogoAdunas.cs
+  20260923145635_AgregarRestructuracionColumnasCatalogoAdunas.Designer.cs
+  20260923194611_FixesEntitiesReceptionOP.cs
+  20260923194611_FixesEntitiesReceptionOP.Designer.cs
+  20260923212051_AgregarReparcionReferenciaTablas.cs
+  20260923212051_AgregarReparcionReferenciaTablas.Designer.cs
+  20260923224816_ChangesEntitiesReception.cs
+  20260923224816_ChangesEntitiesReception.Designer.cs
+  20260923230129_QuitStatusOP.cs
+  20260923230129_QuitStatusOP.Designer.cs
+  20260923230505_AddStatusOP.cs
+  20260923230505_AddStatusOP.Designer.cs
+  20260923234943_ChageTypeFieldReception.cs
+  20260923234943_ChageTypeFieldReception.Designer.cs
+  20260924152952_PequeCambiosReception.cs
+  20260924152952_PequeCambiosReception.Designer.cs
+  20260924172302_ChangeTypeFildsCodes.cs
+  20260924172302_ChangeTypeFildsCodes.Designer.cs
+  20260924201246_AgregarCalidadProductMetodoPago.cs
+  20260924201246_AgregarCalidadProductMetodoPago.Designer.cs
+  20260924204403_AgregarTiempoDisponibilidadInventario.cs
+  20260924204403_AgregarTiempoDisponibilidadInventario.Designer.cs
+  20260924230900_DontUniqueCodeOP.cs
+  20260924230900_DontUniqueCodeOP.Designer.cs
+  20260924235009_AgregarMapeoActualizacionInformacionSolicitudCompra.cs
+  20260924235009_AgregarMapeoActualizacionInformacionSolicitudCompra.Designer.cs
+  20260925001917_AgregarMetodosPagoQueAceptaUnProveedor.cs
+  20260925001917_AgregarMetodosPagoQueAceptaUnProveedor.Designer.cs
+  20260925003648_AgregarCotizacionMetodoPago.cs
+  20260925003648_AgregarCotizacionMetodoPago.Designer.cs
+  20260925011825_RefactorMachineryEntity.cs
+  20260925011825_RefactorMachineryEntity.Designer.cs
+  20260925040212_ChangeTypeYearMachinery.cs
+  20260925040212_ChangeTypeYearMachinery.Designer.cs
+  20260925144121_ColorEntityMachinery.cs
+  20260925144121_ColorEntityMachinery.Designer.cs
+  20260925164454_NullFieldOPRequired.cs
+  20260925164454_NullFieldOPRequired.Designer.cs
+  20260925232020_FixesMigrations.cs
+  20260925232020_FixesMigrations.Designer.cs
+  20260928005438_AgregarEntidadesRequisicionesAndOrdenesServicios.cs
+  20260928005438_AgregarEntidadesRequisicionesAndOrdenesServicios.Designer.cs
+  ErpDbContextModelSnapshot.cs
  Factory/ErpDbContextFactory.cs
- Repositories/Authentication/
-  ModulesRepository.cs
-  RolesRepository.cs
-  SessionsRepository.cs
-  UserModulesRoleRepository.cs
-  UserProfilesRepository.cs
-  UsersRepository.cs
- Repositories/Catalogs/
-  BranchesRepository.cs
-  CatalogsRepository.cs
-  CompaniesRepository.cs
-  SubCatalogsRepository.cs
-  TypesIncomeRepository.cs
-  ValidityDeductionsRepository.cs
- Repositories/Payroll/
-  AssignedTravelExpensesHistoryRepository.cs
-  AssignedTravelExpensesRepository.cs
-  CollaboratorsRepository.cs
-  DeductionPaymentHistoryRepository.cs
-  DeductionsRepository.cs
-  IncomesRepository.cs
-  IncomeTaxAccrualRepository.cs
-  OrdinaryPayrollsRepository.cs
-  PayrollsRepository.cs
-  PermitApplicationsRepository.cs
-  PersonalInformationRepository.cs
-  ProfessionalServicesPayrollsRepository.cs
-  SalariesRepository.cs
-  VacationsRepository.cs
-  WorkingInformationRepository.cs
-  WorkPositionsHistoryRepository.cs
+ Repositories/
+  Authentication/
+   DevicesRepository.cs
+   ModulesRepository.cs
+   NotificationRepository.cs
+   RolesRepository.cs
+   SessionsRepository.cs
+   UserModulesRoleRepository.cs
+   UserProfilesRepository.cs
+   UsersRepository.cs
+  Catalogs/
+   BranchesRepository.cs
+   CatalogsRepository.cs
+   CategoryProductsRepository.cs
+   CompaniesRepository.cs
+   CostCentersRepository.cs
+   CustomsBranchesRepository.cs
+   JobPositionsRepository.cs
+   LotCoordinateRepository.cs
+   LotsCapacityRepository.cs
+   LotsPositionsRepository.cs
+   LotsRepository.cs
+   MachineryRepository.cs
+   RackCapacityRepository.cs
+   RackCoordinateRepository.cs
+   RacksPositionsRepository.cs
+   RacksRepository.cs
+   SectionCapacityRepository.cs
+   SectionCoordinatesRepository.cs
+   SectionOverflowCapacityRepository.cs
+   SectionsRepository.cs
+   ShippingCompaniesRepository.cs
+   StockFootprintCellsRepository.cs
+   SubCatalogsRepository.cs
+   SuppliesRepository.cs
+   TypesAccountingPayrollRepository.cs
+   TypesIncomeRepository.cs
+   TypesSubsidyRepository.cs
+   UnitsMeasurementRepository.cs
+   ValidityDeductionsRepository.cs
+   WarehouseLocationRepository.cs
+   WorkAreasRepository.cs
+  Operations/
+   AssignmentCollaboratorRepository.cs
+   CustomerBranchesRepository.cs
+   CustomerCreditInformationsRepository.cs
+   CustomersRepository.cs
+   InvoicesRepository.cs
+   MachineryAssignmentsRepository.cs
+   OperationalOrdersRepository.cs
+   OperationalServicesRepository.cs
+   ServicesOrdersRepository.cs
+  Payroll/
+   AssignedTravelExpensesRepository.cs
+   AssistanceControlRepository.cs
+   ChristmasBonusAccrualRepository.cs
+   CollaboratorsRepository.cs
+   DeductionPaymentHistoryRepository.cs
+   DeductionsRepository.cs
+   HolidaysRepository.cs
+   IncomesRepository.cs
+   IncomeTaxAccrualRepository.cs
+   InssAccountingInformationRepository.cs
+   OrdinaryPayrollsRepository.cs
+   PayrollsRepository.cs
+   PermitApplicationsPendingRepository.cs
+   PermitApplicationsRepository.cs
+   PersonalInformationRepository.cs
+   ProfessionalServicesPayrollsRepository.cs
+   RecordsTravelExpensePaymentsRepository.cs
+   SalariesRepository.cs
+   SubsidyRepository.cs
+   VacationAccrualRepository.cs
+   VacationsRepository.cs
+   WorkingInformationRepository.cs
+   WorkPositionsHistoryRepository.cs
+  Shopping/
+   PurchaseOrdersRepository.cs
+   PurchaseRequestItemsRepository.cs
+   PurchaseRequestsRepository.cs
+   PurchaseRequestsReviewedManagementRepository.cs
+   QuotesRepository.cs
+   RequisitionAccountingReviewRepository.cs
+   ServicesOrdersRequisitionsRepository.cs
+   SupplierPaymentMethodRepository.cs
+   SuppliersDetailsRepository.cs
+   SuppliersRepository.cs
+  Warehouse/
+   CrewAssignmentsRepository.cs
+   DucatRegistryDetailsRepository.cs
+   DucatRegistryRepository.cs
+   MerchandisesRepository.cs
+   OutsourcedWarehousesRepository.cs
+   ProductsRepository.cs
+   ReassignmentMemoryItemsRepository.cs
+   ReassignmentSessionOwnershipLogRepository.cs
+   ReassignmentSessionsRepository.cs
+   ReceptionEntranceRepository.cs
+   ReceptionTransportEntranceRepository.cs
+   StepExecutionLogsRepository.cs
+   StockMovementEventsRepository.cs
+   StockPlacementsRepository.cs
+   StockRepository.cs
+   UnloadingDetailsRepository.cs
+   UnloadingPalletsRepository.cs
+   UnloadingPositionsReservationsRepository.cs
+   UnloadingSuppliesRepository.cs
+   WarehouseAssignmentsRepository.cs
+   WarehouseCapacityRepository.cs
+   WarehouseRepository.cs
+   WarehouseTaskEventsRepository.cs
+   WarehouseTaskOwnershipLogsRepository.cs
+   WarehouseTasksRepository.cs
  Repository.cs
  UnitOfWork.cs
+Services/
+ WarehouseCapacities/
+  CapacityCalculatorBase.cs
+  LotCapacityCalculator.cs
+  RackCapacityCalculator.cs
+  SectionCapacityCalculator.cs
+  WarehouseCapacityCalculator.cs
+ CalculatorCapacities.cs
+ CodeGenerator.cs
+ConfigureServices.cs
+
+[frameworkPacks]
+Microsoft.NETCore.App.Ref
 
 [metadataReferences]
 ../
+ ERP.Core.Application/obj/Debug/net9.0/ref/ERP.Core.Application.dll
  ERP.Core.Database.Application/obj/Debug/net9.0/ref/ERP.Core.Database.Application.dll
  ERP.Core.Database.Domain/obj/Debug/net9.0/ref/ERP.Core.Database.Domain.dll
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/9.0.16/ref/net9.0/
- Microsoft.CSharp.dll
- Microsoft.VisualBasic.Core.dll
- Microsoft.VisualBasic.dll
- Microsoft.Win32.Primitives.dll
- Microsoft.Win32.Registry.dll
- mscorlib.dll
- netstandard.dll
- System.AppContext.dll
- System.Buffers.dll
- System.Collections.Concurrent.dll
- System.Collections.dll
- System.Collections.Immutable.dll
- System.Collections.NonGeneric.dll
- System.Collections.Specialized.dll
- System.ComponentModel.Annotations.dll
- System.ComponentModel.DataAnnotations.dll
- System.ComponentModel.dll
- System.ComponentModel.EventBasedAsync.dll
- System.ComponentModel.Primitives.dll
- System.ComponentModel.TypeConverter.dll
- System.Configuration.dll
- System.Console.dll
- System.Core.dll
- System.Data.Common.dll
- System.Data.DataSetExtensions.dll
- System.Data.dll
- System.Diagnostics.Contracts.dll
- System.Diagnostics.Debug.dll
- System.Diagnostics.DiagnosticSource.dll
- System.Diagnostics.FileVersionInfo.dll
- System.Diagnostics.Process.dll
- System.Diagnostics.StackTrace.dll
- System.Diagnostics.TextWriterTraceListener.dll
- System.Diagnostics.Tools.dll
- System.Diagnostics.TraceSource.dll
- System.Diagnostics.Tracing.dll
- System.dll
- System.Drawing.dll
- System.Drawing.Primitives.dll
- System.Dynamic.Runtime.dll
- System.Formats.Asn1.dll
- System.Formats.Tar.dll
- System.Globalization.Calendars.dll
- System.Globalization.dll
- System.Globalization.Extensions.dll
- System.IO.Compression.Brotli.dll
- System.IO.Compression.dll
- System.IO.Compression.FileSystem.dll
- System.IO.Compression.ZipFile.dll
- System.IO.dll
- System.IO.FileSystem.AccessControl.dll
- System.IO.FileSystem.dll
- System.IO.FileSystem.DriveInfo.dll
- System.IO.FileSystem.Primitives.dll
- System.IO.FileSystem.Watcher.dll
- System.IO.IsolatedStorage.dll
- System.IO.MemoryMappedFiles.dll
- System.IO.Pipes.AccessControl.dll
- System.IO.Pipes.dll
- System.IO.UnmanagedMemoryStream.dll
- System.Linq.dll
- System.Linq.Expressions.dll
- System.Linq.Parallel.dll
- System.Linq.Queryable.dll
- System.Memory.dll
- System.Net.dll
- System.Net.Http.dll
- System.Net.Http.Json.dll
- System.Net.HttpListener.dll
- System.Net.Mail.dll
- System.Net.NameResolution.dll
- System.Net.NetworkInformation.dll
- System.Net.Ping.dll
- System.Net.Primitives.dll
- System.Net.Quic.dll
- System.Net.Requests.dll
- System.Net.Security.dll
- System.Net.ServicePoint.dll
- System.Net.Sockets.dll
- System.Net.WebClient.dll
- System.Net.WebHeaderCollection.dll
- System.Net.WebProxy.dll
- System.Net.WebSockets.Client.dll
- System.Net.WebSockets.dll
- System.Numerics.dll
- System.Numerics.Vectors.dll
- System.ObjectModel.dll
- System.Reflection.DispatchProxy.dll
- System.Reflection.dll
- System.Reflection.Emit.dll
- System.Reflection.Emit.ILGeneration.dll
- System.Reflection.Emit.Lightweight.dll
- System.Reflection.Extensions.dll
- System.Reflection.Metadata.dll
- System.Reflection.Primitives.dll
- System.Reflection.TypeExtensions.dll
- System.Resources.Reader.dll
- System.Resources.ResourceManager.dll
- System.Resources.Writer.dll
- System.Runtime.CompilerServices.Unsafe.dll
- System.Runtime.CompilerServices.VisualC.dll
- System.Runtime.dll
- System.Runtime.Extensions.dll
- System.Runtime.Handles.dll
- System.Runtime.InteropServices.dll
- System.Runtime.InteropServices.JavaScript.dll
- System.Runtime.InteropServices.RuntimeInformation.dll
- System.Runtime.Intrinsics.dll
- System.Runtime.Loader.dll
- System.Runtime.Numerics.dll
- System.Runtime.Serialization.dll
- System.Runtime.Serialization.Formatters.dll
- System.Runtime.Serialization.Json.dll
- System.Runtime.Serialization.Primitives.dll
- System.Runtime.Serialization.Xml.dll
- System.Security.AccessControl.dll
- System.Security.Claims.dll
- System.Security.Cryptography.Algorithms.dll
- System.Security.Cryptography.Cng.dll
- System.Security.Cryptography.Csp.dll
- System.Security.Cryptography.dll
- System.Security.Cryptography.Encoding.dll
- System.Security.Cryptography.OpenSsl.dll
- System.Security.Cryptography.Primitives.dll
- System.Security.Cryptography.X509Certificates.dll
- System.Security.dll
- System.Security.Principal.dll
- System.Security.Principal.Windows.dll
- System.Security.SecureString.dll
- System.ServiceModel.Web.dll
- System.ServiceProcess.dll
- System.Text.Encoding.CodePages.dll
- System.Text.Encoding.dll
- System.Text.Encoding.Extensions.dll
- System.Text.RegularExpressions.dll
- System.Threading.Channels.dll
- System.Threading.dll
- System.Threading.Overlapped.dll
- System.Threading.Tasks.Dataflow.dll
- System.Threading.Tasks.dll
- System.Threading.Tasks.Extensions.dll
- System.Threading.Tasks.Parallel.dll
- System.Threading.Thread.dll
- System.Threading.ThreadPool.dll
- System.Threading.Timer.dll
- System.Transactions.dll
- System.Transactions.Local.dll
- System.ValueTuple.dll
- System.Web.dll
- System.Web.HttpUtility.dll
- System.Windows.dll
- System.Xml.dll
- System.Xml.Linq.dll
- System.Xml.ReaderWriter.dll
- System.Xml.Serialization.dll
- System.Xml.XDocument.dll
- System.Xml.XmlDocument.dll
- System.Xml.XmlSerializer.dll
- System.Xml.XPath.dll
- System.Xml.XPath.XDocument.dll
- WindowsBase.dll
+ ERP.Core.Domain/obj/Debug/net9.0/ref/ERP.Core.Domain.dll
 <NUGET>/
+ fluentvalidation.dependencyinjectionextensions/12.1.1/lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll
+ fluentvalidation/12.1.1/lib/net8.0/FluentValidation.dll
+ mediatr.contracts/2.0.1/lib/netstandard2.0/MediatR.Contracts.dll
+ mediatr/14.1.0/lib/net9.0/MediatR.dll
  microsoft.entityframeworkcore.abstractions/9.0.0/lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
  microsoft.entityframeworkcore.relational/9.0.0/lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
  microsoft.entityframeworkcore/9.0.0/lib/net8.0/Microsoft.EntityFrameworkCore.dll
@@ -417,35 +634,49 @@ Persistence/
  microsoft.extensions.fileproviders.abstractions/10.0.7/lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll
  microsoft.extensions.fileproviders.physical/10.0.7/lib/net9.0/Microsoft.Extensions.FileProviders.Physical.dll
  microsoft.extensions.filesystemglobbing/10.0.7/lib/net9.0/Microsoft.Extensions.FileSystemGlobbing.dll
- microsoft.extensions.logging.abstractions/9.0.0/lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
+ microsoft.extensions.logging.abstractions/10.0.0/lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
  microsoft.extensions.logging/9.0.0/lib/net9.0/Microsoft.Extensions.Logging.dll
  microsoft.extensions.options/9.0.0/lib/net9.0/Microsoft.Extensions.Options.dll
  microsoft.extensions.primitives/10.0.7/lib/net9.0/Microsoft.Extensions.Primitives.dll
+ microsoft.identitymodel.abstractions/8.14.0/lib/net9.0/Microsoft.IdentityModel.Abstractions.dll
+ microsoft.identitymodel.jsonwebtokens/8.14.0/lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+ microsoft.identitymodel.logging/8.14.0/lib/net9.0/Microsoft.IdentityModel.Logging.dll
+ microsoft.identitymodel.tokens/8.14.0/lib/net9.0/Microsoft.IdentityModel.Tokens.dll
+ nanoid/3.1.0/lib/net8.0/Nanoid.dll
  npgsql.entityframeworkcore.postgresql/9.0.0/lib/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
  npgsql/9.0.0/lib/net8.0/Npgsql.dll
+ system.diagnostics.diagnosticsource/10.0.0/lib/net9.0/System.Diagnostics.DiagnosticSource.dll
  system.io.pipelines/10.0.7/lib/net9.0/System.IO.Pipelines.dll
  system.text.encodings.web/10.0.7/lib/net9.0/System.Text.Encodings.Web.dll
  system.text.json/10.0.7/lib/net9.0/System.Text.Json.dll
 
 [analyzerReferences]
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/9.0.16/analyzers/dotnet/cs/
- Microsoft.Interop.ComInterfaceGenerator.dll
- Microsoft.Interop.JavaScript.JSImportGenerator.dll
- Microsoft.Interop.LibraryImportGenerator.dll
- Microsoft.Interop.SourceGeneration.dll
- System.Text.RegularExpressions.Generator.dll
-<DOTNET>/sdk/9.0.314/Sdks/Microsoft.NET.Sdk/analyzers/
+<NETSDK>/Sdks/Microsoft.NET.Sdk/analyzers/
  Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
  Microsoft.CodeAnalysis.NetAnalyzers.dll
-<NUGET>/microsoft.codeanalysis.analyzers/3.3.4/analyzers/dotnet/cs/
- Microsoft.CodeAnalysis.Analyzers.dll
- Microsoft.CodeAnalysis.CSharp.Analyzers.dll
 <NUGET>/
+ microsoft.codeanalysis.analyzers/3.3.4/analyzers/dotnet/cs/
+  Microsoft.CodeAnalysis.Analyzers.dll
+  Microsoft.CodeAnalysis.CSharp.Analyzers.dll
  microsoft.entityframeworkcore.analyzers/9.0.0/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
- microsoft.extensions.logging.abstractions/9.0.0/analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Logging.Generators.dll
+ microsoft.extensions.logging.abstractions/10.0.0/analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Logging.Generators.dll
  microsoft.extensions.options/9.0.0/analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Options.SourceGeneration.dll
  system.text.json/10.0.7/analyzers/dotnet/roslyn4.4/cs/System.Text.Json.SourceGeneration.dll
 
+[sdkAnalyzerConfigPolicy]
+Microsoft.NET.Sdk/analyzers
+
 [analyzerConfigFiles]
-<DOTNET>/sdk/9.0.314/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_9_default.globalconfig
 obj/Debug/net9.0/ERP.Core.Database.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+
+[projectReferences]
+../
+ ERP.Core.Application/ERP.Core.Application.csproj
+ ERP.Core.Database.Application/ERP.Core.Database.Application.csproj
+ ERP.Core.Database.Domain/ERP.Core.Database.Domain.csproj
+ ERP.Core.Domain/ERP.Core.Domain.csproj
+
+[capabilities]
+NativeAOT
+Pack
+SupportsHotReload

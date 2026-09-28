@@ -77,35 +77,32 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnloadingPositionReservations> UnloadingPositionReservations => Set<UnloadingPositionReservations>();
         #endregion
 
-        #region Bodegas y Clientes
-        public DbSet<Customers> Customers => Set<Customers>();
-        public DbSet<Invoice> Invoices => Set<Invoice>();
-        public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
-        public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
-        public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
-        public DbSet<CustomerBranch> CustomerBranches => Set<CustomerBranch>();
-        public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
-        public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
-        public DbSet<Product> Products => Set<Product>();
+        #region Bodegas
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
         public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();        
-        public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
+
         public DbSet<Sections> Sections => Set<Sections>();
-        public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
+        public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
         public DbSet<SectionCoordinates> SectionCoordinates => Set<SectionCoordinates>();
-        public DbSet<Racks> Racks => Set<Racks>();
-        public DbSet<RackPositions> RackPositions => Set<RackPositions>();
-        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
-        public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
+
         public DbSet<Lots> Lots => Set<Lots>();
-        public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
         public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
+        public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
         public DbSet<LotsCoordinates> LotsCoordinates => Set<LotsCoordinates>();
+
+        public DbSet<Racks> Racks => Set<Racks>();
+        public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
+        public DbSet<RackPositions> RackPositions => Set<RackPositions>();
+        public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
+        #endregion
+
+        #region Pendiente a analizar
+        public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
+        public DbSet<Product> Products => Set<Product>();
+        public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
         public DbSet<Merchandises> Merchandises => Set<Merchandises>();
-        public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
-        public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
         public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
@@ -127,8 +124,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
         public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
         public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
-        public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
+        #endregion
+
+        #region Operaciones
+        public DbSet<Invoice> Invoices => Set<Invoice>();
+        
+        public DbSet<Customers> Customers => Set<Customers>();
+        public DbSet<CustomerBranch> CustomerBranches => Set<CustomerBranch>();
+        public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
+
+        public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
+        public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
+        public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
+
+        public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
+        public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
         public DbSet<AssignmentsMachinery> AssignmentsMachineries => Set<AssignmentsMachinery>();
+        public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
         #endregion
 
         #region Compras
@@ -140,9 +152,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
         public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
         public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
+        public DbSet<ServiceOrderRequistions> ServiceOrderRequistions => Set<ServiceOrderRequistions>();
         public DbSet<PurchaseRequestsReviewedAccounting> PurchaseRequestsReviewedAccountings => Set<PurchaseRequestsReviewedAccounting>();
         public DbSet<PurchaseRequestsReviewedManagement> PurchaseRequestsReviewedManagements => Set<PurchaseRequestsReviewedManagement>();
-
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -213,6 +225,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductQuality>("public", "product_quality_enum");
             modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
+            modelBuilder.HasPostgresEnum<ServiceOrderRequisitionStatus>("public", "service_order_requisition_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

@@ -279,7 +279,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             var existingCodes = await _unitOfWork.OperationalOrders.Entities
                 .AsNoTracking()
                 .Where(o => o.CostCenterId == costCenterId && o.DeletedAt == null)
-                .Select(o => o.OpCode)
+                .Select(o => o.PoCode)
                 .ToListAsync(ct);
 
             int maxSequence = GetMaxSequence(prefix, existingCodes);

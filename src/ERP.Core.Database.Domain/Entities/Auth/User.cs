@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -42,5 +43,10 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         public virtual ICollection<PurchaseRequestsReviewedManagement> SentManagementReviews { get; set; } = [];
         public virtual ICollection<PurchaseRequestsReviewedManagement> ReviewedManagementReviews { get; set; } = [];
+
+
+        //Control de registro de servicios y requisiciones.
+        public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
+        public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];
     }
 }
