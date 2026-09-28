@@ -23,5 +23,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(Guid areaId, CancellationToken ct = default);
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
+        Task<(bool IsSuccess, string Code)> GenerateUniqueServiceOrderCodeAsync(Guid costCenterId, CancellationToken ct = default);
     }
 }

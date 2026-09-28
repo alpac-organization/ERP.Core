@@ -74,9 +74,5 @@ public class RacksConfiguration : IEntityTypeConfiguration<Racks>
             .WithMany(s => s.Racks)
             .HasForeignKey(e => e.SectionId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasIndex(e => new { e.SectionId, e.Code })
-            .IsUnique()
-            .HasDatabaseName("ix_racks_section_id_code");
     }
 }
