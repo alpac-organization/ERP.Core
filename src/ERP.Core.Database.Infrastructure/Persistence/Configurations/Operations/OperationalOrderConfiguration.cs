@@ -71,6 +71,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("reception_id")
                 .IsRequired();
 
+            builder.Property(so => so.AdditionalData)
+                .HasColumnName("additional_data")
+                .HasColumnType("jsonb")
+                .IsRequired();
+                        
+            builder.Property(o => o.HasCollaboratorsAssigned)
+                .HasColumnName("has_collaborators_assigned")
+                .HasDefaultValue(false)
+                .IsRequired();
+            
+            builder.Property(o => o.HasMachineryAssigned)
+                .HasColumnName("has_machinery_assigned")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
