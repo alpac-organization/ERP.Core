@@ -25,7 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       /// <summary>
       /// Auditoria para pasillos
       /// </summary>
-      public bool? AllowsStorageAisle { get; set; } = false;
       public bool? IsStorageEnabledAisle { get; set; } = false;
       public int? MaxPalletsPerLevelAisle { get; set; }
 

@@ -554,7 +554,6 @@ namespace ERP.Core.Testing.Seeding
                     SectionType = SectionType.Storage,
                     SectionStorageType = SectionStorageType.Racks,
                     WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000001"),
-                    AllowsStorageAisle = false,
                     IsStorageEnabledAisle = false,
                 },
                 new Sections
@@ -565,7 +564,6 @@ namespace ERP.Core.Testing.Seeding
                     SectionType = SectionType.Storage,
                     SectionStorageType = SectionStorageType.Lots,
                     WarehouseId = Guid.Parse("66666666-b000-0000-0000-000000000002"),
-                    AllowsStorageAisle = false,
                     IsStorageEnabledAisle = false,
                 },
             ];

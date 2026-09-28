@@ -62,11 +62,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasForeignKey(x => x.WarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(o => o.AllowsStorageAisle)
-                .HasColumnName("allows_storage_aisle")
-                .HasDefaultValue(false)
-                .IsRequired(false);
-
             builder.Property(o => o.IsStorageEnabledAisle)
                 .HasColumnName("is_storage_enable_aisle")
                 .HasDefaultValue(false)
