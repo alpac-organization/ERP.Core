@@ -3,6 +3,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -14,7 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public string? Fullname { get; set; }
         public string? PasswordHash { get; set; }
         public string? IdentificationNumber { get; set; }
-        
+
         public UserType UserType { get; set; }
         public UserStatus UserStatus { get; set; }
 
@@ -48,5 +49,6 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         //Control de registro de servicios y requisiciones.
         public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
         public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];
+        public virtual ICollection<ReceptionEntrance> ReceptionEntrances { get; set; } = [];
     }
 }
