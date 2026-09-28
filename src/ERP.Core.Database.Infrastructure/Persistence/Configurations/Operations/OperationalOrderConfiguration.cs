@@ -34,6 +34,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValueSql("'pending_document'::operational_order_status_enum")
                 .IsRequired();
 
+            builder.Property(o => o.WarehouseId)
+                .HasColumnName("warehouse_id")
+                .IsRequired(false);
+
             builder.Property(o => o.CostCenterId)
                 .HasColumnName("cost_center_id")
                 .IsRequired();
