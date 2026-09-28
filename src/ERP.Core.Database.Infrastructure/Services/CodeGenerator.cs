@@ -6,6 +6,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml.Serialization;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -319,7 +320,11 @@ namespace ERP.Core.Database.Infrastructure.Services
             var existingCodes = await _unitOfWork.OperationalOrders.Entities
                 .AsNoTracking()
                 .Where(po => po.PoCode != null && po.PoCode.StartsWith(prefix))
+                .OrderByDescending(po => po.CreatedAt)
+                .ThenByDescending(po => po.PoCode!.Length)
+                .ThenByDescending(po => po.PoCode)
                 .Select(po => po.PoCode)
+                .Take(10)
                 .ToListAsync();
 
             return BuildSequenceCode(prefix, existingCodes);
@@ -332,13 +337,34 @@ namespace ERP.Core.Database.Infrastructure.Services
             var existingCodes = await _unitOfWork.ServicesOrders.Entities
                 .AsNoTracking()
                 .Where(os => os.ServiceOrderCode != null && os.ServiceOrderCode.StartsWith(prefix))
+                .OrderByDescending(os => os.CreatedAt)
+                .ThenByDescending(os => os.ServiceOrderCode!.Length)
+                .ThenByDescending(os => os.ServiceOrderCode)
                 .Select(os => os.ServiceOrderCode)
+                .Take(10)
                 .ToListAsync();
 
             return BuildSequenceCode(prefix, existingCodes);
         }
 
         #endregion OperationalOrders
+
+        #region Reception
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default)
+        {
+            var existingCodes = await _unitOfWork.ReceptionEntrance.Entities
+                .AsNoTracking()
+                .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
+                .OrderByDescending(re => re.CreatedAt)
+                .ThenByDescending(re => re.ReceptionCode!.Length)
+                .ThenByDescending(re => re.ReceptionCode)
+                .Select(re => re.ReceptionCode)
+                .Take(10)
+                .ToListAsync(ct);
+
+            return BuildSequenceCode(string.Empty, existingCodes);
+        }
+        #endregion Reception
 
         #region Metodos Privados
 
