@@ -1,8 +1,8 @@
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Operations;
-using ERP.Core.Database.Domain.Entities.Auth;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
@@ -10,6 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     {
         // informacion de OP
         public bool IsActive { get; set; }
+        public string? ReceptionCode { get; set; }
         public string SealNumber { get; set; } = null!;  // marchamo | precinto
         public string ContainerNumber { get; set; } = null!;
         public string CountryOfOrigin { get; set; } = null!;

@@ -18,6 +18,10 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasColumnName("custom_branch_id")
             .IsRequired();
 
+        builder.Property(e => e.ReceptionCode)
+            .HasColumnName("reception_code")
+            .IsRequired();
+
         builder.Property(e => e.SealNumber)
             .HasColumnName("seal_number")
             .HasMaxLength(50)
