@@ -89,6 +89,5 @@ namespace ERP.Core.Database.Domain.Entities.Bases
     {
         public string? Code { get; set; }
         public string? CustomsBranchName { get; set; }
-
     }
 }

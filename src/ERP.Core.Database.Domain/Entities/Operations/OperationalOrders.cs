@@ -5,7 +5,6 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Operations
 {
-
     /// <summary>
     /// Englobador de ordenes de servicios por clientes
     /// </summary>
