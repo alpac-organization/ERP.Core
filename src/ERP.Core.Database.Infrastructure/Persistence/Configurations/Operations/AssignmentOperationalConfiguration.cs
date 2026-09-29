@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Operations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -45,6 +46,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(e => e.MerchandiseDescription)
                 .HasColumnName("merchandise_description")
                 .HasMaxLength(1000)
+                .IsRequired();
+
+            builder.Property(e => e.Category)
+                .HasColumnName("category")
+                .HasColumnType("merchandise_category_enum")
+                .IsRequired();
+
+            builder.Property(e => e.HasMerchandiseDescription)
+                .HasColumnName("has_merchandise_description")
+                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.HasOne(e => e.Warehouse)
