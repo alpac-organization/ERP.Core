@@ -35,10 +35,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("operational_service_id")
                 .IsRequired();
 
-            builder.Property(so => so.OperationalOrderId)
-                .HasColumnName("operational_order_id")
-                .IsRequired();
-
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -59,12 +55,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasForeignKey(so => so.OperationalServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(so => so.OperationalOrder)
-                .WithMany(o => o.ServicesOrders)
-                .HasForeignKey(so => so.OperationalOrderId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
             //Indices de busqueda.
             builder.HasIndex(so => so.ServiceOrderCode)
                 .HasDatabaseName("ix_services_orders_service_order_code")
@@ -72,9 +62,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(so => so.OperationalServiceId)
                 .HasDatabaseName("ix_services_orders_operational_service_id");
-
-            builder.HasIndex(so => so.OperationalOrderId)
-                .HasDatabaseName("ix_services_orders_operational_order_id");
         }
     }
 }
