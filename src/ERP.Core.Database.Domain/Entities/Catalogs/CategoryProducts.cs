@@ -13,6 +13,5 @@ public class CategoryProducts : BaseEntity<Guid>
     public virtual CategoryProducts? Parent { get; set; }
     
     public virtual ICollection<Product> Products { get; set; } = [];
-    public virtual ICollection<Merchandises> Merchandises { get; set; } = [];
     public virtual ICollection<CategoryProducts> Children { get; set; } = [];
 }

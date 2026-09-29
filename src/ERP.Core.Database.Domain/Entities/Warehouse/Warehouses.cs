@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
@@ -14,5 +15,8 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public virtual WarehouseCapacity WarehouseCapacity { get; set; } = null!;
 
         public virtual ICollection<Sections> Sections { get; set; } = [];
+
+        // referencias de asignamiento
+        public virtual ICollection<AssignmentEnclosure> AssignmentEnclosures { get; set; } = [];
     }
 }

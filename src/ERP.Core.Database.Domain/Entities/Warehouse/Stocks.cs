@@ -7,7 +7,6 @@ public class Stocks : BaseEntity<Guid>
 {
     public Guid WarehouseId { get; set; }
     public Guid EntranceDucatsId { get; set; }
-    public Guid MerchandiseId { get; set; }
     public Guid CategoryProductId { get; set; }
     public int CurrentBultos { get; set; }
     public decimal CurrentWeightKg { get; set; }
@@ -15,5 +14,4 @@ public class Stocks : BaseEntity<Guid>
 
     // Propiedades de navegación
     public virtual CategoryProducts Product { get; set; } = null!;
-    public virtual Merchandises Merchandise { get; set; } = null!;
 }

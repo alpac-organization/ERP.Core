@@ -24,10 +24,6 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .HasColumnName("entrance_ducat_id")
             .IsRequired();
 
-        builder.Property(e => e.MerchandiseId)
-            .HasColumnName("merchandise_id")
-            .IsRequired();
-        
         builder.Property(e => e.MerchandiseName)
             .HasColumnName("merchandise_name")
             .HasMaxLength(250)
@@ -78,12 +74,6 @@ public class DucatRegistryDetailsConfiguration : IEntityTypeConfiguration<DucatR
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        builder.HasOne(e => e.Merchandise)
-            .WithMany(m => m.DucatRegistryDetails)
-            .HasForeignKey(e => e.MerchandiseId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasIndex(e => e.MerchandiseId);
         builder.HasIndex(e => e.DucatRegistryId);
         
         builder.Property(e => e.UpdatedByUserId)

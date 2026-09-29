@@ -102,7 +102,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Product> Products => Set<Product>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<Stocks> Stocks => Set<Stocks>();
-        public DbSet<Merchandises> Merchandises => Set<Merchandises>();
         public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
         public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
         public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
@@ -141,6 +140,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
         public DbSet<AssignmentsMachinery> AssignmentsMachineries => Set<AssignmentsMachinery>();
         public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
+        public DbSet<AssignmentEnclosure> AssignmentEnclosures => Set<AssignmentEnclosure>();
         #endregion
 
         #region Compras
@@ -226,6 +226,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
             modelBuilder.HasPostgresEnum<ServiceOrderRequisitionStatus>("public", "service_order_requisition_status_enum");
+            modelBuilder.HasPostgresEnum<EmploymentType>("public", "employment_type_enum");
+            modelBuilder.HasPostgresEnum<DestinationType>("public", "destination_type_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

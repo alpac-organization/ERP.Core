@@ -63,7 +63,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Warehouse
         IProductsRepository Products { get; }
-        IMerchandisesRepository Merchandises { get; }
 
         ILotsRepository Lots { get; }
         IRacksRepository Racks { get; }
@@ -117,6 +116,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
         IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
         IAssignmentsMachineryRepository AssignmentsMachineries { get; }
+        IAssignmentEnclosureRepository AssignmentEnclosures { get; }
         #endregion
 
         #region ✅ Shopping

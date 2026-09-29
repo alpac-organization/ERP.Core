@@ -6,6 +6,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -77,7 +78,6 @@ public class UnitOfWork(
         IPurchaseRequestsRepository purchaseRequestsRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
-        IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
         IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
@@ -116,7 +116,8 @@ public class UnitOfWork(
         ISupplierPaymentMethodRepository supplierPaymentMethodRepository,
         IAssignmentsMachineryRepository assignmentsMachineryRepository,
         IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository,
-        IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository
+        IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository,
+        IAssignmentEnclosureRepository assignmentEnclosureRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -182,7 +183,6 @@ public class UnitOfWork(
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
-        public IMerchandisesRepository Merchandises => merchandisesRepository;
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
         public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
@@ -225,6 +225,7 @@ public class UnitOfWork(
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
+        public IAssignmentEnclosureRepository AssignmentEnclosures => assignmentEnclosureRepository;
         #endregion
 
         #region Shopping
