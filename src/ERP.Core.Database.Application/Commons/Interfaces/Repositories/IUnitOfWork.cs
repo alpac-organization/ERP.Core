@@ -58,7 +58,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICategoryProductsRepository CategoryProducts { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
         IShippingComapaniesRepository ShippingComapanies { get; }
-        ISuppliesRepository Supplies { get; }
         #endregion
 
         #region Warehouse
@@ -99,7 +98,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IStockRepository Stock { get; }
         IUnloadingDetailsRepository UnloadingDetails { get; }
         IUnloadingPalletsRepository UnloadingPallets { get; }
-        IUnloadingSuppliesRepository UnloadingSupplies { get; }
         IUnloadingPositionsReservationsRepository UnloadingPositionsReservations { get; }
         IWarehouseTasksRepository WarehouseTasks { get; }
         IWarehouseTaskEventsRepository WarehouseTaskEvents { get; }
