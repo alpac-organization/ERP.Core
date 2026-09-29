@@ -12,10 +12,10 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         // informacion de mercaderia
         public string? Observations { get; set; }
-        public string Merchandise { get; set; } = null!;
-        public string MerchandiseDescription { get; set; } = null!;
+        public string? Merchandise { get; set; } = null!;
+        public string? MerchandiseDescription { get; set; } = null!;
         public bool HasMerchandiseDescription { get; set; } = false;
-        public MerchandiseCategory Category { get; set; }
+        public MerchandiseCategory? Category { get; set; }
 
         public DestinationType DestinationType { get; set; }
         public AssignmentOperationalStatus Status { get; set; }

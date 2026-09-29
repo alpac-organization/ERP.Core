@@ -39,6 +39,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(o => o.HasAssignmentOperationalActive)
+                .HasColumnName("has_assignment_operational_active")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(o => o.EmploymentType)
                 .HasColumnName("employment_type")
                 .HasColumnType("employment_type_enum")
