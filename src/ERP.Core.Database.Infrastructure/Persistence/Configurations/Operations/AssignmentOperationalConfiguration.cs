@@ -73,6 +73,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(ao => ao.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(ao => ao.AdditionalData)
                 .HasColumnName("additional_data")
                 .HasColumnType("jsonb")

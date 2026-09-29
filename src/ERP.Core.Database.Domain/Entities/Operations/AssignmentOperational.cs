@@ -6,6 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 {
     public class AssignmentOperational : BaseEntity<Guid>
     {
+        public bool IsActive { get; set; }
         public Guid OperationalOrderId { get; set; }
         public virtual OperationalOrder OperationalOrder { get; set; } = default!;
 
