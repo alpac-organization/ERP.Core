@@ -86,14 +86,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("additional_data")
                 .HasColumnType("jsonb")
                 .IsRequired();
-                        
+
             builder.Property(o => o.HasCollaboratorsAssigned)
                 .HasColumnName("has_collaborators_assigned")
                 .HasDefaultValue(false)
                 .IsRequired();
-            
+
             builder.Property(o => o.HasMachineryAssigned)
                 .HasColumnName("has_machinery_assigned")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(o => o.HasEnclosureAssigned)
+                .HasColumnName("has_enclosure_assigned")
                 .HasDefaultValue(false)
                 .IsRequired();
 
@@ -124,11 +129,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .WithMany(r => r.OperationalOrders)
                 .HasForeignKey(o => o.ReceptionId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(o => o.ServicesOrders)
-                .WithOne(so => so.OperationalOrder)
-                .HasForeignKey(so => so.OperationalOrderId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(o => o.PoCode)
                 .HasDatabaseName("ix_operational_orders_op_code")

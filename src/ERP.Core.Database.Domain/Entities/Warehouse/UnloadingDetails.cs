@@ -10,5 +10,4 @@ public class UnloadingDetails : BaseEntity<Guid>
 
     public virtual WarehouseAssignments WarehouseAssignment { get; set; } = null!;
     public virtual ICollection<UnloadingPallets> UnloadingPallets { get; set; } = [];
-    public virtual ICollection<UnloadingSupplies> UnloadingSupplies { get; set; } = [];
 }

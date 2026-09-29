@@ -100,8 +100,6 @@ public class UnitOfWork(
         IStockRepository stockRepository,
         IUnloadingDetailsRepository unloadingDetailsRepository,
         IUnloadingPalletsRepository unloadingPalletsRepository,
-        IUnloadingSuppliesRepository unloadingSuppliesRepository,
-        ISuppliesRepository suppliesRepository,
         IUnloadingPositionsReservationsRepository unloadingPositionsReservationsRepository,
         IWarehouseTasksRepository warehouseTasksRepository,
         IWarehouseTaskEventsRepository warehouseTaskEventsRepository,
@@ -171,7 +169,6 @@ public class UnitOfWork(
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public IShippingComapaniesRepository ShippingComapanies => shippingComapaniesRepository;
-        public ISuppliesRepository Supplies => suppliesRepository;
         #endregion
 
         #region Warehouse
@@ -208,7 +205,6 @@ public class UnitOfWork(
         public IStockRepository Stock => stockRepository;
         public IUnloadingDetailsRepository UnloadingDetails => unloadingDetailsRepository;
         public IUnloadingPalletsRepository UnloadingPallets => unloadingPalletsRepository;
-        public IUnloadingSuppliesRepository UnloadingSupplies => unloadingSuppliesRepository;
         public IUnloadingPositionsReservationsRepository UnloadingPositionsReservations => unloadingPositionsReservationsRepository;
         public IWarehouseTasksRepository WarehouseTasks => warehouseTasksRepository;
         public IWarehouseTaskEventsRepository WarehouseTaskEvents => warehouseTaskEventsRepository;

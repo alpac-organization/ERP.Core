@@ -41,6 +41,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         //referencias a asignamiento
         public bool HasCollaboratorsAssigned { get; set; }
         public bool HasMachineryAssigned { get; set; }
+        public bool HasEnclosureAssigned { get; set; }
 
         //Información de la factura
 

@@ -73,7 +73,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
-        public DbSet<Supplies> Supplies => Set<Supplies>();
         public DbSet<UnloadingPositionReservations> UnloadingPositionReservations => Set<UnloadingPositionReservations>();
         #endregion
 
@@ -119,7 +118,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<StockMovementEvents> StockMovementEvents => Set<StockMovementEvents>();
         public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
         public DbSet<UnloadingPallets> UnloadingPallets => Set<UnloadingPallets>();
-        public DbSet<UnloadingSupplies> UnloadingSupplies => Set<UnloadingSupplies>();
         public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
         public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
         public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
