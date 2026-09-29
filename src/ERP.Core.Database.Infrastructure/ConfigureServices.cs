@@ -111,6 +111,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<EmploymentType>("employment_type_enum", "public");
                     npgsqlOptions.MapEnum<DestinationType>("destination_type_enum", "public");
                     npgsqlOptions.MapEnum<AssignmentOperationalStatus>("assignment_operational_status_enum", "public");
+                    npgsqlOptions.MapEnum<MerchandiseCategory>("merchandise_category_enum", "public");
                 })
             );
 
