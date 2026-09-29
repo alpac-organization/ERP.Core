@@ -41,6 +41,5 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         
         // Navigation
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
-        public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
     }
 }
