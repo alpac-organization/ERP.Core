@@ -63,7 +63,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         #region Warehouse
         IProductsRepository Products { get; }
-        IMerchandisesRepository Merchandises { get; }
 
         ILotsRepository Lots { get; }
         IRacksRepository Racks { get; }

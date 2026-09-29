@@ -198,7 +198,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IDucatRegistryRepository, DucatRegistryRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();
             services.AddScoped<IOutsourcedWarehousesRepository, OutsourcedWarehousesRepository>();
-            services.AddScoped<IMerchandisesRepository, MerchandisesRepository>();
             services.AddScoped<ISectionsRepository, SectionsRepository>();
             services.AddScoped<IRacksRepository, RacksRepository>();
             services.AddScoped<IRackPositionsRepository, RackPositionsRepository>();

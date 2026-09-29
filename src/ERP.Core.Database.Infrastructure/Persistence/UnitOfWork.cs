@@ -78,7 +78,6 @@ public class UnitOfWork(
         IPurchaseRequestsRepository purchaseRequestsRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
-        IMerchandisesRepository merchandisesRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
         IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
@@ -184,7 +183,6 @@ public class UnitOfWork(
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
-        public IMerchandisesRepository Merchandises => merchandisesRepository;
         public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
         public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;

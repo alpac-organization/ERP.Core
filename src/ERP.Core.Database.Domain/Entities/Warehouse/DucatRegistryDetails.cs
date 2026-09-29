@@ -7,7 +7,6 @@ public class DucatRegistryDetails : BaseEntity<Guid>
 {
     public Guid DucatRegistryId { get; set; }
     public Guid EntranceDucatId { get; set; }
-    public Guid MerchandiseId { get; set; }
     public string MerchandiseName { get; set; } = null!;
     public DucaType Type { get; set; }
     public int TotalBultos { get; set; }
@@ -16,7 +15,6 @@ public class DucatRegistryDetails : BaseEntity<Guid>
     public string Sender { get; set; } = null!;
     public string? DestinationAreaObservation { get; set; }
     public virtual DucatRegistry DucatRegistry { get; set; } = null!;
-    public virtual Merchandises Merchandise { get; set; } = default!;
 
 
     public string? UpdatedByUserId { get; set; }

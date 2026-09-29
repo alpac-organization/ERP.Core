@@ -23,10 +23,6 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
             .HasColumnName("entrance_ducats_id")
             .IsRequired();
         
-        builder.Property(e => e.MerchandiseId)
-            .HasColumnName("merchandise_id")
-            .IsRequired();
-
         builder.Property(e => e.CategoryProductId)
             .HasColumnName("category_product_id")
             .IsRequired();
@@ -56,11 +52,6 @@ public class StocksConfiguration : IEntityTypeConfiguration<Stocks>
         builder.HasOne(x => x.Product)
             .WithMany()
             .HasForeignKey(x => x.CategoryProductId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(x => x.Merchandise)
-            .WithMany()
-            .HasForeignKey(x => x.MerchandiseId)
             .OnDelete(DeleteBehavior.Restrict);
 
     }
