@@ -114,7 +114,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
         IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
         IAssignmentsMachineryRepository AssignmentsMachineries { get; }
-        IAssignmentEnclosureRepository AssignmentEnclosures { get; }
+        IAssignmentOperationalRepository AssignmentOperationals { get; }
         #endregion
 
         #region ✅ Shopping

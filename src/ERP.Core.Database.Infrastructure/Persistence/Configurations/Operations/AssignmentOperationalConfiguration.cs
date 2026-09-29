@@ -22,6 +22,36 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("operational_order_id")
                 .IsRequired();
 
+            builder.Property(e => e.WarehouseId)
+                .HasColumnName("warehosue_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.DestinationType)
+                .HasColumnName("destination_type")
+                .HasColumnType("destination_type_enum")
+                .HasDefaultValueSql("'warehouse'::destination_type_enum")
+                .IsRequired();
+
+            builder.Property(e => e.Observations)
+                .HasColumnName("observations")
+                .HasMaxLength(1000)
+                .IsRequired(false);
+
+            builder.Property(e => e.Merchandise)
+                .HasColumnName("merchandise")
+                .HasMaxLength(500)
+                .IsRequired();
+
+            builder.Property(e => e.MerchandiseDescription)
+                .HasColumnName("merchandise_description")
+                .HasMaxLength(1000)
+                .IsRequired();
+
+            builder.HasOne(e => e.Warehouse)
+                .WithMany(w => w.AssignmentOperationals)
+                .HasForeignKey(e => e.WarehouseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(ao => ao.Status)
                 .HasColumnName("status")
                 .HasColumnType("assignment_operational_status_enum")
@@ -59,11 +89,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.HasOne(ao => ao.OperationalOrder)
                 .WithMany(o => o.AssignmentOperationals)
                 .HasForeignKey(ao => ao.OperationalOrderId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(ao => ao.AssignmentEnclosure)
-                .WithOne(e => e.AssignmentOperational)
-                .HasForeignKey<AssignmentEnclosure>(e => e.AssignmentOperationalId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(ao => ao.AssignmentsMachineries)

@@ -1,22 +1,27 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Operations
 {
     public class AssignmentOperational : BaseEntity<Guid>
     {
-        public bool HasMachineryAssigned { get; set; }
-        public bool HasEnclosureAssigned { get; set; }
-        public bool HasCollaboratorsAssigned { get; set; }
-        
-        public AssignmentOperationalStatus Status { get; set; }
-
-        //Navigate
         public Guid OperationalOrderId { get; set; }
         public virtual OperationalOrder OperationalOrder { get; set; } = default!;
 
-        //1:1
-        public virtual AssignmentEnclosure AssignmentEnclosure { get; set; } = default!;
+        public string? Observations { get; set; }
+        public string Merchandise { get; set; } = null!;
+        public string MerchandiseDescription { get; set; } = null!;
+
+        public DestinationType DestinationType { get; set; }
+        public AssignmentOperationalStatus Status { get; set; }
+
+        public Guid? WarehouseId { get; set; }
+        public virtual Warehouses Warehouse { get; set; } = default!;
+
+        public bool HasMachineryAssigned { get; set; }
+        public bool HasEnclosureAssigned { get; set; }
+        public bool HasCollaboratorsAssigned { get; set; }
 
         //1:M
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];

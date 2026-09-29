@@ -115,7 +115,7 @@ public class UnitOfWork(
         IAssignmentsMachineryRepository assignmentsMachineryRepository,
         IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository,
         IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository,
-        IAssignmentEnclosureRepository assignmentEnclosureRepository
+        IAssignmentOperationalRepository assignmentOperationalRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -221,7 +221,7 @@ public class UnitOfWork(
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
-        public IAssignmentEnclosureRepository AssignmentEnclosures => assignmentEnclosureRepository;
+        public IAssignmentOperationalRepository AssignmentOperationals => assignmentOperationalRepository;
         #endregion
 
         #region Shopping

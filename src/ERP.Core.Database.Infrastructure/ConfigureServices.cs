@@ -224,7 +224,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssignmentCollaboratorsRepository, AssignmentCollaboratorRepository>();
             services.AddScoped<IAssignmentOperationalRepository, AssignmentOperationalRepository>();
             services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
-            services.AddScoped<IAssignmentEnclosureRepository, AssignmentEnclosureRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
