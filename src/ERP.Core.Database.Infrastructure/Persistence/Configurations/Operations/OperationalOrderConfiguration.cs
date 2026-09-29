@@ -87,21 +87,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnType("jsonb")
                 .IsRequired();
 
-            builder.Property(o => o.HasCollaboratorsAssigned)
-                .HasColumnName("has_collaborators_assigned")
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder.Property(o => o.HasMachineryAssigned)
-                .HasColumnName("has_machinery_assigned")
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder.Property(o => o.HasEnclosureAssigned)
-                .HasColumnName("has_enclosure_assigned")
-                .HasDefaultValue(false)
-                .IsRequired();
-
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")

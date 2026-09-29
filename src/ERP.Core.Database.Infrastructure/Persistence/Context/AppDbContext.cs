@@ -138,7 +138,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
         public DbSet<AssignmentsMachinery> AssignmentsMachineries => Set<AssignmentsMachinery>();
         public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
-        public DbSet<AssignmentEnclosure> AssignmentEnclosures => Set<AssignmentEnclosure>();
         public DbSet<AssignmentOperational> AssignmentOperationals => Set<AssignmentOperational>();
         #endregion
 

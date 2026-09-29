@@ -17,6 +17,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public virtual ICollection<Sections> Sections { get; set; } = [];
 
         // referencias de asignamiento
-        public virtual ICollection<AssignmentEnclosure> AssignmentEnclosures { get; set; } = [];
+        public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
     }
 }

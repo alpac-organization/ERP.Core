@@ -38,10 +38,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
-        // Assignment tracking
-        public bool HasMachineryAssigned { get; set; } = false;
-        public bool HasEnclosureAssigned { get; set; } = false;
-        public bool HasCollaboratorsAssigned { get; set; } = false;
         
         // Navigation
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
