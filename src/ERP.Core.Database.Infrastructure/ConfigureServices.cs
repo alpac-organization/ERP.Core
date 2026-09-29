@@ -108,6 +108,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<AssignmentCollaboratorsRoles>("assignment_collaborators_roles_enum", "public");
                     npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
                     npgsqlOptions.MapEnum<ServiceOrderRequisitionStatus>("service_order_requisition_status_enum", "public");
+                    npgsqlOptions.MapEnum<EmploymentType>("employment_type_enum", "public");
+                    npgsqlOptions.MapEnum<DestinationType>("destination_type_enum", "public");
 
                 })
             );
@@ -224,6 +226,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssignmentsMachineryRepository, AssignmentMachineryRepository>();
             services.AddScoped<IAssignmentCollaboratorsRepository, AssignmentCollaboratorRepository>();
             services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
+            services.AddScoped<IAssignmentEnclosureRepository, AssignmentEnclosureRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
