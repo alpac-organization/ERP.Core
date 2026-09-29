@@ -139,6 +139,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<AssignmentsMachinery> AssignmentsMachineries => Set<AssignmentsMachinery>();
         public DbSet<AssignmentCollaborators> AssignmentCollaborators => Set<AssignmentCollaborators>();
         public DbSet<AssignmentEnclosure> AssignmentEnclosures => Set<AssignmentEnclosure>();
+        public DbSet<AssignmentOperational> AssignmentOperationals => Set<AssignmentOperational>();
         #endregion
 
         #region Compras
@@ -226,6 +227,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ServiceOrderRequisitionStatus>("public", "service_order_requisition_status_enum");
             modelBuilder.HasPostgresEnum<EmploymentType>("public", "employment_type_enum");
             modelBuilder.HasPostgresEnum<DestinationType>("public", "destination_type_enum");
+            modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

@@ -38,18 +38,13 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
-        //referencias a asignamiento
-        public bool HasCollaboratorsAssigned { get; set; }
-        public bool HasMachineryAssigned { get; set; }
-        public bool HasEnclosureAssigned { get; set; }
-
-        //Información de la factura
-
-        //Servicios abjuntados a la orden operativa / navegaciones
-        public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
-        public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
+        // Assignment tracking
+        public bool HasMachineryAssigned { get; set; } = false;
+        public bool HasEnclosureAssigned { get; set; } = false;
+        public bool HasCollaboratorsAssigned { get; set; } = false;
+        
+        // Navigation
+        public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
         public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
-        public virtual ICollection<AssignmentEnclosure> AssignmentEnclosures { get; set; } = [];
-
     }
 }

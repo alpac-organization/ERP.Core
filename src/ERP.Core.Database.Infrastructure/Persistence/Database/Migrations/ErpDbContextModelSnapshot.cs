@@ -23,6 +23,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "accounting_review_status_enum", new[] { "pending", "approved", "rejected", "returned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "assignment_collaborators_roles_enum", new[] { "warehouse_assistant", "forklift_operator" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "assignment_operational_status_enum", new[] { "pending", "in_progress", "on_hold", "downloaded" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "bank_account_type_enum", new[] { "savings", "checking" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
@@ -1825,6 +1826,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("assignment_collaborator_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("AssignmentOperationalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assignment_operational_id");
+
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
@@ -1834,6 +1839,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
@@ -1846,20 +1854,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("is_active");
 
                     b.Property<Guid>("OperationalOrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("operational_order_id");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Role")
                         .HasColumnType("assignment_collaborators_roles_enum")
                         .HasColumnName("role");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignmentOperationalId")
+                        .HasDatabaseName("ix_assignment_collaborators_assignment_operational_id");
 
                     b.HasIndex("CollaboratorId")
                         .HasDatabaseName("ix_assignment_collaborators_collaborator_id");
 
-                    b.HasIndex("OperationalOrderId")
-                        .HasDatabaseName("ix_assignment_collaborators_operational_order_id");
+                    b.HasIndex("OperationalOrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("assignment_collaborators", "public");
                 });
@@ -1871,6 +1885,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("assignment_enclosure_id")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("AssignmentOperationalId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -1886,7 +1903,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("destination_type_enum")
                         .HasColumnName("destination_type")
-                        .HasDefaultValueSql("'Warehouse'::destination_type_enum");
+                        .HasDefaultValueSql("'warehouse'::destination_type_enum");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Merchandise")
                         .IsRequired()
@@ -1905,20 +1925,79 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("observations");
 
-                    b.Property<Guid?>("OperationalOrderId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("WarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("warehosue_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperationalOrderId");
+                    b.HasIndex("AssignmentOperationalId")
+                        .IsUnique();
 
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("assignment_enclosure", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("assignment_operational_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("AdditionalData")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("additional_data");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("HasCollaboratorsAssigned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_collaborators_assigned");
+
+                    b.Property<bool>("HasEnclosureAssigned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_enclosure_assigned");
+
+                    b.Property<bool>("HasMachineryAssigned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_machinery_assigned");
+
+                    b.Property<Guid>("OperationalOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("operational_order_id");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("assignment_operational_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'::assignment_operational_status_enum");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationalOrderId")
+                        .HasDatabaseName("ix_assignment_operational_operational_order_id");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("ix_assignment_operational_status");
+
+                    b.ToTable("assignment_operational", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentsMachinery", b =>
@@ -1929,11 +2008,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("assignment_machinery_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("AssignmentOperationalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assignment_operational_id");
+
+                    b.Property<string>("Concept")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
@@ -1949,17 +2038,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("machinery_id");
 
-                    b.Property<Guid>("OperationalOrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("operational_order_id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignmentOperationalId")
+                        .HasDatabaseName("ix_assignments_machinery_assignment_operational_id");
 
                     b.HasIndex("MachineryId")
                         .HasDatabaseName("ix_assignments_machinery_machinery_id");
 
-                    b.HasIndex("OperationalOrderId")
-                        .HasDatabaseName("ix_assignments_machinery_operational_order_id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("assignments_machinery", "public");
                 });
@@ -2286,8 +2376,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<int>("EmploymentType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("employment_type_enum")
-                        .HasColumnName("empoyment_type")
-                        .HasDefaultValueSql("'Internal'::employment_type_enum");
+                        .HasColumnName("employment_type")
+                        .HasDefaultValueSql("'internal'::employment_type_enum");
 
                     b.Property<bool>("HasCollaboratorsAssigned")
                         .ValueGeneratedOnAdd()
@@ -2439,9 +2529,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("OperationalOrderId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("OperationalServiceId")
                         .HasColumnType("uuid")
                         .HasColumnName("operational_service_id");
@@ -2454,8 +2541,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("OperationalOrderId");
 
                     b.HasIndex("OperationalServiceId")
                         .HasDatabaseName("ix_services_orders_operational_service_id");
@@ -7293,6 +7378,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentCollaborators", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", "AssignmentOperational")
+                        .WithMany("AssignmentCollaborators")
+                        .HasForeignKey("AssignmentOperationalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany()
                         .HasForeignKey("CollaboratorId")
@@ -7302,45 +7393,78 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", "OperationalOrder")
                         .WithMany("AssignmentCollaborators")
                         .HasForeignKey("OperationalOrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany("AssignmentCollaborators")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignmentOperational");
 
                     b.Navigation("Collaborator");
 
                     b.Navigation("OperationalOrder");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentEnclosure", b =>
                 {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", null)
-                        .WithMany("AssignmentEnclosures")
-                        .HasForeignKey("OperationalOrderId");
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", "AssignmentOperational")
+                        .WithOne("AssignmentEnclosure")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Operations.AssignmentEnclosure", "AssignmentOperationalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany("AssignmentEnclosures")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.Navigation("AssignmentOperational");
+
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", "OperationalOrder")
+                        .WithMany("AssignmentOperationals")
+                        .HasForeignKey("OperationalOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OperationalOrder");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentsMachinery", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", "AssignmentOperational")
+                        .WithMany("AssignmentsMachineries")
+                        .HasForeignKey("AssignmentOperationalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Machinery", "Machinery")
                         .WithMany()
                         .HasForeignKey("MachineryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", "OperationalOrder")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
                         .WithMany("AssignmentsMachineries")
-                        .HasForeignKey("OperationalOrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AssignmentOperational");
 
                     b.Navigation("Machinery");
 
-                    b.Navigation("OperationalOrder");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
@@ -7428,10 +7552,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", null)
-                        .WithMany("ServicesOrders")
-                        .HasForeignKey("OperationalOrderId");
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalService", "OperationalService")
                         .WithMany("ServicesOrders")
@@ -8508,6 +8628,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("AnnulledPurchaseRequests");
 
+                    b.Navigation("AssignmentCollaborators");
+
+                    b.Navigation("AssignmentsMachineries");
+
                     b.Navigation("Notifications");
 
                     b.Navigation("Profiles");
@@ -8674,6 +8798,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkingInformations");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", b =>
+                {
+                    b.Navigation("AssignmentCollaborators");
+
+                    b.Navigation("AssignmentEnclosure")
+                        .IsRequired();
+
+                    b.Navigation("AssignmentsMachineries");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
                 {
                     b.Navigation("CreditInformation");
@@ -8690,11 +8824,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("AssignmentCollaborators");
 
-                    b.Navigation("AssignmentEnclosures");
-
-                    b.Navigation("AssignmentsMachineries");
-
-                    b.Navigation("ServicesOrders");
+                    b.Navigation("AssignmentOperationals");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.OperationalService", b =>
