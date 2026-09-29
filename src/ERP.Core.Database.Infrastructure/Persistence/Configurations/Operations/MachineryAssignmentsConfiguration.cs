@@ -18,8 +18,8 @@ public class AssignmentsMachineryConfiguration : IEntityTypeConfiguration<Assign
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.Property(ac => ac.OperationalOrderId)
-            .HasColumnName("operational_order_id")
+        builder.Property(ac => ac.AssignmentOperationalId)
+            .HasColumnName("assignment_operational_id")
             .IsRequired();
 
         builder.Property(x => x.MachineryId)
@@ -39,9 +39,9 @@ public class AssignmentsMachineryConfiguration : IEntityTypeConfiguration<Assign
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(ac => ac.OperationalOrder)
-            .WithMany(o => o.AssignmentsMachineries)
-            .HasForeignKey(ac => ac.OperationalOrderId)
+        builder.HasOne(ac => ac.AssignmentOperational)
+            .WithMany(ao => ao.AssignmentsMachineries)
+            .HasForeignKey(ac => ac.AssignmentOperationalId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(ac => ac.Machinery)
@@ -49,8 +49,8 @@ public class AssignmentsMachineryConfiguration : IEntityTypeConfiguration<Assign
             .HasForeignKey(ac => ac.MachineryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(ac => ac.OperationalOrderId)
-            .HasDatabaseName("ix_assignments_machinery_operational_order_id");
+        builder.HasIndex(ac => ac.AssignmentOperationalId)
+            .HasDatabaseName("ix_assignments_machinery_assignment_operational_id");
 
         builder.HasIndex(ac => ac.MachineryId)
             .HasDatabaseName("ix_assignments_machinery_machinery_id");

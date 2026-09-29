@@ -50,5 +50,9 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public virtual ICollection<ServicesOrder> ServicesOrders { get; set; } = [];
         public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];
         public virtual ICollection<ReceptionEntrance> ReceptionEntrances { get; set; } = [];
+
+
+        public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
+        public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
     }
 }

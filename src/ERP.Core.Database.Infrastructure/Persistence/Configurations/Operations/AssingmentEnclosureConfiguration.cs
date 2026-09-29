@@ -24,7 +24,7 @@ public class AssigmentEnclosureConfiguration : IEntityTypeConfiguration<Assignme
         builder.Property(e => e.DestinationType)
             .HasColumnName("destination_type")
             .HasColumnType("destination_type_enum")
-            .HasDefaultValueSql("'Warehouse'::destination_type_enum")
+            .HasDefaultValueSql("'warehouse'::destination_type_enum")
             .IsRequired();
 
         builder.Property(e => e.Observations)

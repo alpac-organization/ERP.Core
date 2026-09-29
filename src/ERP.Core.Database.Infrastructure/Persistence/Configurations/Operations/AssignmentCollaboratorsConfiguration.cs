@@ -18,8 +18,8 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.Property(ac => ac.OperationalOrderId)
-            .HasColumnName("operational_order_id")
+        builder.Property(ac => ac.AssignmentOperationalId)
+            .HasColumnName("assignment_operational_id")
             .IsRequired();
 
         builder.Property(ac => ac.CollaboratorId)
@@ -44,9 +44,9 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(ac => ac.OperationalOrder)
-            .WithMany(o => o.AssignmentCollaborators)
-            .HasForeignKey(ac => ac.OperationalOrderId)
+        builder.HasOne(ac => ac.AssignmentOperational)
+            .WithMany(ao => ao.AssignmentCollaborators)
+            .HasForeignKey(ac => ac.AssignmentOperationalId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(ac => ac.Collaborator)
@@ -54,8 +54,8 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
             .HasForeignKey(ac => ac.CollaboratorId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(ac => ac.OperationalOrderId)
-            .HasDatabaseName("ix_assignment_collaborators_operational_order_id");
+        builder.HasIndex(ac => ac.AssignmentOperationalId)
+            .HasDatabaseName("ix_assignment_collaborators_assignment_operational_id");
 
         builder.HasIndex(ac => ac.CollaboratorId)
             .HasDatabaseName("ix_assignment_collaborators_collaborator_id");

@@ -6,11 +6,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AssignmentEnclosureEntity : Migration
+    public partial class AgregarEntidadesAsignamientoOperaciones : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignment_collaborators_operational_orders_operational_ord~",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignments_machinery_operational_orders_operational_order_~",
+                schema: "public",
+                table: "assignments_machinery");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_ducat_registry_details_merchandise_merchandise_id",
                 schema: "public",
@@ -22,6 +32,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "operational_orders");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_services_orders_operational_orders_operational_order_id",
+                schema: "public",
+                table: "services_orders");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_stocks_merchandise_merchandise_id",
                 schema: "public",
                 table: "stocks");
@@ -30,10 +45,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "merchandise",
                 schema: "public");
 
+            migrationBuilder.DropTable(
+                name: "unloading_supplies",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "supplies",
+                schema: "public");
+
             migrationBuilder.DropIndex(
                 name: "IX_stocks_merchandise_id",
                 schema: "public",
                 table: "stocks");
+
+            migrationBuilder.DropIndex(
+                name: "ix_services_orders_operational_order_id",
+                schema: "public",
+                table: "services_orders");
 
             migrationBuilder.DropIndex(
                 name: "IX_operational_orders_warehouse_id",
@@ -51,6 +79,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "stocks");
 
             migrationBuilder.DropColumn(
+                name: "operational_order_id",
+                schema: "public",
+                table: "services_orders");
+
+            migrationBuilder.DropColumn(
                 name: "warehouse_id",
                 schema: "public",
                 table: "operational_orders");
@@ -60,9 +93,34 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "ducat_registry_details");
 
+            migrationBuilder.RenameColumn(
+                name: "operational_order_id",
+                schema: "public",
+                table: "assignments_machinery",
+                newName: "assignment_operational_id");
+
+            migrationBuilder.RenameIndex(
+                name: "ix_assignments_machinery_operational_order_id",
+                schema: "public",
+                table: "assignments_machinery",
+                newName: "ix_assignments_machinery_assignment_operational_id");
+
+            migrationBuilder.RenameColumn(
+                name: "operational_order_id",
+                schema: "public",
+                table: "assignment_collaborators",
+                newName: "OperationalOrderId");
+
+            migrationBuilder.RenameIndex(
+                name: "ix_assignment_collaborators_operational_order_id",
+                schema: "public",
+                table: "assignment_collaborators",
+                newName: "IX_assignment_collaborators_OperationalOrderId");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
                 .Annotation("Npgsql:Enum:public.assignment_collaborators_roles_enum", "warehouse_assistant,forklift_operator")
+                .Annotation("Npgsql:Enum:public.assignment_operational_status_enum", "pending,in_progress,on_hold,downloaded")
                 .Annotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
                 .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
@@ -187,12 +245,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
             migrationBuilder.AddColumn<int>(
-                name: "empoyment_type",
+                name: "employment_type",
                 schema: "public",
                 table: "operational_orders",
                 type: "employment_type_enum",
                 nullable: false,
-                defaultValueSql: "'Internal'::employment_type_enum");
+                defaultValueSql: "'internal'::employment_type_enum");
+
+            migrationBuilder.AddColumn<bool>(
+                name: "has_enclosure_assigned",
+                schema: "public",
+                table: "operational_orders",
+                type: "boolean",
+                nullable: false,
+                defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "is_consolidated",
@@ -202,18 +268,93 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValue: false);
 
+            migrationBuilder.AddColumn<string>(
+                name: "Concept",
+                schema: "public",
+                table: "assignments_machinery",
+                type: "text",
+                nullable: true);
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "CreatedByUserId",
+                schema: "public",
+                table: "assignments_machinery",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "UserId",
+                schema: "public",
+                table: "assignments_machinery",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "CreatedByUserId",
+                schema: "public",
+                table: "assignment_collaborators",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "UserId",
+                schema: "public",
+                table: "assignment_collaborators",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "assignment_operational_id",
+                schema: "public",
+                table: "assignment_collaborators",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.CreateTable(
+                name: "assignment_operational",
+                schema: "public",
+                columns: table => new
+                {
+                    assignment_operational_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    has_machinery_assigned = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    has_enclosure_assigned = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    has_collaborators_assigned = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    status = table.Column<int>(type: "assignment_operational_status_enum", nullable: false, defaultValueSql: "'pending'::assignment_operational_status_enum"),
+                    operational_order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    additional_data = table.Column<string>(type: "jsonb", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_assignment_operational", x => x.assignment_operational_id);
+                    table.ForeignKey(
+                        name: "FK_assignment_operational_operational_orders_operational_order~",
+                        column: x => x.operational_order_id,
+                        principalSchema: "public",
+                        principalTable: "operational_orders",
+                        principalColumn: "operational_order_id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateTable(
                 name: "assignment_enclosure",
                 schema: "public",
                 columns: table => new
                 {
                     assignment_enclosure_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    warehosue_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    destination_type = table.Column<int>(type: "destination_type_enum", nullable: false, defaultValueSql: "'Warehouse'::destination_type_enum"),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     observations = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     merchandise = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     merchandise_description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    OperationalOrderId = table.Column<Guid>(type: "uuid", nullable: true),
+                    destination_type = table.Column<int>(type: "destination_type_enum", nullable: false, defaultValueSql: "'warehouse'::destination_type_enum"),
+                    warehosue_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    AssignmentOperationalId = table.Column<Guid>(type: "uuid", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -221,11 +362,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_assignment_enclosure", x => x.assignment_enclosure_id);
                     table.ForeignKey(
-                        name: "FK_assignment_enclosure_operational_orders_OperationalOrderId",
-                        column: x => x.OperationalOrderId,
+                        name: "FK_assignment_enclosure_assignment_operational_AssignmentOpera~",
+                        column: x => x.AssignmentOperationalId,
                         principalSchema: "public",
-                        principalTable: "operational_orders",
-                        principalColumn: "operational_order_id");
+                        principalTable: "assignment_operational",
+                        principalColumn: "assignment_operational_id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_assignment_enclosure_warehouses_warehosue_id",
                         column: x => x.warehosue_id,
@@ -236,27 +378,157 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_assignment_enclosure_OperationalOrderId",
+                name: "IX_assignments_machinery_UserId",
+                schema: "public",
+                table: "assignments_machinery",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_assignment_collaborators_assignment_operational_id",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "assignment_operational_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_assignment_collaborators_UserId",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_assignment_enclosure_AssignmentOperationalId",
                 schema: "public",
                 table: "assignment_enclosure",
-                column: "OperationalOrderId");
+                column: "AssignmentOperationalId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_assignment_enclosure_warehosue_id",
                 schema: "public",
                 table: "assignment_enclosure",
                 column: "warehosue_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_assignment_operational_operational_order_id",
+                schema: "public",
+                table: "assignment_operational",
+                column: "operational_order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_assignment_operational_status",
+                schema: "public",
+                table: "assignment_operational",
+                column: "status");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignment_collaborators_assignment_operational_assignment_~",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "assignment_operational_id",
+                principalSchema: "public",
+                principalTable: "assignment_operational",
+                principalColumn: "assignment_operational_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignment_collaborators_operational_orders_OperationalOrde~",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "OperationalOrderId",
+                principalSchema: "public",
+                principalTable: "operational_orders",
+                principalColumn: "operational_order_id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignment_collaborators_users_UserId",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "UserId",
+                principalSchema: "public",
+                principalTable: "users",
+                principalColumn: "user_id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignments_machinery_assignment_operational_assignment_ope~",
+                schema: "public",
+                table: "assignments_machinery",
+                column: "assignment_operational_id",
+                principalSchema: "public",
+                principalTable: "assignment_operational",
+                principalColumn: "assignment_operational_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignments_machinery_users_UserId",
+                schema: "public",
+                table: "assignments_machinery",
+                column: "UserId",
+                principalSchema: "public",
+                principalTable: "users",
+                principalColumn: "user_id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignment_collaborators_assignment_operational_assignment_~",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignment_collaborators_operational_orders_OperationalOrde~",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignment_collaborators_users_UserId",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignments_machinery_assignment_operational_assignment_ope~",
+                schema: "public",
+                table: "assignments_machinery");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_assignments_machinery_users_UserId",
+                schema: "public",
+                table: "assignments_machinery");
+
             migrationBuilder.DropTable(
                 name: "assignment_enclosure",
                 schema: "public");
 
+            migrationBuilder.DropTable(
+                name: "assignment_operational",
+                schema: "public");
+
+            migrationBuilder.DropIndex(
+                name: "IX_assignments_machinery_UserId",
+                schema: "public",
+                table: "assignments_machinery");
+
+            migrationBuilder.DropIndex(
+                name: "ix_assignment_collaborators_assignment_operational_id",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropIndex(
+                name: "IX_assignment_collaborators_UserId",
+                schema: "public",
+                table: "assignment_collaborators");
+
             migrationBuilder.DropColumn(
-                name: "empoyment_type",
+                name: "employment_type",
+                schema: "public",
+                table: "operational_orders");
+
+            migrationBuilder.DropColumn(
+                name: "has_enclosure_assigned",
                 schema: "public",
                 table: "operational_orders");
 
@@ -264,6 +536,60 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "is_consolidated",
                 schema: "public",
                 table: "operational_orders");
+
+            migrationBuilder.DropColumn(
+                name: "Concept",
+                schema: "public",
+                table: "assignments_machinery");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedByUserId",
+                schema: "public",
+                table: "assignments_machinery");
+
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                schema: "public",
+                table: "assignments_machinery");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedByUserId",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.DropColumn(
+                name: "assignment_operational_id",
+                schema: "public",
+                table: "assignment_collaborators");
+
+            migrationBuilder.RenameColumn(
+                name: "assignment_operational_id",
+                schema: "public",
+                table: "assignments_machinery",
+                newName: "operational_order_id");
+
+            migrationBuilder.RenameIndex(
+                name: "ix_assignments_machinery_assignment_operational_id",
+                schema: "public",
+                table: "assignments_machinery",
+                newName: "ix_assignments_machinery_operational_order_id");
+
+            migrationBuilder.RenameColumn(
+                name: "OperationalOrderId",
+                schema: "public",
+                table: "assignment_collaborators",
+                newName: "operational_order_id");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_assignment_collaborators_OperationalOrderId",
+                schema: "public",
+                table: "assignment_collaborators",
+                newName: "ix_assignment_collaborators_operational_order_id");
 
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
@@ -329,6 +655,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
                 .OldAnnotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
                 .OldAnnotation("Npgsql:Enum:public.assignment_collaborators_roles_enum", "warehouse_assistant,forklift_operator")
+                .OldAnnotation("Npgsql:Enum:public.assignment_operational_status_enum", "pending,in_progress,on_hold,downloaded")
                 .OldAnnotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
                 .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
                 .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
@@ -400,6 +727,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<Guid>(
+                name: "operational_order_id",
+                schema: "public",
+                table: "services_orders",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddColumn<Guid>(
                 name: "warehouse_id",
                 schema: "public",
                 table: "operational_orders",
@@ -438,11 +773,65 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "supplies",
+                schema: "public",
+                columns: table => new
+                {
+                    supplies_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
+                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_supplies", x => x.supplies_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "unloading_supplies",
+                schema: "public",
+                columns: table => new
+                {
+                    unloading_supplies_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    supplies_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    unloading_details_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    quantity = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_unloading_supplies", x => x.unloading_supplies_id);
+                    table.ForeignKey(
+                        name: "FK_unloading_supplies_supplies_supplies_id",
+                        column: x => x.supplies_id,
+                        principalSchema: "public",
+                        principalTable: "supplies",
+                        principalColumn: "supplies_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_unloading_supplies_unloading_details_unloading_details_id",
+                        column: x => x.unloading_details_id,
+                        principalSchema: "public",
+                        principalTable: "unloading_details",
+                        principalColumn: "unloading_details_id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_stocks_merchandise_id",
                 schema: "public",
                 table: "stocks",
                 column: "merchandise_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_services_orders_operational_order_id",
+                schema: "public",
+                table: "services_orders",
+                column: "operational_order_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_operational_orders_warehouse_id",
@@ -462,6 +851,38 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "merchandise",
                 column: "category_id");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_unloading_supplies_supplies_id",
+                schema: "public",
+                table: "unloading_supplies",
+                column: "supplies_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_unloading_supplies_unloading_details_id",
+                schema: "public",
+                table: "unloading_supplies",
+                column: "unloading_details_id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignment_collaborators_operational_orders_operational_ord~",
+                schema: "public",
+                table: "assignment_collaborators",
+                column: "operational_order_id",
+                principalSchema: "public",
+                principalTable: "operational_orders",
+                principalColumn: "operational_order_id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_assignments_machinery_operational_orders_operational_order_~",
+                schema: "public",
+                table: "assignments_machinery",
+                column: "operational_order_id",
+                principalSchema: "public",
+                principalTable: "operational_orders",
+                principalColumn: "operational_order_id",
+                onDelete: ReferentialAction.Restrict);
+
             migrationBuilder.AddForeignKey(
                 name: "FK_ducat_registry_details_merchandise_merchandise_id",
                 schema: "public",
@@ -480,6 +901,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 principalSchema: "public",
                 principalTable: "warehouses",
                 principalColumn: "warehouse_id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_services_orders_operational_orders_operational_order_id",
+                schema: "public",
+                table: "services_orders",
+                column: "operational_order_id",
+                principalSchema: "public",
+                principalTable: "operational_orders",
+                principalColumn: "operational_order_id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_stocks_merchandise_merchandise_id",

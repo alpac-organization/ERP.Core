@@ -40,9 +40,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .IsRequired();
 
             builder.Property(o => o.EmploymentType)
-                .HasColumnName("empoyment_type")
+                .HasColumnName("employment_type")
                 .HasColumnType("employment_type_enum")
-                .HasDefaultValueSql("'Internal'::employment_type_enum")
+                .HasDefaultValueSql("'internal'::employment_type_enum")
                 .IsRequired();
 
             builder.Property(o => o.CostCenterId)
@@ -148,6 +148,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.HasIndex(o => o.ReceptionId)
                 .HasDatabaseName("ix_operational_orders_reception_id");
+
+            builder.HasMany(o => o.AssignmentOperationals)
+                .WithOne(ao => ao.OperationalOrder)
+                .HasForeignKey(ao => ao.OperationalOrderId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
