@@ -1,5 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -8,5 +8,5 @@ public class LotsPositions : BasePositionsPallets
     public Guid LotId { get; set; }
     public virtual Lots Lot { get; set; } = null!;
 
-    public virtual ICollection<StockPlacements> StockPlacements { get; set; } = [];
+    public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
 }

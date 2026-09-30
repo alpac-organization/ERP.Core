@@ -110,7 +110,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
         public DbSet<Machinery> Machineries => Set<Machinery>();
-        public DbSet<StockPlacements> StockPlacements => Set<StockPlacements>();
+        public DbSet<AssignmentStockPlacements> AssignmentStockPlacements => Set<AssignmentStockPlacements>();
         public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
         public DbSet<ReassignmentSessions> ReassignmentSessions => Set<ReassignmentSessions>();
         public DbSet<ReassignmentSessionOwnershipLog> ReassignmentSessionOwnershipLogs => Set<ReassignmentSessionOwnershipLog>();

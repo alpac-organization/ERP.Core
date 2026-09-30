@@ -20,7 +20,4 @@ public class ReassignmentMemoryItems : BaseEntity<Guid>
 
     public Guid? TargetRackPositionId { get; set; }
     public Guid? TargetLotPositionId { get; set; }
-
-    public virtual ICollection<StockPlacements> OriginPlacements { get; set; } = [];
-    public virtual ICollection<StockPlacements> DestinationPlacements { get; set; } = [];
 }
