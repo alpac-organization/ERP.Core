@@ -2405,6 +2405,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("has_assignment_operational_active");
 
+                    b.Property<bool>("IsAlerted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_alerted");
+
                     b.Property<bool>("IsConsolidated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")

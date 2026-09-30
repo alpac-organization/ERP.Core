@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20260930201942_NewItemEnumStatusAssign")]
-    partial class NewItemEnumStatusAssign
+    [Migration("20260930215411_BoolAlertedReception")]
+    partial class BoolAlertedReception
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2407,6 +2407,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("has_assignment_operational_active");
+
+                    b.Property<bool>("IsAlerted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_alerted");
 
                     b.Property<bool>("IsConsolidated")
                         .ValueGeneratedOnAdd()

@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public string? DocumentNumber { get; set; }
         public bool IsConsolidated { get; set; } = false;
         public bool HasAssignmentOperationalActive { get; set; } = false;
+        public bool IsAlerted { get; set; } = false;
 
         public decimal? Weight { get; set; }
         public decimal? PackagesCount { get; set; }
