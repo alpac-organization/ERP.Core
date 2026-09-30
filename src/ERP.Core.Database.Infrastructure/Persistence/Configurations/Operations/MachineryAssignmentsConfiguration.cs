@@ -44,6 +44,11 @@ public class AssignmentsMachineryConfiguration : IEntityTypeConfiguration<Assign
             .HasForeignKey(ac => ac.AssignmentOperationalId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(ac => ac.User)
+            .WithMany(u => u.AssignmentsMachineries)
+            .HasForeignKey(ac => ac.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(ac => ac.Machinery)
             .WithMany()
             .HasForeignKey(ac => ac.MachineryId)

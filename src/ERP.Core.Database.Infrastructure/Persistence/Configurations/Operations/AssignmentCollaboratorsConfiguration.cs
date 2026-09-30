@@ -25,7 +25,7 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
         builder.Property(ac => ac.CollaboratorId)
             .HasColumnName("collaborator_id")
             .IsRequired();
-        
+
         builder.Property(ac => ac.Role)
             .HasColumnName("role")
             .HasColumnType("assignment_collaborators_roles_enum")
@@ -47,6 +47,11 @@ public class AssignmentCollaboratorsConfiguration : IEntityTypeConfiguration<Ass
         builder.HasOne(ac => ac.AssignmentOperational)
             .WithMany(ao => ao.AssignmentCollaborators)
             .HasForeignKey(ac => ac.AssignmentOperationalId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(ac => ac.User)
+            .WithMany(u => u.AssignmentCollaborators)
+            .HasForeignKey(ac => ac.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(ac => ac.Collaborator)
