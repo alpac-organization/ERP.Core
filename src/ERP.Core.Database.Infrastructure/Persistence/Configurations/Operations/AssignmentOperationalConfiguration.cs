@@ -74,11 +74,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            builder.Property(ao => ao.HasEnclosureAssigned)
-                .HasColumnName("has_enclosure_assigned")
-                .HasDefaultValue(false)
-                .IsRequired();
-
             builder.Property(ao => ao.HasCollaboratorsAssigned)
                 .HasColumnName("has_collaborators_assigned")
                 .HasDefaultValue(false)

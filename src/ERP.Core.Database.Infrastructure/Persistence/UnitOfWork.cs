@@ -91,7 +91,7 @@ public class UnitOfWork(
         IMachineryRepository machineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
         IShippingComapaniesRepository shippingComapaniesRepository,
-        IStockPlacementsRepository stockPlacementsRepository,
+        IAssignmentStockPlacementsRepository assignmentStockPlacementsRepository,
         IStockFootprintCellsRepository stockFootprintCellsRepository,
         IReassignmentSessionsRepository reassignmentSessionsRepository,
         IReassignmentSessionOwnershipLogRepository reassignmentSessionOwnershipLogRepository,
@@ -196,7 +196,6 @@ public class UnitOfWork(
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryRepository Machineries => machineryRepository;
-        public IStockPlacementsRepository StockPlacements => stockPlacementsRepository;
         public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
         public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;
         public IReassignmentSessionOwnershipLogRepository ReassignmentSessionOwnershipLog => reassignmentSessionOwnershipLogRepository;
@@ -222,6 +221,7 @@ public class UnitOfWork(
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
         public IAssignmentOperationalRepository AssignmentOperationals => assignmentOperationalRepository;
+        public IAssignmentStockPlacementsRepository AssignmentStockPlacements => assignmentStockPlacementsRepository;
         #endregion
 
         #region Shopping

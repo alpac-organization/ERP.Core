@@ -24,7 +24,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public virtual Warehouses Warehouse { get; set; } = default!;
 
         public bool HasMachineryAssigned { get; set; }
-        public bool HasEnclosureAssigned { get; set; }
         public bool HasCollaboratorsAssigned { get; set; }
 
         //1:M

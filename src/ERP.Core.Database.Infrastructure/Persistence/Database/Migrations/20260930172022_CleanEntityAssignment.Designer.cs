@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260930172022_CleanEntityAssignment")]
+    partial class CleanEntityAssignment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1967,60 +1970,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("assignment_operational", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentStockPlacements", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("assignment_stock_placement_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid?>("LotPositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("lot_position_id");
-
-                    b.Property<DateTime>("PlacedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("placed_at");
-
-                    b.Property<Guid>("PlacedByUserId")
-                        .HasMaxLength(100)
-                        .HasColumnType("uuid")
-                        .HasColumnName("placed_by_user_id");
-
-                    b.Property<Guid?>("RackPositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("rack_position_id");
-
-                    b.Property<Guid?>("SectionPositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_position_id");
-
-                    b.Property<Guid>("StockId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("stock_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LotPositionId");
-
-                    b.HasIndex("RackPositionId");
-
-                    b.HasIndex("StockId");
-
-                    b.ToTable("assignment_stock_placements", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentsMachinery", b =>
@@ -6215,6 +6164,103 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("stock_movement_events", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StockPlacements", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("stock_placement_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid?>("LotPositionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("lot_position_id");
+
+                    b.Property<DateOnly>("PlacedAtDate")
+                        .HasColumnType("date")
+                        .HasColumnName("placed_at_date");
+
+                    b.Property<TimeOnly>("PlacedAtTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("placed_at_time");
+
+                    b.Property<Guid?>("PlacedByMemoryItemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("placed_by_memory_item_id");
+
+                    b.Property<string>("PlacedByUserId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("placed_by_user_id");
+
+                    b.Property<Guid?>("RackPositionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("rack_position_id");
+
+                    b.Property<Guid?>("SectionPositionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stock_id");
+
+                    b.Property<DateOnly?>("VacatedAtDate")
+                        .HasColumnType("date")
+                        .HasColumnName("vacated_at_date");
+
+                    b.Property<TimeOnly?>("VacatedAtTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("vacated_at_time");
+
+                    b.Property<Guid?>("VacatedByMemoryItemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("vacated_by_memory_item_id");
+
+                    b.Property<string>("VacatedByUserId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("vacated_by_user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotPositionId")
+                        .HasDatabaseName("ix_stock_placements_lot_position_id");
+
+                    b.HasIndex("PlacedByMemoryItemId");
+
+                    b.HasIndex("RackPositionId")
+                        .HasDatabaseName("ix_stock_placements_rack_position_id");
+
+                    b.HasIndex("SectionPositionId");
+
+                    b.HasIndex("StockId")
+                        .HasDatabaseName("ix_stock_placements_stock_id");
+
+                    b.HasIndex("VacatedAtDate")
+                        .HasDatabaseName("ix_stock_placements_vacated_at_date");
+
+                    b.HasIndex("VacatedAtTime")
+                        .HasDatabaseName("ix_stock_placements_vacated_at_time");
+
+                    b.HasIndex("VacatedByMemoryItemId");
+
+                    b.ToTable("stock_placements", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_stock_placements_exactly_one_position", "(rack_position_id IS NOT NULL AND lot_position_id IS NULL) OR (rack_position_id IS NULL AND lot_position_id IS NOT NULL)");
+                        });
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", b =>
                 {
                     b.Property<Guid>("Id")
@@ -7332,38 +7378,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentStockPlacements", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", "LotPosition")
-                        .WithMany("AssignmentStockPlacements")
-                        .HasForeignKey("LotPositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "RackPosition")
-                        .WithMany("AssignmentStockPlacements")
-                        .HasForeignKey("RackPositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", "SectionPosition")
-                        .WithMany("AssignmentStockPlacements")
-                        .HasForeignKey("RackPositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", "Stock")
-                        .WithMany()
-                        .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("LotPosition");
-
-                    b.Navigation("RackPosition");
-
-                    b.Navigation("SectionPosition");
-
-                    b.Navigation("Stock");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentsMachinery", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", "AssignmentOperational")
@@ -8272,6 +8286,51 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.StockPlacements", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", "LotPosition")
+                        .WithMany("StockPlacements")
+                        .HasForeignKey("LotPositionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentMemoryItems", "PlacedByMemoryItem")
+                        .WithMany("DestinationPlacements")
+                        .HasForeignKey("PlacedByMemoryItemId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "RackPosition")
+                        .WithMany("StockPlacements")
+                        .HasForeignKey("RackPositionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", "SectionPosition")
+                        .WithMany("StockPlacements")
+                        .HasForeignKey("SectionPositionId");
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", "Stock")
+                        .WithMany()
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentMemoryItems", "VacatedByMemoryItem")
+                        .WithMany("OriginPlacements")
+                        .HasForeignKey("VacatedByMemoryItemId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("LotPosition");
+
+                    b.Navigation("PlacedByMemoryItem");
+
+                    b.Navigation("RackPosition");
+
+                    b.Navigation("SectionPosition");
+
+                    b.Navigation("Stock");
+
+                    b.Navigation("VacatedByMemoryItem");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Stocks", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "Product")
@@ -8820,6 +8879,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PurchaseRequestItems");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentMemoryItems", b =>
+                {
+                    b.Navigation("DestinationPlacements");
+
+                    b.Navigation("OriginPlacements");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentSessions", b =>
                 {
                     b.Navigation("MemoryItems");
@@ -8867,17 +8933,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
-                    b.Navigation("AssignmentStockPlacements");
+                    b.Navigation("StockPlacements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", b =>
                 {
-                    b.Navigation("AssignmentStockPlacements");
+                    b.Navigation("StockPlacements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", b =>
                 {
-                    b.Navigation("AssignmentStockPlacements");
+                    b.Navigation("StockPlacements");
                 });
 #pragma warning restore 612, 618
         }
