@@ -39,6 +39,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(o => o.IsAlerted)
+                .HasColumnName("is_alerted")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(o => o.HasAssignmentOperationalActive)
                 .HasColumnName("has_assignment_operational_active")
                 .HasDefaultValue(false)
