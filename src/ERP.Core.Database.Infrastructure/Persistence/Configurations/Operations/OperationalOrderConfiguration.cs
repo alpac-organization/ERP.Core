@@ -44,6 +44,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(e => e.ShippingCompany)
+                .HasColumnName("shipping_company")
+                .HasMaxLength(70)
+                .IsRequired();
+
+            builder.Property(e => e.Consignee)
+                .HasColumnName("consignee")
+                .HasMaxLength(70)
+                .IsRequired();
+
+            builder.Property(e => e.Sender)
+                .HasColumnName("sender")
+                .HasMaxLength(70)
+                .IsRequired();
+
             builder.Property(o => o.HasAssignmentOperationalActive)
                 .HasColumnName("has_assignment_operational_active")
                 .HasDefaultValue(false)

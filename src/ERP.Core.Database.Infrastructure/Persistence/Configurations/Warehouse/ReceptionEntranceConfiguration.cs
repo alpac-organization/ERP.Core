@@ -37,21 +37,6 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(e => e.ShippingCompany)
-            .HasColumnName("shipping_company")
-            .HasMaxLength(70)
-            .IsRequired();
-
-        builder.Property(e => e.Consignee)
-            .HasColumnName("consignee")
-            .HasMaxLength(70)
-            .IsRequired();
-
-        builder.Property(e => e.Sender)
-            .HasColumnName("sender")
-            .HasMaxLength(70)
-            .IsRequired();
-
         builder.Property(r => r.CreatedByUserId)
             .HasColumnName("created_by_user_id")
             .IsRequired();

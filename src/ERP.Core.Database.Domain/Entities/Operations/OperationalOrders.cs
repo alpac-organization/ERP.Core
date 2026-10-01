@@ -16,6 +16,9 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public bool IsConsolidated { get; set; } = false;
         public bool HasAssignmentOperationalActive { get; set; } = false;
         public bool IsAlerted { get; set; } = false;
+        public string ShippingCompany { get; set; } = null!;
+        public string Consignee { get; set; } = null!;
+        public string Sender { get; set; } = null!;
 
         public decimal? Weight { get; set; }
         public decimal? PackagesCount { get; set; }
@@ -40,7 +43,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public Guid ReceptionId { get; set; }
         public virtual ReceptionEntrance Reception { get; set; } = default!;
 
-        
+
         // Navigation
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
     }
