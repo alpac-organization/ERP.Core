@@ -37,6 +37,21 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(e => e.ShippingCompany)
+            .HasColumnName("shipping_company")
+            .HasMaxLength(70)
+            .IsRequired();
+
+        builder.Property(e => e.Consignee)
+            .HasColumnName("consignee")
+            .HasMaxLength(70)
+            .IsRequired();
+
+        builder.Property(e => e.Sender)
+            .HasColumnName("sender")
+            .HasMaxLength(70)
+            .IsRequired();
+
         builder.Property(r => r.CreatedByUserId)
             .HasColumnName("created_by_user_id")
             .IsRequired();
@@ -58,7 +73,7 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CustomBranchId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasOne(e => e.User)
             .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CreatedByUserId)

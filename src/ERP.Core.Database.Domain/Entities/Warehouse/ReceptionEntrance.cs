@@ -14,6 +14,9 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public string SealNumber { get; set; } = null!;  // marchamo | precinto
         public string ContainerNumber { get; set; } = null!;
         public string CountryOfOrigin { get; set; } = null!;
+        public string ShippingCompany { get; set; } = null!;
+        public string Consignee { get; set; } = null!;
+        public string Sender { get; set; } = null!;
 
         public Guid CustomBranchId { get; set; }  //aduana
         public virtual CustomsBranches CustomsBranches { get; set; } = null!;
