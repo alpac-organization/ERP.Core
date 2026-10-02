@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public string ContainerNumber { get; set; } = null!;
         public string CountryOfOrigin { get; set; } = null!;
 
+
         public Guid CustomBranchId { get; set; }  //aduana
         public virtual CustomsBranches CustomsBranches { get; set; } = null!;
 

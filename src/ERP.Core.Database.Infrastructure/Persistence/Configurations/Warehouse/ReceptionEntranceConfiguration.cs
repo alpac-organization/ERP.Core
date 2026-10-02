@@ -58,7 +58,7 @@ public class ReceptionEntranceConfiguration : IEntityTypeConfiguration<Reception
             .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CustomBranchId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasOne(e => e.User)
             .WithMany(e => e.ReceptionEntrances)
             .HasForeignKey(e => e.CreatedByUserId)
