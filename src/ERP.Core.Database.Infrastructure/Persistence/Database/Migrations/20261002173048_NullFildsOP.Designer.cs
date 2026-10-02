@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261002173048_NullFildsOP")]
+    partial class NullFildsOP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4480,49 +4483,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("working_information", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.HistoryPrices", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("history_price_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<DateTime>("EffectiveFrom")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("effective_from");
-
-                    b.Property<DateTime>("EffectiveTo")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("effective_to");
-
-                    b.Property<Guid>("SupplierProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_product_id");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unit_price");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SupplierProductId")
-                        .HasDatabaseName("ix_history_prices_supplier_product_id");
-
-                    b.ToTable("history_prices", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4906,6 +4866,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("payment_method_type_enum")
                         .HasColumnName("payment_method_type")
                         .HasDefaultValueSql("'ach'::payment_method_type_enum");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("price");
 
                     b.Property<decimal>("PriceTotal")
                         .HasPrecision(18, 2)
@@ -5327,58 +5292,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_supplier_payment_methods_supplier_payment_type");
 
                     b.ToTable("supplier_payment_methods", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_product_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("product_id");
-
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_id");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("unit_price");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_supplier_products_product_id");
-
-                    b.HasIndex("SupplierId")
-                        .HasDatabaseName("ix_supplier_products_supplier_id");
-
-                    b.HasIndex("SupplierId", "ProductId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_supplier_products_supplier_product");
-
-                    b.ToTable("supplier_products", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CrewAssignments", b =>
@@ -5848,12 +5761,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("product_name");
-
-                    b.Property<int>("ProductUsageType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("product_usage_type_enum")
-                        .HasColumnName("product_usage_type")
-                        .HasDefaultValueSql("'insumo'::product_usage_type_enum");
 
                     b.HasKey("Id");
 
@@ -8020,17 +7927,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("JobPosition");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.HistoryPrices", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", "SupplierProduct")
-                        .WithMany("PriceHistories")
-                        .HasForeignKey("SupplierProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("SupplierProduct");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
@@ -8244,25 +8140,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Product", "Product")
-                        .WithMany("SupplierProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.Supplier", "Supplier")
-                        .WithMany("SupplierProducts")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("Supplier");
                 });
@@ -8955,13 +8832,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("SupplierPaymentMethods");
-
-                    b.Navigation("SupplierProducts");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", b =>
-                {
-                    b.Navigation("PriceHistories");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
@@ -8972,8 +8842,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
                 {
                     b.Navigation("PurchaseRequestItems");
-
-                    b.Navigation("SupplierProducts");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.ReassignmentSessions", b =>
