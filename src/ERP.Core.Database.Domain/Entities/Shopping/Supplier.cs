@@ -4,13 +4,10 @@ using ERP.Core.Database.Domain.Entities.Bases;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
-    /// <summary>
-    /// Entidad de proveedores.
-    /// </summary>
     public class Supplier : BaseEntity<Guid>
     {
         public bool IsActive { get; set; } = true;
-        
+
         public string? ImageUrl { get; set; }
         public string? SuppliersLegalName { get; set; }
 
@@ -29,6 +26,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public virtual ICollection<SupplierPaymentMethod> SupplierPaymentMethods { get; set; } = [];
 
+        public virtual ICollection<SupplierProduct> SupplierProducts { get; set; } = [];
+
         public virtual ICollection<Quotation> Quotations { get; set; } = [];
-    } 
+    }
 }

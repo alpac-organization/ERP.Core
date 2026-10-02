@@ -74,6 +74,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .WithOne(b => b.Supplier)
                 .HasForeignKey(b => b.SupplierId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(s => s.SupplierProducts)
+                .WithOne(sp => sp.Supplier)
+                .HasForeignKey(sp => sp.SupplierId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
