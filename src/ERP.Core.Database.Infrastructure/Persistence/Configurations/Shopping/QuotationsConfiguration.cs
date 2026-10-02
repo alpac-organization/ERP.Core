@@ -61,11 +61,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.Property(e => e.Price)
-                .HasColumnName("price")
-                .HasPrecision(18, 2)
-                .IsRequired();
-
             builder.Property(e => e.PriceUnit)
                 .HasColumnName("price_unit")
                 .HasPrecision(18, 2)

@@ -12,7 +12,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
       public bool IsAcceptedForPurchase { get; set; }
 
       public decimal Iva { get; set; }
-      public decimal Price { get; set; }
       public decimal PriceUnit { get; set; }
       public decimal PriceTotal { get; set; }
       public string? SupplierSelectionJustification { get; set; }

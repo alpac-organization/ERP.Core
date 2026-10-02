@@ -10,8 +10,11 @@ public class Product : BaseEntity<Guid>
     public string? ProductName { get; set; }
     public string? Description { get; set; }
 
-    public Guid CategoryId {get; set;}
-    public virtual CategoryProducts Category {get; set;} = default!;
-    
+    public Guid CategoryId { get; set; }
+    public virtual CategoryProducts Category { get; set; } = default!;
+
+    public ProductUsageType ProductUsageType { get; set; }
+
+    public virtual ICollection<SupplierProduct> SupplierProducts { get; set; } = [];
     public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
 }

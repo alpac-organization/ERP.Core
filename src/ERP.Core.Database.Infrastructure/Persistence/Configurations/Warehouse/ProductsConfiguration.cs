@@ -26,8 +26,17 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("product_name")
             .IsRequired();
 
+        builder.Property(p => p.Description)
+            .IsRequired(false);
+
         builder.Property(p => p.CategoryId)
             .HasColumnName("category_id")
+            .IsRequired();
+
+        builder.Property(p => p.ProductUsageType)
+            .HasColumnName("product_usage_type")
+            .HasColumnType("product_usage_type_enum")
+            .HasDefaultValueSql("'insumo'::product_usage_type_enum")
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
@@ -41,6 +50,11 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
         builder.HasOne(p => p.Category)
             .WithMany(p => p.Products)
             .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(p => p.SupplierProducts)
+            .WithOne(sp => sp.Product)
+            .HasForeignKey(sp => sp.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
