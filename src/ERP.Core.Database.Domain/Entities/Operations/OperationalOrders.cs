@@ -47,4 +47,16 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         // Navigation
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
     }
+
+    public class AdditionalOperationalOrderData
+    {
+        public List<AssignmentMerchandiseInformation> Merchandises { get; set; } = [];
+    }
+
+    public class AssignmentMerchandiseInformation
+    {
+        public Guid AssignmentOperationalId { get; set; }
+        public string? Merchandise { get; set; }
+        public string? MerchandiseDescription { get; set; }
+    }
 }
