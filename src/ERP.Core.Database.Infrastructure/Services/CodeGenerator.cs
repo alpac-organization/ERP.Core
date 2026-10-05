@@ -467,39 +467,33 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion Products
 
-        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoBase64 = null)
+        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoBase64 = null, CancellationToken cancellationToken = default)
         {
             const int n = 33;
-            const float mmToPx = 300f / 25.4f;
-            var targetWidthMm = 80f;
-            var canvasWidth = (int)Math.Round(targetWidthMm * mmToPx);
-            
-            var U = Math.Max(10, (int)((canvasWidth - 2 * 56 - 2 * 4 * 19) / n));
-            var Q = n * U;
-            var padding = 4 * U;
-            var card = Q + 2 * padding;
+            const int U = 19;
+            const int Q = n * U;
+            const int padding = 4 * U;
+            const int card = Q + 2 * padding;
             const int margin = 56;
             const int headerHeight = 80;
-            var canvasHeight = card + 2 * margin + headerHeight;
+            const int canvasSize = 891;
+            const int canvasHeight = canvasSize + headerHeight;
 
             using var qrGenerator = new QRCodeGenerator();
             var qrCodeData = qrGenerator.CreateQrCode(redirectUrl, QRCodeGenerator.ECCLevel.H);
             var qrCode = new PngByteQRCode(qrCodeData);
             var qrBytes = qrCode.GetGraphic(20);
-            
+
             using var qrStream = new MemoryStream(qrBytes);
-            using var qrImage = await Image.LoadAsync<Rgba32>(qrStream, default);
+            using var qrImage = await Image.LoadAsync<Rgba32>(qrStream, cancellationToken);
 
             var moduleMatrix = GetModuleMatrix(qrCodeData, n);
 
-            using var canvas = new Image<Rgba32>(canvasWidth, canvasHeight);
-            canvas.Mutate(ctx =>
-            {
-                ctx.Fill(Color.FromRgb(238, 243, 250));
-            });
+            using var canvas = new Image<Rgba32>(canvasSize, canvasHeight);
+            canvas.Mutate(ctx => ctx.Fill(Color.FromRgb(238, 243, 250)));
 
-            var cardX = margin;
-            var cardY = margin + headerHeight;
+            const int cardX = margin;
+            const int cardY = margin + headerHeight;
             var cardRect = new RectangleF(cardX, cardY, card, card);
 
             var shadowColor = Color.FromRgba(10, 37, 84, (byte)(255 * 0.6));
@@ -516,18 +510,19 @@ namespace ERP.Core.Database.Infrastructure.Services
                 ctx.Fill(Color.White, cardPath);
             });
 
-            var qrOriginX = cardX + padding;
-            var qrOriginY = cardY + padding;
+            const int qrOriginX = cardX + padding;
+            const int qrOriginY = cardY + padding;
 
             var gradientBrush = new LinearGradientBrush(
                 new PointF(qrOriginX, qrOriginY),
                 new PointF(qrOriginX + Q, qrOriginY + Q),
                 GradientRepetitionMode.Repeat,
                 new ColorStop(0f, Color.FromRgb(0, 79, 144)),
-                new ColorStop(1f, Color.FromRgb(176, 24, 28)));
+                new ColorStop(1f, Color.FromRgb(176, 24, 28))
+            );
 
-            var moduleInset = 0.03f * U;
-            var moduleRadius = 0.22f * U;
+            const float moduleInset = 0.03f * U;
+            const float moduleRadius = 0.22f * U;
 
             for (int row = 0; row < n; row++)
             {
@@ -552,14 +547,13 @@ namespace ERP.Core.Database.Infrastructure.Services
             DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, n - 7, 0);
             DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, 0, n - 7);
 
-            var K = n % 2 == 0 ? 8 : 9;
-            if ((double)K / n > 0.30) K = n % 2 == 0 ? 8 : 7;
-            var k0 = (n - K) / 2;
+            const int K = 9;
+            const int k0 = (n - K) / 2;
 
-            var plateSize = K * U;
-            var plateX = qrOriginX + k0 * U;
-            var plateY = qrOriginY + k0 * U;
-            var plateRadius = 0.5f * U;
+            const int plateSize = K * U;
+            const int plateX = qrOriginX + k0 * U;
+            const int plateY = qrOriginY + k0 * U;
+            const float plateRadius = 0.5f * U;
 
             var plateRect = new RectangleF(plateX, plateY, plateSize, plateSize);
             var platePath = CreateRoundedRectangle(plateRect, plateRadius);
@@ -569,7 +563,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 var logoBytes = Convert.FromBase64String(logoBase64);
                 using var logoStream = new MemoryStream(logoBytes);
-                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, default);
+                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, cancellationToken);
 
                 var logoHeight = (int)(plateSize * 0.8);
                 var logoWidth = (int)((double)logoImage.Width / logoImage.Height * logoHeight);
@@ -587,14 +581,14 @@ namespace ERP.Core.Database.Infrastructure.Services
                 canvas.Mutate(ctx => ctx.DrawImage(logoImage, logoRect, 1f));
             }
 
-            DrawHeader(canvas, canvasWidth, headerHeight);
-            
+            DrawHeader(canvas, canvasSize, headerHeight);
+
             using var outputStream = new MemoryStream();
-            await canvas.SaveAsPngAsync(outputStream, default);
+            await canvas.SaveAsPngAsync(outputStream, cancellationToken);
 
             outputStream.Position = 0;
             var base64Image = Convert.ToBase64String(outputStream.ToArray());
-            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, default);
+            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, cancellationToken);
 
             return s3Url;
         }
@@ -609,13 +603,10 @@ namespace ERP.Core.Database.Infrastructure.Services
                 new ColorStop(0f, Color.FromRgb(0, 79, 144)),
                 new ColorStop(1f, Color.FromRgb(176, 24, 28)));
 
-            canvas.Mutate(ctx =>
-            {
-                ctx.Fill(headerGradient, headerRect);
-            });
+            canvas.Mutate(ctx => ctx.Fill(headerGradient, headerRect));
 
             var fontSize = headerHeight * 0.45f;
-            var text = "VOUCHER DE ASIGNACIÓN";
+            const string text = "VOUCHER DE ASIGNACIÓN";
             var textColor = Color.White;
             var font = SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
             var textOptions = new RichTextOptions(font)
@@ -625,10 +616,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            canvas.Mutate(ctx =>
-            {
-                ctx.DrawText(textOptions, text, textColor);
-            });
+            canvas.Mutate(ctx => ctx.DrawText(textOptions, text, textColor));
         }
 
         private static bool[][] GetModuleMatrix(QRCodeData qrCodeData, int n)
