@@ -479,14 +479,9 @@ namespace ERP.Core.Database.Infrastructure.Services
             const int canvasSize = 891;
             const int canvasHeight = canvasSize + headerHeight;
 
+            // Generar QR con corrección de errores H
             using var qrGenerator = new QRCodeGenerator();
             var qrCodeData = qrGenerator.CreateQrCode(redirectUrl, QRCodeGenerator.ECCLevel.H);
-            var qrCode = new PngByteQRCode(qrCodeData);
-            var qrBytes = qrCode.GetGraphic(20);
-
-            using var qrStream = new MemoryStream(qrBytes);
-            using var qrImage = await Image.LoadAsync<Rgba32>(qrStream, cancellationToken);
-
             var moduleMatrix = GetModuleMatrix(qrCodeData, n);
 
             using var canvas = new Image<Rgba32>(canvasSize, canvasHeight);
@@ -496,10 +491,11 @@ namespace ERP.Core.Database.Infrastructure.Services
             const int cardY = margin + headerHeight;
             var cardRect = new RectangleF(cardX, cardY, card, card);
 
-            var shadowColor = Color.FromRgba(10, 37, 84, (byte)(255 * 0.6));
+            // Sombra suave
+            var shadowColor = Color.FromRgba(10, 37, 84, (byte)(255 * 0.3));
             canvas.Mutate(ctx =>
             {
-                var shadowRect = new RectangleF(cardX - 12, cardY + 12, card, card);
+                var shadowRect = new RectangleF(cardX - 8, cardY + 8, card, card);
                 var shadowPath = CreateRoundedRectangle(shadowRect, 52);
                 ctx.Fill(shadowColor, shadowPath);
             });
@@ -513,16 +509,13 @@ namespace ERP.Core.Database.Infrastructure.Services
             const int qrOriginX = cardX + padding;
             const int qrOriginY = cardY + padding;
 
-            var gradientBrush = new LinearGradientBrush(
-                new PointF(qrOriginX, qrOriginY),
-                new PointF(qrOriginX + Q, qrOriginY + Q),
-                GradientRepetitionMode.Repeat,
-                new ColorStop(0f, Color.FromRgb(0, 79, 144)),
-                new ColorStop(1f, Color.FromRgb(176, 24, 28))
-            );
+            // Colores profesionales: oscuro sobre claro para máximo contraste
+            var darkColor = Color.FromRgb(15, 35, 75);   // Azul oscuro profesional
+            var lightColor = Color.White;
 
-            const float moduleInset = 0.03f * U;
-            const float moduleRadius = 0.22f * U;
+            // Dibujar módulos de datos (sólidos, sin degradado, esquinas ligeramente redondeadas)
+            const float moduleInset = 0.5f;
+            const float moduleRadius = 2f;
 
             for (int row = 0; row < n; row++)
             {
@@ -539,22 +532,25 @@ namespace ERP.Core.Database.Infrastructure.Services
 
                     var moduleRect = new RectangleF(x, y, size, size);
                     var modulePath = CreateRoundedRectangle(moduleRect, moduleRadius);
-                    canvas.Mutate(ctx => ctx.Fill(gradientBrush, modulePath));
+                    canvas.Mutate(ctx => ctx.Fill(darkColor, modulePath));
                 }
             }
 
-            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, 0, 0);
-            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, n - 7, 0);
-            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, 0, n - 7);
+            // Finder patterns ESTÁNDAR (cuadrados, sin redondear, color sólido)
+            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, darkColor, 0, 0);
+            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, darkColor, n - 7, 0);
+            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, darkColor, 0, n - 7);
 
-            const int K = 9;
+            // Zona de logo: K=7 módulos (21% del QR), más pequeño para mejor lectura
+            const int K = 7;
             const int k0 = (n - K) / 2;
 
             const int plateSize = K * U;
             const int plateX = qrOriginX + k0 * U;
             const int plateY = qrOriginY + k0 * U;
-            const float plateRadius = 0.5f * U;
+            const float plateRadius = 4f;
 
+            // Placa blanca con padding interno para el logo
             var plateRect = new RectangleF(plateX, plateY, plateSize, plateSize);
             var platePath = CreateRoundedRectangle(plateRect, plateRadius);
             canvas.Mutate(ctx => ctx.Fill(Color.White, platePath));
@@ -565,8 +561,18 @@ namespace ERP.Core.Database.Infrastructure.Services
                 using var logoStream = new MemoryStream(logoBytes);
                 using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, cancellationToken);
 
-                var logoHeight = (int)(plateSize * 0.8);
+                // Logo al 60% de la placa (más conservador), con padding blanco
+                var logoMaxSize = (int)(plateSize * 0.6);
+                var logoHeight = Math.Min(logoMaxSize, (int)((double)logoImage.Height / logoImage.Width * logoMaxSize));
                 var logoWidth = (int)((double)logoImage.Width / logoImage.Height * logoHeight);
+                
+                // Asegurar que no exceda el tamaño máximo
+                if (logoWidth > logoMaxSize)
+                {
+                    logoWidth = logoMaxSize;
+                    logoHeight = (int)((double)logoImage.Height / logoImage.Width * logoMaxSize);
+                }
+
                 var logoX = plateX + (plateSize - logoWidth) / 2f;
                 var logoY = plateY + (plateSize - logoHeight) / 2f;
 
@@ -605,7 +611,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             canvas.Mutate(ctx => ctx.Fill(headerGradient, headerRect));
 
-            var fontSize = headerHeight * 0.45f;
+            var fontSize = headerHeight * 0.4f;
             const string text = "VOUCHER DE ASIGNACIÓN";
             var textColor = Color.White;
             var font = SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
@@ -677,30 +683,30 @@ namespace ERP.Core.Database.Infrastructure.Services
                    (row >= n - 7 && col < 7);
         }
 
-        private static void DrawFinderPattern(Image<Rgba32> canvas, float qrOriginX, float qrOriginY, int U, LinearGradientBrush gradient, int startRow, int startCol)
+        // Finder pattern ESTÁNDAR: cuadrado, sin redondear, color sólido
+        private static void DrawStandardFinderPattern(Image<Rgba32> canvas, int qrOriginX, int qrOriginY, int U, Color color, int startRow, int startCol)
         {
             var eyeX = qrOriginX + startCol * U;
             var eyeY = qrOriginY + startRow * U;
-            var eyeSize = 7 * U;
+            const int eyeSize = 7 * 19;
 
-            var outerRadius = 1.2f * U;
+            // Exterior: cuadrado 7x7 módulos
             var outerRect = new RectangleF(eyeX, eyeY, eyeSize, eyeSize);
-            var outerPath = CreateRoundedRectangle(outerRect, outerRadius);
-            canvas.Mutate(ctx => ctx.Fill(gradient, outerPath));
+            canvas.Mutate(ctx => ctx.Fill(darkColor, outerRect));
 
+            // Hueco: cuadrado 5x5 módulos (inset 1)
             var holeInset = 1 * U;
             var holeSize = 5 * U;
-            var holeRadius = 0.7f * U;
             var holeRect = new RectangleF(eyeX + holeInset, eyeY + holeInset, holeSize, holeSize);
-            var holePath = CreateRoundedRectangle(holeRect, holeRadius);
-            canvas.Mutate(ctx => ctx.Fill(Color.White, holePath));
+            canvas.Mutate(ctx => ctx.Fill(Color.White, holeRect));
 
+            // Centro: cuadrado 3x3 módulos (inset 2)
             var centerInset = 2 * U;
             var centerSize = 3 * U;
-            var centerRadius = 0.5f * U;
             var centerRect = new RectangleF(eyeX + centerInset, eyeY + centerInset, centerSize, centerSize);
-            var centerPath = CreateRoundedRectangle(centerRect, centerRadius);
-            canvas.Mutate(ctx => ctx.Fill(gradient, centerPath));
+            canvas.Mutate(ctx => ctx.Fill(darkColor, centerRect));
         }
+
+        private static Color darkColor = Color.FromRgb(15, 35, 75);
     }
 }
