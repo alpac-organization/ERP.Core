@@ -19,7 +19,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static string GetTypeCode(PurchaseRequestType type) => type switch
         {
             PurchaseRequestType.Requisition => "REQ",
-            PurchaseRequestType.Eventual => "EVE",
+            PurchaseRequestType.Eventual => "ENV",
             PurchaseRequestType.Monthly => "MEN",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de solicitud no soportado.")
         };
@@ -27,37 +27,58 @@ namespace ERP.Core.Database.Infrastructure.Services
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId)
         {
             var branch = await _unitOfWork.Branches.Entities
-                .Include(b => b.Company)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.Id == branchId);
 
-            if (branch == null)
+            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
             {
                 return (false, string.Empty);
             }
 
             var typeCode = GetTypeCode(purchaseRequestType);
+            var prefix = $"{branch.BranchCode.ToUpper()}-{typeCode}-";
 
-            var lastPurchaseRequest = await _unitOfWork.PurchaseRequests.Entities
-                .Where(pr => pr.BranchId == branchId && pr.RequestType == purchaseRequestType)
-                .OrderByDescending(pr => pr.CreatedAt)
-                .FirstOrDefaultAsync();
+            var existingCodes = await _unitOfWork.PurchaseRequests.Entities
+                .AsNoTracking()
+                .Where(pr => pr.BranchId == branchId
+                    && pr.RequestType == purchaseRequestType
+                    && pr.Code != null
+                    && pr.Code.StartsWith(prefix))
+                .Select(pr => pr.Code)
+                .ToListAsync();
 
-            int nextSequence = 1;
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
 
-            if (lastPurchaseRequest != null && !string.IsNullOrWhiteSpace(lastPurchaseRequest.Code))
+            return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+
+        public async Task<(bool IsSuccess, string Code)> GenerateUniquePurchaseOrderCode(
+            Guid purchaseRequestId,
+            CancellationToken ct = default)
+        {
+            var request = await _unitOfWork.PurchaseRequests.Entities
+                .AsNoTracking()
+                .Include(pr => pr.Branch)
+                .FirstOrDefaultAsync(pr => pr.Id == purchaseRequestId, ct);
+
+            if (request?.Branch is null || string.IsNullOrWhiteSpace(request.Branch.BranchCode))
             {
-                int lastDashIndex = lastPurchaseRequest.Code.LastIndexOf('-');
-
-                if (lastDashIndex > -1 && int.TryParse(lastPurchaseRequest.Code[(lastDashIndex + 1)..], out int lastSequence))
-                {
-                    nextSequence = lastSequence + 1;
-                }
+                return (false, string.Empty);
             }
 
-            string sequenceFormatted = nextSequence.ToString().PadLeft(2, '0');
-            string code = $"{branch.BranchCode?.ToUpper()}-{typeCode}-{sequenceFormatted}";
+            var prefix = $"{request.Branch.BranchCode.ToUpper()}-OC-";
 
-            return (true, code);
+            var existingCodes = await _unitOfWork.PurchaseOrders.Entities
+                .AsNoTracking()
+                .Where(po => po.PurchaseRequest.BranchId == request.BranchId
+                    && po.Code != null
+                    && po.Code.StartsWith(prefix))
+                .Select(po => po.Code)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+
+            return (true, $"{prefix}{maxSequence + 1:D2}");
         }
 
         public string GenerateModuleCode(string subject)
@@ -409,5 +430,32 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         #endregion Metodos Privado
+
+        #region Metodo para generar codigo producto
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(
+            Guid companyId, CancellationToken ct
+        )
+        {
+            var company = await _unitOfWork.Companies.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == companyId && c.DeletedAt == null, ct);
+
+            if (company is null || string.IsNullOrWhiteSpace(company.Code))
+            {
+                return (false, string.Empty);
+            }
+
+            var prefix = $"{company.Code}-";
+
+            var existingCodes = await _unitOfWork.Products.Entities
+                .AsNoTracking()
+                .Where(p => p.Code != null && p.Code.StartsWith(prefix))
+                .Select(p => p.Code)
+                .ToListAsync(ct);
+
+            int maxSequence = GetMaxSequence(prefix, existingCodes);
+            return (true, $"{prefix}{maxSequence + 1:D3}");
+        }
+        #endregion Products
     }
 }

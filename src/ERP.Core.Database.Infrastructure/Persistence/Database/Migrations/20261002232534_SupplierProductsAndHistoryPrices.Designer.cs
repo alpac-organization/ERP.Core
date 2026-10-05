@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261002232534_SupplierProductsAndHistoryPrices")]
+    partial class SupplierProductsAndHistoryPrices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2360,6 +2363,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("company_id");
 
                     b.Property<string>("Consignee")
+                        .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("character varying(70)")
                         .HasColumnName("consignee");
@@ -2437,11 +2441,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("reception_id");
 
                     b.Property<string>("Sender")
+                        .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("character varying(70)")
                         .HasColumnName("sender");
 
                     b.Property<string>("ShippingCompany")
+                        .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("character varying(70)")
                         .HasColumnName("shipping_company");

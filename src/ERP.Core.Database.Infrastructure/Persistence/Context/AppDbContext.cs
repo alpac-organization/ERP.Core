@@ -145,9 +145,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<SupplierBankAccount> SupplierBankAccounts => Set<SupplierBankAccount>();
+        public DbSet<SupplierProduct> SupplierProducts => Set<SupplierProduct>();
+        public DbSet<HistoryPrices> HistoryPrices => Set<HistoryPrices>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
 
         public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+        public DbSet<PurchaseOrderItem> PurchaseOrderItems => Set<PurchaseOrderItem>();
         public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
         public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
         public DbSet<ServiceOrderRequistions> ServiceOrderRequistions => Set<ServiceOrderRequistions>();
