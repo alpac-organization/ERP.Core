@@ -25,6 +25,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.QuantityUnit)
                 .HasColumnName("quantity_unit");
 
+            builder.Property(e => e.EstimatedPrice)
+                .HasColumnName("estimated_price")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
             builder.Property(e => e.UnitMeasureId)
                 .HasColumnName("unit_measure_id")
                 .IsRequired();
@@ -77,6 +82,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(e => e.PurchaseRequest)
                 .WithMany(pr => pr.PurchaseRequestItems)
                 .HasForeignKey(e => e.PurchaseRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.PurchaseOrderItems)
+                .WithOne(poi => poi.PurchaseRequestItem)
+                .HasForeignKey(poi => poi.PurchaseRequestItemId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

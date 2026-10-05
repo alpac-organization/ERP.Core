@@ -20,6 +20,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// Cantidad por unidad.
         /// </summary>
         public int? QuantityUnit { get; set; }
+
+        //Precio en el momento exacto que se agrega el item a la purchase
+        public decimal EstimatedPrice { get; set; }
         
         /// <summary>
         /// Descripción del producto.
@@ -52,6 +55,11 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// Listado Cotizaciones por item.
         /// </summary>
         public virtual ICollection<Quotation> Quotations { get; set; } = [];
+
+        /// <summary>
+        /// Ítems de orden de compra generados a partir de esta línea.
+        /// </summary>
+        public virtual ICollection<PurchaseOrderItem> PurchaseOrderItems { get; set; } = [];
     }
 
     public class PurchaseRequestItemAdditionalData
