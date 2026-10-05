@@ -28,6 +28,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.LastPriceUpdate)
+                .HasColumnName("last_price_update")
+                .HasColumnType("timestamp with time zone")
+                .IsRequired();
+
             builder.Property(e => e.ProductId)
                 .HasColumnName("product_id")
                 .IsRequired();

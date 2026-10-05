@@ -50,6 +50,11 @@ namespace ERP.Core.Database.Domain.Enums
         /// Define la segmentación geográfica (provincias, estados o regiones) 
         /// para la ubicación de empleados, clientes o proveedores.
         /// </summary>
-        Departaments = 7
+        Departaments = 7,
+
+        /// <summary>
+        /// Catálogo de motivos de rechazo para solicitudes y órdenes de compra.
+        /// </summary>
+        PurchaseRejectionReasons = 8
     }
 }

@@ -7,7 +7,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
     public class PurchaseOrder : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
+
+        // Código único de la orden de compra 
+        public string? Code { get; set; }
         
+        public Guid? SupplierId {get; set;}
+        public virtual Supplier? Supplier {get; set;}
         public string? Comments { get; set; }
         public DateOnly SentToReviewAt { get; set; }
 
@@ -19,5 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public Guid PurchaseRequestId { get; set; }
         public virtual PurchaseRequest PurchaseRequest { get; set; } = default!;
+
+        public virtual ICollection<PurchaseOrderItem> PurchaseOrderItems { get; set; } = [];
     }
 }
