@@ -18,7 +18,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            //Agregar las siguiente columnas de la tabla como tal.
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
+
+            builder.Property(e => e.Code)
+                .HasColumnName("code")
+                .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.HasIndex(e => e.Code)
+                .IsUnique()
+                .HasDatabaseName("ux_purchase_orders_code")
+                .HasFilter("\"code\" IS NOT NULL");
+
+            builder.Property(e => e.SupplierId)
+                .HasColumnName("supplier_id")
+                .IsRequired(false);
+
             builder.Property(e => e.SentToReviewAt)
                 .HasColumnName("send_to_review_at")
                 .HasColumnType("date")
@@ -49,9 +67,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
+            builder.HasIndex(e => e.PurchaseRequestId)
+                .HasDatabaseName("ix_purchase_orders_purchase_request_id");
+
+            builder.HasIndex(e => e.SupplierId)
+                .HasDatabaseName("ix_purchase_orders_supplier_id");
+
             builder.HasOne(e => e.PurchaseRequest)
-                .WithOne(pr => pr.PurchaseOrder)
-                .HasForeignKey<PurchaseOrder>(e => e.PurchaseRequestId)
+                .WithMany(pr => pr.PurchaseOrders)
+                .HasForeignKey(e => e.PurchaseRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.Supplier)
+                .WithMany(s => s.PurchaseOrders)
+                .HasForeignKey(e => e.SupplierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.SentByUser)
@@ -62,6 +91,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(x => x.ReviewedByUser)
                 .WithMany(u => u.ReviewedPurchaseOrder)
                 .HasForeignKey(x => x.ReviewedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.PurchaseOrderItems)
+                .WithOne(poi => poi.PurchaseOrder)
+                .HasForeignKey(poi => poi.PurchaseOrderId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

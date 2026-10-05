@@ -42,6 +42,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     public class DocumentInformation
     {
         public Guid DocumentId { get; set; }
+        public Guid OperationalOrderId { get; set; }
         public DocumentType DocumentType { get; set; }
         public string? DocumentNumbers { get; set; }
     }

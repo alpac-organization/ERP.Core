@@ -27,12 +27,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("concept")
                 .HasMaxLength(1000);
 
-            builder.Property(e => e.ReasonRejection)
-                .HasColumnName("reason_rejection")
-                .HasMaxLength(1000);
+            builder.Property(e => e.ReasonRejectionId)
+                .HasColumnName("reason_rejection_id")
+                .IsRequired(false);
 
-            builder.Property(e => e.AnnulmentReason)
-                .HasColumnName("annulment_reason")
+            builder.Property(e => e.RejectionComments)
+                .HasColumnName("rejection_comments")
+                .HasMaxLength(1000)
+                .IsRequired(false);
+
+            builder.Property(e => e.AnnulmentReasonId)
+                .HasColumnName("annulment_reason_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.AnnulmentComments)
+                .HasColumnName("annulment_comments")
                 .HasMaxLength(1000)
                 .IsRequired(false);
 
@@ -140,6 +149,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(e => e.AnnulledByUser)
                 .WithMany(rp => rp.AnnulledPurchaseRequests)
                 .HasForeignKey(e => e.AnnulledByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.ReasonRejection)
+                .WithMany()
+                .HasForeignKey(e => e.ReasonRejectionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.AnnulmentReason)
+                .WithMany()
+                .HasForeignKey(e => e.AnnulmentReasonId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

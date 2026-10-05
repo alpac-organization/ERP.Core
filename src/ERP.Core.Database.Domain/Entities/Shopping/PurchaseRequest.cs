@@ -26,12 +26,16 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// <summary>
         /// Motivo de rechazo de la solicitud de compra
         /// </summary>
-        public string? ReasonRejection { get; set; }
+        public int? ReasonRejectionId { get; set; }
+        public virtual SubCatalog? ReasonRejection { get; set; }
+        public string? RejectionComments { get; set; }
 
         /// <summary>
         /// Motivo o justificación por el cual fue anulada o devuelta la solicitud
         /// </summary>
-        public string? AnnulmentReason { get; set; }
+        public int? AnnulmentReasonId { get; set; }
+        public virtual SubCatalog? AnnulmentReason { get; set; }
+        public string? AnnulmentComments { get; set; }
 
 
         /// <summary>
@@ -106,9 +110,9 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual WorkArea WorkArea { get; set;} = default!;
 
         /// <summary>
-        /// Flujo de revisión de solicitudes de compras
+        /// Una solicitud puede generar N órdenes de compra (una por proveedor).
         /// </summary>
-        public virtual PurchaseOrder? PurchaseOrder { get; set; }
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = [];
         public virtual PurchaseRequestsReviewedAccounting? AccountingReview { get; set; }
         public virtual PurchaseRequestsReviewedManagement? ManagementReview { get; set; }
 

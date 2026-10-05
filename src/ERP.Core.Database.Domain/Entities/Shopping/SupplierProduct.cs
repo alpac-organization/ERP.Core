@@ -13,8 +13,13 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
+        
+        
+        /// Fecha en que el precio unitario vigente entró en vigor.
+        public DateTime LastPriceUpdate { get; set; }
 
         public Guid SupplierId { get; set; }
+        
         public virtual Supplier Supplier { get; set; } = default!;
 
         public virtual ICollection<HistoryPrices> PriceHistories { get; set; } = [];

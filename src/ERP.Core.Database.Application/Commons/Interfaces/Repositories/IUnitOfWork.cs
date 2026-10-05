@@ -122,6 +122,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISuppliersRepository Suppliers { get; }
         ISuppliersDetailsRepository SuppliersDetails { get; }
         IPurchaseOrdersRepository PurchaseOrders { get; }
+        IPurchaseOrderItemsRepository PurchaseOrderItems { get; }
         IPurchaseRequestsRepository PurchaseRequests { get; }
         IPurchaseRequestItemsRepository PurchaseRequestItems { get; }
         IPurchaseRequestsReviewedAccountingRepository PurchaseRequestsReviewedAccounting { get; }
