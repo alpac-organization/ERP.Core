@@ -469,7 +469,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion Products
 
-        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null, string? headerText = null, CancellationToken cancellationToken = default)
+        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null, string? headerText = null)
         {
             const int n = 33;
             const int U = 19;
@@ -481,9 +481,9 @@ namespace ERP.Core.Database.Infrastructure.Services
             const int canvasSize = 891;
             const int canvasHeight = canvasSize + headerHeight;
 
+            logoUrl     ??= string.Empty;
+            headerText  ??= "VOUCHER DE ASIGNACIÓN";
             redirectUrl ??= "https://web-alpac.onrender.com/qr-code";
-            logoUrl ??= string.Empty;
-            headerText ??= "VOUCHER DE ASIGNACIÓN";
 
             // Generar QR con corrección de errores H
             using var qrGenerator = new QRCodeGenerator();
@@ -563,7 +563,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 var logoBytes = Convert.FromBase64String(logoBase64);
                 using var logoStream = new MemoryStream(logoBytes);
-                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, cancellationToken);
+                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, default);
 
                 // Logo al 60% de la placa, centrado
                 var logoMaxSize = (int)(plateSize * 0.6);
@@ -593,11 +593,11 @@ namespace ERP.Core.Database.Infrastructure.Services
             DrawHeader(canvas, canvasSize, headerHeight, headerText);
 
             using var outputStream = new MemoryStream();
-            await canvas.SaveAsPngAsync(outputStream, cancellationToken);
+            await canvas.SaveAsPngAsync(outputStream, default);
 
             outputStream.Position = 0;
             var base64Image = Convert.ToBase64String(outputStream.ToArray());
-            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, cancellationToken);
+            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, default);
 
             return s3Url;
         }
