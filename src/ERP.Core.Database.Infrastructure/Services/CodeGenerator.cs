@@ -469,7 +469,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion Products
 
-        public async Task<string> GenerateQrCodeAsync(QrConfig qrConfig, CancellationToken cancellationToken = default)
+        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null, string? headerText = null, CancellationToken cancellationToken = default)
         {
             const int n = 33;
             const int U = 19;
@@ -481,9 +481,9 @@ namespace ERP.Core.Database.Infrastructure.Services
             const int canvasSize = 891;
             const int canvasHeight = canvasSize + headerHeight;
 
-            string redirectUrl = qrConfig?.RedirectUrl ?? "https://web-alpac.onrender.com/qr-code";
-            string logoUrl = qrConfig?.LogoUrl ?? string.Empty;
-            string headerText = qrConfig?.HeaderText ?? "VOUCHER DE ASIGNACIÓN";
+            redirectUrl ??= "https://web-alpac.onrender.com/qr-code";
+            logoUrl ??= string.Empty;
+            headerText ??= "VOUCHER DE ASIGNACIÓN";
 
             // Generar QR con corrección de errores H
             using var qrGenerator = new QRCodeGenerator();
