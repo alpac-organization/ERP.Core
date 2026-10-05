@@ -496,7 +496,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 try
                 {
-                    using var httpClient = new HttpClient();
+                    using var httpClient = _httpClientFactory.CreateClient();
                     var logoBytes = await httpClient.GetByteArrayAsync(logoUrl);
                     logoBase64 = Convert.ToBase64String(logoBytes);
                 }
