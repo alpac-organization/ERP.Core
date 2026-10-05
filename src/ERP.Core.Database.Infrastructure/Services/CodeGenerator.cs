@@ -433,7 +433,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Metodo para generar codigo producto
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(
-            Guid companyId, CancellationToken ct
+            Guid companyId, Guid categoryId , CancellationToken ct
         )
         {
             var company = await _unitOfWork.Companies.Entities
@@ -444,8 +444,16 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 return (false, string.Empty);
             }
+            var category = await _unitOfWork.CategoryProducts.Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c=>c.Id == categoryId && c.DeletedAt == null, ct);
+            
+            if(category is null || string.IsNullOrWhiteSpace(category.Code))
+            { 
+                return (false, string.Empty);
+            }
 
-            var prefix = $"{company.Code}-";
+            var prefix = $"{company.Code}-{category.Code}-";
 
             var existingCodes = await _unitOfWork.Products.Entities
                 .AsNoTracking()
