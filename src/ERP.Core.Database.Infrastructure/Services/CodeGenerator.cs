@@ -1,20 +1,28 @@
 using NanoidDotNet;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using QRCoder;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Application.Commons.Interfaces.AWS;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
-    public partial class CodeGenerator(IUnitOfWork _unitOfWork) : ICodeGenerator
+    public partial class CodeGenerator(IUnitOfWork _unitOfWork, IS3StorageService _s3StorageService) : ICodeGenerator
     {
         [GeneratedRegex(@"[^a-zA-Z]")]
         private static partial Regex GenerateModuleCode();
         private readonly IUnitOfWork _unitOfWork = _unitOfWork;
+        private readonly IS3StorageService _s3StorageService = _s3StorageService;
 
         private static string GetTypeCode(PurchaseRequestType type) => type switch
         {
@@ -409,5 +417,214 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         #endregion Metodos Privado
+
+        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoBase64 = null, CancellationToken cancellationToken = default)
+        {
+            const int n = 33;
+            var U = Math.Max(10, 630 / n);
+            var Q = n * U;
+            var padding = 4 * U;
+            var card = Q + 2 * padding;
+            const int margin = 56;
+            var canvasSize = card + 2 * margin;
+
+            using var qrGenerator = new QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode(redirectUrl, QRCodeGenerator.ECCLevel.H);
+            var qrCode = new PngByteQRCode(qrCodeData);
+            var qrBytes = qrCode.GetGraphic(20);
+            
+            using var qrStream = new MemoryStream(qrBytes);
+            using var qrImage = await Image.LoadAsync<Rgba32>(qrStream, cancellationToken);
+            
+            var moduleMatrix = GetModuleMatrix(qrCodeData, n);
+
+            using var canvas = new Image<Rgba32>(canvasSize, canvasSize);
+            canvas.Mutate(ctx =>
+            {
+                ctx.Fill(Color.FromRgb(238, 243, 250));
+            });
+
+            var cardX = margin;
+            var cardY = margin;
+            var cardRect = new RectangleF(cardX, cardY, card, card);
+
+            var shadowColor = Color.FromRgba(10, 37, 84, (byte)(255 * 0.6));
+            canvas.Mutate(ctx =>
+            {
+                var shadowRect = new RectangleF(cardX - 12, cardY + 12, card, card);
+                var shadowPath = CreateRoundedRectangle(shadowRect, 52);
+                ctx.Fill(shadowColor, shadowPath);
+            });
+
+            canvas.Mutate(ctx =>
+            {
+                var cardPath = CreateRoundedRectangle(cardRect, 52);
+                ctx.Fill(Color.White, cardPath);
+            });
+
+            var qrOriginX = cardX + padding;
+            var qrOriginY = cardY + padding;
+
+            var gradientBrush = new LinearGradientBrush(
+                new PointF(qrOriginX, qrOriginY),
+                new PointF(qrOriginX + Q, qrOriginY + Q),
+                GradientRepetitionMode.Repeat,
+                new ColorStop(0f, Color.FromRgb(0, 79, 144)),
+                new ColorStop(1f, Color.FromRgb(176, 24, 28)));
+
+            var moduleInset = 0.03f * U;
+            var moduleRadius = 0.22f * U;
+
+            for (int row = 0; row < n; row++)
+            {
+                for (int col = 0; col < n; col++)
+                {
+                    if (!moduleMatrix[row][col]) continue;
+
+                    bool isFinderPattern = IsInFinderPattern(row, col, n);
+                    if (isFinderPattern) continue;
+
+                    var x = qrOriginX + col * U + moduleInset;
+                    var y = qrOriginY + row * U + moduleInset;
+                    var size = U - 2 * moduleInset;
+
+                    var moduleRect = new RectangleF(x, y, size, size);
+                    var modulePath = CreateRoundedRectangle(moduleRect, moduleRadius);
+                    canvas.Mutate(ctx => ctx.Fill(gradientBrush, modulePath));
+                }
+            }
+
+            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, 0, 0);
+            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, n - 7, 0);
+            DrawFinderPattern(canvas, qrOriginX, qrOriginY, U, gradientBrush, 0, n - 7);
+
+            var K = n % 2 == 0 ? 8 : 9;
+            if ((double)K / n > 0.30) K = n % 2 == 0 ? 8 : 7;
+            var k0 = (n - K) / 2;
+
+            var plateSize = K * U;
+            var plateX = qrOriginX + k0 * U;
+            var plateY = qrOriginY + k0 * U;
+            var plateRadius = 0.5f * U;
+
+            var plateRect = new RectangleF(plateX, plateY, plateSize, plateSize);
+            var platePath = CreateRoundedRectangle(plateRect, plateRadius);
+            canvas.Mutate(ctx => ctx.Fill(Color.White, platePath));
+
+            if (!string.IsNullOrEmpty(logoBase64))
+            {
+                var logoBytes = Convert.FromBase64String(logoBase64);
+                using var logoStream = new MemoryStream(logoBytes);
+                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, cancellationToken);
+
+                var logoHeight = (int)(plateSize * 0.8);
+                var logoWidth = (int)((double)logoImage.Width / logoImage.Height * logoHeight);
+                var logoX = plateX + (plateSize - logoWidth) / 2f;
+                var logoY = plateY + (plateSize - logoHeight) / 2f;
+
+                logoImage.Mutate(ctx => ctx.Resize(new ResizeOptions
+                {
+                    Size = new Size(logoWidth, logoHeight),
+                    Mode = ResizeMode.Max,
+                    Sampler = KnownResamplers.Lanczos3
+                }));
+
+                var logoRect = new Rectangle((int)logoX, (int)logoY, logoWidth, logoHeight);
+                canvas.Mutate(ctx => ctx.DrawImage(logoImage, logoRect, 1f));
+            }
+
+            using var outputStream = new MemoryStream();
+            await canvas.SaveAsPngAsync(outputStream, cancellationToken);
+            outputStream.Position = 0;
+
+            var base64Image = Convert.ToBase64String(outputStream.ToArray());
+            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, cancellationToken);
+
+            return s3Url;
+        }
+
+        private static bool[][] GetModuleMatrix(QRCodeData qrCodeData, int n)
+        {
+            var matrix = new bool[n][];
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i] = new bool[n];
+            }
+
+            var modules = qrCodeData.ModuleMatrix;
+            var moduleCount = modules.Count;
+            var scale = Math.Max(1, moduleCount / n);
+
+            for (int row = 0; row < n; row++)
+            {
+                for (int col = 0; col < n; col++)
+                {
+                    var srcRow = row * scale;
+                    var srcCol = col * scale;
+                    if (srcRow < moduleCount && srcCol < moduleCount)
+                    {
+                        matrix[row][col] = modules[srcRow][srcCol];
+                    }
+                }
+            }
+
+            return matrix;
+        }
+
+        private static IPath CreateRoundedRectangle(RectangleF rect, float radius)
+        {
+            var path = new PathBuilder();
+            var x = rect.X;
+            var y = rect.Y;
+            var w = rect.Width;
+            var h = rect.Height;
+            var r = Math.Min(radius, Math.Min(w, h) / 2);
+
+            path.StartFigure();
+            path.AddLine(new PointF(x + r, y), new PointF(x + w - r, y));
+            path.AddArc(new RectangleF(x + w - r * 2, y, r * 2, r * 2), 270f, 90f, 1f);
+            path.AddLine(new PointF(x + w, y + r), new PointF(x + w, y + h - r));
+            path.AddArc(new RectangleF(x + w - r * 2, y + h - r * 2, r * 2, r * 2), 0f, 90f, 1f);
+            path.AddLine(new PointF(x + w - r, y + h), new PointF(x + r, y + h));
+            path.AddArc(new RectangleF(x, y + h - r * 2, r * 2, r * 2), 90f, 90f, 1f);
+            path.AddLine(new PointF(x, y + h - r), new PointF(x, y + r));
+            path.AddArc(new RectangleF(x, y, r * 2, r * 2), 180f, 90f, 1f);
+            path.CloseFigure();
+
+            return path.Build();
+        }
+
+        private static bool IsInFinderPattern(int row, int col, int n)
+        {
+            return (row < 7 && col < 7) ||
+                   (row < 7 && col >= n - 7) ||
+                   (row >= n - 7 && col < 7);
+        }
+
+        private static void DrawFinderPattern(Image<Rgba32> canvas, float qrOriginX, float qrOriginY, int U, LinearGradientBrush gradient, int startRow, int startCol)
+        {
+            var eyeX = qrOriginX + startCol * U;
+            var eyeY = qrOriginY + startRow * U;
+            var eyeSize = 7 * U;
+
+            var outerRadius = 1.2f * U;
+            var outerRect = new RectangleF(eyeX, eyeY, eyeSize, eyeSize);
+            var outerPath = CreateRoundedRectangle(outerRect, outerRadius);
+            canvas.Mutate(ctx => ctx.Fill(gradient, outerPath));
+
+            var holeInset = 1 * U;
+            var holeSize = 5 * U;
+            var holeRadius = 0.7f * U;
+            var holeRect = new RectangleF(eyeX + holeInset, eyeY + holeInset, holeSize, holeSize);
+            var holePath = CreateRoundedRectangle(holeRect, holeRadius);
+            canvas.Mutate(ctx => ctx.Fill(Color.White, holePath));
+
+            var centerInset = 2 * U;
+            var centerSize = 3 * U;
+            var centerRadius = 0.5f * U;
+            var centerRect = new RectangleF(eyeX + centerInset, eyeY + centerInset, centerSize, centerSize);
+            var centerPath = CreateRoundedRectangle(centerRect, centerRadius);
+            canvas.Mutate(ctx => ctx.Fill(gradient, centerPath));
+        }
     }
 }
