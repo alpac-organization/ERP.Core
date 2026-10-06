@@ -121,6 +121,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
         public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
         public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
+        public DbSet<Codes> Codes => Set<Codes>();
         #endregion
 
         #region Operaciones
@@ -231,6 +232,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DestinationType>("public", "destination_type_enum");
             modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
+            modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
