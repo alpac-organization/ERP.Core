@@ -691,11 +691,6 @@ namespace ERP.Core.Database.Infrastructure.Services
                     int plate = K * U;
                     ctx.Fill(Color.White, RoundedRect(originX + k0 * U, originY + k0 * U, plate, plate, U * 0.5f));
                 }
-
-                if (hasCode)
-                {
-                    DrawFooter(ctx, width, cardY + card + 20, FooterHeight, code!);
-                }
             });
 
             // Logo centrado: 80% del lado de la placa
