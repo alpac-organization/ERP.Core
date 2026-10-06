@@ -40,6 +40,8 @@ namespace ERP.Core.Database.Infrastructure
                 throw new InvalidOperationException("No se encontró la cadena 'ErpConnectionDatabase'.");
             }
 
+            services.AddHttpClient();
+
             services.AddDbContext<ErpDbContext>(options =>
                 options.ConfigureWarnings(warnings =>
                         warnings.Ignore(RelationalEventId.PendingModelChangesWarning))

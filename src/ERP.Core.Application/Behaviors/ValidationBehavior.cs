@@ -30,7 +30,7 @@ namespace ERP.Core.Application.Behaviors
                 }
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
     }
 }
