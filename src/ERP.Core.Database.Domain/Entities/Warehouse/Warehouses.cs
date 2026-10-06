@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
     {
         public string? Code { get; set; }
         public bool IsActive { get; set; } = true;
-        public WarehouseType WarehouseType { get; set; }
+        public WarehouseType WarehouseType { get; set; } = WarehouseType.Fiscal;
 
         public virtual WarehouseLocation WarehouseLocation { get; set; } = null!;
         public virtual WarehouseCapacity WarehouseCapacity { get; set; } = null!;
