@@ -485,7 +485,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
 
             var png = RenderQrPng(redirectUrl, logoBytes, headerText);
-            
+
             return await _s3StorageService.UploadImageAsync("qr-codes", "generated", Convert.ToBase64String(png), default);
         }
 
@@ -573,6 +573,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
         }
 
+        #region Renderiza imagen png del qr
         public static byte[] RenderQrPng(string content, byte[]? logoBytes = null, string? headerText = null)
         {
             using var generator = new QRCodeGenerator();
@@ -687,6 +688,8 @@ namespace ERP.Core.Database.Infrastructure.Services
             canvas.SaveAsPng(ms);
             return ms.ToArray();
         }
+        
+        #endregion
 
         private static bool[][] ReadMatrix(QRCodeData data, out int n)
         {
