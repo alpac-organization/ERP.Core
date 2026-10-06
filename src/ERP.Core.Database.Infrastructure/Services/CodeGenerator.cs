@@ -16,6 +16,8 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Application.Commons.Interfaces.AWS;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
+using ZXing;
+using ZXing.Common;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -605,17 +607,16 @@ namespace ERP.Core.Database.Infrastructure.Services
             using var logo = TryLoadLogo(logoBytes);
             bool hasLogo   = logo is not null;
             bool hasHeader = !string.IsNullOrWhiteSpace(headerText);
-            bool hasCode   = !string.IsNullOrWhiteSpace(code);
 
-            // Medidas: el ancho es fijo (papel) y el modulo se calcula para llenarlo
+            // Configuración del ancho del qr y dimenciones
             int top     = hasHeader ? HeaderHeight : 0;
-            int bottom  = hasCode ? FooterHeight : 0;
+            int bottom  = 0;
             int width   = PaperWidthPx;
-            int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));   // n modulos + 4 de padding por lado
+            int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));
             int Q       = n * U;
             int padding = 4 * U;
             int card    = Q + 2 * padding;
-            int margin  = (width - card) / 2;                                // centrado
+            int margin  = (width - card) / 2;
             int cardY   = SideMargin + top;
             int height  = cardY + card + 20 + bottom;
             int originX = margin + padding;
@@ -777,17 +778,6 @@ namespace ERP.Core.Database.Infrastructure.Services
             ctx.DrawText(options, text, Color.White);
         }
 
-        private static void DrawFooter(IImageProcessingContext ctx, int width, int y, int height, string code)
-        {
-            var options = new RichTextOptions(GetFont(height * 0.55f))
-            {
-                Origin = new PointF(width / 2f, y + height / 2f),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            ctx.DrawText(options, code, NavyColor);
-        }
-
         private static Font GetFont(float size)
         {
             FontFamily family;
@@ -798,6 +788,138 @@ namespace ERP.Core.Database.Infrastructure.Services
             return family.CreateFont(size, FontStyle.Bold);
         }
 
+        #endregion
+
+        #region Generar codigo de barra
+        private const int BarcodeLength        = 13;
+        private const int BarcodeHeight        = 130;
+        private const int BarcodeCardPadding   = 24;
+        private const int BarcodeLogoHeight    = 52;
+        private const string BarcodeAlphabet   = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        public async Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null)
+        {
+            var code = GenerateUniqueBarcodeValue();
+ 
+            var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
+            var png = RenderBarcodePng(code, logoBytes);
+ 
+            var imageUrl = await _s3StorageService.UploadImageAsync("barcodes", "generated", Convert.ToBase64String(png), default);
+ 
+            return (imageUrl, code);
+        }
+ 
+        private static string GenerateUniqueBarcodeValue(int length = BarcodeLength)
+        {
+            return string.Create(length, BarcodeAlphabet, (span, alphabet) =>
+            {
+                for (int i = 0; i < span.Length; i++)
+                    span[i] = alphabet[System.Security.Cryptography.RandomNumberGenerator.GetInt32(alphabet.Length)];
+            });
+        }
+ 
+        #region Renderiza imagen png del codigo de barras
+        public static byte[] RenderBarcodePng(string code, byte[]? logoBytes = null)
+        {
+            var hints = new Dictionary<EncodeHintType, object> { { EncodeHintType.MARGIN, 0 } };
+            BitMatrix matrix = new MultiFormatWriter().encode(code, BarcodeFormat.CODE_128, 0, 1, hints);
+            int modules = matrix.Width;
+ 
+            using var logo = TryLoadLogo(logoBytes);
+            bool hasLogo = logo is not null;
+
+            //Configuración de las dimenciones, codigo de barra
+            int width       = PaperWidthPx;
+            int card        = width - 2 * SideMargin;
+            int cardX       = SideMargin;
+            int cardY       = SideMargin;
+            int available   = card - 2 * BarcodeCardPadding;
+            int moduleW     = Math.Max(1, available / modules);
+            int barcodeW    = modules * moduleW;
+            int barcodeX    = (width - barcodeW) / 2;
+ 
+            int logoBlock   = hasLogo ? BarcodeLogoHeight + 16 : 0;
+            int barcodeY    = cardY + BarcodeCardPadding + logoBlock;
+            int textY       = barcodeY + BarcodeHeight + 14;
+            int textHeight  = 42;
+            int pillY       = textY + textHeight + 14;
+            const int pillW = 100, pillH = 10;
+            int cardH       = pillY + pillH + BarcodeCardPadding - cardY;
+            int height      = cardY + cardH + SideMargin;
+            float radius    = 28f;
+ 
+            var gradient = new LinearGradientBrush(
+                new PointF(barcodeX, 0),
+                new PointF(barcodeX + barcodeW, 0),
+                GradientRepetitionMode.None,
+                new ColorStop(0f, BlueColor),
+                new ColorStop(1f, RedColor)
+            );
+ 
+            using var canvas = new Image<Rgba32>(width, height);
+            canvas.Mutate(ctx => ctx.Fill(BgColor));
+ 
+            // Sombra de la tarjeta
+            using (var shadow = new Image<Rgba32>(width, height))
+            {
+                shadow.Mutate(ctx =>
+                {
+                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(cardX, cardY + 6, card, cardH, radius));
+                    ctx.GaussianBlur(5f);
+                });
+                canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
+            }
+ 
+            canvas.Mutate(ctx =>
+            {
+                // Tarjeta blanca
+                ctx.Fill(Color.White, RoundedRect(cardX, cardY, card, cardH, radius));
+ 
+                int i = 0;
+                while (i < modules)
+                {
+                    if (!matrix[i, 0]) { i++; continue; }
+                    int start = i;
+                    while (i < modules && matrix[i, 0]) i++;
+ 
+                    ctx.Fill(gradient, new RectangularPolygon(
+                        barcodeX + start * moduleW,
+                        barcodeY,
+                        (i - start) * moduleW,
+                        BarcodeHeight));
+                }
+ 
+                // Código en texto, centrado
+                var textOptions = new RichTextOptions(GetFont(34f))
+                {
+                    Origin = new PointF(width / 2f, textY),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
+                ctx.DrawText(textOptions, code, NavyColor);
+ 
+                ctx.Fill(Color.FromRgb(224, 43, 39),
+                    RoundedRect((width - pillW) / 2f, pillY, pillW, pillH, pillH / 2f));
+            });
+ 
+            // Logo centrado arriba de las barras
+            if (hasLogo)
+            {
+                double scale = (double)BarcodeLogoHeight / logo!.Height;
+                int lw = Math.Max(1, (int)Math.Round(logo.Width * scale));
+                logo.Mutate(ctx => ctx.Resize(lw, BarcodeLogoHeight, KnownResamplers.Lanczos3));
+ 
+                int lx = (width - lw) / 2;
+                int ly = cardY + BarcodeCardPadding;
+                canvas.Mutate(ctx => ctx.DrawImage(logo, new Point(lx, ly), 1f));
+            }
+ 
+            using var ms = new MemoryStream();
+            canvas.SaveAsPng(ms);
+            return ms.ToArray();
+        }
+        #endregion
+ 
         #endregion
     }
 }
