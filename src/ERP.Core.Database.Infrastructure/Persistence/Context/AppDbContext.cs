@@ -88,11 +88,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Lots> Lots => Set<Lots>();
         public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
         public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
+        public DbSet<LotsPositionsCoordinates> LotsPositionsCoordinates => Set<LotsPositionsCoordinates>();
         public DbSet<LotsCoordinates> LotsCoordinates => Set<LotsCoordinates>();
 
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
+        public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         #endregion
 

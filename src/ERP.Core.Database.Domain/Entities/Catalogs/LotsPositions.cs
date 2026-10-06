@@ -9,4 +9,6 @@ public class LotsPositions : BasePositionsPallets
     public virtual Lots Lot { get; set; } = null!;
 
     public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
+
+    public virtual LotsPositionsCoordinates LotsPositionsCoordinates { get; set; } = null!;
 }
