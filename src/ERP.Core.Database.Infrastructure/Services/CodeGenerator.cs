@@ -471,6 +471,9 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Generar codigo QR
         private const int HeaderHeight = 80;
+        private const int FooterHeight = 64;
+        private const int PaperWidthPx = 576;   // 80mm @203dpi (area imprimible 72mm). Si tu impresora es 300dpi usa 850
+        private const int SideMargin   = 12;
         private const string DefaultUrl = "https://web-alpac.onrender.com";
 
         private static readonly Color BgColor   = Color.FromRgb(238, 243, 250);
@@ -478,15 +481,35 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static readonly Color BlueColor = Color.FromRgb(0, 79, 144);
         private static readonly Color RedColor  = Color.FromRgb(176, 24, 28);
 
-        public async Task<string> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null, string? headerText = null)
+        public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null, string? headerText = null)
         {
             redirectUrl = string.IsNullOrWhiteSpace(redirectUrl) ? DefaultUrl : redirectUrl;
 
+            var code = GenerateUniqueCode();
+            var content = AppendCode(redirectUrl, code);
+
             var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
+            var png = RenderQrPng(content, logoBytes, headerText, code);
 
-            var png = RenderQrPng(redirectUrl, logoBytes, headerText);
+            var imageUrl = await _s3StorageService.UploadImageAsync("qr-codes", "generated", Convert.ToBase64String(png), default);
 
-            return await _s3StorageService.UploadImageAsync("qr-codes", "generated", Convert.ToBase64String(png), default);
+            return (imageUrl, code);
+        }
+
+        private static string GenerateUniqueCode(int length = 8)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return string.Create(length, chars, (span, alphabet) =>
+            {
+                for (int i = 0; i < span.Length; i++)
+                    span[i] = alphabet[System.Security.Cryptography.RandomNumberGenerator.GetInt32(alphabet.Length)];
+            });
+        }
+
+        private static string AppendCode(string url, string code)
+        {
+            var sep = url.Contains('?') ? "&" : "?";
+            return $"{url}{sep}code={Uri.EscapeDataString(code)}";
         }
 
         #region Transformar logo en Base64
@@ -522,9 +545,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 return null;
             }
         }
-
         #endregion
-
 
         #region Carga Imagen de logo
         private static Image<Rgba32>? TryLoadLogo(byte[]? bytes)
@@ -574,7 +595,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         #region Renderiza imagen png del qr
-        public static byte[] RenderQrPng(string content, byte[]? logoBytes = null, string? headerText = null)
+        public static byte[] RenderQrPng(string content, byte[]? logoBytes = null, string? headerText = null, string? code = null)
         {
             using var generator = new QRCodeGenerator();
             using var qrData = generator.CreateQrCode(content, QRCodeGenerator.ECCLevel.H);
@@ -582,21 +603,24 @@ namespace ERP.Core.Database.Infrastructure.Services
             var matrix = ReadMatrix(qrData, out int n);
 
             using var logo = TryLoadLogo(logoBytes);
-            bool hasLogo = logo is not null;
+            bool hasLogo   = logo is not null;
             bool hasHeader = !string.IsNullOrWhiteSpace(headerText);
+            bool hasCode   = !string.IsNullOrWhiteSpace(code);
 
-            // Medidas
+            // Medidas: el ancho es fijo (papel) y el modulo se calcula para llenarlo
             int top     = hasHeader ? HeaderHeight : 0;
-            int U       = Math.Max(10, 630 / n);
+            int bottom  = hasCode ? FooterHeight : 0;
+            int width   = PaperWidthPx;
+            int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));   // n modulos + 4 de padding por lado
             int Q       = n * U;
             int padding = 4 * U;
             int card    = Q + 2 * padding;
-            int margin  = 56;
-            int width   = card + 2 * margin;
-            int height  = width + top;
-            int cardY   = margin + top;
+            int margin  = (width - card) / 2;                                // centrado
+            int cardY   = SideMargin + top;
+            int height  = cardY + card + 20 + bottom;
             int originX = margin + padding;
             int originY = cardY + padding;
+            float radius = 2.5f * U;
 
             // Zona libre cuadrada del logo (solo si hay logo)
             int K = 0, k0 = 0;
@@ -629,8 +653,8 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 shadow.Mutate(ctx =>
                 {
-                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(margin, cardY + 12, card, card, 52));
-                    ctx.GaussianBlur(9f);
+                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(margin, cardY + 6, card, card, radius));
+                    ctx.GaussianBlur(5f);
                 });
                 canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
             }
@@ -638,7 +662,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             canvas.Mutate(ctx =>
             {
                 // Tarjeta blanca
-                ctx.Fill(Color.White, RoundedRect(margin, cardY, card, card, 52));
+                ctx.Fill(Color.White, RoundedRect(margin, cardY, card, card, radius));
 
                 // Módulos de datos
                 for (int row = 0; row < n; row++)
@@ -658,14 +682,19 @@ namespace ERP.Core.Database.Infrastructure.Services
                     }
                 }
 
-                DrawEye(ctx, gradient, originX, originY, U);               
-                DrawEye(ctx, gradient, originX + (n - 7) * U, originY, U);    
-                DrawEye(ctx, gradient, originX, originY + (n - 7) * U, U);     
+                DrawEye(ctx, gradient, originX, originY, U);
+                DrawEye(ctx, gradient, originX + (n - 7) * U, originY, U);
+                DrawEye(ctx, gradient, originX, originY + (n - 7) * U, U);
 
                 if (hasLogo)
                 {
                     int plate = K * U;
                     ctx.Fill(Color.White, RoundedRect(originX + k0 * U, originY + k0 * U, plate, plate, U * 0.5f));
+                }
+
+                if (hasCode)
+                {
+                    DrawFooter(ctx, width, cardY + card + 20, FooterHeight, code!);
                 }
             });
 
@@ -688,7 +717,6 @@ namespace ERP.Core.Database.Infrastructure.Services
             canvas.SaveAsPng(ms);
             return ms.ToArray();
         }
-        
         #endregion
 
         private static bool[][] ReadMatrix(QRCodeData data, out int n)
@@ -752,6 +780,17 @@ namespace ERP.Core.Database.Infrastructure.Services
                 VerticalAlignment = VerticalAlignment.Center
             };
             ctx.DrawText(options, text, Color.White);
+        }
+
+        private static void DrawFooter(IImageProcessingContext ctx, int width, int y, int height, string code)
+        {
+            var options = new RichTextOptions(GetFont(height * 0.55f))
+            {
+                Origin = new PointF(width / 2f, y + height / 2f),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            ctx.DrawText(options, code, NavyColor);
         }
 
         private static Font GetFont(float size)
