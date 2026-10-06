@@ -9,4 +9,6 @@ public class RackPositions : BasePositionsPallets
     public virtual Racks Rack { get; set; } = null!;
 
     public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
+
+    public virtual RacksPositionsCoordinates RacksPositionsCoordinates { get; set; } = null!;
 }

@@ -7,6 +7,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -65,6 +66,8 @@ public class UnitOfWork(
         ILotsCapacityRepository lotsCapacityRepository,
         IRackCoordinateRepository rackCoordinateRepository,
         ILotCoordinateRepository lotCoordinateRepository,
+        ILotsPositionsCoordinatesRepository lotsPositionsCoordinatesRepository,
+        IRacksPositionsCoordinatesRepository racksPositionsCoordinatesRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
         IDucatRegistryRepository ducatRegistryRepository,
@@ -193,7 +196,9 @@ public class UnitOfWork(
         public IRackCoordinateRepository RackCoordinates => rackCoordinateRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
+        public ILotsPositionsCoordinatesRepository LotsPositionsCoordinates => lotsPositionsCoordinatesRepository;
         public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
+        public IRacksPositionsCoordinatesRepository RacksPositionsCoordinates => racksPositionsCoordinatesRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;

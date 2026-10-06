@@ -75,7 +75,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         IRackPositionsRepository RackPositions { get; }
         ILotsPositionsRepository LotsPositions { get; }
+        ILotsPositionsCoordinatesRepository LotsPositionsCoordinates { get; }
         IRackCoordinateRepository RackCoordinates { get; }
+        IRacksPositionsCoordinatesRepository RacksPositionsCoordinates { get; }
         ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
