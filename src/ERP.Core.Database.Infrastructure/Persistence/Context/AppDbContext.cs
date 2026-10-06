@@ -88,11 +88,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Lots> Lots => Set<Lots>();
         public DbSet<LotsCapacity> LotsCapacities => Set<LotsCapacity>();
         public DbSet<LotsPositions> LotsPositions => Set<LotsPositions>();
+        public DbSet<LotsPositionsCoordinates> LotsPositionsCoordinates => Set<LotsPositionsCoordinates>();
         public DbSet<LotsCoordinates> LotsCoordinates => Set<LotsCoordinates>();
 
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
+        public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         #endregion
 
@@ -121,6 +123,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
         public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
         public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
+        public DbSet<Codes> Codes => Set<Codes>();
         #endregion
 
         #region Operaciones
@@ -234,6 +237,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DestinationType>("public", "destination_type_enum");
             modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
+            modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

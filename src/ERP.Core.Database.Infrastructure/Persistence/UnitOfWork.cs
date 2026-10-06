@@ -7,6 +7,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -65,6 +66,8 @@ public class UnitOfWork(
         ILotsCapacityRepository lotsCapacityRepository,
         IRackCoordinateRepository rackCoordinateRepository,
         ILotCoordinateRepository lotCoordinateRepository,
+        ILotsPositionsCoordinatesRepository lotsPositionsCoordinatesRepository,
+        IRacksPositionsCoordinatesRepository racksPositionsCoordinatesRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
         IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
         IDucatRegistryRepository ducatRegistryRepository,
@@ -116,7 +119,8 @@ public class UnitOfWork(
         IAssignmentsMachineryRepository assignmentsMachineryRepository,
         IAssignmentCollaboratorsRepository assignmentCollaboratorsRepository,
         IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository,
-        IAssignmentOperationalRepository assignmentOperationalRepository
+        IAssignmentOperationalRepository assignmentOperationalRepository,
+        ICodesRepository codesRepository
     ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -192,7 +196,9 @@ public class UnitOfWork(
         public IRackCoordinateRepository RackCoordinates => rackCoordinateRepository;
         public ILotsRepository Lots => lotsRepository;
         public ILotsPositionsRepository LotsPositions => lotsPositionsRepository;
+        public ILotsPositionsCoordinatesRepository LotsPositionsCoordinates => lotsPositionsCoordinatesRepository;
         public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
+        public IRacksPositionsCoordinatesRepository RacksPositionsCoordinates => racksPositionsCoordinatesRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
         public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
@@ -223,6 +229,7 @@ public class UnitOfWork(
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
         public IAssignmentOperationalRepository AssignmentOperationals => assignmentOperationalRepository;
         public IAssignmentStockPlacementsRepository AssignmentStockPlacements => assignmentStockPlacementsRepository;
+        public ICodesRepository Codes => codesRepository;
         #endregion
 
         #region Shopping

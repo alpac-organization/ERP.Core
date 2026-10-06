@@ -75,7 +75,9 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 
         IRackPositionsRepository RackPositions { get; }
         ILotsPositionsRepository LotsPositions { get; }
+        ILotsPositionsCoordinatesRepository LotsPositionsCoordinates { get; }
         IRackCoordinateRepository RackCoordinates { get; }
+        IRacksPositionsCoordinatesRepository RacksPositionsCoordinates { get; }
         ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
@@ -115,6 +117,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
         IAssignmentsMachineryRepository AssignmentsMachineries { get; }
         IAssignmentOperationalRepository AssignmentOperationals { get; }
+        ICodesRepository Codes { get; }
         #endregion
 
         #region ✅ Shopping

@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261006165108_CodesWarehousesAssignments")]
+    partial class CodesWarehousesAssignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +77,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "service_order_requisition_status_enum", new[] { "pending", "approved", "rejected", "canceled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "source_deduction_payment_enum", new[] { "payroll", "cash" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_exclusive_status_enum", new[] { "none", "pending_review", "approved", "rejected" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_price_history_type_enum", new[] { "unit_price", "preferential_price" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2", "iva", "imi", "ir", "ir_supplier_internation" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "transport_unit_enum", new[] { "container", "van" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unit_measure_type_enum", new[] { "weight", "volume", "length", "area", "unit", "time" });
@@ -4556,30 +4557,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("effective_to");
 
-                    b.Property<int?>("MinQuantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("min_quantity");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("price");
-
-                    b.Property<int>("PriceType")
-                        .HasColumnType("supplier_price_history_type_enum")
-                        .HasColumnName("price_type");
-
                     b.Property<Guid>("SupplierProductId")
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_product_id");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unit_price");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SupplierProductId")
                         .HasDatabaseName("ix_history_prices_supplier_product_id");
-
-                    b.HasIndex("SupplierProductId", "PriceType")
-                        .HasDatabaseName("ix_history_prices_supplier_product_price_type");
 
                     b.ToTable("history_prices", "public");
                 });
@@ -5090,7 +5080,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_id");
 
-                    b.Property<string>("SupplierRejectionJustification")
+                    b.Property<string>("SupplierRejectionComments")
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)")
                         .HasColumnName("supplier_rejection_comments");
@@ -5118,6 +5108,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("PurchaseRequestItemId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("SupplierRejectionReasonId");
 
                     b.ToTable("quotations", "public");
                 });
@@ -5404,17 +5396,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("exclusive_brands_or_parts");
 
-                    b.Property<int>("ExclusiveStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("supplier_exclusive_status_enum")
-                        .HasColumnName("exclusive_status")
-                        .HasDefaultValueSql("'none'::supplier_exclusive_status_enum");
-
                     b.Property<bool>("HasCredit")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("has_credit");
+
+                    b.Property<bool>("IsExclusive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_exclusive");
 
                     b.Property<bool>("IsTaxExempt")
                         .ValueGeneratedOnAdd()
@@ -5542,62 +5534,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ux_supplier_products_supplier_product");
 
                     b.ToTable("supplier_products", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProductTierPrice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_product_tier_price_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<int>("MinQuantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("min_quantity");
-
-                    b.Property<decimal>("PreferentialPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("preferential_price");
-
-                    b.Property<Guid>("SupplierProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("supplier_product_id");
-
-                    b.Property<Guid?>("UnitMeasureId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("unit_measure_id");
-
-                    b.Property<DateOnly>("ValidFrom")
-                        .HasColumnType("date")
-                        .HasColumnName("valid_from");
-
-                    b.Property<DateOnly?>("ValidTo")
-                        .HasColumnType("date")
-                        .HasColumnName("valid_to");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SupplierProductId")
-                        .HasDatabaseName("ix_supplier_product_tier_prices_supplier_product_id");
-
-                    b.HasIndex("UnitMeasureId");
-
-                    b.HasIndex("SupplierProductId", "MinQuantity")
-                        .HasDatabaseName("ix_supplier_product_tier_prices_supplier_product_min_qty");
-
-                    b.ToTable("supplier_product_tier_prices", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CrewAssignments", b =>
@@ -6068,12 +6004,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsTaxExempt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_tax_exempt");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -7284,21 +7214,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("lot_coordinates", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositionsCoordinates", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCoordinates");
-
-                    b.Property<Guid>("LotPositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("lot_position_id");
-
-                    b.HasIndex("LotPositionId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_lots_positions_coordinates_lot_position_id");
-
-                    b.ToTable("lots_positions_coordinates", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RacksCoordinates", b =>
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCoordinates");
@@ -7312,21 +7227,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ux_rack_coordinates_rack_id");
 
                     b.ToTable("rack_coordinates", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RacksPositionsCoordinates", b =>
-                {
-                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCoordinates");
-
-                    b.Property<Guid>("RackPositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("rack_position_id");
-
-                    b.HasIndex("RackPositionId")
-                        .IsUnique()
-                        .HasDatabaseName("ux_rack_positions_coordinates_rack_position_id");
-
-                    b.ToTable("rack_positions_coordinates", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCoordinates", b =>
@@ -8505,9 +8405,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "SupplierRejectionReason")
+                        .WithMany()
+                        .HasForeignKey("SupplierRejectionReasonId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("PurchaseRequestItem");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("SupplierRejectionReason");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.ServiceOrderRequistions", b =>
@@ -8598,24 +8505,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProductTierPrice", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", "SupplierProduct")
-                        .WithMany("TierPrices")
-                        .HasForeignKey("SupplierProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
-                        .WithMany()
-                        .HasForeignKey("UnitMeasureId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("SupplierProduct");
-
-                    b.Navigation("UnitMeasure");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.CrewAssignments", b =>
@@ -8947,17 +8836,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Lot");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositionsCoordinates", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", "LotPosition")
-                        .WithOne("LotsPositionsCoordinates")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositionsCoordinates", "LotPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("LotPosition");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RacksCoordinates", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Racks", "Rack")
@@ -8967,17 +8845,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Rack");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RacksPositionsCoordinates", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", "RackPosition")
-                        .WithOne("RacksPositionsCoordinates")
-                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.RacksPositionsCoordinates", "RackPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("RackPosition");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionCoordinates", b =>
@@ -9358,10 +9225,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", b =>
                 {
                     b.Navigation("PriceHistories");
-
-                    b.Navigation("Quotations");
-
-                    b.Navigation("TierPrices");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.DucatRegistry", b =>
@@ -9426,17 +9289,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
                     b.Navigation("AssignmentStockPlacements");
-
-                    b.Navigation("LotsPositionsCoordinates")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RackPositions", b =>
                 {
                     b.Navigation("AssignmentStockPlacements");
-
-                    b.Navigation("RacksPositionsCoordinates")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", b =>

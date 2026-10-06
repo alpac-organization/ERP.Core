@@ -6,8 +6,8 @@ namespace ERP.Core.Database.Domain.Entities.Operations;
 
 public class AssignmentStockPlacements : BaseEntity<Guid>
 {
-    public Guid StockId { get; set; }
-    public virtual Stocks Stock { get; set; } = null!;
+    public Guid AssignmentId { get; set; }
+    public virtual AssignmentOperational AssignmentOperational { get; set; } = null!;
 
     public Guid? RackPositionId { get; set; }
     public virtual RackPositions? RackPosition { get; set; }

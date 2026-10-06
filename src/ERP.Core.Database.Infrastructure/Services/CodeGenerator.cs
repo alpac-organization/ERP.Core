@@ -16,6 +16,8 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Application.Commons.Interfaces.AWS;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
+using ZXing;
+using ZXing.Common;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -477,244 +479,455 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion Products
 
-        public async Task<string> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null, string? headerText = null)
+        #region Generar codigo QR
+        private const int HeaderHeight = 80;
+        private const int FooterHeight = 64;
+        private const int PaperWidthPx = 576;   // 80mm @203dpi (area imprimible 72mm). Si tu impresora es 300dpi usa 850
+        private const int SideMargin   = 12;
+        private const string DefaultUrl = "https://web-alpac.onrender.com";
+
+        private static readonly Color BgColor   = Color.FromRgb(238, 243, 250);
+        private static readonly Color NavyColor = Color.FromRgb(10, 37, 84);
+        private static readonly Color BlueColor = Color.FromRgb(0, 79, 144);
+        private static readonly Color RedColor  = Color.FromRgb(176, 24, 28);
+
+        public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null, string? headerText = null)
         {
-            const int n = 33;
-            const int U = 19;
-            const int Q = n * U;
-            const int padding = 4 * U;
-            const int card = Q + 2 * padding;
-            const int margin = 56;
-            const int headerHeight = 80;
-            const int canvasSize = 891;
-            const int canvasHeight = canvasSize + headerHeight;
+            redirectUrl = string.IsNullOrWhiteSpace(redirectUrl) ? DefaultUrl : redirectUrl;
 
-            logoUrl     ??= string.Empty;
-            headerText  ??= "VOUCHER DE ASIGNACIÓN";
-            redirectUrl ??= "https://web-alpac.onrender.com/qr-code";
+            var code = GenerateUniqueCode();
+            var content = AppendCode(redirectUrl, code);
 
-            // Generar QR con corrección de errores H
-            using var qrGenerator = new QRCodeGenerator();
-            var qrCodeData = qrGenerator.CreateQrCode(redirectUrl, QRCodeGenerator.ECCLevel.H);
-            var moduleMatrix = GetModuleMatrix(qrCodeData, n);
+            var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
+            var png = RenderQrPng(content, logoBytes, headerText, code);
 
-            // Descargar logo si hay URL
-            string? logoBase64 = null;
-            if (!string.IsNullOrEmpty(logoUrl))
+            var imageUrl = await _s3StorageService.UploadImageAsync("qr-codes", "generated", Convert.ToBase64String(png), default);
+
+            return (imageUrl, code);
+        }
+
+        private static string GenerateUniqueCode(int length = 8)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return string.Create(length, chars, (span, alphabet) =>
             {
-                try
+                for (int i = 0; i < span.Length; i++)
+                    span[i] = alphabet[System.Security.Cryptography.RandomNumberGenerator.GetInt32(alphabet.Length)];
+            });
+        }
+
+        private static string AppendCode(string url, string code)
+        {
+            var sep = url.Contains('?') ? "&" : "?";
+            return $"{url}{sep}code={Uri.EscapeDataString(code)}";
+        }
+
+        #region Transformar logo en Base64
+        private async Task<byte[]?> ResolveLogoBytesAsync(string? logo, CancellationToken ct)
+        {
+            if (string.IsNullOrWhiteSpace(logo)) return null;
+
+            try
+            {
+                logo = logo.Trim();
+
+                // data:image/png;base64,AAAA...
+                if (logo.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
                 {
-                    using var httpClient = _httpClientFactory.CreateClient();
-                    var logoBytes = await httpClient.GetByteArrayAsync(logoUrl);
-                    logoBase64 = Convert.ToBase64String(logoBytes);
+                    var comma = logo.IndexOf(',');
+                    return comma < 0 ? null : Convert.FromBase64String(logo[(comma + 1)..]);
                 }
-                catch (Exception)
+
+                // URL http(s)
+                if (Uri.TryCreate(logo, UriKind.Absolute, out var uri) &&
+                    (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp))
                 {
-                    // Si falla la descarga, continuar sin logo
+                    using var http = _httpClientFactory.CreateClient();
+                    http.Timeout = TimeSpan.FromSeconds(5);
+                    return await http.GetByteArrayAsync(uri, ct);
                 }
+
+                // base64 a secas
+                return Convert.FromBase64String(logo);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region Carga Imagen de logo
+        private static Image<Rgba32>? TryLoadLogo(byte[]? bytes)
+        {
+            if (bytes is null || bytes.Length == 0) return null;
+
+            try
+            {
+                var img = Image.Load<Rgba32>(bytes);
+                TrimWhiteMargin(img);
+                return img;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        private static void TrimWhiteMargin(Image<Rgba32> img)
+        {
+            int minX = img.Width, minY = img.Height, maxX = -1, maxY = -1;
+
+            img.ProcessPixelRows(accessor =>
+            {
+                for (int y = 0; y < accessor.Height; y++)
+                {
+                    var row = accessor.GetRowSpan(y);
+                    for (int x = 0; x < row.Length; x++)
+                    {
+                        var p = row[x];
+                        if (p.A > 10 && (p.R < 235 || p.G < 235 || p.B < 235))
+                        {
+                            if (x < minX) minX = x;
+                            if (x > maxX) maxX = x;
+                            if (y < minY) minY = y;
+                            if (y > maxY) maxY = y;
+                        }
+                    }
+                }
+            });
+
+            if (maxX >= minX && maxY >= minY)
+            {
+                img.Mutate(c => c.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
+            }
+        }
+
+        #region Renderiza imagen png del qr
+        public static byte[] RenderQrPng(string content, byte[]? logoBytes = null, string? headerText = null, string? code = null)
+        {
+            using var generator = new QRCodeGenerator();
+            using var qrData = generator.CreateQrCode(content, QRCodeGenerator.ECCLevel.H);
+
+            var matrix = ReadMatrix(qrData, out int n);
+
+            using var logo = TryLoadLogo(logoBytes);
+            bool hasLogo   = logo is not null;
+            bool hasHeader = !string.IsNullOrWhiteSpace(headerText);
+
+            // Configuración del ancho del qr y dimenciones
+            int top     = hasHeader ? HeaderHeight : 0;
+            int bottom  = 0;
+            int width   = PaperWidthPx;
+            int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));
+            int Q       = n * U;
+            int padding = 4 * U;
+            int card    = Q + 2 * padding;
+            int margin  = (width - card) / 2;
+            int cardY   = SideMargin + top;
+            int height  = cardY + card + 20 + bottom;
+            int originX = margin + padding;
+            int originY = cardY + padding;
+            float radius = 2.5f * U;
+
+            // Zona libre cuadrada del logo (solo si hay logo)
+            int K = 0, k0 = 0;
+            if (hasLogo)
+            {
+                K = (int)Math.Round(n * 0.27);
+                if (K % 2 != n % 2) K++;
+                while ((double)K / n > 0.30) K -= 2;
+                k0 = (n - K) / 2;
             }
 
-            using var canvas = new Image<Rgba32>(canvasSize, canvasHeight);
-            canvas.Mutate(ctx => ctx.Fill(Color.FromRgb(238, 243, 250)));
+            // Un único degradado diagonal para todo el QR
+            var gradient = new LinearGradientBrush(
+                new PointF(originX, originY),
+                new PointF(originX + Q, originY + Q),
+                GradientRepetitionMode.None,
+                new ColorStop(0f, BlueColor),
+                new ColorStop(1f, RedColor));
 
-            const int cardX = margin;
-            const int cardY = margin + headerHeight;
-            var cardRect = new RectangleF(cardX, cardY, card, card);
+            using var canvas = new Image<Rgba32>(width, height);
+            canvas.Mutate(ctx => ctx.Fill(BgColor));
+
+            if (hasHeader)
+            {
+                canvas.Mutate(ctx => DrawHeader(ctx, width, HeaderHeight, headerText!));
+            }
+
+            // Sombra de la tarjeta
+            using (var shadow = new Image<Rgba32>(width, height))
+            {
+                shadow.Mutate(ctx =>
+                {
+                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(margin, cardY + 6, card, card, radius));
+                    ctx.GaussianBlur(5f);
+                });
+                canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
+            }
 
             canvas.Mutate(ctx =>
             {
-                var cardPath = CreateRoundedRectangle(cardRect, 52);
-                ctx.Fill(Color.White, cardPath);
+                // Tarjeta blanca
+                ctx.Fill(Color.White, RoundedRect(margin, cardY, card, card, radius));
+
+                // Módulos de datos
+                for (int row = 0; row < n; row++)
+                {
+                    for (int col = 0; col < n; col++)
+                    {
+                        if (!matrix[row][col] || IsInFinderPattern(row, col, n)) continue;
+                        if (hasLogo && row >= k0 && row < k0 + K && col >= k0 && col < k0 + K) continue;
+
+                        float inset = U * 0.03f;
+                        ctx.Fill(gradient, RoundedRect(
+                            originX + col * U + inset,
+                            originY + row * U + inset,
+                            U - 2 * inset,
+                            U - 2 * inset,
+                            U * 0.22f));
+                    }
+                }
+
+                DrawEye(ctx, gradient, originX, originY, U);
+                DrawEye(ctx, gradient, originX + (n - 7) * U, originY, U);
+                DrawEye(ctx, gradient, originX, originY + (n - 7) * U, U);
+
+                if (hasLogo)
+                {
+                    int plate = K * U;
+                    ctx.Fill(Color.White, RoundedRect(originX + k0 * U, originY + k0 * U, plate, plate, U * 0.5f));
+                }
             });
 
-            const int qrOriginX = cardX + padding;
-            const int qrOriginY = cardY + padding;
-
-            // Dibujar módulos de datos: CUADRADOS PERFECTOS (sin redondear)
-
-            for (int row = 0; row < n; row++)
+            // Logo centrado: 80% del lado de la placa
+            if (hasLogo)
             {
-                for (int col = 0; col < n; col++)
-                {
-                    if (!moduleMatrix[row][col]) continue;
+                int plate = K * U;
+                int maxSide = (int)(plate * 0.8);
+                double scale = Math.Min((double)maxSide / logo!.Width, (double)maxSide / logo.Height);
+                int lw = Math.Max(1, (int)Math.Round(logo.Width * scale));
+                int lh = Math.Max(1, (int)Math.Round(logo.Height * scale));
+                logo.Mutate(ctx => ctx.Resize(lw, lh, KnownResamplers.Lanczos3));
 
-                    bool isFinderPattern = IsInFinderPattern(row, col, n);
-                    if (isFinderPattern) continue;
-
-                    var x = qrOriginX + col * U;
-                    var y = qrOriginY + row * U;
-                    var size = U;
-
-                    var moduleRect = new RectangleF(x, y, size, size);
-                    canvas.Mutate(ctx => ctx.Fill(Color.Black, moduleRect));
-                }
+                int lx = originX + k0 * U + (plate - lw) / 2;
+                int ly = originY + k0 * U + (plate - lh) / 2;
+                canvas.Mutate(ctx => ctx.DrawImage(logo, new Point(lx, ly), 1f));
             }
 
-            // Finder patterns ESTÁNDAR ISO: cuadrados perfectos, 3 capas
-            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, Color.Black, 0, 0);
-            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, Color.Black, n - 7, 0);
-            DrawStandardFinderPattern(canvas, qrOriginX, qrOriginY, U, Color.Black, 0, n - 7);
+            using var ms = new MemoryStream();
+            canvas.SaveAsPng(ms);
+            return ms.ToArray();
+        }
+        #endregion
 
-            // Zona de logo: K=7 módulos (21% del QR)
-            const int K = 7;
-            const int k0 = (n - K) / 2;
+        private static bool[][] ReadMatrix(QRCodeData data, out int n)
+        {
+            n = 17 + 4 * data.Version;
+            var modules = data.ModuleMatrix;
+            int offset = (modules.Count - n) / 2;
 
-            const int plateSize = K * U;
-            const int plateX = qrOriginX + k0 * U;
-            const int plateY = qrOriginY + k0 * U;
-
-            // Placa blanca cuadrada
-            var plateRect = new RectangleF(plateX, plateY, plateSize, plateSize);
-            canvas.Mutate(ctx => ctx.Fill(Color.White, plateRect));
-
-            if (!string.IsNullOrEmpty(logoBase64))
+            var result = new bool[n][];
+            for (int i = 0; i < n; i++)
             {
-                var logoBytes = Convert.FromBase64String(logoBase64);
-                using var logoStream = new MemoryStream(logoBytes);
-                using var logoImage = await Image.LoadAsync<Rgba32>(logoStream, default);
-
-                // Logo al 60% de la placa, centrado
-                var logoMaxSize = (int)(plateSize * 0.6);
-                var logoHeight = Math.Min(logoMaxSize, (int)((double)logoImage.Height / logoImage.Width * logoMaxSize));
-                var logoWidth = (int)((double)logoImage.Width / logoImage.Height * logoHeight);
-                
-                if (logoWidth > logoMaxSize)
+                result[i] = new bool[n];
+                for (int j = 0; j < n; j++)
                 {
-                    logoWidth = logoMaxSize;
-                    logoHeight = (int)((double)logoImage.Height / logoImage.Width * logoMaxSize);
+                    result[i][j] = modules[i + offset][j + offset];
                 }
-
-                var logoX = plateX + (plateSize - logoWidth) / 2f;
-                var logoY = plateY + (plateSize - logoHeight) / 2f;
-
-                logoImage.Mutate(ctx => ctx.Resize(new ResizeOptions
-                {
-                    Size = new Size(logoWidth, logoHeight),
-                    Mode = ResizeMode.Max,
-                    Sampler = KnownResamplers.Lanczos3
-                }));
-
-                var logoRect = new Rectangle((int)logoX, (int)logoY, logoWidth, logoHeight);
-                canvas.Mutate(ctx => ctx.DrawImage(logoImage, logoRect, 1f));
             }
-
-            DrawHeader(canvas, canvasSize, headerHeight, headerText);
-
-            using var outputStream = new MemoryStream();
-            await canvas.SaveAsPngAsync(outputStream, default);
-
-            outputStream.Position = 0;
-            var base64Image = Convert.ToBase64String(outputStream.ToArray());
-            var s3Url = await _s3StorageService.UploadImageAsync("qr-codes", "generated", base64Image, default);
-
-            return s3Url;
+            return result;
         }
 
-        private static void DrawHeader(Image<Rgba32> canvas, int width, int headerHeight, string headerText)
+        private static bool IsInFinderPattern(int row, int col, int n) =>
+            (row < 7 && col < 7) ||
+            (row < 7 && col >= n - 7) ||
+            (row >= n - 7 && col < 7);
+
+        // Ojo: anillo exterior 7x7, hueco blanco 5x5, centro 3x3
+        private static void DrawEye(IImageProcessingContext ctx, Brush brush, int x, int y, int U)
         {
-            var headerRect = new RectangleF(0, 0, width, headerHeight);
-            var headerGradient = new LinearGradientBrush(
-                new PointF(0, 0),
-                new PointF(width, 0),
-                GradientRepetitionMode.Repeat,
-                new ColorStop(0f, Color.FromRgb(0, 79, 144)),
-                new ColorStop(1f, Color.FromRgb(176, 24, 28)));
+            ctx.Fill(brush, RoundedRect(x, y, 7 * U, 7 * U, 1.2f * U));
+            ctx.Fill(Color.White, RoundedRect(x + U, y + U, 5 * U, 5 * U, 0.7f * U));
+            ctx.Fill(brush, RoundedRect(x + 2 * U, y + 2 * U, 3 * U, 3 * U, 0.5f * U));
+        }
 
-            canvas.Mutate(ctx => ctx.Fill(headerGradient, headerRect));
+        // Rectángulo con esquinas redondeadas.
+        // AddArc(rect, rotación, ángulo inicial, barrido)
+        private static IPath RoundedRect(float x, float y, float w, float h, float r)
+        {
+            r = Math.Min(r, Math.Min(w, h) / 2);
 
-            var fontSize = headerHeight * 0.4f;
-            var textColor = Color.White;
-            var font = SystemFonts.CreateFont("Arial", headerHeight * 0.4f, FontStyle.Bold);
-            var textOptions = new RichTextOptions(font)
+            var pb = new PathBuilder();
+            pb.AddLine(x + r, y, x + w - r, y);
+            pb.AddArc(new RectangleF(x + w - 2 * r, y, 2 * r, 2 * r), 0, 270, 90);
+            pb.AddLine(x + w, y + r, x + w, y + h - r);
+            pb.AddArc(new RectangleF(x + w - 2 * r, y + h - 2 * r, 2 * r, 2 * r), 0, 0, 90);
+            pb.AddLine(x + w - r, y + h, x + r, y + h);
+            pb.AddArc(new RectangleF(x, y + h - 2 * r, 2 * r, 2 * r), 0, 90, 90);
+            pb.AddLine(x, y + h - r, x, y + r);
+            pb.AddArc(new RectangleF(x, y, 2 * r, 2 * r), 0, 180, 90);
+            pb.CloseFigure();
+            return pb.Build();
+        }
+
+        private static void DrawHeader(IImageProcessingContext ctx, int width, int height, string text)
+        {
+            ctx.Fill(NavyColor, new RectangularPolygon(0, 0, width, height));
+
+            var options = new RichTextOptions(GetFont(height * 0.38f))
             {
-                Origin = new PointF(width / 2f, headerHeight / 2f),
+                Origin = new PointF(width / 2f, height / 2f),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
-
-            canvas.Mutate(ctx => ctx.DrawText(textOptions, headerText, textColor));
+            ctx.DrawText(options, text, Color.White);
         }
 
-        private static bool[][] GetModuleMatrix(QRCodeData qrCodeData, int n)
+        private static Font GetFont(float size)
         {
-            var matrix = new bool[n][];
-            for (int i = 0; i < n; i++)
-            {
-                matrix[i] = new bool[n];
-            }
+            FontFamily family;
+            if (SystemFonts.TryGet("Arial", out var arial)) family = arial;
+            else if (SystemFonts.TryGet("DejaVu Sans", out var dejavu)) family = dejavu;
+            else family = SystemFonts.Collection.Families.First();
 
-            var modules = qrCodeData.ModuleMatrix;
-            var moduleCount = modules.Count;
-            var scale = Math.Max(1, moduleCount / n);
+            return family.CreateFont(size, FontStyle.Bold);
+        }
 
-            for (int row = 0; row < n; row++)
+        #endregion
+
+        #region Generar codigo de barra
+        private const int BarcodeLength        = 13;
+        private const int BarcodeHeight        = 130;
+        private const int BarcodeCardPadding   = 24;
+        private const int BarcodeLogoHeight    = 52;
+        private const string BarcodeAlphabet   = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        public async Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null)
+        {
+            var code = GenerateUniqueBarcodeValue();
+ 
+            var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
+            var png = RenderBarcodePng(code, logoBytes);
+ 
+            var imageUrl = await _s3StorageService.UploadImageAsync("barcodes", "generated", Convert.ToBase64String(png), default);
+ 
+            return (imageUrl, code);
+        }
+ 
+        private static string GenerateUniqueBarcodeValue(int length = BarcodeLength)
+        {
+            return string.Create(length, BarcodeAlphabet, (span, alphabet) =>
             {
-                for (int col = 0; col < n; col++)
+                for (int i = 0; i < span.Length; i++)
+                    span[i] = alphabet[System.Security.Cryptography.RandomNumberGenerator.GetInt32(alphabet.Length)];
+            });
+        }
+ 
+        #region Renderiza imagen png del codigo de barras
+        public static byte[] RenderBarcodePng(string code, byte[]? logoBytes = null)
+        {
+            var hints = new Dictionary<EncodeHintType, object> { { EncodeHintType.MARGIN, 0 } };
+            BitMatrix matrix = new MultiFormatWriter().encode(code, BarcodeFormat.CODE_128, 0, 1, hints);
+            int modules = matrix.Width;
+ 
+            using var logo = TryLoadLogo(logoBytes);
+            bool hasLogo = logo is not null;
+
+            //Configuración de las dimenciones, codigo de barra
+            int width       = PaperWidthPx;
+            int card        = width - 2 * SideMargin;
+            int cardX       = SideMargin;
+            int cardY       = SideMargin;
+            int available   = card - 2 * BarcodeCardPadding;
+            int moduleW     = Math.Max(1, available / modules);
+            int barcodeW    = modules * moduleW;
+            int barcodeX    = (width - barcodeW) / 2;
+ 
+            int logoBlock   = hasLogo ? BarcodeLogoHeight + 16 : 0;
+            int barcodeY    = cardY + BarcodeCardPadding + logoBlock;
+            int textY       = barcodeY + BarcodeHeight + 14;
+            int textHeight  = 42;
+            int pillY       = textY + textHeight + 14;
+            const int pillW = 100, pillH = 10;
+            int cardH       = pillY + pillH + BarcodeCardPadding - cardY;
+            int height      = cardY + cardH + SideMargin;
+            float radius    = 28f;
+ 
+            var gradient = new LinearGradientBrush(
+                new PointF(barcodeX, 0),
+                new PointF(barcodeX + barcodeW, 0),
+                GradientRepetitionMode.None,
+                new ColorStop(0f, BlueColor),
+                new ColorStop(1f, RedColor)
+            );
+ 
+            using var canvas = new Image<Rgba32>(width, height);
+            canvas.Mutate(ctx => ctx.Fill(BgColor));
+ 
+            // Sombra de la tarjeta
+            using (var shadow = new Image<Rgba32>(width, height))
+            {
+                shadow.Mutate(ctx =>
                 {
-                    var srcRow = row * scale;
-                    var srcCol = col * scale;
-                    if (srcRow < moduleCount && srcCol < moduleCount)
-                    {
-                        matrix[row][col] = modules[srcRow][srcCol];
-                    }
-                }
+                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(cardX, cardY + 6, card, cardH, radius));
+                    ctx.GaussianBlur(5f);
+                });
+                canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
             }
-
-            return matrix;
+ 
+            canvas.Mutate(ctx =>
+            {
+                // Tarjeta blanca
+                ctx.Fill(Color.White, RoundedRect(cardX, cardY, card, cardH, radius));
+ 
+                int i = 0;
+                while (i < modules)
+                {
+                    if (!matrix[i, 0]) { i++; continue; }
+                    int start = i;
+                    while (i < modules && matrix[i, 0]) i++;
+ 
+                    ctx.Fill(gradient, new RectangularPolygon(
+                        barcodeX + start * moduleW,
+                        barcodeY,
+                        (i - start) * moduleW,
+                        BarcodeHeight));
+                }
+ 
+                // Código en texto, centrado
+                var textOptions = new RichTextOptions(GetFont(34f))
+                {
+                    Origin = new PointF(width / 2f, textY),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
+                ctx.DrawText(textOptions, code, NavyColor);
+ 
+                ctx.Fill(Color.FromRgb(224, 43, 39),
+                    RoundedRect((width - pillW) / 2f, pillY, pillW, pillH, pillH / 2f));
+            });
+ 
+            // Logo centrado arriba de las barras
+            if (hasLogo)
+            {
+                double scale = (double)BarcodeLogoHeight / logo!.Height;
+                int lw = Math.Max(1, (int)Math.Round(logo.Width * scale));
+                logo.Mutate(ctx => ctx.Resize(lw, BarcodeLogoHeight, KnownResamplers.Lanczos3));
+ 
+                int lx = (width - lw) / 2;
+                int ly = cardY + BarcodeCardPadding;
+                canvas.Mutate(ctx => ctx.DrawImage(logo, new Point(lx, ly), 1f));
+            }
+ 
+            using var ms = new MemoryStream();
+            canvas.SaveAsPng(ms);
+            return ms.ToArray();
         }
-
-        private static IPath CreateRoundedRectangle(RectangleF rect, float radius)
-        {
-            var path = new PathBuilder();
-            var x = rect.X;
-            var y = rect.Y;
-            var w = rect.Width;
-            var h = rect.Height;
-            var r = Math.Min(radius, Math.Min(w, h) / 2);
-
-            path.StartFigure();
-            path.AddLine(new PointF(x + r, y), new PointF(x + w - r, y));
-            path.AddArc(new RectangleF(x + w - r * 2, y, r * 2, r * 2), 270f, 90f, 1f);
-            path.AddLine(new PointF(x + w, y + r), new PointF(x + w, y + h - r));
-            path.AddArc(new RectangleF(x + w - r * 2, y + h - r * 2, r * 2, r * 2), 0f, 90f, 1f);
-            path.AddLine(new PointF(x + w - r, y + h), new PointF(x + r, y + h));
-            path.AddArc(new RectangleF(x, y + h - r * 2, r * 2, r * 2), 90f, 90f, 1f);
-            path.AddLine(new PointF(x, y + h - r), new PointF(x, y + r));
-            path.AddArc(new RectangleF(x, y, r * 2, r * 2), 180f, 90f, 1f);
-            path.CloseFigure();
-
-            return path.Build();
-        }
-
-        private static bool IsInFinderPattern(int row, int col, int n)
-        {
-            return (row < 7 && col < 7) ||
-                   (row < 7 && col >= n - 7) ||
-                   (row >= n - 7 && col < 7);
-        }
-
-        // Finder pattern ESTÁNDAR: cuadrado, sin redondear, color sólido
-        private static void DrawStandardFinderPattern(Image<Rgba32> canvas, int qrOriginX, int qrOriginY, int U, Color color, int startRow, int startCol)
-        {
-            var eyeX = qrOriginX + startCol * U;
-            var eyeY = qrOriginY + startRow * U;
-            const int eyeSize = 7 * 19;
-
-            // Exterior: cuadrado 7x7 módulos - NEGRO PURO
-            var outerRect = new RectangleF(eyeX, eyeY, eyeSize, eyeSize);
-            canvas.Mutate(ctx => ctx.Fill(Color.Black, outerRect));
-
-            // Hueco: cuadrado 5x5 módulos (inset 1)
-            var holeInset = 1 * U;
-            var holeSize = 5 * U;
-            var holeRect = new RectangleF(eyeX + holeInset, eyeY + holeInset, holeSize, holeSize);
-            canvas.Mutate(ctx => ctx.Fill(Color.White, holeRect));
-
-            // Centro: cuadrado 3x3 módulos (inset 2)
-            var centerInset = 2 * U;
-            var centerSize = 3 * U;
-            var centerRect = new RectangleF(eyeX + centerInset, eyeY + centerInset, centerSize, centerSize);
-            canvas.Mutate(ctx => ctx.Fill(Color.Black, centerRect));
-        }
+        #endregion
+ 
+        #endregion
     }
 }

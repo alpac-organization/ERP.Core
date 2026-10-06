@@ -17,8 +17,8 @@ public class AssignmentStockPlacementsConfiguration : IEntityTypeConfiguration<A
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd();
 
-        builder.Property(e => e.StockId)
-            .HasColumnName("stock_id")
+        builder.Property(e => e. AssignmentId)
+            .HasColumnName("assignment_id")
             .IsRequired();
 
         builder.Property(e => e.RackPositionId)
@@ -50,9 +50,9 @@ public class AssignmentStockPlacementsConfiguration : IEntityTypeConfiguration<A
         builder.Property(e => e.DeletedAt)
             .HasColumnName("deleted_at");
 
-        builder.HasOne(e => e.Stock)
-            .WithMany()
-            .HasForeignKey(e => e.StockId)
+        builder.HasOne(e => e.AssignmentOperational)
+            .WithMany(e => e.AssignmentStockPlacements)
+            .HasForeignKey(e => e.AssignmentId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.RackPosition)
@@ -62,7 +62,7 @@ public class AssignmentStockPlacementsConfiguration : IEntityTypeConfiguration<A
 
         builder.HasOne(e => e.SectionPosition)
             .WithMany(x => x.AssignmentStockPlacements)
-            .HasForeignKey(e => e.RackPositionId)
+            .HasForeignKey(e => e.SectionPositionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.LotPosition)

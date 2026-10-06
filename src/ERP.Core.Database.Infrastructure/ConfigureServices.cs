@@ -116,6 +116,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DestinationType>("destination_type_enum", "public");
                     npgsqlOptions.MapEnum<AssignmentOperationalStatus>("assignment_operational_status_enum", "public");
                     npgsqlOptions.MapEnum<MerchandiseCategory>("merchandise_category_enum", "public");
+                    npgsqlOptions.MapEnum<CodesType>("codes_type_enum", "public");
                 })
             );
 
@@ -174,6 +175,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehousesRepository, WarehousesRepository>();
             services.AddScoped<ILotCoordinateRepository, LotCoordinateRepository>();
             services.AddScoped<IRackCoordinateRepository, RackCoordinateRepository>();
+            services.AddScoped<ILotsPositionsCoordinatesRepository, LotsPositionsCoordinatesRepository>();
+            services.AddScoped<IRacksPositionsCoordinatesRepository, RacksPositionsCoordinatesRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
 
             // Operations
@@ -230,6 +233,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssignmentCollaboratorsRepository, AssignmentCollaboratorRepository>();
             services.AddScoped<IAssignmentOperationalRepository, AssignmentOperationalRepository>();
             services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
+            services.AddScoped<ICodesRepository, CodesRepository>();
             #endregion
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

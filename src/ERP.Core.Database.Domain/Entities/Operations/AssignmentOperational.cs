@@ -29,6 +29,8 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         //1:M
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
         public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
+        public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
+        public virtual ICollection<Codes> Codes { get; set; } = [];
 
         public string? AdditionalData { get; set; } = "{}";
     }
