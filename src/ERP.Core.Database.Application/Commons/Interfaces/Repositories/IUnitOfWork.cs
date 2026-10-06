@@ -115,6 +115,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
         IAssignmentsMachineryRepository AssignmentsMachineries { get; }
         IAssignmentOperationalRepository AssignmentOperationals { get; }
+        ICodesRepository Codes { get; }
         #endregion
 
         #region ✅ Shopping
