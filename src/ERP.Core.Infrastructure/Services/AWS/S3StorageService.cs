@@ -16,7 +16,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
 {
     public partial class S3StorageService(IAmazonS3 _s3Client, IOptions<S3Settings> _options, IErrorManager _errorManager) : IS3StorageService
     {
-        private static readonly int PresignedUrlExpirationMinutes = 60;
+        private static readonly int PresignedUrlExpirationMinutes = 1440;
         private static readonly string[] AllowedExtensions = ["png", "jpg", "jpeg", "webp", "gif"];
 
 

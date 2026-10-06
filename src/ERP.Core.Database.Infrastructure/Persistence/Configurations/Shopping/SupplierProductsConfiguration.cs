@@ -73,6 +73,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .WithOne(h => h.SupplierProduct)
                 .HasForeignKey(h => h.SupplierProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.TierPrices)
+                .WithOne(t => t.SupplierProduct)
+                .HasForeignKey(t => t.SupplierProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.Quotations)
+                .WithOne(q => q.SupplierProduct)
+                .HasForeignKey(q => q.SupplierProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

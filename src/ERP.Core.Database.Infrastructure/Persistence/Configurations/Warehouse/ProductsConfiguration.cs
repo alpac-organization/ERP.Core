@@ -46,6 +46,11 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("unit_measure_id")
             .IsRequired();
 
+        builder.Property(p => p.IsTaxExempt)
+            .HasColumnName("is_tax_exempt")
+            .HasDefaultValue(false)
+            .IsRequired();
+
         builder.Property(p => p.ProductUsageType)
             .HasColumnName("product_usage_type")
             .HasColumnType("product_usage_type_enum")

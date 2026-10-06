@@ -107,6 +107,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<PaymentCondition>("payment_condition_enum", "public");
                     npgsqlOptions.MapEnum<CreditStatus>("credit_status_enum", "public");
                     npgsqlOptions.MapEnum<ProductQuality>("product_quality_enum", "public");
+                    npgsqlOptions.MapEnum<SupplierPriceHistoryType>("supplier_price_history_type_enum", "public");
+                    npgsqlOptions.MapEnum<SupplierExclusiveStatus>("supplier_exclusive_status_enum", "public");
                     npgsqlOptions.MapEnum<AssignmentCollaboratorsRoles>("assignment_collaborators_roles_enum", "public");
                     npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
                     npgsqlOptions.MapEnum<ServiceOrderRequisitionStatus>("service_order_requisition_status_enum", "public");

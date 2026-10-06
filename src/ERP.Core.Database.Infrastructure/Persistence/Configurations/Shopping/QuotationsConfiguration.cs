@@ -133,6 +133,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("supplier_id")
                 .IsRequired();
 
+            builder.Property(e => e.SupplierProductId)
+                .HasColumnName("supplier_product_id")
+                .IsRequired(false);
+
             builder.Property(e => e.PurchaseRequestItemId)
                 .HasColumnName("purchase_request_item_id")
                 .IsRequired();
@@ -153,6 +157,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.HasOne(e => e.Supplier)
                 .WithMany(s => s.Quotations)
                 .HasForeignKey(e => e.SupplierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.SupplierProduct)
+                .WithMany(sp => sp.Quotations)
+                .HasForeignKey(e => e.SupplierProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.PurchaseRequestItem)
