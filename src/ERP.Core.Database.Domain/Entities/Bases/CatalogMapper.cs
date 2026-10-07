@@ -78,8 +78,6 @@ namespace ERP.Core.Database.Domain.Entities.Bases
 
         public string? LegalName { get; set; }
 
-        public string? PictureUrl { get; set; }
-
         public string? IdentificationNumber { get; set; }
 
         public IdentificationType IdentificationType { get; set; }
