@@ -15,5 +15,19 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public virtual User User { get; set; } = default!; 
     }
 
-    public class NotificationAdditionalData { }
+    public class NotificationAdditionalData
+    {
+    public string? EntityType { get; set; } 
+    public Guid? EntityId { get; set; }     
+    public PurchaseRequestNotificationInfo? PurchaseRequestInfo { get; set; }
+    }
+
+    public class PurchaseRequestNotificationInfo
+    {
+    public string? Code { get; set; } 
+    public string? RequestType { get; set; } 
+    public string? BranchName { get; set; }
+    public string? AreaName { get; set; }
+    public int TotalItems { get; set; }
+    }
 }

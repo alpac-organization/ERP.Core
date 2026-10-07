@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -36,7 +37,8 @@ public class WarehousesConfiguration : IEntityTypeConfiguration<Warehouses>
             .HasColumnName("warehouse_type")
             .HasColumnType("warehouse_type_enum")
             .HasDefaultValueSql("'fiscal'::warehouse_type_enum")
-            .IsRequired(); 
+            .HasSentinel(0)
+            .IsRequired();
 
         builder.Property(w => w.IsActive)
             .HasColumnName("is_active")
