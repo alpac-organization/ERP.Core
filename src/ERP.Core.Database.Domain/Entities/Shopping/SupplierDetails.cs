@@ -16,6 +16,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public string? ContactPhoneNumber { get; set; }
 
         public SupplierExclusiveStatus ExclusiveStatus { get; set; } = SupplierExclusiveStatus.None;
+
+        public SupplierType SupplierType { get; set; } = SupplierType.Ordinary;
         public string? ExclusiveBrandsOrParts { get; set; }
 
         public int CreditDays { get; set; }
