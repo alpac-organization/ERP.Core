@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Enums;
 
@@ -31,6 +32,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       public string? EnabledByUserName { get; set; }
       public DateOnly? EnabledDate { get; set; }
       public TimeOnly? EnabledTime { get; set; }
+
+      public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
 
    }
 }
