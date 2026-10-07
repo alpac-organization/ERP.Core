@@ -44,6 +44,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasDefaultValueSql("'none'::supplier_exclusive_status_enum")
                 .IsRequired();
 
+            builder.Property(e => e.SupplierType)
+                .HasColumnName("supplier_type")
+                .HasColumnType("supplier_type_enum")
+                .HasDefaultValueSql("'ordinary'::supplier_type_enum")
+                .IsRequired();
+
             builder.Property(e => e.ExclusiveBrandsOrParts)
                 .HasColumnName("exclusive_brands_or_parts")
                 .IsRequired(false);
