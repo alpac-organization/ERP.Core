@@ -69,8 +69,6 @@ public class UnitOfWork(
         ILotsPositionsCoordinatesRepository lotsPositionsCoordinatesRepository,
         IRacksPositionsCoordinatesRepository racksPositionsCoordinatesRepository,
         IOutsourcedWarehousesRepository outsourcedWarehousesRepository,
-        IDucatRegistryDetailsRepository ducatRegistryDetailsRepository,
-        IDucatRegistryRepository ducatRegistryRepository,
         IReceptionEntranceRepository receptiondEntranceRepository,
         IReceptionTransportEntranceRepository receptionTransportEntranceRepository,
         IStepExecutionLogsRepository stepExecutionLogsRepository,
@@ -90,24 +88,9 @@ public class UnitOfWork(
         IRackPositionsRepository rackPositionsRepository,
         ILotsRepository lotsRepository,
         ILotsPositionsRepository lotsPositionsRepository,
-        IWarehouseAssignmentsRepository warehouseAssignmentsRepository,
-        ICrewAssignmentsRepository crewAssignmentsRepository,
         IMachineryRepository machineryRepository,
         ICustomsBranchesRepository customsBranchesRepository,
-        IShippingComapaniesRepository shippingComapaniesRepository,
         IAssignmentStockPlacementsRepository assignmentStockPlacementsRepository,
-        IStockFootprintCellsRepository stockFootprintCellsRepository,
-        IReassignmentSessionsRepository reassignmentSessionsRepository,
-        IReassignmentSessionOwnershipLogRepository reassignmentSessionOwnershipLogRepository,
-        IReassignmentMemoryItemsRepository reassignmentMemoryItemsRepository,
-        IStockMovementEventsRepository stockMovementEventsRepository,
-        IStockRepository stockRepository,
-        IUnloadingDetailsRepository unloadingDetailsRepository,
-        IUnloadingPalletsRepository unloadingPalletsRepository,
-        IUnloadingPositionsReservationsRepository unloadingPositionsReservationsRepository,
-        IWarehouseTasksRepository warehouseTasksRepository,
-        IWarehouseTaskEventsRepository warehouseTaskEventsRepository,
-        IWarehouseTaskOwnershipLogsRepository warehouseTaskOwnershipLogsRepository,
         ICustomersRepository customersRepository,
         IInvoicesRepository invoicesRepository,
         IOperationalOrdersRepository operationalOrdersRepository,
@@ -173,7 +156,6 @@ public class UnitOfWork(
         public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
-        public IShippingComapaniesRepository ShippingComapanies => shippingComapaniesRepository;
         #endregion
 
         #region Warehouse
@@ -185,8 +167,6 @@ public class UnitOfWork(
         public IRackCapacityRepository RackCapacities => rackCapacityRepository;
         public ILotsCapacityRepository LotsCapacities => lotsCapacityRepository;
         public IOutsourcedWarehousesRepository OutsourcedWarehouses => outsourcedWarehousesRepository;
-        public IDucatRegistryDetailsRepository DucatRegistryDetails => ducatRegistryDetailsRepository;
-        public IDucatRegistryRepository DucatRegistries => ducatRegistryRepository;
         public IReceptionEntranceRepository ReceptionEntrance => receptiondEntranceRepository;
         public IReceptionTransportEntranceRepository ReceptionTransportEntrance => receptionTransportEntranceRepository;
         public IStepExecutionLogsRepository StepExecutionLogs => stepExecutionLogsRepository;
@@ -200,21 +180,7 @@ public class UnitOfWork(
         public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
         public IRacksPositionsCoordinatesRepository RacksPositionsCoordinates => racksPositionsCoordinatesRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
-        public IWarehouseAssignmentsRepository WarehouseAssignments => warehouseAssignmentsRepository;
-        public ICrewAssignmentsRepository CrewAssignments => crewAssignmentsRepository;
         public IMachineryRepository Machineries => machineryRepository;
-        public IStockFootprintCellsRepository StockFootprintCells => stockFootprintCellsRepository;
-        public IReassignmentSessionsRepository ReassignmentSessions => reassignmentSessionsRepository;
-        public IReassignmentSessionOwnershipLogRepository ReassignmentSessionOwnershipLog => reassignmentSessionOwnershipLogRepository;
-        public IReassignmentMemoryItemsRepository ReassignmentMemoryItems => reassignmentMemoryItemsRepository;
-        public IStockMovementEventsRepository StockMovementEvents => stockMovementEventsRepository;
-        public IStockRepository Stock => stockRepository;
-        public IUnloadingDetailsRepository UnloadingDetails => unloadingDetailsRepository;
-        public IUnloadingPalletsRepository UnloadingPallets => unloadingPalletsRepository;
-        public IUnloadingPositionsReservationsRepository UnloadingPositionsReservations => unloadingPositionsReservationsRepository;
-        public IWarehouseTasksRepository WarehouseTasks => warehouseTasksRepository;
-        public IWarehouseTaskEventsRepository WarehouseTaskEvents => warehouseTaskEventsRepository;
-        public IWarehouseTaskOwnershipLogsRepository WarehouseTaskOwnershipLogs => warehouseTaskOwnershipLogsRepository;
         #endregion
 
         #region Operations
