@@ -4,6 +4,7 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 
 using ERP.Core.Application.Commons.Interfaces;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
 {
@@ -14,6 +15,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
         public T? ErrorResponse { get; set; }
         public User User { get; set; } = new();
         public UserProfile Profile { get; set; } = new();
+        public Company Company { get; set; } = new();
     }
 
     public abstract class BaseValidatorHandler<TRequest, TResponse>(IUnitOfWork _unitOfWork, IErrorManager _errorManager) : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -25,6 +27,17 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
 
         protected async Task<AccessValidationResult<TResponse>> ValidateAccessAsync(Guid userId, Guid companyId, string moduleCode, CancellationToken ct, bool onlyUser = false)
         {
+
+            var company = await _unitOfWork.Companies.FirstOrDefaultAsync(c => c.Id == companyId, ct);
+
+            if(company is null)
+            {
+                return new AccessValidationResult<TResponse> { 
+                    IsSuccess = false, 
+                    ErrorResponse = _errorManager.ThrowBadRequest<TResponse>("Esta empresa no existe!", "ERP:001") 
+                };
+            }
+
             // 1. Validar Usuario
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(u => u.Id == userId, ct);
 
@@ -65,7 +78,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
             }
 
             // 2. Validar Perfil
-            var profile = await _unitOfWork.Profiles.FirstOrDefaultAsync(p => p.UserId == userId && p.CompanyId == companyId, ct);
+            var profile = await _unitOfWork.Profiles
+                .FirstOrDefaultAsync(p => p.UserId == userId && p.CompanyId == companyId == true, ct);
 
             if (profile is null)
             {
@@ -102,7 +116,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Bases
                 }   
             }
 
-            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user, Profile = profile };
+            return new AccessValidationResult<TResponse> { IsSuccess = true, Role = role, User = user, Profile = profile, Company = company };
         }
     }
 }

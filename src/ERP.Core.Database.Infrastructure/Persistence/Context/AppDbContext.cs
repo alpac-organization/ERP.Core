@@ -72,8 +72,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
-        public DbSet<ShippingCompanies> ShippingCompanies => Set<ShippingCompanies>();
-        public DbSet<UnloadingPositionReservations> UnloadingPositionReservations => Set<UnloadingPositionReservations>();
         #endregion
 
         #region Bodegas
@@ -102,27 +100,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
-        public DbSet<Stocks> Stocks => Set<Stocks>();
-        public DbSet<DucatRegistry> DucatRegistries => Set<DucatRegistry>();
-        public DbSet<WarehouseAssignments> WarehouseAssignments => Set<WarehouseAssignments>();
-        public DbSet<DucatRegistryDetails> DucatRegistryDetails => Set<DucatRegistryDetails>();
         public DbSet<Discrepancies> Discrepancies => Set<Discrepancies>();
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
-        public DbSet<WarehouseReceipts> WarehouseReceipts => Set<WarehouseReceipts>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
-        public DbSet<CrewAssignments> CrewAssignments => Set<CrewAssignments>();
         public DbSet<Machinery> Machineries => Set<Machinery>();
         public DbSet<AssignmentStockPlacements> AssignmentStockPlacements => Set<AssignmentStockPlacements>();
-        public DbSet<StockFootprintCells> StockFootprintCells => Set<StockFootprintCells>();
-        public DbSet<ReassignmentSessions> ReassignmentSessions => Set<ReassignmentSessions>();
-        public DbSet<ReassignmentSessionOwnershipLog> ReassignmentSessionOwnershipLogs => Set<ReassignmentSessionOwnershipLog>();
-        public DbSet<ReassignmentMemoryItems> ReassignmentMemoryItems => Set<ReassignmentMemoryItems>();
-        public DbSet<StockMovementEvents> StockMovementEvents => Set<StockMovementEvents>();
-        public DbSet<UnloadingDetails> UnloadingDetails => Set<UnloadingDetails>();
-        public DbSet<UnloadingPallets> UnloadingPallets => Set<UnloadingPallets>();
-        public DbSet<WarehouseTask> WarehouseTasks => Set<WarehouseTask>();
-        public DbSet<WarehouseTaskEvent> WarehouseTaskEvents => Set<WarehouseTaskEvent>();
-        public DbSet<WarehouseTaskOwnershipLog> WarehouseTaskOwnershipLogs => Set<WarehouseTaskOwnershipLog>();
         public DbSet<Codes> Codes => Set<Codes>();
         #endregion
 
@@ -189,7 +171,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status_enum");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
-            modelBuilder.HasPostgresEnum<RecordEntranceStatus>("public", "record_entrance_status_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
@@ -212,13 +193,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<RackStatus>("public", "rack_status_enum");
             modelBuilder.HasPostgresEnum<TransportUnit>("public", "transport_unit_enum");
             modelBuilder.HasPostgresEnum<DucaType>("public", "duca_type_enum");
-            modelBuilder.HasPostgresEnum<ReassignmentSessionStatus>("public", "reassignment_session_status_enum");
-            modelBuilder.HasPostgresEnum<UnloadingStatus>("public", "unloading_status_enum");
             modelBuilder.HasPostgresEnum<UnloadingMerchandiseType>("public", "unloading_merchandise_type_enum");
             modelBuilder.HasPostgresEnum<PalletType>("public", "pallet_type_enum");
-            modelBuilder.HasPostgresEnum<WarehouseTaskType>("public", "warehouse_task_type_enum");
-            modelBuilder.HasPostgresEnum<WarehouseTaskStatus>("public", "warehouse_task_status_enum");
-            modelBuilder.HasPostgresEnum<WarehouseTaskEventType>("public", "warehouse_task_event_type_enum");
             modelBuilder.HasPostgresEnum<BankAccountType>("public", "bank_account_type_enum");
             modelBuilder.HasPostgresEnum<PaymentMethodType>("public", "payment_method_type_enum");
 

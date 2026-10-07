@@ -57,7 +57,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWarehouseLocationRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
-        IShippingComapaniesRepository ShippingComapanies { get; }
         #endregion
 
         #region Warehouse
@@ -81,29 +80,13 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ILotCoordinateRepository LotCoordinates { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
-        IDucatRegistryRepository DucatRegistries { get; }
-        IDucatRegistryDetailsRepository DucatRegistryDetails { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
         IReceptionTransportEntranceRepository ReceptionTransportEntrance { get; }
         IStepExecutionLogsRepository StepExecutionLogs { get; }
 
         ISectionPositionsRepository SectionPositionsRepository { get; }
-        IWarehouseAssignmentsRepository WarehouseAssignments { get; }
-        ICrewAssignmentsRepository CrewAssignments { get; }
         IMachineryRepository Machineries { get; }
         IAssignmentStockPlacementsRepository AssignmentStockPlacements { get; }
-        IStockFootprintCellsRepository StockFootprintCells { get; }
-        IReassignmentSessionsRepository ReassignmentSessions { get; }
-        IReassignmentSessionOwnershipLogRepository ReassignmentSessionOwnershipLog { get; }
-        IReassignmentMemoryItemsRepository ReassignmentMemoryItems { get; }
-        IStockMovementEventsRepository StockMovementEvents { get; }
-        IStockRepository Stock { get; }
-        IUnloadingDetailsRepository UnloadingDetails { get; }
-        IUnloadingPalletsRepository UnloadingPallets { get; }
-        IUnloadingPositionsReservationsRepository UnloadingPositionsReservations { get; }
-        IWarehouseTasksRepository WarehouseTasks { get; }
-        IWarehouseTaskEventsRepository WarehouseTaskEvents { get; }
-        IWarehouseTaskOwnershipLogsRepository WarehouseTaskOwnershipLogs { get; }
         #endregion
 
         #region Operations
