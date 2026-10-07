@@ -23,5 +23,4 @@ public class Racks : BaseEntity<Guid>
    public RackStatus Status { get; set; } = RackStatus.Available;
 
    public virtual ICollection<RackPositions> Positions { get; set; } = [];
-   public virtual ICollection<WarehouseAssignments> Assignments { get; set; } = [];
 }
