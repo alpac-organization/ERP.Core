@@ -5090,7 +5090,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_id");
 
-                    b.Property<string>("SupplierRejectionJustification")
+                    b.Property<Guid?>("SupplierProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supplier_product_id");
+
+                    b.Property<string>("SupplierRejectionComments")
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)")
                         .HasColumnName("supplier_rejection_comments");
@@ -5118,6 +5122,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("PurchaseRequestItemId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("SupplierProductId");
+
+                    b.HasIndex("SupplierRejectionReasonId");
 
                     b.ToTable("quotations", "public");
                 });
@@ -8505,9 +8513,23 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.SupplierProduct", "SupplierProduct")
+                        .WithMany("Quotations")
+                        .HasForeignKey("SupplierProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "SupplierRejectionReason")
+                        .WithMany()
+                        .HasForeignKey("SupplierRejectionReasonId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("PurchaseRequestItem");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("SupplierProduct");
+
+                    b.Navigation("SupplierRejectionReason");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.ServiceOrderRequistions", b =>

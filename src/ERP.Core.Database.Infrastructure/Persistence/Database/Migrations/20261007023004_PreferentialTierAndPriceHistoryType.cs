@@ -11,39 +11,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_purchase_orders_purchase_request_id",
-                schema: "public",
-                table: "purchase_orders");
-
             migrationBuilder.DropColumn(
                 name: "is_exclusive",
                 schema: "public",
                 table: "suppliers_details");
-
-            migrationBuilder.RenameColumn(
-                name: "supplier_rejection_justification",
-                schema: "public",
-                table: "quotations",
-                newName: "supplier_rejection_comments");
-
-            migrationBuilder.RenameColumn(
-                name: "reason_rejection",
-                schema: "public",
-                table: "purchase_requests",
-                newName: "rejection_comments");
-
-            migrationBuilder.RenameColumn(
-                name: "annulment_reason",
-                schema: "public",
-                table: "purchase_requests",
-                newName: "annulment_comments");
-
-            migrationBuilder.RenameColumn(
-                name: "IsActive",
-                schema: "public",
-                table: "purchase_orders",
-                newName: "is_active");
 
             migrationBuilder.RenameColumn(
                 name: "unit_price",
@@ -57,6 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.assignment_operational_status_enum", "none,pending,in_progress,on_hold,downloaded")
                 .Annotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
                 .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments,purchase_rejection_reasons")
+                .Annotation("Npgsql:Enum:public.codes_type_enum", "none,qr,bar")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .Annotation("Npgsql:Enum:public.constitution_type_enum", "natural,legal")
                 .Annotation("Npgsql:Enum:public.credit_status_enum", "active,blocked,suspended,overdue")
@@ -123,7 +95,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.assignment_collaborators_roles_enum", "warehouse_assistant,forklift_operator")
                 .OldAnnotation("Npgsql:Enum:public.assignment_operational_status_enum", "none,pending,in_progress,on_hold,downloaded")
                 .OldAnnotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
-                .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments,purchase_rejection_reasons")
+                .OldAnnotation("Npgsql:Enum:public.codes_type_enum", "none,qr,bar")
                 .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .OldAnnotation("Npgsql:Enum:public.constitution_type_enum", "natural,legal")
                 .OldAnnotation("Npgsql:Enum:public.credit_status_enum", "active,blocked,suspended,overdue")
@@ -193,92 +166,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: false,
                 defaultValueSql: "'none'::supplier_exclusive_status_enum");
 
-            migrationBuilder.AddColumn<DateTime>(
-                name: "last_price_update",
-                schema: "public",
-                table: "supplier_products",
-                type: "timestamp with time zone",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<string>(
-                name: "additional_data",
-                schema: "public",
-                table: "quotations",
-                type: "jsonb",
-                nullable: true);
-
             migrationBuilder.AddColumn<Guid>(
                 name: "supplier_product_id",
                 schema: "public",
                 table: "quotations",
                 type: "uuid",
                 nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations",
-                type: "integer",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests",
-                type: "integer",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests",
-                type: "integer",
-                nullable: true);
-
-            migrationBuilder.AddColumn<decimal>(
-                name: "estimated_price",
-                schema: "public",
-                table: "purchase_request_items",
-                type: "numeric(18,2)",
-                precision: 18,
-                scale: 2,
-                nullable: false,
-                defaultValue: 0m);
-
-            migrationBuilder.AlterColumn<bool>(
-                name: "is_active",
-                schema: "public",
-                table: "purchase_orders",
-                type: "boolean",
-                nullable: false,
-                defaultValue: true,
-                oldClrType: typeof(bool),
-                oldType: "boolean");
-
-            migrationBuilder.AddColumn<string>(
-                name: "code",
-                schema: "public",
-                table: "purchase_orders",
-                type: "character varying(50)",
-                maxLength: 50,
-                nullable: true);
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "supplier_id",
-                schema: "public",
-                table: "purchase_orders",
-                type: "uuid",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "code",
-                schema: "public",
-                table: "products",
-                type: "character varying(50)",
-                maxLength: 50,
-                nullable: false,
-                defaultValue: "");
 
             migrationBuilder.AddColumn<bool>(
                 name: "is_tax_exempt",
@@ -287,14 +180,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 type: "boolean",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "unit_measure_id",
-                schema: "public",
-                table: "products",
-                type: "uuid",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<int>(
                 name: "min_quantity",
@@ -310,46 +195,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 type: "supplier_price_history_type_enum",
                 nullable: false,
                 defaultValueSql: "'unit_price'::supplier_price_history_type_enum");
-
-            migrationBuilder.CreateTable(
-                name: "purchase_order_items",
-                schema: "public",
-                columns: table => new
-                {
-                    purchase_order_item_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    quantity = table.Column<int>(type: "integer", nullable: false),
-                    unit_price = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    purchase_order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    purchase_request_item_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_purchase_order_items", x => x.purchase_order_item_id);
-                    table.ForeignKey(
-                        name: "FK_purchase_order_items_products_product_id",
-                        column: x => x.product_id,
-                        principalSchema: "public",
-                        principalTable: "products",
-                        principalColumn: "product_id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_purchase_order_items_purchase_orders_purchase_order_id",
-                        column: x => x.purchase_order_id,
-                        principalSchema: "public",
-                        principalTable: "purchase_orders",
-                        principalColumn: "purchase_order_id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_purchase_order_items_purchase_request_items_purchase_reques~",
-                        column: x => x.purchase_request_item_id,
-                        principalSchema: "public",
-                        principalTable: "purchase_request_items",
-                        principalColumn: "purchase_request_item_id",
-                        onDelete: ReferentialAction.Restrict);
-                });
 
             migrationBuilder.CreateTable(
                 name: "supplier_product_tier_prices",
@@ -392,79 +237,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "supplier_product_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_quotations_supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations",
-                column: "supplier_rejection_reason_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_purchase_requests_annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests",
-                column: "annulment_reason_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_purchase_requests_reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests",
-                column: "reason_rejection_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_purchase_orders_purchase_request_id",
-                schema: "public",
-                table: "purchase_orders",
-                column: "purchase_request_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_purchase_orders_supplier_id",
-                schema: "public",
-                table: "purchase_orders",
-                column: "supplier_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ux_purchase_orders_code",
-                schema: "public",
-                table: "purchase_orders",
-                column: "code",
-                unique: true,
-                filter: "\"code\" IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_products_unit_measure_id",
-                schema: "public",
-                table: "products",
-                column: "unit_measure_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ux_products_code",
-                schema: "public",
-                table: "products",
-                column: "code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "ix_history_prices_supplier_product_price_type",
                 schema: "public",
                 table: "history_prices",
                 columns: new[] { "supplier_product_id", "price_type" });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_purchase_order_items_product_id",
-                schema: "public",
-                table: "purchase_order_items",
-                column: "product_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_purchase_order_items_purchase_order_id",
-                schema: "public",
-                table: "purchase_order_items",
-                column: "purchase_order_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_purchase_order_items_purchase_request_item_id",
-                schema: "public",
-                table: "purchase_order_items",
-                column: "purchase_request_item_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_supplier_product_tier_prices_supplier_product_id",
@@ -485,56 +261,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 column: "unit_measure_id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_products_units_measurement_unit_measure_id",
-                schema: "public",
-                table: "products",
-                column: "unit_measure_id",
-                principalSchema: "public",
-                principalTable: "units_measurement",
-                principalColumn: "unit_measure_id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_purchase_orders_suppliers_supplier_id",
-                schema: "public",
-                table: "purchase_orders",
-                column: "supplier_id",
-                principalSchema: "public",
-                principalTable: "suppliers",
-                principalColumn: "suppliers_id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_purchase_requests_sub_catalogs_annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests",
-                column: "annulment_reason_id",
-                principalSchema: "public",
-                principalTable: "sub_catalogs",
-                principalColumn: "sub_catalog_id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_purchase_requests_sub_catalogs_reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests",
-                column: "reason_rejection_id",
-                principalSchema: "public",
-                principalTable: "sub_catalogs",
-                principalColumn: "sub_catalog_id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_quotations_sub_catalogs_supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations",
-                column: "supplier_rejection_reason_id",
-                principalSchema: "public",
-                principalTable: "sub_catalogs",
-                principalColumn: "sub_catalog_id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_quotations_supplier_products_supplier_product_id",
                 schema: "public",
                 table: "quotations",
@@ -549,38 +275,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_products_units_measurement_unit_measure_id",
-                schema: "public",
-                table: "products");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_purchase_orders_suppliers_supplier_id",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_purchase_requests_sub_catalogs_annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_purchase_requests_sub_catalogs_reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_quotations_sub_catalogs_supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_quotations_supplier_products_supplier_product_id",
                 schema: "public",
                 table: "quotations");
-
-            migrationBuilder.DropTable(
-                name: "purchase_order_items",
-                schema: "public");
 
             migrationBuilder.DropTable(
                 name: "supplier_product_tier_prices",
@@ -590,46 +287,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 name: "IX_quotations_supplier_product_id",
                 schema: "public",
                 table: "quotations");
-
-            migrationBuilder.DropIndex(
-                name: "IX_quotations_supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations");
-
-            migrationBuilder.DropIndex(
-                name: "IX_purchase_requests_annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropIndex(
-                name: "IX_purchase_requests_reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropIndex(
-                name: "ix_purchase_orders_purchase_request_id",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropIndex(
-                name: "ix_purchase_orders_supplier_id",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropIndex(
-                name: "ux_purchase_orders_code",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropIndex(
-                name: "IX_products_unit_measure_id",
-                schema: "public",
-                table: "products");
-
-            migrationBuilder.DropIndex(
-                name: "ux_products_code",
-                schema: "public",
-                table: "products");
 
             migrationBuilder.DropIndex(
                 name: "ix_history_prices_supplier_product_price_type",
@@ -642,62 +299,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "suppliers_details");
 
             migrationBuilder.DropColumn(
-                name: "last_price_update",
-                schema: "public",
-                table: "supplier_products");
-
-            migrationBuilder.DropColumn(
-                name: "additional_data",
-                schema: "public",
-                table: "quotations");
-
-            migrationBuilder.DropColumn(
                 name: "supplier_product_id",
                 schema: "public",
                 table: "quotations");
 
             migrationBuilder.DropColumn(
-                name: "supplier_rejection_reason_id",
-                schema: "public",
-                table: "quotations");
-
-            migrationBuilder.DropColumn(
-                name: "annulment_reason_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropColumn(
-                name: "reason_rejection_id",
-                schema: "public",
-                table: "purchase_requests");
-
-            migrationBuilder.DropColumn(
-                name: "estimated_price",
-                schema: "public",
-                table: "purchase_request_items");
-
-            migrationBuilder.DropColumn(
-                name: "code",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropColumn(
-                name: "supplier_id",
-                schema: "public",
-                table: "purchase_orders");
-
-            migrationBuilder.DropColumn(
-                name: "code",
-                schema: "public",
-                table: "products");
-
-            migrationBuilder.DropColumn(
                 name: "is_tax_exempt",
-                schema: "public",
-                table: "products");
-
-            migrationBuilder.DropColumn(
-                name: "unit_measure_id",
                 schema: "public",
                 table: "products");
 
@@ -712,30 +319,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "history_prices");
 
             migrationBuilder.RenameColumn(
-                name: "supplier_rejection_comments",
-                schema: "public",
-                table: "quotations",
-                newName: "supplier_rejection_justification");
-
-            migrationBuilder.RenameColumn(
-                name: "rejection_comments",
-                schema: "public",
-                table: "purchase_requests",
-                newName: "reason_rejection");
-
-            migrationBuilder.RenameColumn(
-                name: "annulment_comments",
-                schema: "public",
-                table: "purchase_requests",
-                newName: "annulment_reason");
-
-            migrationBuilder.RenameColumn(
-                name: "is_active",
-                schema: "public",
-                table: "purchase_orders",
-                newName: "IsActive");
-
-            migrationBuilder.RenameColumn(
                 name: "price",
                 schema: "public",
                 table: "history_prices",
@@ -746,7 +329,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.assignment_collaborators_roles_enum", "warehouse_assistant,forklift_operator")
                 .Annotation("Npgsql:Enum:public.assignment_operational_status_enum", "none,pending,in_progress,on_hold,downloaded")
                 .Annotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
-                .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments")
+                .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments,purchase_rejection_reasons")
+                .Annotation("Npgsql:Enum:public.codes_type_enum", "none,qr,bar")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .Annotation("Npgsql:Enum:public.constitution_type_enum", "natural,legal")
                 .Annotation("Npgsql:Enum:public.credit_status_enum", "active,blocked,suspended,overdue")
@@ -812,6 +396,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.assignment_operational_status_enum", "none,pending,in_progress,on_hold,downloaded")
                 .OldAnnotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
                 .OldAnnotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments,purchase_rejection_reasons")
+                .OldAnnotation("Npgsql:Enum:public.codes_type_enum", "none,qr,bar")
                 .OldAnnotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .OldAnnotation("Npgsql:Enum:public.constitution_type_enum", "natural,legal")
                 .OldAnnotation("Npgsql:Enum:public.credit_status_enum", "active,blocked,suspended,overdue")
@@ -882,23 +467,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 type: "boolean",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.AlterColumn<bool>(
-                name: "IsActive",
-                schema: "public",
-                table: "purchase_orders",
-                type: "boolean",
-                nullable: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean",
-                oldDefaultValue: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_purchase_orders_purchase_request_id",
-                schema: "public",
-                table: "purchase_orders",
-                column: "purchase_request_id",
-                unique: true);
         }
     }
 }
