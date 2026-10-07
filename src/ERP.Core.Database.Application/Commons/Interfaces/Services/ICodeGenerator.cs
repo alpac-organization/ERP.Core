@@ -27,7 +27,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default);
 
         //Genera  codigo de producto basado en el prefix de company (ej: ALP-001).
-        Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(Guid companyId, CancellationToken ct = default);
+        Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(Guid companyId,Guid categoryId, CancellationToken ct = default);
 
         Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null);
         Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null, string? headerText = null);

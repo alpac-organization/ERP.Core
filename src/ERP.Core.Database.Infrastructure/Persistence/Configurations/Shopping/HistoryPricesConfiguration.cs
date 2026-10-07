@@ -18,10 +18,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(e => e.UnitPrice)
-                .HasColumnName("unit_price")
+            builder.Property(e => e.PriceType)
+                .HasColumnName("price_type")
+                .HasColumnType("supplier_price_history_type_enum")
+                .IsRequired();
+
+            builder.Property(e => e.Price)
+                .HasColumnName("price")
                 .HasPrecision(18, 2)
                 .IsRequired();
+
+            builder.Property(e => e.MinQuantity)
+                .HasColumnName("min_quantity")
+                .IsRequired(false);
 
             builder.Property(e => e.EffectiveFrom)
                 .HasColumnName("effective_from")
@@ -45,6 +54,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.HasIndex(e => e.SupplierProductId)
                 .HasDatabaseName("ix_history_prices_supplier_product_id");
+
+            builder.HasIndex(e => new { e.SupplierProductId, e.PriceType })
+                .HasDatabaseName("ix_history_prices_supplier_product_price_type");
 
             builder.HasOne(e => e.SupplierProduct)
                 .WithMany(sp => sp.PriceHistories)

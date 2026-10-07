@@ -36,13 +36,15 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public decimal? AvailabilityTime { get; set; }
         public TimeType? AvailabilityTimeType { get; set; }
 
-        /// <summary>
-        /// Data adicional de la cotización las imágenes y documentos pdf.
-        /// </summary>
+        /// Data adicional de la cotización las imágenes y documentos pdf aqui irian.
         public string? AdditionalData { get; set; }
 
         public Guid SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; } = default!;
+
+        /// Vínculo proveedor–producto del cual se sugirió/tomó el precio .
+        public Guid? SupplierProductId { get; set; }
+        public virtual SupplierProduct? SupplierProduct { get; set; }
 
         public Guid PurchaseRequestItemId { get; set; }
         public virtual PurchaseRequestItem PurchaseRequestItem { get; set; } = default!;

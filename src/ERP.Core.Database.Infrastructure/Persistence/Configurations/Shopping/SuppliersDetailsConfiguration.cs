@@ -38,9 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("email_support")
                 .IsRequired(false);
 
-            builder.Property(e => e.IsExclusive)
-                .HasColumnName("is_exclusive")
-                .HasDefaultValue(false)
+            builder.Property(e => e.ExclusiveStatus)
+                .HasColumnName("exclusive_status")
+                .HasColumnType("supplier_exclusive_status_enum")
+                .HasDefaultValueSql("'none'::supplier_exclusive_status_enum")
                 .IsRequired();
 
             builder.Property(e => e.ExclusiveBrandsOrParts)

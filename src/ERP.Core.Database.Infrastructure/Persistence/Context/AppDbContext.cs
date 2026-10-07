@@ -149,6 +149,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<SupplierDetails> SupplierDetails => Set<SupplierDetails>();
         public DbSet<SupplierBankAccount> SupplierBankAccounts => Set<SupplierBankAccount>();
         public DbSet<SupplierProduct> SupplierProducts => Set<SupplierProduct>();
+        public DbSet<SupplierProductTierPrice> SupplierProductTierPrices => Set<SupplierProductTierPrice>();
         public DbSet<HistoryPrices> HistoryPrices => Set<HistoryPrices>();
         public DbSet<Quotation> Quotations => Set<Quotation>();
 
@@ -227,6 +228,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PaymentCondition>("public", "payment_condition_enum");
             modelBuilder.HasPostgresEnum<CreditStatus>("public", "credit_status_enum");
             modelBuilder.HasPostgresEnum<ProductQuality>("public", "product_quality_enum");
+            modelBuilder.HasPostgresEnum<SupplierPriceHistoryType>("public", "supplier_price_history_type_enum");
+            modelBuilder.HasPostgresEnum<SupplierExclusiveStatus>("public", "supplier_exclusive_status_enum");
             modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
             modelBuilder.HasPostgresEnum<ServiceOrderRequisitionStatus>("public", "service_order_requisition_status_enum");
