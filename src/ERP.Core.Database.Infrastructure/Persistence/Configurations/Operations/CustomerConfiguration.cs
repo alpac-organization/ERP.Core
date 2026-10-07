@@ -28,11 +28,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(200)
                 .IsRequired(false);
 
-            builder.Property(c => c.CustomerCode)
-                .HasColumnName("customer_code")
-                .HasMaxLength(50)
-                .IsRequired(false);
-
             builder.Property(c => c.Cif)
                 .HasColumnName("cif")
                 .HasMaxLength(20)
@@ -80,10 +75,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .WithOne(cb => cb.Customer)
                 .HasForeignKey(cb => cb.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasIndex(c => new { c.CompanyId, c.CustomerCode })
-                .HasDatabaseName("ix_customers_customer_code")
-                .IsUnique();
 
             builder.HasIndex(c => c.IdentificationNumber)
                 .HasDatabaseName("ix_customers_identification_number")
