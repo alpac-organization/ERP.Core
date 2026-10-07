@@ -15,8 +15,8 @@ public class AssignmentStockPlacements : BaseEntity<Guid>
     public Guid? LotPositionId { get; set; }
     public virtual LotsPositions? LotPosition { get; set; }
 
-    public Guid? SectionPositionId { get; set; }
-    public virtual SectionPositions? SectionPosition { get; set; }
+    public Guid? SectionId { get; set; }
+    public virtual Sections? Section { get; set; }
 
     public DateTime PlacedAt { get; set; }
     public Guid PlacedByUserId { get; set; }

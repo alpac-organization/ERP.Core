@@ -29,8 +29,8 @@ public class AssignmentStockPlacementsConfiguration : IEntityTypeConfiguration<A
             .HasColumnName("lot_position_id")
             .IsRequired(false);
 
-        builder.Property(e => e.SectionPositionId)
-            .HasColumnName("section_position_id")
+        builder.Property(e => e.SectionId)
+            .HasColumnName("section_id")
             .IsRequired(false);
 
         builder.Property(e => e.PlacedAt)
@@ -60,9 +60,9 @@ public class AssignmentStockPlacementsConfiguration : IEntityTypeConfiguration<A
             .HasForeignKey(e => e.RackPositionId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.SectionPosition)
+        builder.HasOne(e => e.Section)
             .WithMany(x => x.AssignmentStockPlacements)
-            .HasForeignKey(e => e.SectionPositionId)
+            .HasForeignKey(e => e.SectionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.LotPosition)
