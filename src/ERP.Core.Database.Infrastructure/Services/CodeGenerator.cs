@@ -434,9 +434,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion Products
 
         #region Generar codigo QR
-        private const int HeaderHeight = 80;
-        private const int FooterHeight = 64;
-        private const int PaperWidthPx = 576;   // 80mm @203dpi (area imprimible 72mm). Si tu impresora es 300dpi usa 850
+        private const int PaperWidthPx = 576;
         private const int SideMargin   = 12;
         private const string DefaultUrl = "https://web-alpac.onrender.com";
 
@@ -445,15 +443,16 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static readonly Color BlueColor = Color.FromRgb(0, 79, 144);
         private static readonly Color RedColor  = Color.FromRgb(176, 24, 28);
 
-        public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null, string? headerText = null)
+        public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null)
         {
             redirectUrl = string.IsNullOrWhiteSpace(redirectUrl) ? DefaultUrl : redirectUrl;
 
             var code = GenerateUniqueCode();
             var content = AppendCode(redirectUrl, code);
-
+            
             var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
-            var png = RenderQrPng(content, logoBytes, headerText, code);
+
+            var png = RenderQrPng(content, logoBytes);
 
             var imageUrl = await _s3StorageService.UploadImageAsync("qr-codes", "generated", Convert.ToBase64String(png), default);
 
@@ -559,7 +558,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         #region Renderiza imagen png del qr
-        public static byte[] RenderQrPng(string content, byte[]? logoBytes = null, string? headerText = null, string? code = null)
+        public static byte[] RenderQrPng(string content, byte[]? logoBytes = null)
         {
             using var generator = new QRCodeGenerator();
             using var qrData = generator.CreateQrCode(content, QRCodeGenerator.ECCLevel.H);
@@ -568,10 +567,9 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             using var logo = TryLoadLogo(logoBytes);
             bool hasLogo   = logo is not null;
-            bool hasHeader = !string.IsNullOrWhiteSpace(headerText);
 
             // Configuración del ancho del qr y dimenciones
-            int top     = hasHeader ? HeaderHeight : 0;
+            int top     = 0;
             int bottom  = 0;
             int width   = PaperWidthPx;
             int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));
@@ -602,14 +600,9 @@ namespace ERP.Core.Database.Infrastructure.Services
                 GradientRepetitionMode.None,
                 new ColorStop(0f, BlueColor),
                 new ColorStop(1f, RedColor));
-
+            
             using var canvas = new Image<Rgba32>(width, height);
             canvas.Mutate(ctx => ctx.Fill(BgColor));
-
-            if (hasHeader)
-            {
-                canvas.Mutate(ctx => DrawHeader(ctx, width, HeaderHeight, headerText!));
-            }
 
             // Sombra de la tarjeta
             using (var shadow = new Image<Rgba32>(width, height))
