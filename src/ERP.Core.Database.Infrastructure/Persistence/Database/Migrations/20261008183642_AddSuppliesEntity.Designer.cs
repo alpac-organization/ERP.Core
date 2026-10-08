@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261008182207_AddSuppliesEntity")]
+    [Migration("20261008183642_AddSuppliesEntity")]
     partial class AddSuppliesEntity
     {
         /// <inheritdoc />
@@ -78,7 +78,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_exclusive_status_enum", new[] { "none", "pending_review", "approved", "rejected" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_price_history_type_enum", new[] { "unit_price", "preferential_price" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_type_enum", new[] { "international", "ordinary" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supply_category_enum", new[] { "fuel", "lubricants", "materials", "spare_parts", "none" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2", "iva", "imi", "ir", "ir_supplier_internation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "transport_unit_enum", new[] { "container", "van" });
@@ -2558,12 +2557,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supply_id")
                         .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<int>("Category")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("supply_category_enum")
-                        .HasColumnName("category")
-                        .HasDefaultValueSql("'none'::supply_category_enum");
 
                     b.Property<string>("Code")
                         .IsRequired()

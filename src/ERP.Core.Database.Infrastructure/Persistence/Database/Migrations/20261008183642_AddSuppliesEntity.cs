@@ -66,7 +66,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.supplier_exclusive_status_enum", "none,pending_review,approved,rejected")
                 .Annotation("Npgsql:Enum:public.supplier_price_history_type_enum", "unit_price,preferential_price")
                 .Annotation("Npgsql:Enum:public.supplier_type_enum", "international,ordinary")
-                .Annotation("Npgsql:Enum:public.supply_category_enum", "fuel,lubricants,materials,spare_parts,none")
                 .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .Annotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .Annotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
@@ -155,7 +154,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     supply_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    category = table.Column<int>(type: "supply_category_enum", nullable: false, defaultValueSql: "'none'::supply_category_enum"),
                     stock = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -296,7 +294,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.supplier_exclusive_status_enum", "none,pending_review,approved,rejected")
                 .OldAnnotation("Npgsql:Enum:public.supplier_price_history_type_enum", "unit_price,preferential_price")
                 .OldAnnotation("Npgsql:Enum:public.supplier_type_enum", "international,ordinary")
-                .OldAnnotation("Npgsql:Enum:public.supply_category_enum", "fuel,lubricants,materials,spare_parts,none")
                 .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .OldAnnotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .OldAnnotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
