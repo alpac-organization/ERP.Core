@@ -15,6 +15,10 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public string? ContactEmail { get; set; }
         public string? ContactPhoneNumber { get; set; }
 
+        public Currency Currency { get; set; } = Currency.NIO;
+
+        public string? ExclusiveStatusComments {get; set;}
+
         public SupplierExclusiveStatus ExclusiveStatus { get; set; } = SupplierExclusiveStatus.None;
 
         public SupplierType SupplierType { get; set; } = SupplierType.Ordinary;
