@@ -31,7 +31,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
 
             builder.Property(i => i.UnitMeasure)
                 .HasColumnName("unit_measure")
-                .HasMaxLength(50)
+                .HasColumnType("unit_measure_enum")
+                .HasDefaultValueSql("'none'::unit_measure_enum")
+                .IsRequired();
+
+            builder.Property(i => i.UnitMeasure)
+                .HasColumnName("unit_measure")
+                .HasColumnType("supply_category_enum")
+                .HasDefaultValueSql("'none'::supply_category_enum")
                 .IsRequired();
 
             builder.Property(i => i.Stock)

@@ -5,5 +5,6 @@ public enum SupplyCategory
     Fuel = 1,
     Lubricants = 2,
     Materials = 3,
-    SpareParts = 4
+    SpareParts = 4,
+    None = 5
 }

@@ -42,7 +42,8 @@ namespace ERP.Core.Database.Domain.Enums
         Meters = 11,
         Peers = 12,         // Pares
         Foots = 13,
-        Rool = 14
+        Rool = 14,
+        None = 15
 
     }
 }
