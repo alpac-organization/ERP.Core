@@ -111,6 +111,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<AssignmentOperationalStatus>("assignment_operational_status_enum", "public");
                     npgsqlOptions.MapEnum<MerchandiseCategory>("merchandise_category_enum", "public");
                     npgsqlOptions.MapEnum<CodesType>("codes_type_enum", "public");
+                    npgsqlOptions.MapEnum<SupplyCategory>("supply_category_enum", "public");
                 })
             );
 
@@ -179,6 +180,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IOperationalOrdersRepository, OperationalOrdersRepository>();
             services.AddScoped<IOperationalServicesRepository, OperationalServicesRepository>();
             services.AddScoped<IServicesOrdersRepository, ServicesOrdersRepository>();
+            services.AddScoped<ISuppliesRepository, SuppliesRepository>();
             services.AddScoped<ICustomerBranchesRepository, CustomerBranchesRepository>();
             services.AddScoped<ICustomerCreditInformationsRepository, CustomerCreditInformationsRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();
