@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class FixSuppliesConfig : Migration
+    public partial class FixColumnNameSupplies : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -129,28 +130,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.supplier_exclusive_status_enum", "none,pending_review,approved,rejected")
                 .OldAnnotation("Npgsql:Enum:public.supplier_price_history_type_enum", "unit_price,preferential_price")
                 .OldAnnotation("Npgsql:Enum:public.supplier_type_enum", "international,ordinary")
-                .OldAnnotation("Npgsql:Enum:public.supply_category_enum", "fuel,lubricants,materials,spare_parts")
                 .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .OldAnnotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .OldAnnotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
-                .OldAnnotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time,one_eighth,gallon,pounds,liters,meters,peers,foots,rool")
+                .OldAnnotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time")
                 .OldAnnotation("Npgsql:Enum:public.unloading_merchandise_type_enum", "bulk,armed")
                 .OldAnnotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "unit_measure",
-                schema: "public",
-                table: "supplies",
-                type: "supply_category_enum",
-                nullable: false,
-                defaultValueSql: "'none'::supply_category_enum",
-                oldClrType: typeof(int),
-                oldType: "integer",
-                oldMaxLength: 50);
-
             migrationBuilder.AddColumn<int>(
                 name: "currency",
                 schema: "public",
@@ -180,11 +169,35 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "supplier_products",
                 type: "text",
                 nullable: true);
+
+            migrationBuilder.CreateTable(
+                name: "supplies",
+                schema: "public",
+                columns: table => new
+                {
+                    supply_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    unit_measure = table.Column<int>(type: "unit_measure_enum", nullable: false, defaultValueSql: "'none'::unit_measure_enum"),
+                    category = table.Column<int>(type: "supply_category_enum", nullable: false, defaultValueSql: "'none'::supply_category_enum"),
+                    stock = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_supplies", x => x.supply_id);
+                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "supplies",
+                schema: "public");
+
             migrationBuilder.DropColumn(
                 name: "currency",
                 schema: "public",
@@ -260,11 +273,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.supplier_exclusive_status_enum", "none,pending_review,approved,rejected")
                 .Annotation("Npgsql:Enum:public.supplier_price_history_type_enum", "unit_price,preferential_price")
                 .Annotation("Npgsql:Enum:public.supplier_type_enum", "international,ordinary")
-                .Annotation("Npgsql:Enum:public.supply_category_enum", "fuel,lubricants,materials,spare_parts")
                 .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .Annotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .Annotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
-                .Annotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time,one_eighth,gallon,pounds,liters,meters,peers,foots,rool")
+                .Annotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time")
                 .Annotation("Npgsql:Enum:public.unloading_merchandise_type_enum", "bulk,armed")
                 .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
@@ -334,17 +346,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "unit_measure",
-                schema: "public",
-                table: "supplies",
-                type: "integer",
-                maxLength: 50,
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "supply_category_enum",
-                oldDefaultValueSql: "'none'::supply_category_enum");
         }
     }
 }
