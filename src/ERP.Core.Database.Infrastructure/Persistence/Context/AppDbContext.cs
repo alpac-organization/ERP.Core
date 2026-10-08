@@ -216,7 +216,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
             modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
-            modelBuilder.HasPostgresEnum<SupplyCategory>("public", "supply_category_enum");
+            // modelBuilder.HasPostgresEnum<SupplyCategory>("public", "supply_category_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
