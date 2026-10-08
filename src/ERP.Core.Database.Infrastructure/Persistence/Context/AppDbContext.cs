@@ -118,7 +118,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
         public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
         public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
-        public DbSet<Supplies> Supplies => Set<Supplies>();
+        // public DbSet<Supplies> Supplies => Set<Supplies>();
 
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
