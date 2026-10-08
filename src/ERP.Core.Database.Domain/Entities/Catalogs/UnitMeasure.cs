@@ -12,7 +12,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public string Symbol { get; set; } = default!;
         public string? Description { get; set; }
 
-        // public UnitMeasureType Type { get; set; }
+        public UnitMeasureType Type { get; set; }
 
         public bool IsActive { get; set; } = true;
 
