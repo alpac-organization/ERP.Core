@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261008171145_QuitColumnSupplies")]
+    [Migration("20261008172230_QuitColumnSupplies")]
     partial class QuitColumnSupplies
     {
         /// <inheritdoc />
