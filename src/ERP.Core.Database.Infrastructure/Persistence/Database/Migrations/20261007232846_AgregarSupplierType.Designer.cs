@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007232846_AgregarSupplierType")]
+    partial class AgregarSupplierType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1875,7 +1878,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("assignment_operational_status_enum")
                         .HasColumnName("status")
-                        .HasDefaultValueSql("'none'::assignment_operational_status_enum");
+                        .HasDefaultValueSql("'pending'::assignment_operational_status_enum");
 
                     b.Property<Guid?>("WarehouseId")
                         .HasColumnType("uuid")

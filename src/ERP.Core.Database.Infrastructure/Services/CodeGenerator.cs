@@ -37,19 +37,32 @@ namespace ERP.Core.Database.Infrastructure.Services
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de solicitud no soportado.")
         };
 
+        private static string GetPaymentMethodTypeCode(PaymentMethodType type) => type switch
+        {
+            PaymentMethodType.ACH => "ACH",
+            PaymentMethodType.LocalTransfer => "LOCAL",
+            PaymentMethodType.Check => "CHECK",
+            PaymentMethodType.Cash => "CASH",
+            PaymentMethodType.InternationalWire => "INTERNATIONAL",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de método de pago no soportado.")
+        };
+
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId)
         {
             var branch = await _unitOfWork.Branches.Entities
                 .AsNoTracking()
+                .Include(b => b.Company)
                 .FirstOrDefaultAsync(b => b.Id == branchId);
 
-            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
+            if (branch is null
+                || string.IsNullOrWhiteSpace(branch.BranchCode)
+                || string.IsNullOrWhiteSpace(branch.Company?.Code))
             {
                 return (false, string.Empty);
             }
 
             var typeCode = GetTypeCode(purchaseRequestType);
-            var prefix = $"{branch.BranchCode.ToUpper()}-{typeCode}-";
+            var prefix = $"{branch.Company.Code.ToUpper()}-{branch.BranchCode.ToUpper()}-{typeCode}-";
 
             var existingCodes = await _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
@@ -72,14 +85,17 @@ namespace ERP.Core.Database.Infrastructure.Services
             var request = await _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
                 .Include(pr => pr.Branch)
+                    .ThenInclude(b => b.Company)
                 .FirstOrDefaultAsync(pr => pr.Id == purchaseRequestId, ct);
 
-            if (request?.Branch is null || string.IsNullOrWhiteSpace(request.Branch.BranchCode))
+            if (request?.Branch is null
+                || string.IsNullOrWhiteSpace(request.Branch.BranchCode)
+                || string.IsNullOrWhiteSpace(request.Branch.Company?.Code))
             {
                 return (false, string.Empty);
             }
 
-            var prefix = $"{request.Branch.BranchCode.ToUpper()}-OC-";
+            var prefix = $"{request.Branch.Company.Code.ToUpper()}-{request.Branch.BranchCode.ToUpper()}-OC-";
 
             var existingCodes = await _unitOfWork.PurchaseOrders.Entities
                 .AsNoTracking()
@@ -92,6 +108,29 @@ namespace ERP.Core.Database.Infrastructure.Services
             int maxSequence = GetMaxSequence(prefix, existingCodes);
 
             return (true, $"{prefix}{maxSequence + 1:D2}");
+        }
+
+        public async Task<(bool IsSuccess, string Code)> GenerateUniquePaymentRequestCodeAsync(
+            Guid branchId,
+            PaymentMethodType paymentMethodType,
+            CancellationToken ct = default)
+        {
+            var branch = await _unitOfWork.Branches.Entities
+                .AsNoTracking()
+                .Include(b => b.Company)
+                .FirstOrDefaultAsync(b => b.Id == branchId, ct);
+
+            if (branch is null
+                || string.IsNullOrWhiteSpace(branch.BranchCode)
+                || string.IsNullOrWhiteSpace(branch.Company?.Code))
+            {
+                return (false, string.Empty);
+            }
+
+            var methodCode = GetPaymentMethodTypeCode(paymentMethodType);
+            var prefix = $"{branch.Company.Code.ToUpper()}-{branch.BranchCode.ToUpper()}-{methodCode}-";
+
+            return (true, $"{prefix}01");
         }
 
         public string GenerateModuleCode(string subject)

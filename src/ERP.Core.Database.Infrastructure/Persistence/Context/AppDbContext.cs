@@ -207,6 +207,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<ProductQuality>("public", "product_quality_enum");
             modelBuilder.HasPostgresEnum<SupplierPriceHistoryType>("public", "supplier_price_history_type_enum");
             modelBuilder.HasPostgresEnum<SupplierExclusiveStatus>("public", "supplier_exclusive_status_enum");
+            modelBuilder.HasPostgresEnum<SupplierType>("public", "supplier_type_enum");
             modelBuilder.HasPostgresEnum<AssignmentCollaboratorsRoles>("public", "assignment_collaborators_roles_enum");
             modelBuilder.HasPostgresEnum<MachineryType>("public", "machinery_type_enum");
             modelBuilder.HasPostgresEnum<ServiceOrderRequisitionStatus>("public", "service_order_requisition_status_enum");
