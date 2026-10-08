@@ -81,6 +81,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(ao => ao.HasPositionatingInformation)
+                .HasColumnName("has_positinating_information")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(ao => ao.MerchandiseType)
+                .HasColumnName("merchandise_type")
+                .HasColumnType("unloading_merchandise_type_enum")
+                .HasDefaultValueSql("'bulk'::unloading_merchandise_type_enum")
+                .IsRequired();
+
             builder.Property(ao => ao.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(false)
