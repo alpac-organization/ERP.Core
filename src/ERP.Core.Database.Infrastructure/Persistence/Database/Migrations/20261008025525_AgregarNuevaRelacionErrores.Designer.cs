@@ -3,6 +3,7 @@ using System;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    partial class ErpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008025525_AgregarNuevaRelacionErrores")]
+    partial class AgregarNuevaRelacionErrores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,11 +78,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_exclusive_status_enum", new[] { "none", "pending_review", "approved", "rejected" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_price_history_type_enum", new[] { "unit_price", "preferential_price" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_type_enum", new[] { "international", "ordinary" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supply_category_enum", new[] { "fuel", "lubricants", "materials", "spare_parts" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2", "iva", "imi", "ir", "ir_supplier_internation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "transport_unit_enum", new[] { "container", "van" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unit_measure_type_enum", new[] { "weight", "volume", "length", "area", "unit", "time", "one_eighth", "gallon", "pounds", "liters", "meters", "peers", "foots", "rool" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unit_measure_type_enum", new[] { "weight", "volume", "length", "area", "unit", "time" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unloading_merchandise_type_enum", new[] { "bulk", "armed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
@@ -2014,8 +2016,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AssignmentId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("assignment_id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CodeGenerated")
                         .IsRequired()
@@ -2546,59 +2547,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_services_orders_service_order_code");
 
                     b.ToTable("services_orders", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Supplies", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("supply_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("code");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("description");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<decimal>("Stock")
-                        .HasPrecision(12, 2)
-                        .HasColumnType("numeric(12,2)")
-                        .HasColumnName("stock");
-
-                    b.Property<int>("UnitMeasure")
-                        .HasMaxLength(50)
-                        .HasColumnType("integer")
-                        .HasColumnName("unit_measure");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("supplies", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
