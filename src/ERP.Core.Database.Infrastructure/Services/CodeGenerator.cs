@@ -1,23 +1,16 @@
+using QRCoder;
 using NanoidDotNet;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
-using QRCoder;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.Fonts;
 
-using ERP.Core.Database.Application.Commons.Options;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Application.Commons.Interfaces.AWS;
-using System.Reflection.Metadata.Ecma335;
-using System.Xml.Serialization;
+
 using ZXing;
 using ZXing.Common;
+using SkiaSharp;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
@@ -477,10 +470,10 @@ namespace ERP.Core.Database.Infrastructure.Services
         private const int SideMargin   = 12;
         private const string DefaultUrl = "https://web-alpac.onrender.com";
 
-        private static readonly Color BgColor   = Color.FromRgb(238, 243, 250);
-        private static readonly Color NavyColor = Color.FromRgb(10, 37, 84);
-        private static readonly Color BlueColor = Color.FromRgb(0, 79, 144);
-        private static readonly Color RedColor  = Color.FromRgb(176, 24, 28);
+        private static readonly SKColor BgColor   = new SKColor(238, 243, 250);
+        private static readonly SKColor NavyColor = new SKColor(10, 37, 84);
+        private static readonly SKColor BlueColor = new SKColor(0, 79, 144);
+        private static readonly SKColor RedColor  = new SKColor(176, 24, 28);
 
         public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null)
         {
@@ -488,7 +481,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             var code = GenerateUniqueCode();
             var content = AppendCode(redirectUrl, code);
-            
+
             var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
 
             var png = RenderQrPng(content, logoBytes);
@@ -550,15 +543,15 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion
 
         #region Carga Imagen de logo
-        private static Image<Rgba32>? TryLoadLogo(byte[]? bytes)
+        private static SKBitmap? TryLoadLogo(byte[]? bytes)
         {
             if (bytes is null || bytes.Length == 0) return null;
 
             try
             {
-                var img = Image.Load<Rgba32>(bytes);
-                TrimWhiteMargin(img);
-                return img;
+                var img = SKBitmap.Decode(bytes);
+                if (img is null) return null;
+                return TrimWhiteMargin(img);
             }
             catch
             {
@@ -567,33 +560,54 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
         #endregion
 
-        private static void TrimWhiteMargin(Image<Rgba32> img)
+        // Devuelve el bitmap recortado (o el mismo si no hay nada que recortar)
+        private static SKBitmap TrimWhiteMargin(SKBitmap img)
         {
-            int minX = img.Width, minY = img.Height, maxX = -1, maxY = -1;
+            int w = img.Width, h = img.Height;
+            int minX = w, minY = h, maxX = -1, maxY = -1;
 
-            img.ProcessPixelRows(accessor =>
+            var pixels = img.Pixels; // SKColor sin premultiplicar
+
+            for (int y = 0; y < h; y++)
             {
-                for (int y = 0; y < accessor.Height; y++)
+                int offset = y * w;
+                for (int x = 0; x < w; x++)
                 {
-                    var row = accessor.GetRowSpan(y);
-                    for (int x = 0; x < row.Length; x++)
+                    var p = pixels[offset + x];
+                    if (p.Alpha > 10 && (p.Red < 235 || p.Green < 235 || p.Blue < 235))
                     {
-                        var p = row[x];
-                        if (p.A > 10 && (p.R < 235 || p.G < 235 || p.B < 235))
-                        {
-                            if (x < minX) minX = x;
-                            if (x > maxX) maxX = x;
-                            if (y < minY) minY = y;
-                            if (y > maxY) maxY = y;
-                        }
+                        if (x < minX) minX = x;
+                        if (x > maxX) maxX = x;
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
                     }
                 }
-            });
+            }
 
             if (maxX >= minX && maxY >= minY)
             {
-                img.Mutate(c => c.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
+                var rect = new SKRectI(minX, minY, maxX + 1, maxY + 1);
+                using var subset = new SKBitmap();
+                if (img.ExtractSubset(subset, rect))
+                {
+                    var cropped = subset.Copy();
+                    img.Dispose();
+                    return cropped;
+                }
             }
+
+            return img;
+        }
+
+        // Redimensiona el logo con buena calidad (reduce con mipmaps, amplía con cúbico)
+        private static SKBitmap ResizeLogo(SKBitmap src, int lw, int lh)
+        {
+            var info = new SKImageInfo(lw, lh, src.ColorType, src.AlphaType);
+            var sampling = (lw > src.Width || lh > src.Height)
+                ? new SKSamplingOptions(SKCubicResampler.CatmullRom)
+                : new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear);
+
+            return src.Resize(info, sampling) ?? src.Copy();
         }
 
         #region Renderiza imagen png del qr
@@ -633,60 +647,57 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             // Un único degradado diagonal para todo el QR
-            var gradient = new LinearGradientBrush(
-                new PointF(originX, originY),
-                new PointF(originX + Q, originY + Q),
-                GradientRepetitionMode.None,
-                new ColorStop(0f, BlueColor),
-                new ColorStop(1f, RedColor));
-            
-            using var canvas = new Image<Rgba32>(width, height);
-            canvas.Mutate(ctx => ctx.Fill(BgColor));
+            using var shader = SKShader.CreateLinearGradient(
+                new SKPoint(originX, originY),
+                new SKPoint(originX + Q, originY + Q),
+                new[] { BlueColor, RedColor },
+                new[] { 0f, 1f },
+                SKShaderTileMode.Clamp);
+            using var gradient = new SKPaint { Shader = shader, IsAntialias = true };
+
+            using var white = new SKPaint { Color = SKColors.White, IsAntialias = true };
+
+            using var surface = SKSurface.Create(new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul));
+            var canvas = surface.Canvas;
+            canvas.Clear(BgColor);
 
             // Sombra de la tarjeta
-            using (var shadow = new Image<Rgba32>(width, height))
+            using (var blur = SKImageFilter.CreateBlur(5f, 5f))
+            using (var shadowPaint = new SKPaint { Color = new SKColor(10, 37, 84, 60), IsAntialias = true, ImageFilter = blur })
             {
-                shadow.Mutate(ctx =>
-                {
-                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(margin, cardY + 6, card, card, radius));
-                    ctx.GaussianBlur(5f);
-                });
-                canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
+                canvas.DrawRoundRect(RoundedRect(margin, cardY + 6, card, card, radius), shadowPaint);
             }
 
-            canvas.Mutate(ctx =>
+            // Tarjeta blanca
+            canvas.DrawRoundRect(RoundedRect(margin, cardY, card, card, radius), white);
+
+            // Módulos de datos
+            for (int row = 0; row < n; row++)
             {
-                // Tarjeta blanca
-                ctx.Fill(Color.White, RoundedRect(margin, cardY, card, card, radius));
-
-                // Módulos de datos
-                for (int row = 0; row < n; row++)
+                for (int col = 0; col < n; col++)
                 {
-                    for (int col = 0; col < n; col++)
-                    {
-                        if (!matrix[row][col] || IsInFinderPattern(row, col, n)) continue;
-                        if (hasLogo && row >= k0 && row < k0 + K && col >= k0 && col < k0 + K) continue;
+                    if (!matrix[row][col] || IsInFinderPattern(row, col, n)) continue;
+                    if (hasLogo && row >= k0 && row < k0 + K && col >= k0 && col < k0 + K) continue;
 
-                        float inset = U * 0.03f;
-                        ctx.Fill(gradient, RoundedRect(
-                            originX + col * U + inset,
-                            originY + row * U + inset,
-                            U - 2 * inset,
-                            U - 2 * inset,
-                            U * 0.22f));
-                    }
+                    float inset = U * 0.03f;
+                    canvas.DrawRoundRect(RoundedRect(
+                        originX + col * U + inset,
+                        originY + row * U + inset,
+                        U - 2 * inset,
+                        U - 2 * inset,
+                        U * 0.22f), gradient);
                 }
+            }
 
-                DrawEye(ctx, gradient, originX, originY, U);
-                DrawEye(ctx, gradient, originX + (n - 7) * U, originY, U);
-                DrawEye(ctx, gradient, originX, originY + (n - 7) * U, U);
+            DrawEye(canvas, gradient, originX, originY, U);
+            DrawEye(canvas, gradient, originX + (n - 7) * U, originY, U);
+            DrawEye(canvas, gradient, originX, originY + (n - 7) * U, U);
 
-                if (hasLogo)
-                {
-                    int plate = K * U;
-                    ctx.Fill(Color.White, RoundedRect(originX + k0 * U, originY + k0 * U, plate, plate, U * 0.5f));
-                }
-            });
+            if (hasLogo)
+            {
+                int plate = K * U;
+                canvas.DrawRoundRect(RoundedRect(originX + k0 * U, originY + k0 * U, plate, plate, U * 0.5f), white);
+            }
 
             // Logo centrado: 80% del lado de la placa
             if (hasLogo)
@@ -696,16 +707,19 @@ namespace ERP.Core.Database.Infrastructure.Services
                 double scale = Math.Min((double)maxSide / logo!.Width, (double)maxSide / logo.Height);
                 int lw = Math.Max(1, (int)Math.Round(logo.Width * scale));
                 int lh = Math.Max(1, (int)Math.Round(logo.Height * scale));
-                logo.Mutate(ctx => ctx.Resize(lw, lh, KnownResamplers.Lanczos3));
+
+                using var resized = ResizeLogo(logo, lw, lh);
 
                 int lx = originX + k0 * U + (plate - lw) / 2;
                 int ly = originY + k0 * U + (plate - lh) / 2;
-                canvas.Mutate(ctx => ctx.DrawImage(logo, new Point(lx, ly), 1f));
+
+                using var logoImage = SKImage.FromBitmap(resized);
+                canvas.DrawImage(logoImage, lx, ly, new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.None), null);
             }
 
-            using var ms = new MemoryStream();
-            canvas.SaveAsPng(ms);
-            return ms.ToArray();
+            using var image = surface.Snapshot();
+            using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+            return data.ToArray();
         }
         #endregion
 
@@ -733,53 +747,49 @@ namespace ERP.Core.Database.Infrastructure.Services
             (row >= n - 7 && col < 7);
 
         // Ojo: anillo exterior 7x7, hueco blanco 5x5, centro 3x3
-        private static void DrawEye(IImageProcessingContext ctx, Brush brush, int x, int y, int U)
+        private static void DrawEye(SKCanvas canvas, SKPaint brush, int x, int y, int U)
         {
-            ctx.Fill(brush, RoundedRect(x, y, 7 * U, 7 * U, 1.2f * U));
-            ctx.Fill(Color.White, RoundedRect(x + U, y + U, 5 * U, 5 * U, 0.7f * U));
-            ctx.Fill(brush, RoundedRect(x + 2 * U, y + 2 * U, 3 * U, 3 * U, 0.5f * U));
+            using var white = new SKPaint { Color = SKColors.White, IsAntialias = true };
+
+            canvas.DrawRoundRect(RoundedRect(x, y, 7 * U, 7 * U, 1.2f * U), brush);
+            canvas.DrawRoundRect(RoundedRect(x + U, y + U, 5 * U, 5 * U, 0.7f * U), white);
+            canvas.DrawRoundRect(RoundedRect(x + 2 * U, y + 2 * U, 3 * U, 3 * U, 0.5f * U), brush);
         }
 
         // Rectángulo con esquinas redondeadas.
-        // AddArc(rect, rotación, ángulo inicial, barrido)
-        private static IPath RoundedRect(float x, float y, float w, float h, float r)
+        private static SKRoundRect RoundedRect(float x, float y, float w, float h, float r)
         {
             r = Math.Min(r, Math.Min(w, h) / 2);
-
-            var pb = new PathBuilder();
-            pb.AddLine(x + r, y, x + w - r, y);
-            pb.AddArc(new RectangleF(x + w - 2 * r, y, 2 * r, 2 * r), 0, 270, 90);
-            pb.AddLine(x + w, y + r, x + w, y + h - r);
-            pb.AddArc(new RectangleF(x + w - 2 * r, y + h - 2 * r, 2 * r, 2 * r), 0, 0, 90);
-            pb.AddLine(x + w - r, y + h, x + r, y + h);
-            pb.AddArc(new RectangleF(x, y + h - 2 * r, 2 * r, 2 * r), 0, 90, 90);
-            pb.AddLine(x, y + h - r, x, y + r);
-            pb.AddArc(new RectangleF(x, y, 2 * r, 2 * r), 0, 180, 90);
-            pb.CloseFigure();
-            return pb.Build();
+            return new SKRoundRect(new SKRect(x, y, x + w, y + h), r, r);
         }
 
-        private static void DrawHeader(IImageProcessingContext ctx, int width, int height, string text)
+        private static void DrawHeader(SKCanvas canvas, int width, int height, string text)
         {
-            ctx.Fill(NavyColor, new RectangularPolygon(0, 0, width, height));
+            using var bg = new SKPaint { Color = NavyColor };
+            canvas.DrawRect(new SKRect(0, 0, width, height), bg);
 
-            var options = new RichTextOptions(GetFont(height * 0.38f))
-            {
-                Origin = new PointF(width / 2f, height / 2f),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            ctx.DrawText(options, text, Color.White);
+            using var typeface = GetTypeface();
+            using var font = new SKFont(typeface, height * 0.38f) { Edging = SKFontEdging.SubpixelAntialias, Subpixel = true };
+            using var paint = new SKPaint { Color = SKColors.White, IsAntialias = true };
+
+            var m = font.Metrics;
+            float baseline = height / 2f - (m.Ascent + m.Descent) / 2f; // centrado vertical
+            canvas.DrawText(text, width / 2f, baseline, SKTextAlign.Center, font, paint);
         }
 
-        private static Font GetFont(float size)
+        private static SKTypeface GetTypeface()
         {
-            FontFamily family;
-            if (SystemFonts.TryGet("Arial", out var arial)) family = arial;
-            else if (SystemFonts.TryGet("DejaVu Sans", out var dejavu)) family = dejavu;
-            else family = SystemFonts.Collection.Families.First();
+            var bold = SKFontStyle.Bold;
 
-            return family.CreateFont(size, FontStyle.Bold);
+            var arial = SKTypeface.FromFamilyName("Arial", bold);
+            if (arial is not null && arial.FamilyName.Equals("Arial", StringComparison.OrdinalIgnoreCase))
+                return arial;
+
+            var dejavu = SKTypeface.FromFamilyName("DejaVu Sans", bold);
+            if (dejavu is not null && dejavu.FamilyName.Equals("DejaVu Sans", StringComparison.OrdinalIgnoreCase))
+                return dejavu;
+
+            return SKTypeface.FromFamilyName(null, bold) ?? SKTypeface.Default;
         }
 
         #endregion
@@ -794,15 +804,15 @@ namespace ERP.Core.Database.Infrastructure.Services
         public async Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null)
         {
             var code = GenerateUniqueBarcodeValue();
- 
+
             var logoBytes = await ResolveLogoBytesAsync(logoUrl, default);
             var png = RenderBarcodePng(code, logoBytes);
- 
+
             var imageUrl = await _s3StorageService.UploadImageAsync("barcodes", "generated", Convert.ToBase64String(png), default);
- 
+
             return (imageUrl, code);
         }
- 
+
         private static string GenerateUniqueBarcodeValue(int length = BarcodeLength)
         {
             return string.Create(length, BarcodeAlphabet, (span, alphabet) =>
@@ -811,14 +821,14 @@ namespace ERP.Core.Database.Infrastructure.Services
                     span[i] = alphabet[System.Security.Cryptography.RandomNumberGenerator.GetInt32(alphabet.Length)];
             });
         }
- 
+
         #region Renderiza imagen png del codigo de barras
         public static byte[] RenderBarcodePng(string code, byte[]? logoBytes = null)
         {
             var hints = new Dictionary<EncodeHintType, object> { { EncodeHintType.MARGIN, 0 } };
             BitMatrix matrix = new MultiFormatWriter().encode(code, BarcodeFormat.CODE_128, 0, 1, hints);
             int modules = matrix.Width;
- 
+
             using var logo = TryLoadLogo(logoBytes);
             bool hasLogo = logo is not null;
 
@@ -831,7 +841,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             int moduleW     = Math.Max(1, available / modules);
             int barcodeW    = modules * moduleW;
             int barcodeX    = (width - barcodeW) / 2;
- 
+
             int logoBlock   = hasLogo ? BarcodeLogoHeight + 16 : 0;
             int barcodeY    = cardY + BarcodeCardPadding + logoBlock;
             int textY       = barcodeY + BarcodeHeight + 14;
@@ -841,79 +851,80 @@ namespace ERP.Core.Database.Infrastructure.Services
             int cardH       = pillY + pillH + BarcodeCardPadding - cardY;
             int height      = cardY + cardH + SideMargin;
             float radius    = 28f;
- 
-            var gradient = new LinearGradientBrush(
-                new PointF(barcodeX, 0),
-                new PointF(barcodeX + barcodeW, 0),
-                GradientRepetitionMode.None,
-                new ColorStop(0f, BlueColor),
-                new ColorStop(1f, RedColor)
-            );
- 
-            using var canvas = new Image<Rgba32>(width, height);
-            canvas.Mutate(ctx => ctx.Fill(BgColor));
- 
+
+            using var shader = SKShader.CreateLinearGradient(
+                new SKPoint(barcodeX, 0),
+                new SKPoint(barcodeX + barcodeW, 0),
+                new[] { BlueColor, RedColor },
+                new[] { 0f, 1f },
+                SKShaderTileMode.Clamp);
+            using var gradient = new SKPaint { Shader = shader, IsAntialias = true };
+
+            using var white = new SKPaint { Color = SKColors.White, IsAntialias = true };
+
+            using var surface = SKSurface.Create(new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul));
+            var canvas = surface.Canvas;
+            canvas.Clear(BgColor);
+
             // Sombra de la tarjeta
-            using (var shadow = new Image<Rgba32>(width, height))
+            using (var blur = SKImageFilter.CreateBlur(5f, 5f))
+            using (var shadowPaint = new SKPaint { Color = new SKColor(10, 37, 84, 60), IsAntialias = true, ImageFilter = blur })
             {
-                shadow.Mutate(ctx =>
-                {
-                    ctx.Fill(Color.FromRgba(10, 37, 84, 60), RoundedRect(cardX, cardY + 6, card, cardH, radius));
-                    ctx.GaussianBlur(5f);
-                });
-                canvas.Mutate(ctx => ctx.DrawImage(shadow, 1f));
+                canvas.DrawRoundRect(RoundedRect(cardX, cardY + 6, card, cardH, radius), shadowPaint);
             }
- 
-            canvas.Mutate(ctx =>
+
+            // Tarjeta blanca
+            canvas.DrawRoundRect(RoundedRect(cardX, cardY, card, cardH, radius), white);
+
+            int i = 0;
+            while (i < modules)
             {
-                // Tarjeta blanca
-                ctx.Fill(Color.White, RoundedRect(cardX, cardY, card, cardH, radius));
- 
-                int i = 0;
-                while (i < modules)
-                {
-                    if (!matrix[i, 0]) { i++; continue; }
-                    int start = i;
-                    while (i < modules && matrix[i, 0]) i++;
- 
-                    ctx.Fill(gradient, new RectangularPolygon(
-                        barcodeX + start * moduleW,
-                        barcodeY,
-                        (i - start) * moduleW,
-                        BarcodeHeight));
-                }
- 
-                // Código en texto, centrado
-                var textOptions = new RichTextOptions(GetFont(34f))
-                {
-                    Origin = new PointF(width / 2f, textY),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                ctx.DrawText(textOptions, code, NavyColor);
- 
-                ctx.Fill(Color.FromRgb(224, 43, 39),
-                    RoundedRect((width - pillW) / 2f, pillY, pillW, pillH, pillH / 2f));
-            });
- 
+                if (!matrix[i, 0]) { i++; continue; }
+                int start = i;
+                while (i < modules && matrix[i, 0]) i++;
+
+                canvas.DrawRect(new SKRect(
+                    barcodeX + start * moduleW,
+                    barcodeY,
+                    barcodeX + i * moduleW,
+                    barcodeY + BarcodeHeight), gradient);
+            }
+
+            // Código en texto, centrado (borde superior en textY)
+            using (var typeface = GetTypeface())
+            using (var font = new SKFont(typeface, 34f) { Edging = SKFontEdging.SubpixelAntialias, Subpixel = true })
+            using (var textPaint = new SKPaint { Color = NavyColor, IsAntialias = true })
+            {
+                float baseline = textY - font.Metrics.Ascent; // Ascent es negativo
+                canvas.DrawText(code, width / 2f, baseline, SKTextAlign.Center, font, textPaint);
+            }
+
+            using (var pill = new SKPaint { Color = new SKColor(224, 43, 39), IsAntialias = true })
+            {
+                canvas.DrawRoundRect(RoundedRect((width - pillW) / 2f, pillY, pillW, pillH, pillH / 2f), pill);
+            }
+
             // Logo centrado arriba de las barras
             if (hasLogo)
             {
                 double scale = (double)BarcodeLogoHeight / logo!.Height;
                 int lw = Math.Max(1, (int)Math.Round(logo.Width * scale));
-                logo.Mutate(ctx => ctx.Resize(lw, BarcodeLogoHeight, KnownResamplers.Lanczos3));
- 
+
+                using var resized = ResizeLogo(logo, lw, BarcodeLogoHeight);
+
                 int lx = (width - lw) / 2;
                 int ly = cardY + BarcodeCardPadding;
-                canvas.Mutate(ctx => ctx.DrawImage(logo, new Point(lx, ly), 1f));
+                
+                using var logoImage = SKImage.FromBitmap(resized);
+                canvas.DrawImage(logoImage, lx, ly, new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.None), null);
             }
- 
-            using var ms = new MemoryStream();
-            canvas.SaveAsPng(ms);
-            return ms.ToArray();
+
+            using var image = surface.Snapshot();
+            using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+            return data.ToArray();
         }
         #endregion
- 
+
         #endregion
     }
 }
