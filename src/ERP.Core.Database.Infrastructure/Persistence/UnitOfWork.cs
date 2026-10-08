@@ -96,7 +96,7 @@ public class UnitOfWork(
         IOperationalOrdersRepository operationalOrdersRepository,
         IOperationalServicesRepository operationalServicesRepository,
         IServicesOrdersRepository servicesOrdersRepository,
-        // ISuppliesRepository suppliesRepository,
+        ISuppliesRepository suppliesRepository,
         ICustomerBranchesRepository customerBranchesRepository,
         ICustomerCreditInformationsRepository customerCreditInformationsRepository,
         ISupplierPaymentMethodRepository supplierPaymentMethodRepository,
@@ -190,7 +190,7 @@ public class UnitOfWork(
         public IOperationalOrdersRepository OperationalOrders => operationalOrdersRepository;
         public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
-        // public ISuppliesRepository Supplies => suppliesRepository;
+        public ISuppliesRepository Supplies => suppliesRepository;
         public ICustomerBranchesRepository CustomerBranches => customerBranchesRepository;
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;

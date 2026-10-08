@@ -1,10 +1,10 @@
-// namespace ERP.Core.Database.Domain.Enums;
+namespace ERP.Core.Database.Domain.Enums;
 
-// public enum SupplyCategory
-// {
-//     Fuel = 1,
-//     Lubricants = 2,
-//     Materials = 3,
-//     SpareParts = 4,
-//     None = 5
-// }
+public enum SupplyCategory
+{
+    Fuel = 1,
+    Lubricants = 2,
+    Materials = 3,
+    SpareParts = 4,
+    None = 5
+}

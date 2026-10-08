@@ -7,7 +7,6 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -118,7 +117,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
         public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
         public DbSet<OperationalService> OperationalServices => Set<OperationalService>();
-        // public DbSet<Supplies> Supplies => Set<Supplies>();
+        public DbSet<Supplies> Supplies => Set<Supplies>();
 
         public DbSet<ReceptionEntrance> ReceptionEntrances => Set<ReceptionEntrance>();
         public DbSet<ReceptionTransportEntrance> ReceptionTransportEntrances => Set<ReceptionTransportEntrance>();
@@ -174,7 +173,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
-            // modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
+            modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public", "product_usage_type_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
@@ -216,7 +215,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
             modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
-            // modelBuilder.HasPostgresEnum<SupplyCategory>("public", "supply_category_enum");
+            modelBuilder.HasPostgresEnum<SupplyCategory>("public", "supply_category_enum");
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
