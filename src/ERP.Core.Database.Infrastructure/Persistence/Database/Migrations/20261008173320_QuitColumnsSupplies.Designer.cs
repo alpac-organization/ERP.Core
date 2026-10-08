@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261008172230_QuitColumnSupplies")]
-    partial class QuitColumnSupplies
+    [Migration("20261008173320_QuitColumnsSupplies")]
+    partial class QuitColumnsSupplies
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2589,12 +2589,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)")
                         .HasColumnName("stock");
-
-                    b.Property<int>("UnitMeasure")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("unit_measure_enum")
-                        .HasColumnName("unit_measure")
-                        .HasDefaultValueSql("'none'::unit_measure_enum");
 
                     b.HasKey("Id");
 

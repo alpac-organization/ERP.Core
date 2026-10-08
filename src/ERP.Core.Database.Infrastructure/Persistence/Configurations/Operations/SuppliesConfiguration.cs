@@ -29,11 +29,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(500)
                 .IsRequired(false);
 
-            builder.Property(i => i.UnitMeasure)
-                .HasColumnName("unit_measure")
-                .HasColumnType("unit_measure_enum")
-                .HasDefaultValueSql("'none'::unit_measure_enum")
-                .IsRequired();
+            // builder.Property(i => i.UnitMeasure)
+            //     .HasColumnName("unit_measure")
+            //     .HasColumnType("unit_measure_enum")
+            //     .HasDefaultValueSql("'none'::unit_measure_enum")
+            //     .IsRequired();
 
             // builder.Property(i => i.Category)
             //     .HasColumnName("category")

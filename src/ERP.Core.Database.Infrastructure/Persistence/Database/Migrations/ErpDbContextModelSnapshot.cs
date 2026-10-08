@@ -2587,12 +2587,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(12,2)")
                         .HasColumnName("stock");
 
-                    b.Property<int>("UnitMeasure")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("unit_measure_enum")
-                        .HasColumnName("unit_measure")
-                        .HasDefaultValueSql("'none'::unit_measure_enum");
-
                     b.HasKey("Id");
 
                     b.ToTable("supplies", "public");
