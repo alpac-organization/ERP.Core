@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
@@ -13,6 +14,10 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         // Fecha en que el precio unitario vigente entró en vigor.
         public DateTime LastPriceUpdate { get; set; }
+
+        public Currency Currency { get; set; } = Currency.NIO;
+
+        public string? ExclusiveStatusComments { get; set; }
 
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
