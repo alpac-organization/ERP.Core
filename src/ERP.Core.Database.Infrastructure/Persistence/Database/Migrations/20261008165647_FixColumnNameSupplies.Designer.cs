@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261008160020_FixSuppliesConfig")]
-    partial class FixSuppliesConfig
+    [Migration("20261008165647_FixColumnNameSupplies")]
+    partial class FixColumnNameSupplies
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2560,7 +2560,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<int>("Category")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("supply_category_enum")
+                        .HasColumnName("category")
+                        .HasDefaultValueSql("'none'::supply_category_enum");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -2596,9 +2599,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Property<int>("UnitMeasure")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("supply_category_enum")
+                        .HasColumnType("unit_measure_enum")
                         .HasColumnName("unit_measure")
-                        .HasDefaultValueSql("'none'::supply_category_enum");
+                        .HasDefaultValueSql("'none'::unit_measure_enum");
 
                     b.HasKey("Id");
 
