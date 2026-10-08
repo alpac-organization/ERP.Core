@@ -35,11 +35,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValueSql("'none'::unit_measure_enum")
                 .IsRequired();
 
-            builder.Property(i => i.Category)
-                .HasColumnName("category")
-                .HasColumnType("supply_category_enum")
-                .HasDefaultValueSql("'none'::supply_category_enum")
-                .IsRequired();
+            // builder.Property(i => i.Category)
+            //     .HasColumnName("category")
+            //     .HasColumnType("supply_category_enum")
+            //     .HasDefaultValueSql("'none'::supply_category_enum")
+            //     .IsRequired();
 
             builder.Property(i => i.Stock)
                 .HasColumnName("stock")
