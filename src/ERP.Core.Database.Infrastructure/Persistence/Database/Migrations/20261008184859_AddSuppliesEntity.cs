@@ -144,7 +144,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "units_measurement",
                 type: "unit_measure_type_enum",
                 nullable: false,
-                defaultValue: 0);
+                defaultValueSql: "'unit'::unit_measure_type_enum");
 
             migrationBuilder.CreateTable(
                 name: "supplies",

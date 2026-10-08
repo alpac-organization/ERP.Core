@@ -1579,8 +1579,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("symbol");
 
                     b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("unit_measure_type_enum")
-                        .HasColumnName("unit_measure_type");
+                        .HasColumnName("unit_measure_type")
+                        .HasDefaultValueSql("'unit'::unit_measure_type_enum");
 
                     b.HasKey("Id");
 

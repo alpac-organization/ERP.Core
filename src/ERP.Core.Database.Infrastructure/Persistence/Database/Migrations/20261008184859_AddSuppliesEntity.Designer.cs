@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261008183642_AddSuppliesEntity")]
+    [Migration("20261008184859_AddSuppliesEntity")]
     partial class AddSuppliesEntity
     {
         /// <inheritdoc />
@@ -1582,8 +1582,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("symbol");
 
                     b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("unit_measure_type_enum")
-                        .HasColumnName("unit_measure_type");
+                        .HasColumnName("unit_measure_type")
+                        .HasDefaultValueSql("'unit'::unit_measure_type_enum");
 
                     b.HasKey("Id");
 

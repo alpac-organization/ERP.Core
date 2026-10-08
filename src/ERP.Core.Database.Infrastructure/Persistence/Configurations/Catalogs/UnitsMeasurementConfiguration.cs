@@ -43,6 +43,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.Property(e => e.Type)
                 .HasColumnName("unit_measure_type")
                 .HasColumnType("unit_measure_type_enum")
+                .HasDefaultValueSql("'unit'::unit_measure_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
