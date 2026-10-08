@@ -9,7 +9,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public string? Description { get; set; }
         public UnitMeasureType UnitMeasure { get; set; }
         public SupplyCategory Category { get; set; }
-        public decimal? Stock { get; set; }                 // existencia
+        public decimal Stock { get; set; }                 // existencia
         public bool IsActive { get; set; } = true;
     }
 }

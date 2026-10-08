@@ -32,12 +32,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(i => i.UnitMeasure)
                 .HasColumnName("unit_measure")
                 .HasMaxLength(50)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(i => i.Stock)
                 .HasColumnName("stock")
                 .HasPrecision(12, 2)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(i => i.IsActive)
                 .HasColumnName("is_active")
