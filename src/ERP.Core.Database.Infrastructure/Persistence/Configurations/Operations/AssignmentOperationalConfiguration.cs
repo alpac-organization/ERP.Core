@@ -87,7 +87,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .IsRequired();
 
             builder.Property(ao => ao.MerchandiseType)
-                .HasColumnName("status")
+                .HasColumnName("merchandise_type")
                 .HasColumnType("unloading_merchandise_type_enum")
                 .HasDefaultValueSql("'bulk'::unloading_merchandise_type_enum")
                 .IsRequired();
