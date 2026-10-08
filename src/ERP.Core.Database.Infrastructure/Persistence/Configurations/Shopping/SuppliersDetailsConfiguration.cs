@@ -34,6 +34,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("contact_phone_number")
                 .IsRequired(false);
 
+            builder.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasColumnType("currency_enum")
+                .HasDefaultValueSql("'nio'::currency_enum")
+                .IsRequired();
+
+            builder.Property(e => e.ExclusiveStatusComments)
+                .HasColumnName("exclusive_status_comments")
+                .IsRequired(false);
+
             builder.Property(e => e.EmailSupport)
                 .HasColumnName("email_support")
                 .IsRequired(false);

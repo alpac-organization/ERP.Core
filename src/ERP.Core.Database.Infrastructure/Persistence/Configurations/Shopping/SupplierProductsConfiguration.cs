@@ -33,6 +33,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnType("timestamp with time zone")
                 .IsRequired();
 
+            builder.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasColumnType("currency_enum")
+                .HasDefaultValueSql("'nio'::currency_enum")
+                .IsRequired();
+
+            builder.Property(e => e.ExclusiveStatusComments)
+                .HasColumnName("exclusive_status_comments")
+                .IsRequired(false);
+
             builder.Property(e => e.ProductId)
                 .HasColumnName("product_id")
                 .IsRequired();
