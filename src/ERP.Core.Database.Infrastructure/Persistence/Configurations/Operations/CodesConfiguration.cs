@@ -19,6 +19,10 @@ public class CodesConfiguration : IEntityTypeConfiguration<Codes>
             .HasColumnType("codes_type_enum")
             .IsRequired();
 
+        builder.Property(c => c.AssignmentId)
+            .HasColumnName("assignment_id")
+            .IsRequired();
+
         builder.Property(c => c.ImageUrl)
             .HasColumnName("image_url")
             .IsRequired();
@@ -36,7 +40,7 @@ public class CodesConfiguration : IEntityTypeConfiguration<Codes>
             .HasColumnName("deleted_at");
 
         builder.HasOne(c => c.Assignment)
-            .WithMany()
+            .WithMany(c => c.Codes)
             .HasForeignKey(c => c.AssignmentId)
             .OnDelete(DeleteBehavior.Restrict);
     }
