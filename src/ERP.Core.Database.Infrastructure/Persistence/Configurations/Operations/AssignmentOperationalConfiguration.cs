@@ -31,6 +31,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasColumnName("destination_type")
                 .HasColumnType("destination_type_enum")
                 .HasDefaultValueSql("'warehouse'::destination_type_enum")
+                .HasSentinel(DestinationType.None)
                 .IsRequired();
 
             builder.Property(e => e.Observations)
@@ -66,7 +67,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(ao => ao.Status)
                 .HasColumnName("status")
                 .HasColumnType("assignment_operational_status_enum")
-                .HasDefaultValueSql("'pending'::assignment_operational_status_enum")
+                .HasDefaultValueSql("'none'::assignment_operational_status_enum")
+                .HasSentinel(AssignmentOperationalStatus.None)
                 .IsRequired();
 
             builder.Property(ao => ao.HasMachineryAssigned)
