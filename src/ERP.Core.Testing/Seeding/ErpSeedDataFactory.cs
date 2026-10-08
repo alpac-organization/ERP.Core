@@ -150,7 +150,7 @@ namespace ERP.Core.Testing.Seeding
                  Code = "UND",
                  Name = "Unidad",
                  Symbol = "u",
-                 Type = UnitMeasureType.Unit, 
+                //  Type = UnitMeasureType.Unit, 
                  IsActive = true
             },
 
@@ -160,7 +160,7 @@ namespace ERP.Core.Testing.Seeding
                 Code = "KG",
                 Name = "Kilogramo",
                 Symbol = "kg",
-                Type = UnitMeasureType.Weight,
+                // Type = UnitMeasureType.Weight,
                 IsActive = true
             }
 

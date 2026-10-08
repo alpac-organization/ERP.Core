@@ -78,7 +78,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2", "iva", "imi", "ir", "ir_supplier_internation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "transport_unit_enum", new[] { "container", "van" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unit_measure_type_enum", new[] { "weight", "volume", "length", "area", "unit", "time", "one_eighth", "gallon", "pounds", "liters", "meters", "peers", "foots", "rool", "none" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unloading_merchandise_type_enum", new[] { "bulk", "armed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_status_enum", new[] { "active", "inactive", "locked" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "user_type_enum", new[] { "standard_user", "employee_self_service" });
@@ -1577,10 +1576,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)")
                         .HasColumnName("symbol");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("unit_measure_type_enum")
-                        .HasColumnName("unit_measure_type");
 
                     b.HasKey("Id");
 

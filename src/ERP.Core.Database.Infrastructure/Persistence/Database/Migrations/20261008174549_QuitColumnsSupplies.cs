@@ -11,6 +11,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "unit_measure_type",
+                schema: "public",
+                table: "units_measurement");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.accounting_review_status_enum", "pending,approved,rejected,returned")
                 .Annotation("Npgsql:Enum:public.assignment_collaborators_roles_enum", "warehouse_assistant,forklift_operator")
@@ -69,7 +74,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .Annotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .Annotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
-                .Annotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time,one_eighth,gallon,pounds,liters,meters,peers,foots,rool,none")
                 .Annotation("Npgsql:Enum:public.unloading_merchandise_type_enum", "bulk,armed")
                 .Annotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .Annotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
@@ -336,12 +340,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.tax_type_enum", "inss,inss_patronal,exchange_rate,inatec,inss_patronal2,iva,imi,ir,ir_supplier_internation")
                 .OldAnnotation("Npgsql:Enum:public.time_type_enum", "day,month,year")
                 .OldAnnotation("Npgsql:Enum:public.transport_unit_enum", "container,van")
-                .OldAnnotation("Npgsql:Enum:public.unit_measure_type_enum", "weight,volume,length,area,unit,time,one_eighth,gallon,pounds,liters,meters,peers,foots,rool,none")
                 .OldAnnotation("Npgsql:Enum:public.unloading_merchandise_type_enum", "bulk,armed")
                 .OldAnnotation("Npgsql:Enum:public.user_status_enum", "active,inactive,locked")
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
+            migrationBuilder.AddColumn<int>(
+                name: "unit_measure_type",
+                schema: "public",
+                table: "units_measurement",
+                type: "unit_measure_type_enum",
+                nullable: false,
+                defaultValue: 0);
         }
     }
 }
