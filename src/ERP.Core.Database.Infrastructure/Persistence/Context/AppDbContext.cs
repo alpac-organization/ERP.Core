@@ -174,7 +174,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
-            modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
+            // modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
             modelBuilder.HasPostgresEnum<ProductUsageType>("public", "product_usage_type_enum");
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
