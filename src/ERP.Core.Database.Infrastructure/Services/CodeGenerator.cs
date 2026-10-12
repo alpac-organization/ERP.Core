@@ -40,11 +40,14 @@ namespace ERP.Core.Database.Infrastructure.Services
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de método de pago no soportado.")
         };
 
-        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId)
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(
+            PurchaseRequestType purchaseRequestType,
+            Guid branchId,
+            CancellationToken ct = default)
         {
             var branch = await _unitOfWork.Branches.Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.Id == branchId);
+                .FirstOrDefaultAsync(b => b.Id == branchId, ct);
 
             if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
             {
@@ -52,20 +55,19 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             var typeCode = GetTypeCode(purchaseRequestType);
-            var prefix = $"{branch.BranchCode.ToUpper()}-{typeCode}-";
+            var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{typeCode}-";
 
-            var existingCodes = await _unitOfWork.PurchaseRequests.Entities
+            var codesQuery = _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .Where(pr => pr.BranchId == branchId
                     && pr.RequestType == purchaseRequestType
                     && pr.Code != null
                     && pr.Code.StartsWith(prefix))
-                .Select(pr => pr.Code)
-                .ToListAsync();
+                .Select(pr => pr.Code);
 
-            int maxSequence = GetMaxSequence(prefix, existingCodes);
-
-            return (true, $"{prefix}{maxSequence + 1:D2}");
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 2, ct);
+            return (true, code);
         }
 
         public async Task<(bool IsSuccess, string Code)> GenerateUniquePurchaseOrderCode(
@@ -82,19 +84,18 @@ namespace ERP.Core.Database.Infrastructure.Services
                 return (false, string.Empty);
             }
 
-            var prefix = $"{request.Branch.BranchCode.ToUpper()}-OC-";
+            var prefix = $"{request.Branch.BranchCode.ToUpperInvariant()}-OC-";
 
-            var existingCodes = await _unitOfWork.PurchaseOrders.Entities
+            var codesQuery = _unitOfWork.PurchaseOrders.Entities
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .Where(po => po.PurchaseRequest.BranchId == request.BranchId
                     && po.Code != null
                     && po.Code.StartsWith(prefix))
-                .Select(po => po.Code)
-                .ToListAsync(ct);
+                .Select(po => po.Code);
 
-            int maxSequence = GetMaxSequence(prefix, existingCodes);
-
-            return (true, $"{prefix}{maxSequence + 1:D2}");
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 2, ct);
+            return (true, code);
         }
 
         public async Task<(bool IsSuccess, string Code)> GenerateUniquePaymentRequestCodeAsync(
@@ -112,9 +113,16 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             var methodCode = GetPaymentMethodTypeCode(paymentMethodType);
-            var prefix = $"{branch.BranchCode.ToUpper()}-{methodCode}-";
+            var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{methodCode}-";
 
-            return (true, $"{prefix}01");
+            var codesQuery = _unitOfWork.PaymentRequests.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .Where(pr => pr.Code != null && pr.Code.StartsWith(prefix))
+                .Select(pr => (string?)pr.Code);
+
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 2, ct);
+            return (true, code);
         }
 
         public string GenerateModuleCode(string subject)
@@ -381,6 +389,26 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         private static (bool IsSuccess, string Code) BuildSequenceCode(string prefix, IEnumerable<string?> existingCodes)
             => (true, $"{prefix}{GetMaxSequence(prefix, existingCodes) + 1:D2}");
+
+        private static async Task<string> ResolveNextCodeAsync(
+            IQueryable<string?> codesQuery,
+            string prefix,
+            int padWidth,
+            CancellationToken ct = default)
+        {
+            var suffixes = await codesQuery
+                .Where(c => c != null && c.StartsWith(prefix))
+                .Select(c => c!.Substring(prefix.Length))
+                .ToListAsync(ct);
+
+            var next = suffixes
+                .Select(s => int.TryParse(s, out var n) ? n : 0)
+                .DefaultIfEmpty(0)
+                .Max() + 1;
+
+            return $"{prefix}{next.ToString().PadLeft(padWidth, '0')}";
+        }
+
         private static string GetStorageTypeCode(StorageEntityType entityType) => entityType switch
         {
             StorageEntityType.Lot => "LOT",
@@ -423,8 +451,9 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Metodo para generar codigo producto
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(
-            Guid companyId, Guid categoryId , CancellationToken ct
-        )
+            Guid companyId,
+            Guid categoryId,
+            CancellationToken ct = default)
         {
             var company = await _unitOfWork.Companies.Entities
                 .AsNoTracking()
@@ -434,25 +463,26 @@ namespace ERP.Core.Database.Infrastructure.Services
             {
                 return (false, string.Empty);
             }
+
             var category = await _unitOfWork.CategoryProducts.Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c=>c.Id == categoryId && c.DeletedAt == null, ct);
-            
-            if(category is null || string.IsNullOrWhiteSpace(category.Code))
-            { 
+                .FirstOrDefaultAsync(c => c.Id == categoryId && c.DeletedAt == null, ct);
+
+            if (category is null || string.IsNullOrWhiteSpace(category.Code))
+            {
                 return (false, string.Empty);
             }
 
-            var prefix = $"{company.Code}-{category.Code}-";
+            var prefix = $"{company.Code.ToUpperInvariant()}-{category.Code.ToUpperInvariant()}-";
 
-            var existingCodes = await _unitOfWork.Products.Entities
+            var codesQuery = _unitOfWork.Products.Entities
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .Where(p => p.Code != null && p.Code.StartsWith(prefix))
-                .Select(p => p.Code)
-                .ToListAsync(ct);
+                .Select(p => (string?)p.Code);
 
-            int maxSequence = GetMaxSequence(prefix, existingCodes);
-            return (true, $"{prefix}{maxSequence + 1:D3}");
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
+            return (true, code);
         }
         #endregion Products
 

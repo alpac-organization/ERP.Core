@@ -11,7 +11,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         public Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder();
         public Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync();
 
-        Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(PurchaseRequestType purchaseRequestType, Guid branchId);
+        Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(
+            PurchaseRequestType purchaseRequestType,
+            Guid branchId,
+            CancellationToken ct = default);
 
         Task<(bool IsSuccess, string Code)> GenerateUniquePurchaseOrderCode(Guid purchaseRequestId, CancellationToken ct = default);
 

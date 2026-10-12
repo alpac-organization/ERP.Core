@@ -26,5 +26,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public virtual PurchaseRequest PurchaseRequest { get; set; } = default!;
 
         public virtual ICollection<PurchaseOrderItem> PurchaseOrderItems { get; set; } = [];
+
+        public virtual PaymentRequest? PaymentRequest { get; set; }
     }
 }
+
