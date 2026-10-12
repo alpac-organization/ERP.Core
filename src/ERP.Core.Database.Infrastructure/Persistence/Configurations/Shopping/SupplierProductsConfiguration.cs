@@ -33,6 +33,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnType("timestamp with time zone")
                 .IsRequired();
 
+            builder.Property(e => e.UnitMeasureId)
+                .HasColumnName("unit_measure_id")
+                .IsRequired();
+
             builder.Property(e => e.ProductId)
                 .HasColumnName("product_id")
                 .IsRequired();
@@ -58,6 +62,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 
             builder.HasIndex(e => e.SupplierId)
                 .HasDatabaseName("ix_supplier_products_supplier_id");
+
+            builder.HasIndex(e => e.UnitMeasureId)
+                .HasDatabaseName("ix_supplier_products_unit_measure_id");
+
+            builder.HasOne(e => e.UnitMeasure)
+                .WithMany()
+                .HasForeignKey(e => e.UnitMeasureId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Product)
                 .WithMany(p => p.SupplierProducts)

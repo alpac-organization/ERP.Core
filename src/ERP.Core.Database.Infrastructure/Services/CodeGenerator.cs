@@ -51,18 +51,15 @@ namespace ERP.Core.Database.Infrastructure.Services
         {
             var branch = await _unitOfWork.Branches.Entities
                 .AsNoTracking()
-                .Include(b => b.Company)
                 .FirstOrDefaultAsync(b => b.Id == branchId);
 
-            if (branch is null
-                || string.IsNullOrWhiteSpace(branch.BranchCode)
-                || string.IsNullOrWhiteSpace(branch.Company?.Code))
+            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
             {
                 return (false, string.Empty);
             }
 
             var typeCode = GetTypeCode(purchaseRequestType);
-            var prefix = $"{branch.Company.Code.ToUpper()}-{branch.BranchCode.ToUpper()}-{typeCode}-";
+            var prefix = $"{branch.BranchCode.ToUpper()}-{typeCode}-";
 
             var existingCodes = await _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
@@ -85,17 +82,14 @@ namespace ERP.Core.Database.Infrastructure.Services
             var request = await _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
                 .Include(pr => pr.Branch)
-                    .ThenInclude(b => b.Company)
                 .FirstOrDefaultAsync(pr => pr.Id == purchaseRequestId, ct);
 
-            if (request?.Branch is null
-                || string.IsNullOrWhiteSpace(request.Branch.BranchCode)
-                || string.IsNullOrWhiteSpace(request.Branch.Company?.Code))
+            if (request?.Branch is null || string.IsNullOrWhiteSpace(request.Branch.BranchCode))
             {
                 return (false, string.Empty);
             }
 
-            var prefix = $"{request.Branch.Company.Code.ToUpper()}-{request.Branch.BranchCode.ToUpper()}-OC-";
+            var prefix = $"{request.Branch.BranchCode.ToUpper()}-OC-";
 
             var existingCodes = await _unitOfWork.PurchaseOrders.Entities
                 .AsNoTracking()
@@ -117,18 +111,15 @@ namespace ERP.Core.Database.Infrastructure.Services
         {
             var branch = await _unitOfWork.Branches.Entities
                 .AsNoTracking()
-                .Include(b => b.Company)
                 .FirstOrDefaultAsync(b => b.Id == branchId, ct);
 
-            if (branch is null
-                || string.IsNullOrWhiteSpace(branch.BranchCode)
-                || string.IsNullOrWhiteSpace(branch.Company?.Code))
+            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
             {
                 return (false, string.Empty);
             }
 
             var methodCode = GetPaymentMethodTypeCode(paymentMethodType);
-            var prefix = $"{branch.Company.Code.ToUpper()}-{branch.BranchCode.ToUpper()}-{methodCode}-";
+            var prefix = $"{branch.BranchCode.ToUpper()}-{methodCode}-";
 
             return (true, $"{prefix}01");
         }

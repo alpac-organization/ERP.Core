@@ -4514,6 +4514,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<int>("Currency")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency")
+                        .HasDefaultValueSql("'nio'::currency_enum");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
@@ -5508,6 +5514,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_id");
 
+                    b.Property<Guid>("UnitMeasureId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_measure_id");
+
                     b.Property<decimal>("UnitPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -5520,6 +5530,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("SupplierId")
                         .HasDatabaseName("ix_supplier_products_supplier_id");
+
+                    b.HasIndex("UnitMeasureId")
+                        .HasDatabaseName("ix_supplier_products_unit_measure_id");
 
                     b.HasIndex("SupplierId", "ProductId")
                         .IsUnique()
@@ -7540,9 +7553,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitMeasureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Product");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("UnitMeasure");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProductTierPrice", b =>

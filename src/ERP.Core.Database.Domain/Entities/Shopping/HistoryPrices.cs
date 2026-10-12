@@ -14,6 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// Umbral de volumen asociado (aqui esto solo para PreferentialPrice).
         public int? MinQuantity { get; set; }
 
+        public Currency Currency { get; set; }
         public DateTime EffectiveFrom { get; set; }
         public DateTime EffectiveTo { get; set; }
 
