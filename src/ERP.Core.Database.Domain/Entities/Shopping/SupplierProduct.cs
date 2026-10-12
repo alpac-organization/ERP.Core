@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Enums;
 
@@ -18,6 +19,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public Currency Currency { get; set; } = Currency.NIO;
 
         public string? ExclusiveStatusComments { get; set; }
+        public Guid UnitMeasureId { get; set; }
+        public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;

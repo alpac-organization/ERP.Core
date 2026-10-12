@@ -4474,6 +4474,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<int>("Currency")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency")
+                        .HasDefaultValueSql("'nio'::currency_enum");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
@@ -4512,6 +4518,51 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_history_prices_supplier_product_price_type");
 
                     b.ToTable("history_prices", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PaymentRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("payment_request_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<int>("PaymentMethodType")
+                        .HasColumnType("payment_method_type_enum")
+                        .HasColumnName("payment_method_type");
+
+                    b.Property<Guid>("PurchaseOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("purchase_order_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ux_payment_requests_code")
+                        .HasFilter("\"deleted_at\" IS NULL");
+
+                    b.HasIndex("PurchaseOrderId")
+                        .IsUnique();
+
+                    b.ToTable("payment_requests", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
@@ -4764,6 +4815,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("AreaId");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ux_purchase_requests_code")
+                        .HasFilter("\"deleted_at\" IS NULL");
 
                     b.HasIndex("CostCenterId");
 
@@ -5488,6 +5544,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("supplier_id");
 
+                    b.Property<Guid>("UnitMeasureId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_measure_id");
+
                     b.Property<decimal>("UnitPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -5500,6 +5560,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("SupplierId")
                         .HasDatabaseName("ix_supplier_products_supplier_id");
+
+                    b.HasIndex("UnitMeasureId")
+                        .HasDatabaseName("ix_supplier_products_unit_measure_id");
 
                     b.HasIndex("SupplierId", "ProductId")
                         .IsUnique()
@@ -7228,6 +7291,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("SupplierProduct");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PaymentRequest", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", "PurchaseOrder")
+                        .WithOne("PaymentRequest")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Shopping.PaymentRequest", "PurchaseOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PurchaseOrder");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
@@ -7520,9 +7594,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitMeasureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Product");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("UnitMeasure");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.SupplierProductTierPrice", b =>
@@ -8019,6 +8101,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
+                    b.Navigation("PaymentRequest");
+
                     b.Navigation("PurchaseOrderItems");
                 });
 

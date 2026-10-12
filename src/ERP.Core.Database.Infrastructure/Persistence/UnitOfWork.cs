@@ -80,6 +80,7 @@ public class UnitOfWork(
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IPurchaseOrdersRepository purchaseOrdersRepository,
         IPurchaseOrderItemsRepository purchaseOrderItemsRepository,
+        IPaymentRequestsRepository paymentRequestsRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
         IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
@@ -206,6 +207,7 @@ public class UnitOfWork(
         public IPurchaseRequestItemsRepository PurchaseRequestItems => purchaseRequestItemsRepository;
         public IPurchaseOrdersRepository PurchaseOrders => purchaseOrdersRepository;
         public IPurchaseOrderItemsRepository PurchaseOrderItems => purchaseOrderItemsRepository;
+        public IPaymentRequestsRepository PaymentRequests => paymentRequestsRepository;
         public IPurchaseRequestsReviewedAccountingRepository PurchaseRequestsReviewedAccounting => purchaseRequestsReviewedAccountingRepository;
         public IPurchaseRequestsReviewedManagementRepository PurchaseRequestsReviewedManagement => purchaseRequestsReviewedManagementRepository;
         public ISupplierPaymentMethodRepository SupplierPaymentMethods => supplierPaymentMethodRepository;

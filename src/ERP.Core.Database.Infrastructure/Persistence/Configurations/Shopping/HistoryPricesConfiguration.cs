@@ -32,6 +32,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("min_quantity")
                 .IsRequired(false);
 
+            builder.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasColumnType("currency_enum")
+                .HasDefaultValueSql("'nio'::currency_enum")
+                .IsRequired();
+
             builder.Property(e => e.EffectiveFrom)
                 .HasColumnName("effective_from")
                 .IsRequired();

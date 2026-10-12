@@ -23,6 +23,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("code")
                 .IsRequired();
 
+            builder.HasIndex(e => e.Code)
+                .IsUnique()
+                .HasDatabaseName("ux_purchase_requests_code")
+                .HasFilter("\"deleted_at\" IS NULL");
+
             builder.Property(e => e.Concept)
                 .HasColumnName("concept")
                 .HasMaxLength(1000);

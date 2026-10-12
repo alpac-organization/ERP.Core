@@ -188,6 +188,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IPurchaseOrderItemsRepository, PurchaseOrderItemsRepository>();
             services.AddScoped<IPurchaseRequestsRepository, PurchaseRequestsRepository>();
             services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
+            services.AddScoped<IPaymentRequestsRepository, PaymentRequestsRepository>();
             services.AddScoped<IQuotesRepository, QuotesRepository>();
             services.AddScoped<ISupplierPaymentMethodRepository, SupplierPaymentMethodRepository>();
             services.AddScoped<ILotsRepository, LotsRepository>();
