@@ -34,15 +34,6 @@ namespace ERP.Core.Database.Domain.Enums
         /// <summary>
         /// Unidades de tiempo (ej. Hora, Día, Mes), aplicable a servicios o alquileres.
         /// </summary>
-        Time = 6,
-        OneEighth = 7,      // "1/8"
-        Gallon = 8,
-        Pounds = 9,         // libras
-        Liters = 10,
-        Meters = 11,
-        Peers = 12,         // Pares
-        Foots = 13,
-        Rool = 14
-
+        Time = 6
     }
 }

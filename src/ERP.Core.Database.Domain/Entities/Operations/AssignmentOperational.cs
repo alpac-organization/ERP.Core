@@ -25,7 +25,10 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         public bool HasMachineryAssigned { get; set; }
         public bool HasCollaboratorsAssigned { get; set; }
-        
+
+        public bool HasPositionatingInformation { get; set; }
+        public UnloadingMerchandiseType MerchandiseType { get; set; }
+
         //1:M
         public virtual ICollection<Codes> Codes { get; set; } = [];
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
@@ -37,6 +40,15 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
     public class AdditionalDataAssingmentOperational
     {
-        //En espera..   
+        public List<PositionatingInformation> PositionatingInformation { get; set; } = [];
+    }
+
+    public class PositionatingInformation
+    {
+        public int CountPallets { get; set; }
+        public PalletType Type { get; set; }
+        public decimal Width { get; set; }
+        public decimal Length { get; set; }
+        public int? BulksPerPallet { get; set; }
     }
 }
