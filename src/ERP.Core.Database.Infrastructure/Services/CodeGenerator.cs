@@ -371,6 +371,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         #region Reception
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default)
         {
+            const string prefix = "R-";
             var existingCodes = await _unitOfWork.ReceptionEntrance.Entities
                 .AsNoTracking()
                 .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
@@ -381,7 +382,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Take(10)
                 .ToListAsync(ct);
 
-            return BuildSequenceCode(string.Empty, existingCodes);
+            return BuildSequenceCode(prefix, existingCodes);
         }
         #endregion Reception
 
