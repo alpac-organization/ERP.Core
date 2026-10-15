@@ -204,6 +204,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IRacksRepository, RacksRepository>();
             services.AddScoped<IRackPositionsRepository, RackPositionsRepository>();
             services.AddScoped<ISectionPositionsRepository, SectionPositionRepository>();
+            services.AddScoped<ISectionPositionsCoordinatesRepository, SectionPositionsCoordinatesRepository>();
             services.AddScoped<IMachineryRepository, MachineryRepository>();
             services.AddScoped<IPurchaseRequestsReviewedAccountingRepository, PurchaseRequestsReviewedAccountingRepository>();
             services.AddScoped<IPurchaseRequestsReviewedManagementRepository, PurchaseRequestsReviewedManagementRepository>();

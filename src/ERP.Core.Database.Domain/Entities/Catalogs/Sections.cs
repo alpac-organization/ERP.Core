@@ -21,6 +21,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
       /// </summary>
       public virtual ICollection<Lots> Lots { get; set; } = [];
       public virtual ICollection<Racks> Racks { get; set; } = [];
+      public virtual ICollection<SectionPositions> Positions { get; set; } = [];
 
 
       /// <summary>

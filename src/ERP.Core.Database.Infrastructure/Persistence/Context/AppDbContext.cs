@@ -80,6 +80,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
         public DbSet<SectionPositions> SectionPositions => Set<SectionPositions>();
+        public DbSet<SectionPositionsCoordinates> SectionPositionsCoordinates => Set<SectionPositionsCoordinates>();
         public DbSet<SectionCoordinates> SectionCoordinates => Set<SectionCoordinates>();
 
         public DbSet<Lots> Lots => Set<Lots>();
