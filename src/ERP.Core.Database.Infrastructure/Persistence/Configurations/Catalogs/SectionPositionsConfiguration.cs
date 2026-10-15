@@ -18,7 +18,7 @@ public class SectionPositionsConfiguration : IEntityTypeConfiguration<SectionPos
             .HasDatabaseName("ix_section_positions_section_id");
 
         builder.HasOne(e => e.Section)
-            .WithMany()
+            .WithMany(s => s.Positions)
             .HasForeignKey(e => e.SectionId)
             .OnDelete(DeleteBehavior.Restrict);
     }

@@ -83,6 +83,7 @@ public class UnitOfWork(
         IPaymentRequestsRepository paymentRequestsRepository,
         ISectionsRepository sectionsRepository,
         ISectionPositionsRepository sectionPositionsRepository,
+        ISectionPositionsCoordinatesRepository sectionPositionsCoordinatesRepository,
         IPurchaseRequestsReviewedAccountingRepository purchaseRequestsReviewedAccountingRepository,
         IPurchaseRequestsReviewedManagementRepository purchaseRequestsReviewedManagementRepository,
         IRacksRepository racksRepository,
@@ -181,6 +182,7 @@ public class UnitOfWork(
         public ILotCoordinateRepository LotCoordinates => lotCoordinateRepository;
         public IRacksPositionsCoordinatesRepository RacksPositionsCoordinates => racksPositionsCoordinatesRepository;
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
+        public ISectionPositionsCoordinatesRepository SectionPositionsCoordinates => sectionPositionsCoordinatesRepository;
         public IMachineryRepository Machineries => machineryRepository;
         #endregion
 
