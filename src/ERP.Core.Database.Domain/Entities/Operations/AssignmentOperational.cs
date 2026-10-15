@@ -14,7 +14,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public string? Observations { get; set; }
         public string? Merchandise { get; set; } = null!;
         public string? MerchandiseDescription { get; set; } = null!;
-        public bool HasMerchandiseDescription { get; set; } = false;
         public MerchandiseCategory? Category { get; set; }
 
         public DestinationType DestinationType { get; set; }
@@ -23,10 +22,16 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public Guid? WarehouseId { get; set; }
         public virtual Warehouses Warehouse { get; set; } = default!;
 
+        // confirmaciones
+        public bool HasMerchandiseDescription { get; set; } = false;
         public bool HasMachineryAssigned { get; set; }
         public bool HasCollaboratorsAssigned { get; set; }
-
+        public bool HasOutsourcedCrew { get; set; } = false;
+        public bool HasOutsourcedMachinery { get; set; } = false;
         public bool HasPositionatingInformation { get; set; }
+
+        public int? OutsourcedCrewCount { get; set; }
+        public string? OutsourcedMachinerySupplier { get; set; }
         public UnloadingMerchandiseType MerchandiseType { get; set; }
 
         //1:M

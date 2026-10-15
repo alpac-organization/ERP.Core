@@ -44,6 +44,21 @@ public class BasePositionsPalletsConfiguration : IEntityTypeConfiguration<BasePo
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.Property(e => e.Width)
+            .HasColumnName("width")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(e => e.Length)
+            .HasColumnName("length")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(e => e.AreaM2)
+            .HasColumnName("area_m2")
+            .HasPrecision(18, 2)
+            .IsRequired();
+
         builder.Property(e => e.Observations)
             .HasColumnName("observations")
             .HasMaxLength(500)

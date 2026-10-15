@@ -10,4 +10,6 @@ public class SectionPositions : BasePositionsPallets
 
     public virtual ICollection<AssignmentStockPlacements> AssignmentStockPlacements { get; set; } = [];
 
+    public virtual SectionPositionsCoordinates SectionPositionsCoordinates { get; set; } = null!;
+
 }
