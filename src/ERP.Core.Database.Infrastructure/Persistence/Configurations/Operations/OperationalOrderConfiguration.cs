@@ -44,13 +44,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(o => o.HasConsignees)
+                .HasColumnName("has_consignees")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(o => o.IsInTransit)
+                .HasColumnName("is_in_transit")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(e => e.ShippingCompany)
                 .HasColumnName("shipping_company")
-                .HasMaxLength(70)
-                .IsRequired(false);
-
-            builder.Property(e => e.Consignee)
-                .HasColumnName("consignee")
                 .HasMaxLength(70)
                 .IsRequired(false);
 

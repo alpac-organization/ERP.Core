@@ -10,5 +10,8 @@ public abstract class BasePositionsPallets : BaseEntity<Guid>
     public int Level { get; set; }
     public RackStatus Status { get; set; } = RackStatus.Available;
     public bool AllowsStocking { get; set; }
+    public decimal Width { get; set; }
+    public decimal Length { get; set; }
+    public decimal AreaM2 { get; set; }
     public string? Observations { get; set; }
 }

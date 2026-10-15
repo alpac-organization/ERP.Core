@@ -1,6 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Operations;
 
