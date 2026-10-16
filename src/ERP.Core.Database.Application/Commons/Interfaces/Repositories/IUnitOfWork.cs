@@ -88,6 +88,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IStepExecutionLogsRepository StepExecutionLogs { get; }
 
         ISectionPositionsRepository SectionPositionsRepository { get; }
+        ISectionPositionsCoordinatesRepository SectionPositionsCoordinates { get; }
         IMachineryRepository Machineries { get; }
         IAssignmentStockPlacementsRepository AssignmentStockPlacements { get; }
         #endregion

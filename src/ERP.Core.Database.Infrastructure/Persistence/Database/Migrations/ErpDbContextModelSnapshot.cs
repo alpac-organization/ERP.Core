@@ -699,6 +699,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("allows_stocking");
 
+                    b.Property<decimal>("AreaM2")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("area_m2");
+
                     b.Property<int>("Column")
                         .HasColumnType("integer")
                         .HasColumnName("column");
@@ -712,6 +717,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("Length")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("length");
 
                     b.Property<int>("Level")
                         .HasColumnType("integer")
@@ -737,6 +747,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("rack_status_enum")
                         .HasColumnName("status")
                         .HasDefaultValueSql("'available'::rack_status_enum");
+
+                    b.Property<decimal>("Width")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("width");
 
                     b.HasKey("Id");
 
@@ -1848,6 +1863,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("has_merchandise_description");
 
+                    b.Property<bool>("HasOutsourcedCrew")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_outsourced_crew");
+
+                    b.Property<bool>("HasOutsourcedMachinery")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_outsourced_machinery");
+
                     b.Property<bool>("HasPositionatingInformation")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -1884,6 +1911,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("OperationalOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("operational_order_id");
+
+                    b.Property<int?>("OutsourcedCrewCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("outsourced_crew_count");
+
+                    b.Property<string>("OutsourcedMachinerySupplier")
+                        .HasColumnType("text")
+                        .HasColumnName("outsourced_machinery_supplier");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -2339,11 +2374,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("company_id");
 
-                    b.Property<string>("Consignee")
-                        .HasMaxLength(70)
-                        .HasColumnType("character varying(70)")
-                        .HasColumnName("consignee");
-
                     b.Property<Guid>("CostCenterId")
                         .HasColumnType("uuid")
                         .HasColumnName("cost_center_id");
@@ -2390,6 +2420,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("has_assignment_operational_active");
 
+                    b.Property<bool>("HasConsignees")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("has_consignees");
+
                     b.Property<bool>("IsAlerted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -2401,6 +2437,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_consolidated");
+
+                    b.Property<bool>("IsInTransit")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_in_transit");
 
                     b.Property<decimal?>("PackagesCount")
                         .HasPrecision(8, 2)
@@ -6329,6 +6371,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("section_coordinates", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositionsCoordinates", b =>
+                {
+                    b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseCoordinates");
+
+                    b.Property<Guid>("SectionPositionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_position_id");
+
+                    b.HasIndex("SectionPositionId")
+                        .IsUnique();
+
+                    b.ToTable("section_positions_coordinates", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BasePositionsPallets");
@@ -7783,6 +7839,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Section");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositionsCoordinates", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", "SectionPosition")
+                        .WithOne("SectionPositionsCoordinates")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositionsCoordinates", "SectionPositionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SectionPosition");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.LotsPositions", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Lots", "Lot")
@@ -8200,6 +8267,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", b =>
                 {
                     b.Navigation("AssignmentStockPlacements");
+
+                    b.Navigation("SectionPositionsCoordinates")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

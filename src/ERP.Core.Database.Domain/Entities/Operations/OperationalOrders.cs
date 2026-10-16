@@ -13,11 +13,16 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public string? PoCode { get; set; }
         public string? Description { get; set; }
         public string? DocumentNumber { get; set; }
+
+        // confirmaciones
         public bool IsConsolidated { get; set; } = false;
         public bool HasAssignmentOperationalActive { get; set; } = false;
         public bool IsAlerted { get; set; } = false;
+        public bool HasConsignees { get; set; } = false;
+        public bool IsInTransit { get; set; } = false;
+
+
         public string? ShippingCompany { get; set; }
-        public string? Consignee { get; set; }
         public string? Sender { get; set; }
 
         public decimal? Weight { get; set; }

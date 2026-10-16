@@ -76,6 +76,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(ao => ao.HasOutsourcedCrew)
+                .HasColumnName("has_outsourced_crew")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(ao => ao.HasOutsourcedMachinery)
+                .HasColumnName("has_outsourced_machinery")
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(ao => ao.OutsourcedCrewCount)
+                .HasColumnName("outsourced_crew_count")
+                .IsRequired(false);
+
+            builder.Property(ao => ao.OutsourcedMachinerySupplier)
+                .HasColumnName("outsourced_machinery_supplier")
+                .IsRequired(false);
+
             builder.Property(ao => ao.HasCollaboratorsAssigned)
                 .HasColumnName("has_collaborators_assigned")
                 .HasDefaultValue(false)
