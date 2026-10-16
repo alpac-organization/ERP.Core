@@ -112,6 +112,11 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<AssignmentOperationalStatus>("assignment_operational_status_enum", "public");
                     npgsqlOptions.MapEnum<MerchandiseCategory>("merchandise_category_enum", "public");
                     npgsqlOptions.MapEnum<CodesType>("codes_type_enum", "public");
+                    npgsqlOptions.MapEnum<FaultSeverity>("fault_severity_enum", "public");
+                    npgsqlOptions.MapEnum<FaultSource>("fault_source_enum", "public");
+                    npgsqlOptions.MapEnum<FaultStatus>("fault_status_enum", "public");
+                    npgsqlOptions.MapEnum<SanctionType>("sanction_type_enum", "public");
+                    npgsqlOptions.MapEnum<SanctionStatus>("sanction_status_enum", "public");
                 })
             );
 
@@ -215,6 +220,10 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
             services.AddScoped<ICodesRepository, CodesRepository>();
             #endregion
+
+            services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();
+            services.AddScoped<IDisciplinaryFaultsRepository, DisciplinaryFaultsRepository>();
+            services.AddScoped<IDisciplinarySanctionsRepository, DisciplinarySanctionsRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

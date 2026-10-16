@@ -37,5 +37,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
+
+        //Sanciones de suspensión asociadas al periodo de nómina
+        public virtual ICollection<DisciplinarySanction> DisciplinarySanctions { get; set; } = [];
     }
 }

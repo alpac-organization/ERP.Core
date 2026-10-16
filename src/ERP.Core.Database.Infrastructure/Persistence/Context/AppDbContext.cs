@@ -71,11 +71,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
+        public DbSet<FaultCatalog> FaultCatalogs => Set<FaultCatalog>();
+        #endregion
+
+        #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
+        public DbSet<DisciplinaryFault> DisciplinaryFaults => Set<DisciplinaryFault>();
+        public DbSet<DisciplinarySanction> DisciplinarySanctions => Set<DisciplinarySanction>();
         #endregion
 
         #region Bodegas
         public DbSet<Warehouses> Warehouses => Set<Warehouses>();
-        public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();        
+        public DbSet<WarehouseCapacity> WarehouseCapacities => Set<WarehouseCapacity>();
 
         public DbSet<Sections> Sections => Set<Sections>();
         public DbSet<SectionCapacity> SectionCapacities => Set<SectionCapacity>();
@@ -110,7 +116,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         #region Operaciones
         public DbSet<Invoice> Invoices => Set<Invoice>();
-        
+
         public DbSet<Customers> Customers => Set<Customers>();
         public DbSet<CustomerBranch> CustomerBranches => Set<CustomerBranch>();
         public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
@@ -217,6 +223,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
             modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
 
+            modelBuilder.HasPostgresEnum<FaultSeverity>("public", "fault_severity_enum");
+            modelBuilder.HasPostgresEnum<FaultSource>("public", "fault_source_enum");
+            modelBuilder.HasPostgresEnum<FaultStatus>("public", "fault_status_enum");
+            modelBuilder.HasPostgresEnum<SanctionType>("public", "sanction_type_enum");
+            modelBuilder.HasPostgresEnum<SanctionStatus>("public", "sanction_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
