@@ -489,13 +489,13 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Generar codigo QR
         private const int PaperWidthPx = 576;
-        private const int SideMargin   = 12;
+        private const int SideMargin = 12;
         private const string DefaultUrl = "https://web-alpac.onrender.com";
 
-        private static readonly SKColor BgColor   = new SKColor(238, 243, 250);
+        private static readonly SKColor BgColor = new SKColor(238, 243, 250);
         private static readonly SKColor NavyColor = new SKColor(10, 37, 84);
         private static readonly SKColor BlueColor = new SKColor(0, 79, 144);
-        private static readonly SKColor RedColor  = new SKColor(176, 24, 28);
+        private static readonly SKColor RedColor = new SKColor(176, 24, 28);
 
         public async Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string? redirectUrl = null, string? logoUrl = null)
         {
@@ -641,19 +641,19 @@ namespace ERP.Core.Database.Infrastructure.Services
             var matrix = ReadMatrix(qrData, out int n);
 
             using var logo = TryLoadLogo(logoBytes);
-            bool hasLogo   = logo is not null;
+            bool hasLogo = logo is not null;
 
             // Configuración del ancho del qr y dimenciones
-            int top     = 0;
-            int bottom  = 0;
-            int width   = PaperWidthPx;
-            int U       = Math.Max(1, (width - 2 * SideMargin) / (n + 8));
-            int Q       = n * U;
+            int top = 0;
+            int bottom = 0;
+            int width = PaperWidthPx;
+            int U = Math.Max(1, (width - 2 * SideMargin) / (n + 8));
+            int Q = n * U;
             int padding = 4 * U;
-            int card    = Q + 2 * padding;
-            int margin  = (width - card) / 2;
-            int cardY   = SideMargin + top;
-            int height  = cardY + card + 20 + bottom;
+            int card = Q + 2 * padding;
+            int margin = (width - card) / 2;
+            int cardY = SideMargin + top;
+            int height = cardY + card + 20 + bottom;
             int originX = margin + padding;
             int originY = cardY + padding;
             float radius = 2.5f * U;
@@ -817,11 +817,11 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion
 
         #region Generar codigo de barra
-        private const int BarcodeLength        = 13;
-        private const int BarcodeHeight        = 130;
-        private const int BarcodeCardPadding   = 24;
-        private const int BarcodeLogoHeight    = 52;
-        private const string BarcodeAlphabet   = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        private const int BarcodeLength = 13;
+        private const int BarcodeHeight = 130;
+        private const int BarcodeCardPadding = 24;
+        private const int BarcodeLogoHeight = 52;
+        private const string BarcodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
         public async Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null)
         {
@@ -855,24 +855,24 @@ namespace ERP.Core.Database.Infrastructure.Services
             bool hasLogo = logo is not null;
 
             //Configuración de las dimenciones, codigo de barra
-            int width       = PaperWidthPx;
-            int card        = width - 2 * SideMargin;
-            int cardX       = SideMargin;
-            int cardY       = SideMargin;
-            int available   = card - 2 * BarcodeCardPadding;
-            int moduleW     = Math.Max(1, available / modules);
-            int barcodeW    = modules * moduleW;
-            int barcodeX    = (width - barcodeW) / 2;
+            int width = PaperWidthPx;
+            int card = width - 2 * SideMargin;
+            int cardX = SideMargin;
+            int cardY = SideMargin;
+            int available = card - 2 * BarcodeCardPadding;
+            int moduleW = Math.Max(1, available / modules);
+            int barcodeW = modules * moduleW;
+            int barcodeX = (width - barcodeW) / 2;
 
-            int logoBlock   = hasLogo ? BarcodeLogoHeight + 16 : 0;
-            int barcodeY    = cardY + BarcodeCardPadding + logoBlock;
-            int textY       = barcodeY + BarcodeHeight + 14;
-            int textHeight  = 42;
-            int pillY       = textY + textHeight + 14;
+            int logoBlock = hasLogo ? BarcodeLogoHeight + 16 : 0;
+            int barcodeY = cardY + BarcodeCardPadding + logoBlock;
+            int textY = barcodeY + BarcodeHeight + 14;
+            int textHeight = 42;
+            int pillY = textY + textHeight + 14;
             const int pillW = 100, pillH = 10;
-            int cardH       = pillY + pillH + BarcodeCardPadding - cardY;
-            int height      = cardY + cardH + SideMargin;
-            float radius    = 28f;
+            int cardH = pillY + pillH + BarcodeCardPadding - cardY;
+            int height = cardY + cardH + SideMargin;
+            float radius = 28f;
 
             using var shader = SKShader.CreateLinearGradient(
                 new SKPoint(barcodeX, 0),
@@ -936,7 +936,7 @@ namespace ERP.Core.Database.Infrastructure.Services
 
                 int lx = (width - lw) / 2;
                 int ly = cardY + BarcodeCardPadding;
-                
+
                 using var logoImage = SKImage.FromBitmap(resized);
                 canvas.DrawImage(logoImage, lx, ly, new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.None), null);
             }
@@ -948,5 +948,45 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion
 
         #endregion
+
+        // #region Inventory
+
+        // // Generar code para solicitudes pendientes de ingreso
+        // public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default)
+        // {
+        //     string prefix = $"{Branch}-In-";
+
+        //     var existingCodes = await _unitOfWork..Entities
+        //         .AsNoTracking()
+        //         .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
+        //         .OrderByDescending(re => re.CreatedAt)
+        //         .ThenByDescending(re => re.ReceptionCode!.Length)
+        //         .ThenByDescending(re => re.ReceptionCode)
+        //         .Select(re => re.ReceptionCode)
+        //         .Take(10)
+        //         .ToListAsync(ct);
+
+        //     return BuildSequenceCode(prefix, existingCodes);
+        // }
+
+        // // Generar code para solicitudes pendientes de salida
+        // public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default)
+        // {
+        //     string prefix = $"{Branch}-Out-";
+
+        //     var existingCodes = await _unitOfWork..Entities
+        //         .AsNoTracking()
+        //         .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
+        //         .OrderByDescending(re => re.CreatedAt)
+        //         .ThenByDescending(re => re.ReceptionCode!.Length)
+        //         .ThenByDescending(re => re.ReceptionCode)
+        //         .Select(re => re.ReceptionCode)
+        //         .Take(10)
+        //         .ToListAsync(ct);
+
+        //     return BuildSequenceCode(prefix, existingCodes);
+
+        // }
+        // #endregion Inventory
     }
 }
