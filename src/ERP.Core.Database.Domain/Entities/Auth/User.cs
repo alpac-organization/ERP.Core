@@ -4,6 +4,7 @@ using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -54,5 +55,10 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         public virtual ICollection<AssignmentsMachinery> AssignmentsMachineries { get; set; } = [];
         public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
+
+
+
+        //Inventario
+        public virtual ICollection<Kardex> Kardices { get; set; } = [];
     }
 }

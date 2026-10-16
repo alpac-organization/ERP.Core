@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Shopping;
 
@@ -20,5 +21,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
+
+        //Inventario
+        public virtual ICollection<Kardex> Kardices { get; set; } = [];
     }
 }

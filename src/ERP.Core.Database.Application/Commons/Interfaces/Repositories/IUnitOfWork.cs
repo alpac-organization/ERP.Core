@@ -1,10 +1,10 @@
-
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
 {
@@ -78,6 +78,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IRackCoordinateRepository RackCoordinates { get; }
         IRacksPositionsCoordinatesRepository RacksPositionsCoordinates { get; }
         ILotCoordinateRepository LotCoordinates { get; }
+
+        IKardexRepository Kardex { get; }
 
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }

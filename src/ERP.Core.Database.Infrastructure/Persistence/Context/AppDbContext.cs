@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
@@ -77,6 +78,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
         public DbSet<DisciplinaryFault> DisciplinaryFaults => Set<DisciplinaryFault>();
         public DbSet<DisciplinarySanction> DisciplinarySanctions => Set<DisciplinarySanction>();
+
         #endregion
 
         #region Bodegas
@@ -100,6 +102,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
         public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
+        #endregion
+
+        #region Inventario
+        public DbSet<Kardex> Kardex => Set<Kardex>();
+        
         #endregion
 
         #region Pendiente a analizar
@@ -228,6 +235,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<FaultStatus>("public", "fault_status_enum");
             modelBuilder.HasPostgresEnum<SanctionType>("public", "sanction_type_enum");
             modelBuilder.HasPostgresEnum<SanctionStatus>("public", "sanction_status_enum");
+            modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

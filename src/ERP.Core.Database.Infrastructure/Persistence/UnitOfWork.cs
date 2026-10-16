@@ -1,13 +1,12 @@
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
@@ -106,6 +105,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IServicesOrdersRequisitionsRepository servicesOrdersRequisitionsRepository,
             IAssignmentOperationalRepository assignmentOperationalRepository,
             ICodesRepository codesRepository,
+            IKardexRepository kardexRepository,
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository
@@ -165,6 +165,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Warehouse
         public IProductsRepository Products => productsRepository;
+        public IKardexRepository Kardex => kardexRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
         public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;
