@@ -8,10 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 {
     public class Kardex : BaseEntity<Guid>
     {
-        public KardexConcept Concept { get; set; }
-
-        public Guid CostCenterId { get; set; }
-        public virtual CostCenter CostCenter { get; set; } = default!;
+        public KardexMovementType MovementType { get; set; }
 
         /// <summary>
         /// Total de unidades de salidas y entradas de productos
@@ -37,5 +34,11 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         public Guid MovementByUserId { get; set; }
         public virtual User User { get; set; } = default!;
+
+        public Guid WorkAreaId { get; set; }
+        public virtual WorkArea WorkArea { get; set; } = default!;
+
+        public Guid CostCenterId { get; set; }
+        public virtual CostCenter CostCenter { get; set; } = default!;
     }
 }

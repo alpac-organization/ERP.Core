@@ -1,6 +1,6 @@
 namespace ERP.Core.Database.Domain.Enums
 {
-    public enum KardexConcept
+    public enum KardexMovementType
     {
         Buys = 1,
         Exit = 2,

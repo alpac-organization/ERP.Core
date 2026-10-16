@@ -4,8 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-using ERP.Core.Database.Infrastructure.Services;
+using ERP.Core.Database.Domain.Enums;
 
+using ERP.Core.Database.Infrastructure.Services;
 using ERP.Core.Database.Infrastructure.Persistence;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Infrastructure.Services.WarehouseCapacities;
@@ -27,7 +28,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 using ERP.Core.Database.Application.Commons.Interfaces.Services.WarehouseCapacities;
-using ERP.Core.Database.Domain.Enums;
+
 
 namespace ERP.Core.Database.Infrastructure
 {
@@ -114,6 +115,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<AssignmentOperationalStatus>("assignment_operational_status_enum", "public");
                     npgsqlOptions.MapEnum<MerchandiseCategory>("merchandise_category_enum", "public");
                     npgsqlOptions.MapEnum<CodesType>("codes_type_enum", "public");
+                    npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
                 })
             );
 
@@ -163,7 +165,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
             services.AddScoped<ICategoryProductsRepository, CategoryProductsRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
-            services.AddScoped<IKardexRepository, KardexRepository>();
 
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
             services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
@@ -197,6 +198,9 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsRepository, LotsRepository>();
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
+
+            // Inventario
+            services.AddScoped<IKardexRepository, KardexRepository>();
 
             #region 
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();

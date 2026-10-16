@@ -44,6 +44,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "invoice_status_enum", new[] { "pending", "paid", "overdue" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "kardex_movement_type_enum", new[] { "buys", "exit", "returns" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "machinery_status_enum", new[] { "available", "in_use", "in_maintenance", "out_of_service" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "machinery_type_enum", new[] { "forklift" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "management_review_status_enum", new[] { "pending", "approved", "rejected" });
@@ -1759,6 +1760,102 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("IX_work_area_id");
 
                     b.ToTable("work_areas", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("kardex_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AverageCost")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("average_cost");
+
+                    b.Property<Guid>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid>("MovementByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("movement_by_user_id");
+
+                    b.Property<int>("MovementType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("kardex_movement_type_enum")
+                        .HasColumnName("movement_type")
+                        .HasDefaultValueSql("'buys'::kardex_movement_type_enum");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<decimal>("TotalInput")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("total_input");
+
+                    b.Property<decimal>("TotalKardex")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("total_kardex");
+
+                    b.Property<decimal>("TotalOutput")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("total_output");
+
+                    b.Property<int>("TotalUnits")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_units");
+
+                    b.Property<DateOnly>("TransactionDate")
+                        .HasColumnType("date")
+                        .HasColumnName("transaction_date");
+
+                    b.Property<TimeOnly>("TransactionTime")
+                        .HasColumnType("time")
+                        .HasColumnName("transaction_time");
+
+                    b.Property<decimal>("UnitCost")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unit_cost");
+
+                    b.Property<int>("Units")
+                        .HasColumnType("integer")
+                        .HasColumnName("units");
+
+                    b.Property<Guid>("WorkAreaId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostCenterId")
+                        .HasDatabaseName("ix_kardex_cost_center_id");
+
+                    b.HasIndex("MovementByUserId")
+                        .HasDatabaseName("ix_kardex_movement_by_user_id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WorkAreaId")
+                        .HasDatabaseName("ix_kardex_work_area_id");
+
+                    b.ToTable("kardex", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentCollaborators", b =>
@@ -6705,6 +6802,41 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany("Kardices")
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany("Kardices")
+                        .HasForeignKey("MovementByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Product", "Product")
+                        .WithMany("Kardices")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
+                        .WithMany("Kardices")
+                        .HasForeignKey("WorkAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CostCenter");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+
+                    b.Navigation("WorkArea");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentCollaborators", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.AssignmentOperational", "AssignmentOperational")
@@ -7875,7 +8007,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.SectionPositions", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Sections", "Section")
-                        .WithMany()
+                        .WithMany("Positions")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -7897,6 +8029,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentCollaborators");
 
                     b.Navigation("AssignmentsMachineries");
+
+                    b.Navigation("Kardices");
 
                     b.Navigation("Notifications");
 
@@ -7982,6 +8116,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
                 {
+                    b.Navigation("Kardices");
+
                     b.Navigation("PurchaseRequests");
 
                     b.Navigation("UserProfiles");
@@ -8032,6 +8168,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Lots");
 
+                    b.Navigation("Positions");
+
                     b.Navigation("Racks");
 
                     b.Navigation("SectionCapacity")
@@ -8051,6 +8189,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", b =>
                 {
                     b.Navigation("CostCenters");
+
+                    b.Navigation("Kardices");
 
                     b.Navigation("PurchaseRequests");
 
@@ -8220,6 +8360,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
                 {
+                    b.Navigation("Kardices");
+
                     b.Navigation("PurchaseOrderItems");
 
                     b.Navigation("PurchaseRequestItems");

@@ -7,8 +7,6 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Catalogs;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {

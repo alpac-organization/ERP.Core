@@ -72,6 +72,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<TypesSubsidy> TypesSubsidies => Set<TypesSubsidy>();
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
+
         #endregion
 
         #region Bodegas
@@ -97,8 +98,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         #endregion
 
-        #region Kardex
+        #region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
+        
         #endregion
 
         #region Pendiente a analizar
@@ -221,7 +223,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<AssignmentOperationalStatus>("public", "assignment_operational_status_enum");
             modelBuilder.HasPostgresEnum<MerchandiseCategory>("public", "merchandise_category_enum");
             modelBuilder.HasPostgresEnum<CodesType>("public", "codes_type_enum");
-
+            modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
