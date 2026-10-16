@@ -40,5 +40,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Control de nominas contables o descriptions
         public virtual ICollection<TypesAccountingPayroll> TypesAccountingPayroll { get; set; } = [];
+
+        //Catálogo de faltas disciplinarias por empresa
+        public virtual ICollection<FaultCatalog> FaultCatalogs { get; set; } = [];
     }
 }
