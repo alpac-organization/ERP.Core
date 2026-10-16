@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
@@ -93,6 +94,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
         public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
+        #endregion
+
+        #region Kardex
+        public DbSet<Kardex> Kardex => Set<Kardex>();
         #endregion
 
         #region Pendiente a analizar

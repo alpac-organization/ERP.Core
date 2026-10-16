@@ -1,6 +1,7 @@
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
@@ -58,6 +59,7 @@ public class UnitOfWork(
         IWarehouseLocationRepository locationRepository,
         ICategoryProductsRepository categoryProductsRepository,
         IProductsRepository productsRepository,
+        IKardexRepository kardexRepository,
         IWarehousesRepository warehouseRepository,
         IWarehouseCapacityRepository warehouseCapacityRepository,
         ISectionCapacityRepository sectionCapacityRepository,
@@ -161,6 +163,7 @@ public class UnitOfWork(
 
         #region Warehouse
         public IProductsRepository Products => productsRepository;
+        public IKardexRepository Kardex => kardexRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
         public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;

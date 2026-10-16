@@ -15,10 +15,12 @@ using ERP.Core.Database.Infrastructure.Persistence.Repositories.Shopping;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
@@ -161,6 +163,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
             services.AddScoped<ICategoryProductsRepository, CategoryProductsRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IKardexRepository, KardexRepository>();
 
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();
             services.AddScoped<ISectionCapacityRepository, SectionCapacityRepository>();
