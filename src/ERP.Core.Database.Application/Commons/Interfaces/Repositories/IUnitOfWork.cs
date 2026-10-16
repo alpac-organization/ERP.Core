@@ -121,6 +121,11 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IServicesOrdersRequisitionsRepository ServicesOrdersRequisitions { get; }
         #endregion
 
+        #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
+        IFaultCatalogRepository FaultCatalogs { get; }
+        IDisciplinaryFaultsRepository DisciplinaryFaults { get; }
+        IDisciplinarySanctionsRepository DisciplinarySanctions { get; }
+        #endregion
 
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }

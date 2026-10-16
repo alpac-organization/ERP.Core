@@ -41,6 +41,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "duca_status_enum", new[] { "pending", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "duca_type_enum", new[] { "duca_f", "duca_d", "duca_t" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "employment_type_enum", new[] { "internal", "outsourced", "temporary" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "invoice_status_enum", new[] { "pending", "paid", "overdue" });
@@ -69,6 +72,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_usage_profile_enum", new[] { "active_flow", "static_hold" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_status_enum", new[] { "applied", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_type_enum", new[] { "verbal_warning", "memorandum", "suspension", "commitment_letter", "termination" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_storage_type_enum", new[] { "racks", "lots", "pallets", "none" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "service_order_requisition_status_enum", new[] { "pending", "approved", "rejected", "canceled" });
@@ -3135,6 +3140,219 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("PayrollId");
 
                     b.ToTable("deductions_payment_histories", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("disciplinary_fault_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Evidence")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("jsonb")
+                        .HasDefaultValue("{}")
+                        .HasColumnName("evidence");
+
+                    b.Property<Guid>("FaultCatalogId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("fault_catalog_id");
+
+                    b.Property<DateOnly>("OccurrenceDate")
+                        .HasColumnType("date")
+                        .HasColumnName("occurrence_date");
+
+                    b.Property<Guid?>("ParentFaultId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_fault_id");
+
+                    b.Property<Guid>("RegisteredBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("registered_by");
+
+                    b.Property<int>("Severity")
+                        .HasColumnType("fault_severity_enum")
+                        .HasColumnName("severity");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("fault_source_enum")
+                        .HasColumnName("source");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("fault_status_enum")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId")
+                        .HasDatabaseName("ix_disciplinary_faults_collaborator_id");
+
+                    b.HasIndex("FaultCatalogId");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_fault_id");
+
+                    b.HasIndex("OccurrenceDate")
+                        .HasDatabaseName("ix_disciplinary_faults_occurrence_date");
+
+                    b.HasIndex("ParentFaultId");
+
+                    b.ToTable("disciplinary_faults", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("disciplinary_sanction_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Evidence")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("jsonb")
+                        .HasDefaultValue("{}")
+                        .HasColumnName("evidence");
+
+                    b.Property<Guid>("FaultId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("fault_id");
+
+                    b.Property<Guid>("IssuedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("issued_by");
+
+                    b.Property<Guid?>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<int>("SanctionStatus")
+                        .HasColumnType("sanction_status_enum")
+                        .HasColumnName("sanction_status");
+
+                    b.Property<int>("SanctionType")
+                        .HasColumnType("sanction_type_enum")
+                        .HasColumnName("sanction_type");
+
+                    b.Property<DateOnly?>("SuspensionEndDate")
+                        .HasColumnType("date")
+                        .HasColumnName("suspension_end_date");
+
+                    b.Property<DateOnly?>("SuspensionStartDate")
+                        .HasColumnType("date")
+                        .HasColumnName("suspension_start_date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FaultId")
+                        .HasDatabaseName("ix_disciplinary_sanctions_fault_id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_sanction_id");
+
+                    b.HasIndex("PayrollId")
+                        .HasDatabaseName("ix_disciplinary_sanctions_payroll_id");
+
+                    b.ToTable("disciplinary_sanctions", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("fault_catalog_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("description");
+
+                    b.Property<int>("FaultSeverity")
+                        .HasColumnType("fault_severity_enum")
+                        .HasColumnName("fault_severity");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_fault_catalog_id");
+
+                    b.HasIndex("CompanyId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_fault_catalogs_company_code");
+
+                    b.ToTable("fault_catalogs", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Holidays", b =>
@@ -7143,6 +7361,61 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Payroll");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("DisciplinaryFaults")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", "FaultCatalog")
+                        .WithMany("DisciplinaryFaults")
+                        .HasForeignKey("FaultCatalogId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", "ParentFault")
+                        .WithMany()
+                        .HasForeignKey("ParentFaultId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("FaultCatalog");
+
+                    b.Navigation("ParentFault");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", "Fault")
+                        .WithMany("Sanctions")
+                        .HasForeignKey("FaultId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("DisciplinarySanctions")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Fault");
+
+                    b.Navigation("Payroll");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("FaultCatalogs")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Income", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -8105,6 +8378,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Customers");
 
+                    b.Navigation("FaultCatalogs");
+
                     b.Navigation("JobPositions");
 
                     b.Navigation("TypesAccountingPayroll");
@@ -8245,6 +8520,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Deductions");
 
+                    b.Navigation("DisciplinaryFaults");
+
                     b.Navigation("IncomeTaxAccruals");
 
                     b.Navigation("Incomes");
@@ -8284,9 +8561,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PaymentHistories");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", b =>
+                {
+                    b.Navigation("Sanctions");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", b =>
+                {
+                    b.Navigation("DisciplinaryFaults");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", b =>
                 {
                     b.Navigation("ChristmasBonusAccruals");
+
+                    b.Navigation("DisciplinarySanctions");
 
                     b.Navigation("IncomeTaxAccruals");
 
