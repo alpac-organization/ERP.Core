@@ -32,6 +32,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("cost_center_id")
                 .IsRequired();
 
+            builder.Property(k => k.WorkAreaId)
+                .HasColumnName("area_id")
+                .IsRequired();
+
             builder.Property(k => k.Units)
                 .HasColumnName("units")
                 .IsRequired();

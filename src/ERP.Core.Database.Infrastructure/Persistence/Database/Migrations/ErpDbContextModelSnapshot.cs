@@ -1845,7 +1845,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("units");
 
                     b.Property<Guid>("WorkAreaId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("area_id");
 
                     b.HasKey("Id");
 
