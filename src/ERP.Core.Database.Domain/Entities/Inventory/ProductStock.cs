@@ -5,5 +5,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
     public class ProductStock : BaseEntity<Guid>
     {
         
+
+        public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
     }
 }
