@@ -28,7 +28,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public DateOnly TransactionDate { get; set; }
         public TimeOnly TransactionTime { get; set; }
 
-
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
 
