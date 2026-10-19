@@ -22,7 +22,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? ThirdName { get; set; }
         public string? SecondLastname { get; set; }
         public string? RegisteredBy { get; set; }
-        
+
         public CollaboratorStatus Status { get; set; }
 
         /// <summary>
@@ -32,6 +32,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public bool IsFirstTimeRegister { get; set; } = true;
         public IdentificationType IdentificationType { get; set; }
+
+        // Habilita al colaborador de estar exento del marcado del reloj
+        public bool IsTimeClockExempt { get; set; } = false;
 
         // Relacionar tablas para acceso a  ellas
         public virtual Company Company { get; set; } = default!;
