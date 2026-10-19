@@ -21,6 +21,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
+            builder.Property(k => k.kardexType)
+                .HasColumnName("kardex_type")
+                .HasColumnType("kardex_type_enum")
+                .HasDefaultValueSql("'administrative'::kardex_type_enum")
+                .HasSentinel(KardexType.Administrative)
+                .IsRequired();
+
             builder.Property(k => k.MovementType)
                 .HasColumnName("movement_type")
                 .HasColumnType("kardex_movement_type_enum")

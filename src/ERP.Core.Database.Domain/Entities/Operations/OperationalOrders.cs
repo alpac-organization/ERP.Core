@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Operations
 {
@@ -51,5 +52,8 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         // Navigation
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
+
+        //Inventario
+        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
     }
 }

@@ -121,6 +121,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<SanctionType>("sanction_type_enum", "public");
                     npgsqlOptions.MapEnum<SanctionStatus>("sanction_status_enum", "public");
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
+                    npgsqlOptions.MapEnum<OutflowStatus>("outflow_status_enum", "public");
+                    npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
                 })
             );
 
@@ -206,6 +208,8 @@ namespace ERP.Core.Database.Infrastructure
 
             // Inventario
             services.AddScoped<IKardexRepository, KardexRepository>();
+            services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
+            services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
 
             #region 
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
