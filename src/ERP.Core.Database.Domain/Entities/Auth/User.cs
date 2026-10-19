@@ -57,8 +57,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public virtual ICollection<AssignmentCollaborators> AssignmentCollaborators { get; set; } = [];
 
 
-
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
+        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
     }
 }

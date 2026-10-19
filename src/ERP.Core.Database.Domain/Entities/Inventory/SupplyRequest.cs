@@ -37,7 +37,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public Guid RequestedByUserId { get; set; }
         public virtual User User { get; set; } = default!;
 
-
         //Stock Solicitado en la solicitud.
         public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
     }

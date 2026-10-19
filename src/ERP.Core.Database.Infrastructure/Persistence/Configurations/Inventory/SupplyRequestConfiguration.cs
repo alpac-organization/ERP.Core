@@ -41,7 +41,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.CostCenterId)
                 .HasColumnName("cost_center_id")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.BranchId)
                 .HasColumnName("branch_id")
@@ -53,7 +53,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.OperationalOrderId)
                 .HasColumnName("operational_order_id")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.RequestedByUserId)
                 .HasColumnName("requested_by_user_id")
@@ -69,34 +69,34 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .IsRequired(false);
 
             #region Foreign Keys
-
+            
             builder.HasOne(e => e.WorkArea)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.CostCenter)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Branch)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Warehouse)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.WarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.OperationalOrder)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.OperationalOrderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.User)
-                .WithMany()
+                .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.RequestedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
