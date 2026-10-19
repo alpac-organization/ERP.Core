@@ -106,6 +106,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         #region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
+        public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
         
         #endregion
 

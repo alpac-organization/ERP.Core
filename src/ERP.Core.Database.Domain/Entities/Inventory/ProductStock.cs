@@ -5,6 +5,11 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 {
     public class ProductStock : BaseEntity<Guid>
     {
+        public int AvailableQuantity { get; set; }
+
+        public int MinimumStock { get; set; }
+        public int? MaximumStock { get; set; }
+
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
 

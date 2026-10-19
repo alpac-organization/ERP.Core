@@ -11,14 +11,13 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public string Code {get; set;} = string.Empty;
         public string? ProductName { get; set; }
         public string? Description { get; set; }
-        public bool IsTaxExempt { get; set;} = false; 
+        public bool IsTaxExempt { get; set;} = false;
 
         public Guid CategoryId { get; set; }
         public virtual CategoryProducts Category { get; set; } = default!;
 
         public Guid UnitMeasureId { get; set; }
         public virtual UnitMeasure UnitMeasure { get; set; } = default!;
-
 
         public ProductUsageType ProductUsageType { get; set; }
 

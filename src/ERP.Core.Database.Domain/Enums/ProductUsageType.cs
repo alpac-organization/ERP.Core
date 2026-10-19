@@ -13,6 +13,11 @@ namespace ERP.Core.Database.Domain.Enums
         /// <summary>
         /// The product is used as a tool or asset in the operation (e.g. equipment, uniforms, PPE).
         /// </summary>
-        OperationalUse = 2
+        OperationalUse = 2,
+
+        /// <summary>
+        /// Para ambos usos
+        /// </summary>
+        Both = 3
     }
 }
