@@ -7,7 +7,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory
 {
     public class SupplyRequestRepository(ErpDbContext context) : Repository<SupplyRequest>(context), ISupplyRequestRepository
     {
-
         public async Task<SupplyRequest> RegisterSupplyRequest(SupplyRequest payload)
         {
             var record = await _context.SupplyRequests.AddAsync(payload);

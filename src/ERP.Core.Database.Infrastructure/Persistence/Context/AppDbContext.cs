@@ -107,6 +107,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
+        public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         
         #endregion
 
@@ -237,6 +238,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<SanctionType>("public", "sanction_type_enum");
             modelBuilder.HasPostgresEnum<SanctionStatus>("public", "sanction_status_enum");
             modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
+            modelBuilder.HasPostgresEnum<OutflowStatus>("public", "outflow_status_enum");
+            modelBuilder.HasPostgresEnum<EntryStatus>("public", "entry_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

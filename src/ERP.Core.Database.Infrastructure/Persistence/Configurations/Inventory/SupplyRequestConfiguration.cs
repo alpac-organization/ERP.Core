@@ -1,11 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using ERP.Core.Database.Domain.Entities.Inventory;
-using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 {
@@ -34,7 +31,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.Property(e => e.OutflowStatus)
                 .HasColumnName("outflow_status")
                 .HasColumnType("outflow_status_enum")
-                .HasDefaultValueSql("1")
+                .HasDefaultValueSql("'pending_review'::outflow_status_enum")
+                .HasSentinel(OutflowStatus.PendingReview)
                 .IsRequired();
 
             builder.Property(e => e.WorkAreaId)

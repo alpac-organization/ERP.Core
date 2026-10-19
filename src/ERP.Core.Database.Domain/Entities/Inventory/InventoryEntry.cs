@@ -5,7 +5,7 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory
 {
-    public class InventorytEntries : BaseEntity<Guid>
+    public class InventoryEntry : BaseEntity<Guid>
     {
         public string? Code { get; set; }
         public string? Observations { get; set; }
@@ -24,7 +24,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
     public class InventoryEntryAdditionalData
     {
-
         public List<EntryEvidenceImage> EvidenceImages { get; set; } = [];
     }
 

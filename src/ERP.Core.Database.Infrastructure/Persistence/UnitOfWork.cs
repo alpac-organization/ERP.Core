@@ -107,6 +107,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ICodesRepository codesRepository,
             IKardexRepository kardexRepository,
             ISupplyRequestRepository supplyRequestsRepository,
+            IInventoryEntriesRepository inventoryEntriesRepository,
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository
@@ -224,7 +225,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region Inventario
         public IKardexRepository Kardex => kardexRepository;
         public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
-        
+        public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
         #endregion
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
