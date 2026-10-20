@@ -5668,11 +5668,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("has_guarantee");
 
+                    b.Property<decimal>("Imi")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("imi");
+
                     b.Property<bool>("InventoryAvailable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("inventory_available");
+
+                    b.Property<decimal>("Ir")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("ir");
 
                     b.Property<bool>("IsAcceptedForPurchase")
                         .ValueGeneratedOnAdd()

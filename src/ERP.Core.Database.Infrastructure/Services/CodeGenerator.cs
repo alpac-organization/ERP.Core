@@ -7,6 +7,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Application.Commons.Interfaces.AWS;
+using ERP.Core.Database.Infrastructure.Persistence.Context;
 
 using ZXing;
 using ZXing.Common;
@@ -14,11 +15,16 @@ using SkiaSharp;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
-    public partial class CodeGenerator(IUnitOfWork _unitOfWork, IS3StorageService _s3StorageService, IHttpClientFactory _httpClientFactory) : ICodeGenerator
+    public partial class CodeGenerator(
+        IUnitOfWork _unitOfWork,
+        ErpDbContext _dbContext,
+        IS3StorageService _s3StorageService,
+        IHttpClientFactory _httpClientFactory) : ICodeGenerator
     {
         [GeneratedRegex(@"[^a-zA-Z]")]
         private static partial Regex GenerateModuleCode();
         private readonly IUnitOfWork _unitOfWork = _unitOfWork;
+        private readonly ErpDbContext _dbContext = _dbContext;
         private readonly IS3StorageService _s3StorageService = _s3StorageService;
         private readonly IHttpClientFactory _httpClientFactory = _httpClientFactory;
 
@@ -68,13 +74,12 @@ namespace ERP.Core.Database.Infrastructure.Services
             var typeCode = GetTypeCode(purchaseRequestType);
             var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{typeCode}-";
 
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
             var codesQuery = _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
                 .IgnoreQueryFilters()
-                .Where(pr => pr.BranchId == branchId
-                    && pr.RequestType == purchaseRequestType
-                    && pr.Code != null
-                    && pr.Code.StartsWith(prefix))
+                .Where(pr => pr.Code != null && pr.Code.StartsWith(prefix))
                 .Select(pr => pr.Code);
 
             var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 2, ct);
@@ -97,12 +102,12 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             var prefix = $"{request.Branch.BranchCode.ToUpperInvariant()}-OC-";
 
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
             var codesQuery = _unitOfWork.PurchaseOrders.Entities
                 .AsNoTracking()
                 .IgnoreQueryFilters()
-                .Where(po => po.PurchaseRequest.BranchId == request.BranchId
-                    && po.Code != null
-                    && po.Code.StartsWith(prefix))
+                .Where(po => po.Code != null && po.Code.StartsWith(prefix))
                 .Select(po => po.Code);
 
             var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 2, ct);
@@ -125,6 +130,8 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             var methodCode = GetPaymentMethodTypeCode(paymentMethodType);
             var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{methodCode}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
 
             var codesQuery = _unitOfWork.PaymentRequests.Entities
                 .AsNoTracking()
@@ -402,6 +409,19 @@ namespace ERP.Core.Database.Infrastructure.Services
         private static (bool IsSuccess, string Code) BuildSequenceCode(string prefix, IEnumerable<string?> existingCodes)
             => (true, $"{prefix}{GetMaxSequence(prefix, existingCodes) + 1:D2}");
 
+        private async Task AcquireCodePrefixLockAsync(string prefix, CancellationToken ct)
+        {
+            if (_dbContext.Database.CurrentTransaction is null)
+            {
+                throw new InvalidOperationException(
+                    "GenerateUnique* debe ejecutarse dentro de ExecuteWithUniqueCodeRetryAsync (transacción abierta).");
+            }
+
+            await _dbContext.Database.ExecuteSqlInterpolatedAsync(
+                $"SELECT pg_advisory_xact_lock(hashtextextended({prefix}, 0))",
+                ct);
+        }
+
         private static async Task<string> ResolveNextCodeAsync(
             IQueryable<string?> codesQuery,
             string prefix,
@@ -463,15 +483,15 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #region Metodo para generar codigo producto
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(
-            Guid companyId,
+            Guid branchId,
             Guid categoryId,
             CancellationToken ct = default)
         {
-            var company = await _unitOfWork.Companies.Entities
+            var branch = await _unitOfWork.Branches.Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == companyId && c.DeletedAt == null, ct);
+                .FirstOrDefaultAsync(b => b.Id == branchId, ct);
 
-            if (company is null || string.IsNullOrWhiteSpace(company.Code))
+            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
             {
                 return (false, string.Empty);
             }
@@ -485,7 +505,9 @@ namespace ERP.Core.Database.Infrastructure.Services
                 return (false, string.Empty);
             }
 
-            var prefix = $"{company.Code.ToUpperInvariant()}-{category.Code.ToUpperInvariant()}-";
+            var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{category.Code.ToUpperInvariant()}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
 
             var codesQuery = _unitOfWork.Products.Entities
                 .AsNoTracking()
