@@ -40,6 +40,17 @@ namespace ERP.Core.Database.Infrastructure.Services
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tipo de método de pago no soportado.")
         };
 
+        public string GenerateNumericCode(string? lastCode)
+        {
+            if (string.IsNullOrWhiteSpace(lastCode)) return "1";
+            
+            if (!lastCode.All(char.IsDigit))
+                return "";
+
+            var next = System.Numerics.BigInteger.Parse(lastCode) + 1;
+            return next.ToString().PadLeft(lastCode.Length, '0');
+        }
+
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToPurchaseRequest(
             PurchaseRequestType purchaseRequestType,
             Guid branchId,
