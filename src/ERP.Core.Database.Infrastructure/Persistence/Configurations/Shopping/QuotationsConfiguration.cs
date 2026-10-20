@@ -61,6 +61,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.Property(e => e.Imi)
+                .HasColumnName("imi")
+                .HasPrecision(18, 2)
+                .HasDefaultValue(0m)
+                .IsRequired();
+
+            builder.Property(e => e.Ir)
+                .HasColumnName("ir")
+                .HasPrecision(18, 2)
+                .HasDefaultValue(0m)
+                .IsRequired();
+
             builder.Property(e => e.PriceUnit)
                 .HasColumnName("price_unit")
                 .HasPrecision(18, 2)
@@ -88,11 +100,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.AvailabilityTime)
                 .HasColumnName("availability_time")
                 .HasPrecision(18, 2)
-                .IsRequired(false);
-
-            builder.Property(e => e.DeliveryTimeType)
-                .HasColumnName("delivery_time_type")
-                .HasColumnType("time_type_enum")
                 .IsRequired(false);
 
             builder.Property(e => e.DeliveryTimeType)
