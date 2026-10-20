@@ -35,6 +35,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasSentinel(EntryStatus.PendingReview)
                 .IsRequired();
 
+            builder.Property(e => e.EntryType)
+                .HasColumnName("entry_type")
+                .HasColumnType("entry_type_enum")
+                .HasDefaultValueSql("'buy'::entry_type_enum")
+                .HasSentinel(EntryType.Buy)
+                .IsRequired();
+
             builder.Property(e => e.AdditionalData)
                 .HasColumnName("additional_data")
                 .HasColumnType("jsonb")
@@ -50,7 +57,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.PurchaseRequestId)
                 .HasColumnName("purchase_request_id")
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -63,17 +70,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             #region Foreign Keys
 
             builder.HasOne(e => e.WorkArea)
-                .WithMany()
+                .WithMany(e => e.InventoryEntries)
                 .HasForeignKey(e => e.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Branch)
-                .WithMany()
+                .WithMany(e => e.InventoryEntries)
                 .HasForeignKey(e => e.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.PurchaseRequest)
-                .WithMany()
+                .WithMany(e => e.InventoryEntries)
                 .HasForeignKey(e => e.PurchaseRequestId)
                 .OnDelete(DeleteBehavior.Restrict);
                 
