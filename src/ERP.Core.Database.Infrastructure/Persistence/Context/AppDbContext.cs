@@ -104,11 +104,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         #endregion
 
-        #region Inventario
+#region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
-        
+        public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
         #endregion
 
         #region Pendiente a analizar
