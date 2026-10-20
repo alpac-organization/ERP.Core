@@ -78,7 +78,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
         public DbSet<DisciplinaryFault> DisciplinaryFaults => Set<DisciplinaryFault>();
         public DbSet<DisciplinarySanction> DisciplinarySanctions => Set<DisciplinarySanction>();
+        #endregion
 
+        #region Nomina: Control de Ausencias
+        public DbSet<Absence> Absences => Set<Absence>();
         #endregion
 
         #region Bodegas
@@ -238,6 +241,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<FaultStatus>("public", "fault_status_enum");
             modelBuilder.HasPostgresEnum<SanctionType>("public", "sanction_type_enum");
             modelBuilder.HasPostgresEnum<SanctionStatus>("public", "sanction_status_enum");
+            modelBuilder.HasPostgresEnum<AbsenceStatus>("public", "absence_status_enum");
+            modelBuilder.HasPostgresEnum<AbsenceSource>("public", "absence_source_enum");
             modelBuilder.HasPostgresEnum<KardexType>("public", "kardex_type_enum");
             modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
             modelBuilder.HasPostgresEnum<OutflowStatus>("public", "outflow_status_enum");

@@ -21,6 +21,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "absence_source_enum", new[] { "manual", "biometric_clock" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "absence_status_enum", new[] { "pending", "applied", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "accounting_review_status_enum", new[] { "pending", "approved", "rejected", "returned" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "assignment_collaborators_roles_enum", new[] { "warehouse_assistant", "forklift_operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "assignment_operational_status_enum", new[] { "none", "pending", "in_progress", "on_hold", "downloaded" });
@@ -3038,6 +3040,130 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_services_orders_service_order_code");
 
                     b.ToTable("services_orders", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Absence", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("absence_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date")
+                        .HasColumnName("date");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid?>("DisciplinaryFaultId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("disciplinary_fault_id");
+
+                    b.Property<Guid?>("OrdinaryPayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ordinary_payroll_id");
+
+                    b.Property<Guid?>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<Guid>("RegisteredBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("registered_by");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("reviewed_at");
+
+                    b.Property<Guid?>("ReviewedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reviewed_by");
+
+                    b.Property<decimal>("SalaryDeduction")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0.0m)
+                        .HasColumnName("salary_deduction");
+
+                    b.Property<decimal>("SeventhDayDeduction")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0.0m)
+                        .HasColumnName("seventh_day_deduction");
+
+                    b.Property<int>("Source")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("absence_source_enum")
+                        .HasDefaultValue(2)
+                        .HasColumnName("source");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("absence_status_enum")
+                        .HasDefaultValue(1)
+                        .HasColumnName("status");
+
+                    b.Property<decimal>("TravelExpensesDeduction")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0.0m)
+                        .HasColumnName("travel_expenses_deduction");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date")
+                        .HasDatabaseName("ix_absences_date");
+
+                    b.HasIndex("DisciplinaryFaultId")
+                        .HasDatabaseName("ix_absences_disciplinary_fault_id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_absence_id");
+
+                    b.HasIndex("OrdinaryPayrollId")
+                        .HasDatabaseName("ix_absences_ordinary_payroll_id");
+
+                    b.HasIndex("PayrollId")
+                        .HasDatabaseName("ix_absences_payroll_id");
+
+                    b.HasIndex("Source")
+                        .HasDatabaseName("ix_absences_source");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("ix_absences_status");
+
+                    b.HasIndex("CollaboratorId", "Date")
+                        .IsUnique()
+                        .HasDatabaseName("ix_absences_collaborator_id_date");
+
+                    b.ToTable("absences", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
@@ -7793,6 +7919,38 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Absence", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("Absences")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", "DisciplinaryFault")
+                        .WithMany("Absences")
+                        .HasForeignKey("DisciplinaryFaultId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.OrdinaryPayroll", "OrdinaryPayroll")
+                        .WithMany("Absences")
+                        .HasForeignKey("OrdinaryPayrollId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("Absences")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("DisciplinaryFault");
+
+                    b.Navigation("OrdinaryPayroll");
+
+                    b.Navigation("Payroll");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.AssignedTravelExpenses", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -9077,6 +9235,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
                 {
+                    b.Navigation("Absences");
+
                     b.Navigation("AssignedTravelExpenses");
 
                     b.Navigation("ChristmasBonusAccruals");
@@ -9126,6 +9286,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", b =>
                 {
+                    b.Navigation("Absences");
+
                     b.Navigation("Sanctions");
                 });
 
@@ -9134,8 +9296,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("DisciplinaryFaults");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.OrdinaryPayroll", b =>
+                {
+                    b.Navigation("Absences");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", b =>
                 {
+                    b.Navigation("Absences");
+
                     b.Navigation("ChristmasBonusAccruals");
 
                     b.Navigation("DisciplinarySanctions");

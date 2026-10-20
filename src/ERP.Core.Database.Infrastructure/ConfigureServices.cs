@@ -120,6 +120,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<FaultStatus>("fault_status_enum", "public");
                     npgsqlOptions.MapEnum<SanctionType>("sanction_type_enum", "public");
                     npgsqlOptions.MapEnum<SanctionStatus>("sanction_status_enum", "public");
+                    npgsqlOptions.MapEnum<AbsenceStatus>("absence_status_enum", "public");
+                    npgsqlOptions.MapEnum<AbsenceSource>("absence_source_enum", "public");
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
                     npgsqlOptions.MapEnum<OutflowStatus>("outflow_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
@@ -238,6 +240,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();
             services.AddScoped<IDisciplinaryFaultsRepository, DisciplinaryFaultsRepository>();
             services.AddScoped<IDisciplinarySanctionsRepository, DisciplinarySanctionsRepository>();
+            services.AddScoped<IAbsencesRepository, AbsencesRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
