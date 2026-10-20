@@ -232,6 +232,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAssignmentOperationalRepository, AssignmentOperationalRepository>();
             services.AddScoped<IServicesOrdersRequisitionsRepository, ServicesOrdersRequisitionsRepository>();
             services.AddScoped<ICodesRepository, CodesRepository>();
+            services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             #endregion
 
             services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();
