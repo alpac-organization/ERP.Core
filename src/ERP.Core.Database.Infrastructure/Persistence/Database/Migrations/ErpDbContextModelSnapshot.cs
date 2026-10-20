@@ -42,6 +42,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "duca_type_enum", new[] { "duca_f", "duca_d", "duca_t" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "employment_type_enum", new[] { "internal", "outsourced", "temporary" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_status_enum", new[] { "pending_review", "approved_entry", "cancel_entry" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_type_enum", new[] { "buy", "return", "inventory_adjustment" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed" });
@@ -1807,11 +1808,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("entry_status")
                         .HasDefaultValueSql("'pending_review'::entry_status_enum");
 
+                    b.Property<int>("EntryType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("entry_type_enum")
+                        .HasColumnName("entry_type")
+                        .HasDefaultValueSql("'buy'::entry_type_enum");
+
                     b.Property<string>("Observations")
                         .HasColumnType("text")
                         .HasColumnName("observations");
 
-                    b.Property<Guid>("PurchaseRequestId")
+                    b.Property<Guid?>("PurchaseRequestId")
                         .HasColumnType("uuid")
                         .HasColumnName("purchase_request_id");
 
@@ -1832,6 +1839,28 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("WorkAreaId");
 
                     b.ToTable("inventory_entries", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("InventoryEntryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryEntryId");
+
+                    b.ToTable("InventoryEntryItem", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
@@ -7286,19 +7315,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
-                        .WithMany()
+                        .WithMany("InventoryEntries")
                         .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
-                        .WithMany()
+                        .WithMany("InventoryEntries")
                         .HasForeignKey("PurchaseRequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
-                        .WithMany()
+                        .WithMany("InventoryEntries")
                         .HasForeignKey("WorkAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -7308,6 +7336,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PurchaseRequest");
 
                     b.Navigation("WorkArea");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "InventoryEntry")
+                        .WithMany("InventoryEntryItems")
+                        .HasForeignKey("InventoryEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InventoryEntry");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
@@ -8718,6 +8757,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Branch", b =>
                 {
+                    b.Navigation("InventoryEntries");
+
                     b.Navigation("Machinery");
 
                     b.Navigation("Payrolls");
@@ -8842,6 +8883,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("CostCenters");
 
+                    b.Navigation("InventoryEntries");
+
                     b.Navigation("Kardices");
 
                     b.Navigation("PurchaseRequests");
@@ -8851,6 +8894,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UserProfiles");
 
                     b.Navigation("WorkingInformations");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
+                {
+                    b.Navigation("InventoryEntryItems");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
@@ -8996,6 +9044,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", b =>
                 {
                     b.Navigation("AccountingReview");
+
+                    b.Navigation("InventoryEntries");
 
                     b.Navigation("ManagementReview");
 

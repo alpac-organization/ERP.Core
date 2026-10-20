@@ -241,6 +241,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
             modelBuilder.HasPostgresEnum<OutflowStatus>("public", "outflow_status_enum");
             modelBuilder.HasPostgresEnum<EntryStatus>("public", "entry_status_enum");
+            modelBuilder.HasPostgresEnum<EntryType>("public", "entry_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

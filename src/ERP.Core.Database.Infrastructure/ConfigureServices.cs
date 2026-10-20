@@ -123,6 +123,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
                     npgsqlOptions.MapEnum<OutflowStatus>("outflow_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
+                    npgsqlOptions.MapEnum<EntryType>("entry_type_enum", "public");
                 })
             );
 

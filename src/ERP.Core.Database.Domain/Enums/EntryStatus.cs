@@ -5,6 +5,5 @@ namespace ERP.Core.Database.Domain.Enums
         PendingReview  = 1,
         ApprovedEntry = 2,
         CancelEntry = 3,
-        
     }
 }
