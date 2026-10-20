@@ -33,5 +33,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         //Inventario
         public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
         public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = [];
+        public virtual ICollection<InventoryOutputs> InventoryOutputs { get; set; } = [];
     }
 }

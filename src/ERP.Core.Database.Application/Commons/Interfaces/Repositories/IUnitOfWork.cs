@@ -95,6 +95,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IKardexRepository Kardex { get; }
         ISupplyRequestRepository SupplyRequests { get; }
         IInventoryEntriesRepository InventoryEntries { get; }
+        IInventoryOutputsRepository InventoryOutputs { get; }
         IReasonsInventoryRemovalRepository ReasonsInventoryRemoval { get; }
 
         #endregion
