@@ -1863,6 +1863,37 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("InventoryEntryItem", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_output_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("WorkAreaId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("WorkAreaId");
+
+                    b.ToTable("inventory_outputs", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
                 {
                     b.Property<Guid>("Id")
@@ -7349,6 +7380,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InventoryEntry");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany("InventoryOutputs")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
+                        .WithMany("InventoryOutputs")
+                        .HasForeignKey("WorkAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("WorkArea");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
@@ -8759,6 +8809,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("InventoryEntries");
 
+                    b.Navigation("InventoryOutputs");
+
                     b.Navigation("Machinery");
 
                     b.Navigation("Payrolls");
@@ -8884,6 +8936,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CostCenters");
 
                     b.Navigation("InventoryEntries");
+
+                    b.Navigation("InventoryOutputs");
 
                     b.Navigation("Kardices");
 
