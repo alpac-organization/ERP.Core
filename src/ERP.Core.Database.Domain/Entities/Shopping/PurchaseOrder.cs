@@ -8,11 +8,11 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
     {
         public bool IsActive { get; set; }
 
-        // Código único de la orden de compra 
         public string? Code { get; set; }
         
-        public Guid? SupplierId {get; set;}
-        public virtual Supplier? Supplier {get; set;}
+        public Guid? SupplierId { get; set; }
+        public virtual Supplier? Supplier { get; set; }
+
         public string? Comments { get; set; }
         public DateOnly SentToReviewAt { get; set; }
 
