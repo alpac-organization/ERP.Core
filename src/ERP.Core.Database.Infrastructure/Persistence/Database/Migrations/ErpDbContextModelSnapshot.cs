@@ -3143,6 +3143,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_first_time_register");
 
+                    b.Property<bool>("IsTimeClockExempt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_time_clock_exempt");
+
                     b.Property<string>("PictureUrl")
                         .HasColumnType("text")
                         .HasColumnName("picture_url");
