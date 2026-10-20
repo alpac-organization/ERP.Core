@@ -85,5 +85,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Faltas disciplinarias del colaborador
         public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];
+
+        //Control de ausencias del colaborador
+        public virtual ICollection<Absence> Absences { get; set; } = [];
     }
 }

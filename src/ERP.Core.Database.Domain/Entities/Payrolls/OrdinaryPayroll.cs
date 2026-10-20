@@ -28,6 +28,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal Feeding { get ; set; }
         public decimal Lodging { get; set; }
         public decimal TotalTravelExpenses { get; set; }
+
+        //Ausencias procesadas en la nómina de este colaborador
+        public virtual ICollection<Absence> Absences { get; set; } = [];
     }
 
     public class DeductionsAdditionalData
@@ -49,8 +52,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal CashShortage { get; set; } = 0.0m;     //Faltante de caja
         public decimal DeductionForLossesBulk { get; set; } = 0.0m; // Deducción por perdidas de bultos.
 
-        public decimal Absences { get; set; } = 0.0m;//Ausencias
+        public decimal Absences { get; set; } = 0.0m;//Ausencias (Salario Diario + Séptimo Día)
         public decimal Sanction { get; set; } = 0.0m;//Sanción
-
+        public int TotalAbsenceDays { get; set; } = 0; // Total de días de ausencia injustificada
+        public decimal SeventhDayDeduction { get; set; } = 0.0m; // Deducción de séptimo día por inasistencia
     }
 }

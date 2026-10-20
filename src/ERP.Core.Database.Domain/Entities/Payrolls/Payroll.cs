@@ -40,5 +40,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Sanciones de suspensión asociadas al periodo de nómina
         public virtual ICollection<DisciplinarySanction> DisciplinarySanctions { get; set; } = [];
+
+        //Ausencias procesadas en este ciclo de nómina
+        public virtual ICollection<Absence> Absences { get; set; } = [];
     }
 }

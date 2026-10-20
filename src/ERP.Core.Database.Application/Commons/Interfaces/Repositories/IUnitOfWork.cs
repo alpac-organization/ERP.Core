@@ -135,6 +135,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IDisciplinarySanctionsRepository DisciplinarySanctions { get; }
         #endregion
 
+        #region Nomina: Control de Ausencias
+        IAbsencesRepository Absences { get; }
+        #endregion
+
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
         Task ExecuteWithUniqueCodeRetryAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default);
