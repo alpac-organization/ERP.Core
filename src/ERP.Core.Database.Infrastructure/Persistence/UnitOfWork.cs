@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
-
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
@@ -13,7 +10,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
-    public class UnitOfWork(
+    public partial class UnitOfWork(
             ErpDbContext _context,
             ICompaniesRepository companiesRepository,
             IModulesRepository modulesRepository,
@@ -239,68 +236,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IDisciplinarySanctionsRepository DisciplinarySanctions => disciplinarySanctionsRepository;
         #endregion
 
-        private static readonly HashSet<string> UniqueCodeIndexNames =
-        [
-            "ux_purchase_requests_code",
-            "ux_purchase_orders_code",
-            "ux_products_code",
-            "ux_payment_requests_code"
-        ];
-
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task ExecuteWithUniqueCodeRetryAsync(
-            Func<CancellationToken, Task> action,
-            CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(action);
-
-            const int maxAttempts = 3;
-
-            for (var attempt = 1; attempt <= maxAttempts; attempt++)
-            {
-                await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
-                try
-                {
-                    await action(cancellationToken);
-                    await transaction.CommitAsync(cancellationToken);
-                    return;
-                }
-                catch (DbUpdateException ex) when (
-                    attempt < maxAttempts
-                    && IsUniqueCodeConstraintViolation(ex))
-                {
-                    await transaction.RollbackAsync(cancellationToken);
-                    _context.ChangeTracker.Clear();
-                }
-                catch
-                {
-                    await transaction.RollbackAsync(cancellationToken);
-                    throw;
-                }
-            }
-
-            throw new InvalidOperationException("No se pudo reservar un código único tras los reintentos.");
-        }
-
-        private static bool IsUniqueCodeConstraintViolation(DbUpdateException exception)
-        {
-            if (exception.InnerException is not PostgresException postgresException)
-            {
-                return false;
-            }
-
-            if (postgresException.SqlState != PostgresErrorCodes.UniqueViolation)
-            {
-                return false;
-            }
-
-            var constraintName = postgresException.ConstraintName;
-            return !string.IsNullOrEmpty(constraintName)
-                && UniqueCodeIndexNames.Contains(constraintName);
         }
 
         public void Dispose()
