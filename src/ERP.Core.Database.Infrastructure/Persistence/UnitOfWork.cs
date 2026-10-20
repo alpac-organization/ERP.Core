@@ -106,6 +106,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IAssignmentOperationalRepository assignmentOperationalRepository,
             ICodesRepository codesRepository,
             IKardexRepository kardexRepository,
+            ISupplyRequestRepository supplyRequestsRepository,
+            IInventoryEntriesRepository inventoryEntriesRepository,
+            IReasonsInventoryRemovalRepository reasonsInventoryRemovalRepository,
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository
@@ -165,7 +168,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Warehouse
         public IProductsRepository Products => productsRepository;
-        public IKardexRepository Kardex => kardexRepository;
         public IWarehousesRepository Warehouses => warehouseRepository;
         public IWarehouseCapacityRepository WarehouseCapacities => warehouseCapacityRepository;
         public ISectionCapacityRepository SectionCapacities => sectionCapacityRepository;
@@ -218,6 +220,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IPurchaseRequestsReviewedManagementRepository PurchaseRequestsReviewedManagement => purchaseRequestsReviewedManagementRepository;
         public ISupplierPaymentMethodRepository SupplierPaymentMethods => supplierPaymentMethodRepository;
         public IServicesOrdersRequisitionsRepository ServicesOrdersRequisitions => servicesOrdersRequisitionsRepository;
+
+        #endregion
+
+        #region Inventario
+        public IKardexRepository Kardex => kardexRepository;
+        public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
+        public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
+        public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
         #endregion
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias

@@ -79,8 +79,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IRacksPositionsCoordinatesRepository RacksPositionsCoordinates { get; }
         ILotCoordinateRepository LotCoordinates { get; }
 
-        IKardexRepository Kardex { get; }
-
         IOutsourcedWarehousesRepository OutsourcedWarehouses { get; }
         IReceptionEntranceRepository ReceptionEntrance { get; }
         IReceptionTransportEntranceRepository ReceptionTransportEntrance { get; }
@@ -90,6 +88,15 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISectionPositionsCoordinatesRepository SectionPositionsCoordinates { get; }
         IMachineryRepository Machineries { get; }
         IAssignmentStockPlacementsRepository AssignmentStockPlacements { get; }
+        #endregion
+
+
+        #region Inventario
+        IKardexRepository Kardex { get; }
+        ISupplyRequestRepository SupplyRequests { get; }
+        IInventoryEntriesRepository InventoryEntries { get; }
+        IReasonsInventoryRemovalRepository ReasonsInventoryRemoval { get; }
+
         #endregion
 
         #region Operations

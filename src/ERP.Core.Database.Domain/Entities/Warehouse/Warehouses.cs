@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Warehouse
 {
@@ -18,5 +19,8 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 
         // referencias de asignamiento
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
+
+        //Control de uso por inventario
+        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
     }
 }

@@ -104,9 +104,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
         #endregion
 
-        #region Inventario
+#region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
-        
+        public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
+        public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
+        public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
         #endregion
 
         #region Pendiente a analizar
@@ -235,7 +237,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<FaultStatus>("public", "fault_status_enum");
             modelBuilder.HasPostgresEnum<SanctionType>("public", "sanction_type_enum");
             modelBuilder.HasPostgresEnum<SanctionStatus>("public", "sanction_status_enum");
+            modelBuilder.HasPostgresEnum<KardexType>("public", "kardex_type_enum");
             modelBuilder.HasPostgresEnum<KardexMovementType>("public", "kardex_movement_type_enum");
+            modelBuilder.HasPostgresEnum<OutflowStatus>("public", "outflow_status_enum");
+            modelBuilder.HasPostgresEnum<EntryStatus>("public", "entry_status_enum");
+            modelBuilder.HasPostgresEnum<EntryType>("public", "entry_type_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

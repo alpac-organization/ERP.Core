@@ -98,6 +98,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .IsUnique()
                 .HasDatabaseName("IX_collaborators_collaborator_code");
 
+            builder.Property(e => e.IsTimeClockExempt)
+                .HasColumnName("is_time_clock_exempt")
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")

@@ -7,6 +7,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         public string GenerateUsername(string subject);
         public string GenerateModuleCode(string subject);
         public string GeneratePositionCode(string lotCode, int row, int column);
+        public string GenerateNumericCode(string? lastCode);
 
         public Task<(bool IsSuccess, string Code)> GenerateUniqueCodeToServiceOrder();
         public Task<(bool IsSuccess, string Code)> GenerateUniqueOperationalOrderCodeAsync();

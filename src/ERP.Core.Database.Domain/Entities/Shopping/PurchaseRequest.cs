@@ -3,6 +3,7 @@ using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
@@ -120,7 +121,10 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// Relaciones Generales de los item solicitados.
         /// </summary>
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
-        public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];        
+        public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];  
+
+        //Inventario
+        public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = default!;      
     }
 
     public class PurchaseRequestAdditionalData
