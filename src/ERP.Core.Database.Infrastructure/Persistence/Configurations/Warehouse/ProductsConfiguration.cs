@@ -42,6 +42,10 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("category_id")
             .IsRequired();
 
+        builder.Property(p => p.BranchId)
+            .HasColumnName("branch_id")
+            .IsRequired();
+
         builder.Property(p => p.UnitMeasureId)
             .HasColumnName("unit_measure_id")
             .IsRequired();

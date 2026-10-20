@@ -10,7 +10,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 
 namespace ERP.Core.Database.Infrastructure.Persistence
 {
-    public class UnitOfWork(
+    public partial class UnitOfWork(
             ErpDbContext _context,
             ICompaniesRepository companiesRepository,
             IModulesRepository modulesRepository,

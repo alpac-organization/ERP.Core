@@ -1879,8 +1879,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
+                    b.Property<Guid>("CostCenterId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Observations")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ReasonsInventoryRemovalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SupplyRequestId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("WorkAreaId")
                         .HasColumnType("uuid");
@@ -1888,6 +1900,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("CostCenterId");
+
+                    b.HasIndex("ReasonsInventoryRemovalId");
+
+                    b.HasIndex("SupplyRequestId");
 
                     b.HasIndex("WorkAreaId");
 
@@ -5699,11 +5717,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("has_guarantee");
 
+                    b.Property<decimal>("Imi")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("imi");
+
                     b.Property<bool>("InventoryAvailable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("inventory_available");
+
+                    b.Property<decimal>("Ir")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("ir");
 
                     b.Property<bool>("IsAcceptedForPurchase")
                         .ValueGeneratedOnAdd()
@@ -6491,6 +6523,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("product_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
@@ -6536,6 +6572,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("unit_measure_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.HasIndex("CategoryId");
 
@@ -7388,6 +7426,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ReasonsInventoryRemoval", "ReasonsInventoryRemoval")
+                        .WithMany()
+                        .HasForeignKey("ReasonsInventoryRemovalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", "SupplyRequest")
+                        .WithMany()
+                        .HasForeignKey("SupplyRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("InventoryOutputs")
                         .HasForeignKey("WorkAreaId")
@@ -7395,6 +7451,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Branch");
+
+                    b.Navigation("CostCenter");
+
+                    b.Navigation("ReasonsInventoryRemoval");
+
+                    b.Navigation("SupplyRequest");
 
                     b.Navigation("WorkArea");
                 });
@@ -8558,6 +8620,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
@@ -8569,6 +8637,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("UnitMeasureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Branch");
 
                     b.Navigation("Category");
 
