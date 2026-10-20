@@ -28,5 +28,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public string Evidence { get; set; } = "{}";
 
       public virtual ICollection<DisciplinarySanction> Sanctions { get; set; } = [];
+      public virtual ICollection<Absence> Absences { get; set; } = [];
    }
 }

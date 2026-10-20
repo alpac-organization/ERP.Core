@@ -112,7 +112,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IReasonsInventoryRemovalRepository reasonsInventoryRemovalRepository,
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
-            IDisciplinarySanctionsRepository disciplinarySanctionsRepository
+            IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
+            IAbsencesRepository absencesRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -236,6 +237,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IFaultCatalogRepository FaultCatalogs => faultCatalogRepository;
         public IDisciplinaryFaultsRepository DisciplinaryFaults => disciplinaryFaultsRepository;
         public IDisciplinarySanctionsRepository DisciplinarySanctions => disciplinarySanctionsRepository;
+        #endregion
+
+        #region Nomina: Control de Ausencias
+        public IAbsencesRepository Absences => absencesRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
