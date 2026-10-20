@@ -960,44 +960,44 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #endregion
 
-        // #region Inventory
+        #region Inventory
 
-        // // Generar code para solicitudes pendientes de ingreso
-        // public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default)
-        // {
-        //     string prefix = $"{Branch}-In-";
+        // Generar code para solicitudes pendientes de ingreso
+        public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default)
+        {
+            string prefix = $"{Branch}-In-";
 
-        //     var existingCodes = await _unitOfWork..Entities
-        //         .AsNoTracking()
-        //         .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
-        //         .OrderByDescending(re => re.CreatedAt)
-        //         .ThenByDescending(re => re.ReceptionCode!.Length)
-        //         .ThenByDescending(re => re.ReceptionCode)
-        //         .Select(re => re.ReceptionCode)
-        //         .Take(10)
-        //         .ToListAsync(ct);
+            var existingCodes = await _unitOfWork.InventoryEntries.Entities
+                .AsNoTracking()
+                .Where(re => !string.IsNullOrEmpty(re.Code))
+                .OrderByDescending(re => re.CreatedAt)
+                .ThenByDescending(re => re.Code!.Length)
+                .ThenByDescending(re => re.Code)
+                .Select(re => re.Code)
+                .Take(10)
+                .ToListAsync(ct);
 
-        //     return BuildSequenceCode(prefix, existingCodes);
-        // }
+            return BuildSequenceCode(prefix, existingCodes);
+        }
 
-        // // Generar code para solicitudes pendientes de salida
-        // public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default)
-        // {
-        //     string prefix = $"{Branch}-Out-";
+        // Generar code para solicitudes pendientes de salida
+        public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default)
+        {
+            string prefix = $"{Branch}-Out-";
 
-        //     var existingCodes = await _unitOfWork..Entities
-        //         .AsNoTracking()
-        //         .Where(re => !string.IsNullOrEmpty(re.ReceptionCode))
-        //         .OrderByDescending(re => re.CreatedAt)
-        //         .ThenByDescending(re => re.ReceptionCode!.Length)
-        //         .ThenByDescending(re => re.ReceptionCode)
-        //         .Select(re => re.ReceptionCode)
-        //         .Take(10)
-        //         .ToListAsync(ct);
+            var existingCodes = await _unitOfWork.InventoryOutputs.Entities
+                .AsNoTracking()
+                .Where(re => !string.IsNullOrEmpty(re.Code))
+                .OrderByDescending(re => re.CreatedAt)
+                .ThenByDescending(re => re.Code!.Length)
+                .ThenByDescending(re => re.Code)
+                .Select(re => re.Code)
+                .Take(10)
+                .ToListAsync(ct);
 
-        //     return BuildSequenceCode(prefix, existingCodes);
+            return BuildSequenceCode(prefix, existingCodes);
 
-        // }
-        // #endregion Inventory
+        }
+        #endregion Inventory
     }
 }
