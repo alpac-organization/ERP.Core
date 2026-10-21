@@ -56,11 +56,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            builder.HasOne(ci => ci.Branch)
-                .WithMany(cb => cb.CreditInformation)
-                .HasForeignKey(ci => ci.BranchId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasIndex(ci => ci.BranchId)
                 .HasDatabaseName("ix_customer_credit_information_branch_id");
 

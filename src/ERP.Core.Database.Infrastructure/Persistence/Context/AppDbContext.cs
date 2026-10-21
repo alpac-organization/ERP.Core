@@ -131,7 +131,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Invoice> Invoices => Set<Invoice>();
 
         public DbSet<Customers> Customers => Set<Customers>();
-        public DbSet<CustomerBranch> CustomerBranches => Set<CustomerBranch>();
         public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
 
         public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
