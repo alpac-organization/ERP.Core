@@ -97,7 +97,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IOperationalOrdersRepository operationalOrdersRepository,
             IOperationalServicesRepository operationalServicesRepository,
             IServicesOrdersRepository servicesOrdersRepository,
-            ICustomerBranchesRepository customerBranchesRepository,
             ICustomerCreditInformationsRepository customerCreditInformationsRepository,
             ISupplierPaymentMethodRepository supplierPaymentMethodRepository,
             IAssignmentsMachineryRepository assignmentsMachineryRepository,
@@ -200,7 +199,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IOperationalOrdersRepository OperationalOrders => operationalOrdersRepository;
         public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
-        public ICustomerBranchesRepository CustomerBranches => customerBranchesRepository;
         public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;

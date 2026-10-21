@@ -15,6 +15,5 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public CreditStatus CreditStatus { get; set; }
 
         public Guid BranchId { get; set; }
-        public virtual CustomerBranch Branch { get; set; } = default!;
     }
 }

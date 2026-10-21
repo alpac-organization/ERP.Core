@@ -194,7 +194,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IOperationalOrdersRepository, OperationalOrdersRepository>();
             services.AddScoped<IOperationalServicesRepository, OperationalServicesRepository>();
             services.AddScoped<IServicesOrdersRepository, ServicesOrdersRepository>();
-            services.AddScoped<ICustomerBranchesRepository, CustomerBranchesRepository>();
             services.AddScoped<ICustomerCreditInformationsRepository, CustomerCreditInformationsRepository>();
             services.AddScoped<ISuppliersRepository, SuppliersRepository>();
             services.AddScoped<ISuppliersDetailsRepository, SuppliersDetailsRepository>();
