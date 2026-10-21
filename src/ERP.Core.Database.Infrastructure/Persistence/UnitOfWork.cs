@@ -107,6 +107,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IKardexRepository kardexRepository,
             ISupplyRequestRepository supplyRequestsRepository,
             IInventoryEntriesRepository inventoryEntriesRepository,
+            IProductStockRepository productStocksRepository,
             IInventoryOutputsRepository inventoryOutputsRepository,
             IReasonsInventoryRemovalRepository reasonsInventoryRemovalRepository,
             IFaultCatalogRepository faultCatalogRepository,
@@ -227,6 +228,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IKardexRepository Kardex => kardexRepository;
         public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
         public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
+        public IProductStockRepository ProductStocks => productStocksRepository;
         public IInventoryOutputsRepository InventoryOutputs => inventoryOutputsRepository;
         public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
         #endregion Inventario

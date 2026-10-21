@@ -1,0 +1,58 @@
+using ERP.Core.Database.Domain.Entities.Inventory;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
+{
+    public class ProductStockConfiguration : IEntityTypeConfiguration<ProductStock>
+    {
+        public void Configure(EntityTypeBuilder<ProductStock> builder)
+        {
+            builder.ToTable("product_stock");
+
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Id)
+                .HasColumnName("product_stock_id")
+                .HasDefaultValueSql("gen_random_uuid()")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .IsRequired();
+
+            builder.Property(e => e.AvailableQuantity)
+                .HasColumnName("available_quantity")
+                .IsRequired();
+
+            builder.Property(e => e.MinimumStock)
+                .HasColumnName("minimum_stock")
+                .IsRequired();
+
+            builder.Property(e => e.MaximumStock)
+                .HasColumnName("maximum_stock");
+
+            builder.Property(e => e.ProductId)
+                .HasColumnName("product_id")
+                .IsRequired();
+
+            builder.Property(e => e.CostCenterId)
+                .HasColumnName("cost_center_id");
+
+            builder.HasOne(e => e.Product)
+                .WithMany()
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.CostCenter)
+                .WithMany()
+                .HasForeignKey(e => e.CostCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(e => new { e.ProductId, e.CostCenterId })
+                .HasDatabaseName("ux_product_stock_product_costcenter");
+        }
+    }
+}

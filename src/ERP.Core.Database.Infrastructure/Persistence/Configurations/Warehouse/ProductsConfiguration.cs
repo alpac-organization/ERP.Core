@@ -43,6 +43,10 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("category_id")
             .IsRequired();
 
+        builder.Property(p => p.CostCenterId)
+            .HasColumnName("cost_center_id")
+            .IsRequired(false);
+
         builder.Property(p => p.BranchId)
             .HasColumnName("branch_id")
             .IsRequired();

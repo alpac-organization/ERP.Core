@@ -3,6 +3,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -31,6 +32,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
 
         //Inventario
+        public virtual ICollection<Product> Products { get; set; } = [];
         public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
         public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = [];
         public virtual ICollection<InventoryOutputs> InventoryOutputs { get; set; } = [];
