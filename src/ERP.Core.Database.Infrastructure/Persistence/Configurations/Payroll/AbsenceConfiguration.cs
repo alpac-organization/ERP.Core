@@ -35,13 +35,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.Property(e => e.Status)
             .HasColumnName("status")
             .HasColumnType("absence_status_enum")
-            .HasDefaultValue(AbsenceStatus.Pending)
+            .HasDefaultValueSql("'pending'::absence_status_enum")
+            .HasSentinel(AbsenceStatus.Pending)
             .IsRequired();
 
          builder.Property(e => e.Source)
             .HasColumnName("source")
             .HasColumnType("absence_source_enum")
-            .HasDefaultValue(AbsenceSource.BiometricClock)
+            .HasDefaultValueSql("'biometric_clock'::absence_source_enum")
+            .HasSentinel(AbsenceSource.BiometricClock)
             .IsRequired();
 
          builder.Property(e => e.Reason)

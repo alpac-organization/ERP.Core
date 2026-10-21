@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261020224348_AgregarTablaAbsence")]
-    partial class AgregarTablaAbsence
+    [Migration("20261021144504_AgregarCorreccionEnumsTablaAusencias")]
+    partial class AgregarCorreccionEnumsTablaAusencias
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3122,14 +3122,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<int>("Source")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("absence_source_enum")
-                        .HasDefaultValue(2)
-                        .HasColumnName("source");
+                        .HasColumnName("source")
+                        .HasDefaultValueSql("'biometric_clock'::absence_source_enum");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("absence_status_enum")
-                        .HasDefaultValue(1)
-                        .HasColumnName("status");
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'::absence_status_enum");
 
                     b.Property<decimal>("TravelExpensesDeduction")
                         .ValueGeneratedOnAdd()
