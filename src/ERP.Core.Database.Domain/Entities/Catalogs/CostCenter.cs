@@ -1,8 +1,9 @@
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 //Centros de costos de las areas de trabajo
 namespace ERP.Core.Database.Domain.Entities.Catalogs
@@ -25,6 +26,8 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
+        public virtual ICollection<Product> Products { get; set; } = [];
         public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
+
     }
 }

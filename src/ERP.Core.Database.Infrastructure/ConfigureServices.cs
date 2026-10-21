@@ -210,6 +210,7 @@ namespace ERP.Core.Database.Infrastructure
 
             // Inventario
             services.AddScoped<IKardexRepository, KardexRepository>();
+            services.AddScoped<IProductStockRepository, ProductStockRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();

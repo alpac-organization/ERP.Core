@@ -103,16 +103,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Racks> Racks => Set<Racks>();
         public DbSet<RackCapacity> RackCapacities => Set<RackCapacity>();
         public DbSet<RackPositions> RackPositions => Set<RackPositions>();
-        public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
         public DbSet<RacksCoordinates> RacksCoordinates => Set<RacksCoordinates>();
+        public DbSet<RacksPositionsCoordinates> RacksPositionsCoordinates => Set<RacksPositionsCoordinates>();
+
         #endregion
 
-#region Inventario
+        #region Inventario
         public DbSet<Kardex> Kardex => Set<Kardex>();
+        public DbSet<ProductStock> ProductStocks => Set<ProductStock>();
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
+        
         #endregion
 
         #region Pendiente a analizar

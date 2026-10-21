@@ -96,6 +96,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISupplyRequestRepository SupplyRequests { get; }
         IInventoryEntriesRepository InventoryEntries { get; }
         IInventoryOutputsRepository InventoryOutputs { get; }
+        IProductStockRepository ProductStocks { get; }
         IReasonsInventoryRemovalRepository ReasonsInventoryRemoval { get; }
 
         #endregion
