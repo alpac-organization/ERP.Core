@@ -6,11 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregarTablaAbsence : Migration
+    public partial class AgregarCorreccionEnumsTablaAusencias : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_products_branches_branch_id",
+                schema: "public",
+                table: "products");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.absence_source_enum", "manual,biometric_clock")
                 .Annotation("Npgsql:Enum:public.absence_status_enum", "pending,applied,cancelled")
@@ -161,6 +166,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
+            migrationBuilder.AlterColumn<Guid>(
+                name: "branch_id",
+                schema: "public",
+                table: "products",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+                oldClrType: typeof(Guid),
+                oldType: "uuid",
+                oldNullable: true);
+
             migrationBuilder.CreateTable(
                 name: "absences",
                 schema: "public",
@@ -169,8 +185,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     absence_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     collaborator_id = table.Column<Guid>(type: "uuid", nullable: false),
                     date = table.Column<DateOnly>(type: "date", nullable: false),
-                    status = table.Column<int>(type: "absence_status_enum", nullable: false, defaultValue: 1),
-                    source = table.Column<int>(type: "absence_source_enum", nullable: false, defaultValue: 2),
+                    status = table.Column<int>(type: "absence_status_enum", nullable: false, defaultValueSql: "'pending'::absence_status_enum"),
+                    source = table.Column<int>(type: "absence_source_enum", nullable: false, defaultValueSql: "'biometric_clock'::absence_source_enum"),
                     reason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     registered_by = table.Column<Guid>(type: "uuid", nullable: false),
                     reviewed_by = table.Column<Guid>(type: "uuid", nullable: true),
@@ -267,11 +283,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 schema: "public",
                 table: "absences",
                 column: "status");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_products_branches_branch_id",
+                schema: "public",
+                table: "products",
+                column: "branch_id",
+                principalSchema: "public",
+                principalTable: "branches",
+                principalColumn: "branch_id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_products_branches_branch_id",
+                schema: "public",
+                table: "products");
+
             migrationBuilder.DropTable(
                 name: "absences",
                 schema: "public");
@@ -425,6 +456,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.user_type_enum", "standard_user,employee_self_service")
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "branch_id",
+                schema: "public",
+                table: "products",
+                type: "uuid",
+                nullable: true,
+                oldClrType: typeof(Guid),
+                oldType: "uuid");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_products_branches_branch_id",
+                schema: "public",
+                table: "products",
+                column: "branch_id",
+                principalSchema: "public",
+                principalTable: "branches",
+                principalColumn: "branch_id");
         }
     }
 }
