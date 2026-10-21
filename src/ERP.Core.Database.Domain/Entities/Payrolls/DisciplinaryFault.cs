@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
@@ -18,6 +19,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public FaultStatus Status { get; set; }
 
       public Guid RegisteredBy { get; set; }
+      public virtual User User { get; set; } = null!;
+
       public Guid? ParentFaultId { get; set; }
       public virtual DisciplinaryFault? ParentFault { get; set; }
 

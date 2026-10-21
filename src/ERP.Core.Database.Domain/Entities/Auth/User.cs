@@ -5,6 +5,7 @@ using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Inventory;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -60,5 +61,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
         public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
+
+        // Faltas Disciplinarias
+        public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];
     }
 }

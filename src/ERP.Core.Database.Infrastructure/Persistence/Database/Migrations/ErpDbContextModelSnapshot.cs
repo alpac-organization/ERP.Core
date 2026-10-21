@@ -3629,6 +3629,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("ParentFaultId");
 
+                    b.HasIndex("RegisteredBy");
+
                     b.ToTable("disciplinary_faults", "public");
                 });
 
@@ -7999,11 +8001,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("ParentFaultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany("DisciplinaryFaults")
+                        .HasForeignKey("RegisteredBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Collaborator");
 
                     b.Navigation("FaultCatalog");
 
                     b.Navigation("ParentFault");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
@@ -8935,6 +8945,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentCollaborators");
 
                     b.Navigation("AssignmentsMachineries");
+
+                    b.Navigation("DisciplinaryFaults");
 
                     b.Navigation("Kardices");
 
