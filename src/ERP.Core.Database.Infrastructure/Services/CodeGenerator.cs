@@ -49,7 +49,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         public string GenerateNumericCode(string? lastCode)
         {
             if (string.IsNullOrWhiteSpace(lastCode)) return "1";
-            
+
             if (!lastCode.All(char.IsDigit))
                 return "";
 
@@ -1021,5 +1021,26 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         }
         #endregion Inventory
+
+        #region Customers
+        public async Task<(bool IsSuccess, string Code)> GenerateCodeToCustomers(string Branch, CancellationToken ct = default)
+        {
+            string prefix = $"CUS-{Branch}-";
+
+            var existingCodes = await _unitOfWork.Customers.Entities
+                .AsNoTracking()
+                .Where(re => !string.IsNullOrEmpty(re.CIFCode))
+                .OrderByDescending(re => re.CreatedAt)
+                .ThenByDescending(re => re.CIFCode!.Length)
+                .ThenByDescending(re => re.CIFCode)
+                .Select(re => re.CIFCode)
+                .Take(10)
+                .ToListAsync(ct);
+
+            return BuildSequenceCode(prefix, existingCodes);
+
+        }
+
+        #endregion Customers
     }
 }

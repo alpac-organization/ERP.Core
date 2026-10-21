@@ -13,7 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
         public bool IsActive { get; set; }
 
         public string? LegalName { get; set; }
-        public string? Cif { get; set; }
+        public string? CIFCode { get; set; }
         public string? IdentificationNumber { get; set; }
 
         public CustomerType CustomerType { get; set; }
