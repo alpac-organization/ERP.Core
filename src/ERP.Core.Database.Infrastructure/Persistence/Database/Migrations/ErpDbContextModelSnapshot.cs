@@ -2021,28 +2021,45 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_stock_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<int>("AvailableQuantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("available_quantity");
+
+                    b.Property<Guid>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
                     b.Property<int?>("MaximumStock")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("maximum_stock");
 
                     b.Property<int>("MinimumStock")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("minimum_stock");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("CostCenterId");
 
-                    b.ToTable("ProductStock", "public");
+                    b.HasIndex("ProductId", "CostCenterId")
+                        .HasDatabaseName("ux_product_stock_product_costcenter");
+
+                    b.ToTable("product_stock", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ReasonsInventoryRemoval", b =>
@@ -2533,76 +2550,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("AssignmentId");
 
                     b.ToTable("codes", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_branch_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("address");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("code");
-
-                    b.Property<string>("Contact")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("contact");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_id");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("email");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsMainBranch")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_main_branch");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("phone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_customer_branches_customer_id");
-
-                    b.ToTable("customer_branches", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
@@ -6663,6 +6610,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
+                    b.Property<Guid?>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -6706,6 +6657,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ux_products_code");
+
+                    b.HasIndex("CostCenterId");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -7624,11 +7577,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CostCenter");
 
                     b.Navigation("Product");
                 });
@@ -7820,28 +7781,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Assignment");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
-                        .WithMany("CustomerBranches")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", "Branch")
-                        .WithMany("CreditInformation")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
@@ -8779,7 +8718,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -8790,6 +8729,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany("Products")
+                        .HasForeignKey("CostCenterId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
                         .WithMany("Products")
                         .HasForeignKey("UnitMeasureId")
@@ -8799,6 +8742,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("Category");
+
+                    b.Navigation("CostCenter");
 
                     b.Navigation("UnitMeasure");
                 });
@@ -9043,6 +8988,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Payrolls");
 
+                    b.Navigation("Products");
+
                     b.Navigation("PurchaseRequests");
 
                     b.Navigation("SupplyRequests");
@@ -9088,6 +9035,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
                 {
                     b.Navigation("Kardices");
+
+                    b.Navigation("Products");
 
                     b.Navigation("PurchaseRequests");
 
@@ -9204,15 +9153,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Codes");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerBranch", b =>
-                {
-                    b.Navigation("CreditInformation");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
-                    b.Navigation("CustomerBranches");
-
                     b.Navigation("OperationalOrders");
                 });
 
