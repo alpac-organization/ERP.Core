@@ -71,7 +71,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_usage_type_enum", new[] { "insumo", "operational_use", "both" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_usage_type_enum", new[] { "administrative", "operational" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled", "revision", "finished" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_status_enum", new[] { "available", "occupied", "under_maintenance", "blocked", "reserved" });
@@ -6691,7 +6691,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("product_usage_type_enum")
                         .HasColumnName("product_usage_type")
-                        .HasDefaultValueSql("'insumo'::product_usage_type_enum");
+                        .HasDefaultValueSql("'administrative'::product_usage_type_enum");
 
                     b.Property<Guid>("UnitMeasureId")
                         .HasColumnType("uuid")
