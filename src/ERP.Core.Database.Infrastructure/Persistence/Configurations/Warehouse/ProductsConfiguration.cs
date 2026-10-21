@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse;
 
@@ -58,7 +59,8 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.ProductUsageType)
             .HasColumnName("product_usage_type")
             .HasColumnType("product_usage_type_enum")
-            .HasDefaultValueSql("'insumo'::product_usage_type_enum")
+            .HasDefaultValueSql("'administrative'::product_usage_type_enum")
+            .HasSentinel(ProductUsageType.Administrative)            
             .IsRequired();
 
         builder.Property(e => e.CreatedAt)
