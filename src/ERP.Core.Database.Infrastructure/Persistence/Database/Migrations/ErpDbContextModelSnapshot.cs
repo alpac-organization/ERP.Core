@@ -2618,10 +2618,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<string>("Cif")
+                    b.Property<string>("CIFCode")
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("cif");
+                        .HasColumnName("cif_code");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid")
