@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;

@@ -23,7 +23,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
 
         //Inventario
-        public virtual RequisitionOperationalAreasPermited RequisitionPermited { get; set; } = default!;
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
         public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
         public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = [];

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
 {
@@ -35,6 +36,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasDefaultValue(true)
                 .IsRequired();
 
+            builder.Property(p => p.TypePermited)
+                .HasColumnName("type_permited")
+                .HasColumnType("product_usage_type_enum")
+                .HasDefaultValueSql("'administrative'::product_usage_type_enum")
+                .HasSentinel(ProductUsageType.Administrative)
+                .IsRequired();
+
             builder.Property(e => e.AreaName)
                 .HasColumnName("area_name")
                 .HasMaxLength(150);
@@ -56,8 +64,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Area)
-                .WithOne(e => e.RequisitionPermited)
-                .HasForeignKey<RequisitionOperationalAreasPermited>(e => e.AreaId)
+                .WithMany()
+                .HasForeignKey(e => e.AreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Company)
