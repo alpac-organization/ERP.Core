@@ -2033,8 +2033,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("cost_center_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
@@ -7580,13 +7587,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
-                        .WithMany()
+                        .WithMany("ProductStocks")
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductStocks")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -9048,6 +9055,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("Kardices");
 
+                    b.Navigation("ProductStocks");
+
                     b.Navigation("Products");
 
                     b.Navigation("PurchaseRequests");
@@ -9338,6 +9347,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Warehouse.Product", b =>
                 {
                     b.Navigation("Kardices");
+
+                    b.Navigation("ProductStocks");
 
                     b.Navigation("PurchaseOrderItems");
 
