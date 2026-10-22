@@ -1067,9 +1067,6 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Select(product => product.Code)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (string.IsNullOrEmpty(lastProductCode))
-                return (false, null);
-
             var nextNumber = 1;
 
             if (lastProductCode is not null)
