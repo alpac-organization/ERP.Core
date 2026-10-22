@@ -49,6 +49,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IPermitApplicationsPendingRepository permitApplicationsPendingRepository,
             IHolidaysRepository holidaysRepository,
             IWorkAreasRepository workAreasRepository,
+            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
             ICostCentersRepository costCentersRepository,
             IJobPositionsRepository jobPositionsRepository,
             IInssAccountingInformationRepository inssAccountingInformationRepository,
@@ -158,6 +159,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region Catalogos
         public IHolidaysRepository Holidays => holidaysRepository;
         public IWorkAreasRepository WorkAreas => workAreasRepository;
+        public IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited => requisitionOperationalAreasPermitedRepository;
         public ICostCentersRepository CostCenters => costCentersRepository;
         public IJobPositionsRepository JobPositions => jobPositionsRepository;
         public ITypesAccountingPayrollRepository TypesAccountingPayroll => typesAccountingPayrollRepository;

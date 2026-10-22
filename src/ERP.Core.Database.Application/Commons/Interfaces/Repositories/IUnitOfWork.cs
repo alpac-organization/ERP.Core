@@ -48,6 +48,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #region Catalogos
         IHolidaysRepository Holidays { get; }
         IWorkAreasRepository WorkAreas { get; }
+        IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited { get; }
         ICostCentersRepository CostCenters { get; }
         ITypesIncomeRepository TypesIncome { get; }
         IJobPositionsRepository JobPositions { get; }

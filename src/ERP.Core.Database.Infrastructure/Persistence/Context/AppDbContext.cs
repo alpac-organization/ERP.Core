@@ -65,6 +65,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Holidays> Holidays => Set<Holidays>();
         public DbSet<WorkArea> WorkAreas => Set<WorkArea>();
+        public DbSet<RequisitionOperationalAreasPermited> RequisitionOperationalAreasPermits => Set<RequisitionOperationalAreasPermited>();
         public DbSet<WarehouseLocation> WarehouseLocations => Set<WarehouseLocation>();
         public DbSet<CostCenter> CostCenters => Set<CostCenter>();
         public DbSet<JobPosition> JobPositions => Set<JobPosition>();
