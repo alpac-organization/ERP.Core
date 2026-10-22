@@ -90,6 +90,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasForeignKey(e => e.FaultCatalogId)
             .OnDelete(DeleteBehavior.Restrict);
 
+         builder.HasOne(e => e.User)
+            .WithMany(c => c.DisciplinaryFaults)
+            .HasForeignKey(e => e.RegisteredBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
          builder.HasOne(e => e.ParentFault)
             .WithMany()
             .HasForeignKey(e => e.ParentFaultId)
