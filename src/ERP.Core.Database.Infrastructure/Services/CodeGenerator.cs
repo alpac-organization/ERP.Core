@@ -1028,7 +1028,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Select(branch => branch.BranchCode)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (!string.IsNullOrEmpty(branchCode))
+            if (string.IsNullOrEmpty(branchCode))
             {
                 return (false, null);
             }
@@ -1039,7 +1039,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Select(area => area.WorkAreaCode)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (!string.IsNullOrEmpty(workAreaCode))
+            if (string.IsNullOrEmpty(workAreaCode))
             {
                 return (false, null);
             }
@@ -1050,7 +1050,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .Select(category => category.Code)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (!string.IsNullOrEmpty(categoryCode))
+            if (string.IsNullOrEmpty(categoryCode))
             {
                 return (false, null);
             }
