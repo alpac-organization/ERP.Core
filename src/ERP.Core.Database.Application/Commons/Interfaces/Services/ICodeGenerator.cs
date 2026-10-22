@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Application.Commons.Interfaces.Services
@@ -34,6 +35,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default);
 
         Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(Guid branchId, Guid categoryId, CancellationToken ct = default);
+        Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default);
 
         Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null);
         Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null);

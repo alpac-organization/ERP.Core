@@ -1,25 +1,24 @@
+using ZXing;
+using ZXing.Common;
+
 using QRCoder;
+using SkiaSharp;
 using NanoidDotNet;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
+using ERP.Core.Application.Commons.Interfaces.AWS;
+
+using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Infrastructure.Persistence.Context;
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
-using ERP.Core.Database.Domain.Enums;
-using ERP.Core.Application.Commons.Interfaces.AWS;
-using ERP.Core.Database.Infrastructure.Persistence.Context;
+using ERP.Core.Database.Domain.Entities.Auth;
 
-using ZXing;
-using ZXing.Common;
-using SkiaSharp;
 
 namespace ERP.Core.Database.Infrastructure.Services
 {
-    public partial class CodeGenerator(
-        IUnitOfWork _unitOfWork,
-        ErpDbContext _dbContext,
-        IS3StorageService _s3StorageService,
-        IHttpClientFactory _httpClientFactory) : ICodeGenerator
+    public partial class CodeGenerator(IUnitOfWork _unitOfWork, ErpDbContext _dbContext, IS3StorageService _s3StorageService, IHttpClientFactory _httpClientFactory) : ICodeGenerator
     {
         [GeneratedRegex(@"[^a-zA-Z]")]
         private static partial Regex GenerateModuleCode();
@@ -1020,6 +1019,69 @@ namespace ERP.Core.Database.Infrastructure.Services
             return BuildSequenceCode(prefix, existingCodes);
 
         }
+
+        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default)
+        {   
+            var branchCode = await _unitOfWork.Branches.Entities
+                .Where(branch => branch.IsActive)
+                .Where(branch => branch.Id == profile.BranchId)
+                .Select(branch => branch.BranchCode)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (!string.IsNullOrEmpty(branchCode))
+            {
+                return (false, null);
+            }
+
+            var workAreaCode = await _unitOfWork.WorkAreas.Entities
+                .Where(area => area.IsActive)
+                .Where(area => area.Id == profile.AreaId)
+                .Select(area => area.WorkAreaCode)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (!string.IsNullOrEmpty(workAreaCode))
+            {
+                return (false, null);
+            }
+
+            var categoryCode = await _unitOfWork.CategoryProducts.Entities
+                .Where(category => category.IsActive)
+                .Where(category => category.Id == categoryProductId)
+                .Select(category => category.Code)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (!string.IsNullOrEmpty(categoryCode))
+            {
+                return (false, null);
+            }
+
+            var codePrefix = $"{branchCode}-{workAreaCode}-{categoryCode}-";
+            
+            var lastProductCode = await _unitOfWork.Products.Entities
+                .Include(product => product.CostCenter)
+                .Where(product => product.BranchId == profile.BranchId)
+                .Where(product => product.CostCenterId == profile.CostCenterId)
+                .Where(product => product.CostCenter.WorkAreaId == profile.AreaId)
+                .Where(product => product.ProductUsageType == ProductUsageType.Operational)
+                .OrderByDescending(product => product.CreatedAt)
+                .Select(product => product.Code)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (string.IsNullOrEmpty(lastProductCode))
+                return (false, null);
+
+            var nextNumber = 1;
+
+            if (lastProductCode is not null)
+            {
+                var lastSegment = lastProductCode[codePrefix.Length..];
+                if (int.TryParse(lastSegment, out var lastNumber))
+                    nextNumber = lastNumber + 1;
+            }
+
+            return (true, $"{codePrefix}{nextNumber:D3}");
+        }
+
         #endregion Inventory
 
         #region Customers
