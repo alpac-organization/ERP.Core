@@ -2618,10 +2618,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("customer_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<string>("Cif")
+                    b.Property<string>("CIFCode")
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("cif");
+                        .HasColumnName("cif_code");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid")
@@ -3628,6 +3628,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_disciplinary_faults_occurrence_date");
 
                     b.HasIndex("ParentFaultId");
+
+                    b.HasIndex("RegisteredBy");
 
                     b.ToTable("disciplinary_faults", "public");
                 });
@@ -7999,11 +8001,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("ParentFaultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany("DisciplinaryFaults")
+                        .HasForeignKey("RegisteredBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Collaborator");
 
                     b.Navigation("FaultCatalog");
 
                     b.Navigation("ParentFault");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
@@ -8935,6 +8945,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentCollaborators");
 
                     b.Navigation("AssignmentsMachineries");
+
+                    b.Navigation("DisciplinaryFaults");
 
                     b.Navigation("Kardices");
 

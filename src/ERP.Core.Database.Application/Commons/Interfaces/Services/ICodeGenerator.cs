@@ -40,7 +40,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null);
         Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null);
 
-        // Task<(string IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default);
-        // Task<(string IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default);
+        Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default);
+        Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default);
+
+
+        Task<(bool IsSuccess, string Code)> GenerateCodeToCustomers(string Branch, CancellationToken ct = default);
     }
 }

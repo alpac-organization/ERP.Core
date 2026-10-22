@@ -28,8 +28,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
                 .HasMaxLength(200)
                 .IsRequired(false);
 
-            builder.Property(c => c.Cif)
-                .HasColumnName("cif")
+            builder.Property(c => c.CIFCode)
+                .HasColumnName("cif_code")
                 .HasMaxLength(20)
                 .IsRequired(false);
 
