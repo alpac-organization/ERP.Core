@@ -41,13 +41,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.Property(e => e.CostCenterId)
                 .HasColumnName("cost_center_id");
 
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
+                
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
             builder.HasOne(e => e.Product)
-                .WithMany()
+                .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.CostCenter)
-                .WithMany()
+                .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
