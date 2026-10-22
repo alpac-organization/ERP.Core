@@ -1025,19 +1025,22 @@ namespace ERP.Core.Database.Infrastructure.Services
         #region Customers
         public async Task<(bool IsSuccess, string Code)> GenerateCodeToCustomers(string Branch, CancellationToken ct = default)
         {
-            string prefix = $"CUS-{Branch}-";
+            if(string.IsNullOrWhiteSpace(Branch))
+                return (false, string.Empty);
 
-            var existingCodes = await _unitOfWork.Customers.Entities
+            string prefix = $"CUS-{Branch.Trim().ToUpperInvariant()}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
+            var codesQuery = _unitOfWork.Customers.Entities
                 .AsNoTracking()
-                .Where(re => !string.IsNullOrEmpty(re.CIFCode))
-                .OrderByDescending(re => re.CreatedAt)
-                .ThenByDescending(re => re.CIFCode!.Length)
-                .ThenByDescending(re => re.CIFCode)
-                .Select(re => re.CIFCode)
-                .Take(10)
-                .ToListAsync(ct);
+                .IgnoreQueryFilters()
+                .Where(c => c.CIFCode != null && c.CIFCode.StartsWith(prefix))
+                .Select(c => (string?)c.CIFCode);
+            
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
 
-            return BuildSequenceCode(prefix, existingCodes);
+            return (true, code);  // "CUS-ALP-MGA-001"  --> Salida
 
         }
 
