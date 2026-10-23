@@ -35,8 +35,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse
             builder.Property(p => p.ProductName)
                 .HasColumnName("product_name")
                 .IsRequired();
-
+                
             builder.Property(p => p.Description)
+                .HasColumnName("description")
                 .IsRequired(false);
 
             builder.Property(p => p.CategoryId)
