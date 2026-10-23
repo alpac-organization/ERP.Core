@@ -115,7 +115,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
             IAbsencesRepository absencesRepository,
-            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository
+            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
+            ICustomerChargesRepository customerChargesRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -196,13 +197,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IMachineryRepository Machineries => machineryRepository;
         #endregion
 
-        #region Operations
+        #region  Customers
         public ICustomersRepository Customers => customersRepository;
+        public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
+        public ICustomerChargesRepository CustomerChargesRepository => customerChargesRepository;
+        #endregion Customers
+
+        #region Operations
         public IInvoicesRepository Invoices => invoicesRepository;
         public IOperationalOrdersRepository OperationalOrders => operationalOrdersRepository;
         public IOperationalServicesRepository OperationalServices => operationalServicesRepository;
         public IServicesOrdersRepository ServicesOrders => servicesOrdersRepository;
-        public ICustomerCreditInformationsRepository CustomerCreditInformations => customerCreditInformationsRepository;
         public IAssignmentCollaboratorsRepository AssignmentCollaborators => assignmentCollaboratorsRepository;
         public IAssignmentsMachineryRepository AssignmentsMachineries => assignmentsMachineryRepository;
         public IAssignmentOperationalRepository AssignmentOperationals => assignmentOperationalRepository;

@@ -117,6 +117,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #region Customers
         ICustomersRepository Customers { get; }
         ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
+        ICustomerChargesRepository CustomerChargesRepository { get; }
         #endregion Customers
 
         #region ✅ Shopping

@@ -56,12 +56,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Clients
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
-            builder.HasIndex(ci => ci.BranchId)
-                .HasDatabaseName("ix_customer_credit_information_branch_id");
+            builder.HasOne(c => c.Branch)
+                .WithMany()
+                .HasForeignKey(c => c.BranchId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(ci => new { ci.BranchId, ci.PaymentCondition })
-                .HasDatabaseName("ix_customer_credit_information_branch_payment_condition")
-                .IsUnique();
+            builder.HasOne(c => c.Customer)
+                .WithMany()
+                .HasForeignKey(c => c.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

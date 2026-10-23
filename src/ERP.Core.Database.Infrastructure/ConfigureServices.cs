@@ -240,6 +240,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
             services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
+            services.AddScoped<ICustomerChargesRepository, CustomerChargesRepository>();
             #endregion
 
             services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();

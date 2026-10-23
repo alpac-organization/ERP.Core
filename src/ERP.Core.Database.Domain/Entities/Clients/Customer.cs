@@ -25,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Clients
 
         //Operaciones activas.
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
+        public virtual ICollection<CustomerCreditInformation> CreditInformation { get; set; } = [];
     }
 }
