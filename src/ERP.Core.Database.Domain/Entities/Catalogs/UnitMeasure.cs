@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -17,6 +18,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public bool IsActive { get; set; } = true;
 
         public virtual ICollection<Product> Products { get; set; } = [];
+        public virtual ICollection<ProductStock> ProductStocks { get; set; } = [];
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
     }
 }

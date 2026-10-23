@@ -38,6 +38,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("product_id")
                 .IsRequired();
 
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("product_stock_status_enum")
+                .HasDefaultValueSql("'stable'::product_stock_status_enum")
+                .IsRequired();
+
+            builder.Property(e => e.WeightedAverageCost)
+                .HasColumnName("weightd_average_cost")
+                .HasPrecision(8, 2)
+                .IsRequired();
+
+            builder.Property(e => e.UnitMeasureId)
+                .HasColumnName("unit_measure_id")
+                .IsRequired();
+
             builder.Property(e => e.CostCenterId)
                 .HasColumnName("cost_center_id");
 
@@ -45,7 +60,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
-                
+
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
@@ -58,6 +73,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.UnitMeasure)
+                .WithMany(u => u.ProductStocks)
+                .HasForeignKey(p => p.UnitMeasureId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.HasIndex(e => new { e.ProductId, e.CostCenterId })
                 .HasDatabaseName("ux_product_stock_product_costcenter");

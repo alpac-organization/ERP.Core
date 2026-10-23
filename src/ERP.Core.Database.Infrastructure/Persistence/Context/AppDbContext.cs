@@ -115,6 +115,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
+        public DbSet<RequisitionOperationalAreasPermited> RequisitionOperationalAreasPermits => Set<RequisitionOperationalAreasPermited>();
         
         #endregion
 
@@ -250,6 +251,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<OutflowStatus>("public", "outflow_status_enum");
             modelBuilder.HasPostgresEnum<EntryStatus>("public", "entry_status_enum");
             modelBuilder.HasPostgresEnum<EntryType>("public", "entry_type_enum");
+            modelBuilder.HasPostgresEnum<ProductStockStatus>("public", "product_stock_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

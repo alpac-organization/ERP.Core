@@ -113,7 +113,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
-            IAbsencesRepository absencesRepository
+            IAbsencesRepository absencesRepository,
+            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -231,6 +232,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IProductStockRepository ProductStocks => productStocksRepository;
         public IInventoryOutputsRepository InventoryOutputs => inventoryOutputsRepository;
         public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
+        public IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited => requisitionOperationalAreasPermitedRepository;
         #endregion Inventario
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
