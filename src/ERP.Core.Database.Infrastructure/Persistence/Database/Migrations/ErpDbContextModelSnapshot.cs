@@ -71,6 +71,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_stock_status_enum", new[] { "stable", "low_balance", "empty" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_usage_type_enum", new[] { "administrative", "operational" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled", "revision", "finished" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
@@ -1440,6 +1441,74 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("racks", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RequisitionOperationalAreasPermited", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("requisition_operational_area_permitted_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("AreaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("area_id");
+
+                    b.Property<string>("AreaName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("area_name");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<string>("CompanyName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("company_name");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("SetByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("set_by_user_id");
+
+                    b.Property<string>("SetByUserName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("set_by_user_name");
+
+                    b.Property<int>("TypePermited")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("product_usage_type_enum")
+                        .HasColumnName("type_permited")
+                        .HasDefaultValueSql("'administrative'::product_usage_type_enum");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("SetByUserId");
+
+                    b.ToTable("requisition_operational_areas_permitted", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Sections", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2059,9 +2128,26 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("product_stock_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'stable'::product_stock_status_enum");
+
+                    b.Property<Guid>("UnitMeasureId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_measure_id");
+
+                    b.Property<decimal>("WeightedAverageCost")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("weightd_average_cost");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CostCenterId");
+
+                    b.HasIndex("UnitMeasureId");
 
                     b.HasIndex("ProductId", "CostCenterId")
                         .HasDatabaseName("ux_product_stock_product_costcenter");
@@ -7417,6 +7503,33 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Section");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.RequisitionOperationalAreasPermited", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("SetByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Sections", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
@@ -7598,9 +7711,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
+                        .WithMany("ProductStocks")
+                        .HasForeignKey("UnitMeasureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("CostCenter");
 
                     b.Navigation("Product");
+
+                    b.Navigation("UnitMeasure");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", b =>
@@ -9124,6 +9245,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", b =>
                 {
+                    b.Navigation("ProductStocks");
+
                     b.Navigation("Products");
 
                     b.Navigation("PurchaseRequestItems");

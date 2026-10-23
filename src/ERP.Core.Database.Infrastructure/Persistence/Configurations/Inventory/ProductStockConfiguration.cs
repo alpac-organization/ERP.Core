@@ -49,8 +49,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasPrecision(8, 2)
                 .IsRequired();
 
-            builder.Property(e => e.UnitMeasure)
-                .HasColumnName("unit_measure")
+            builder.Property(e => e.UnitMeasureId)
+                .HasColumnName("unit_measure_id")
                 .IsRequired();
 
             builder.Property(e => e.CostCenterId)
@@ -73,6 +73,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.UnitMeasure)
+                .WithMany(u => u.ProductStocks)
+                .HasForeignKey(p => p.UnitMeasureId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.HasIndex(e => new { e.ProductId, e.CostCenterId })
                 .HasDatabaseName("ux_product_stock_product_costcenter");

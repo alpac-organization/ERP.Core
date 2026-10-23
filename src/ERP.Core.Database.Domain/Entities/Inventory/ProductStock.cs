@@ -13,7 +13,8 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public int AvailableQuantity { get; set; }
         public ProductStockStatus Status { get; set; }
         public decimal WeightedAverageCost { get; set; }        // Costo promedio ponderado
-        public UnitMeasure UnitMeasure { get; set; } = default!;
+        public Guid UnitMeasureId { get; set; }
+        public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
