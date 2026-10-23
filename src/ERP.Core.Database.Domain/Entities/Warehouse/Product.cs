@@ -34,5 +34,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
 
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
+        public virtual ICollection<ProductStock> ProductStocks { get; set; } = [];
     }
 }

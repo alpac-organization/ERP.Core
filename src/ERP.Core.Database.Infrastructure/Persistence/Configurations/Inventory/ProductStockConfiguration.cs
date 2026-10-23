@@ -38,16 +38,39 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("product_id")
                 .IsRequired();
 
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("product_stock_status_enum")
+                .HasDefaultValue("'stable'::product_stock_status_enum")
+                .IsRequired();
+
+            builder.Property(e => e.WeightedAverageCost)
+                .HasColumnName("weightd_average_cost")
+                .HasPrecision(8, 2)
+                .IsRequired();
+
+            builder.Property(e => e.UnitMeasure)
+                .HasColumnName("unit_measure")
+                .IsRequired();
+
             builder.Property(e => e.CostCenterId)
                 .HasColumnName("cost_center_id");
 
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
             builder.HasOne(e => e.Product)
-                .WithMany()
+                .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.CostCenter)
-                .WithMany()
+                .WithMany(e => e.ProductStocks)
                 .HasForeignKey(e => e.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 

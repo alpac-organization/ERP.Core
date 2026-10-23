@@ -126,6 +126,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<OutflowStatus>("outflow_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryType>("entry_type_enum", "public");
+                    npgsqlOptions.MapEnum<ProductStockStatus>("product_stock_status_enum", "public");
                 })
             );
 
@@ -236,6 +237,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICodesRepository, CodesRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
+            services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
             #endregion
 
             services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();
