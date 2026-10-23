@@ -41,7 +41,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.Property(e => e.Status)
                 .HasColumnName("status")
                 .HasColumnType("product_stock_status_enum")
-                .HasDefaultValue("'stable'::product_stock_status_enum")
+                .HasDefaultValueSql("'stable'::product_stock_status_enum")
                 .IsRequired();
 
             builder.Property(e => e.WeightedAverageCost)
