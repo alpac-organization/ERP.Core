@@ -1842,6 +1842,197 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("work_areas", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.CustomerCharges", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_charges_id");
+
+                    b.Property<string>("Area")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MeasureUnitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("measure_unit_id");
+
+                    b.Property<decimal>("NIOFeeAmount")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("nio_fee_amount");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("quantity");
+
+                    b.Property<string>("ServiceDescription")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("USDFeeAmount")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("usd_fee_amount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MeasureUnitId");
+
+                    b.ToTable("customer_charges", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.CustomerCreditInformation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_credit_information_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("CreditDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("credit_days");
+
+                    b.Property<int>("CreditStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("credit_status_enum")
+                        .HasColumnName("credit_status")
+                        .HasDefaultValueSql("'active'::credit_status_enum");
+
+                    b.Property<int>("Currency")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency")
+                        .HasDefaultValueSql("'nio'::currency_enum");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CustomersId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("MaxBalance")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("max_balance");
+
+                    b.Property<int>("PaymentCondition")
+                        .HasColumnType("payment_condition_enum")
+                        .HasColumnName("payment_condition");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomersId");
+
+                    b.ToTable("customer_credit_information", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.Customers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CIFCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("cif_code");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("CustomerType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("customer_type_enum")
+                        .HasColumnName("customer_type")
+                        .HasDefaultValueSql("'juridical'::customer_type_enum");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("IdentificationNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("identification_number");
+
+                    b.Property<int>("IdentificationType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("identification_type_enum")
+                        .HasColumnName("identification_type")
+                        .HasDefaultValueSql("'ruc'::identification_type_enum");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("LegalName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("legal_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("IdentificationNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_customers_identification_number");
+
+                    b.ToTable("customers", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2643,129 +2834,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("AssignmentId");
 
                     b.ToTable("codes", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.CustomerCreditInformation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_credit_information_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("branch_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("CreditDays")
-                        .HasColumnType("integer")
-                        .HasColumnName("credit_days");
-
-                    b.Property<int>("CreditStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("credit_status_enum")
-                        .HasColumnName("credit_status")
-                        .HasDefaultValueSql("'active'::credit_status_enum");
-
-                    b.Property<int>("Currency")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("currency_enum")
-                        .HasColumnName("currency")
-                        .HasDefaultValueSql("'nio'::currency_enum");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<decimal>("MaxBalance")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("max_balance");
-
-                    b.Property<int>("PaymentCondition")
-                        .HasColumnType("payment_condition_enum")
-                        .HasColumnName("payment_condition");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId")
-                        .HasDatabaseName("ix_customer_credit_information_branch_id");
-
-                    b.HasIndex("BranchId", "PaymentCondition")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customer_credit_information_branch_payment_condition");
-
-                    b.ToTable("customer_credit_information", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("customer_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("CIFCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("cif_code");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("company_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("CustomerType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("customer_type_enum")
-                        .HasColumnName("customer_type")
-                        .HasDefaultValueSql("'juridical'::customer_type_enum");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("IdentificationNumber")
-                        .HasColumnType("text")
-                        .HasColumnName("identification_number");
-
-                    b.Property<int>("IdentificationType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("identification_type_enum")
-                        .HasColumnName("identification_type")
-                        .HasDefaultValueSql("'ruc'::identification_type_enum");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<string>("LegalName")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("legal_name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("IdentificationNumber")
-                        .IsUnique()
-                        .HasDatabaseName("ix_customers_identification_number");
-
-                    b.ToTable("customers", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Invoice", b =>
@@ -7583,6 +7651,67 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.CustomerCharges", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Clients.Customers", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
+                        .WithMany()
+                        .HasForeignKey("MeasureUnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("UnitMeasure");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.CustomerCreditInformation", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Clients.Customers", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Clients.Customers", null)
+                        .WithMany("CreditInformation")
+                        .HasForeignKey("CustomersId");
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.Customers", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("Customers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
@@ -7914,17 +8043,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Assignment");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
-                        .WithMany("Customers")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Invoice", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", "OperationalOrder")
@@ -7950,7 +8068,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Clients.Customers", "Customer")
                         .WithMany("OperationalOrders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -9272,6 +9390,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkingInformations");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Clients.Customers", b =>
+                {
+                    b.Navigation("CreditInformation");
+
+                    b.Navigation("OperationalOrders");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.Navigation("InventoryEntryItems");
@@ -9296,11 +9421,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentsMachineries");
 
                     b.Navigation("Codes");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
-                {
-                    b.Navigation("OperationalOrders");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", b =>

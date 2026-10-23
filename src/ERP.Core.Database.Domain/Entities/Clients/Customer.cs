@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Operations;
 
-namespace ERP.Core.Database.Domain.Entities.Operations
+namespace ERP.Core.Database.Domain.Entities.Clients
 {
 
     /// <summary>
@@ -24,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         //Operaciones activas.
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
+        public virtual ICollection<CustomerCreditInformation> CreditInformation { get; set; } = [];
     }
 }

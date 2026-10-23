@@ -28,6 +28,8 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 using ERP.Core.Database.Application.Commons.Interfaces.Services.WarehouseCapacities;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Clients;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Clients;
 
 
 namespace ERP.Core.Database.Infrastructure
@@ -238,6 +240,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
             services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
+            services.AddScoped<ICustomerChargesRepository, CustomerChargesRepository>();
             #endregion
 
             services.AddScoped<IFaultCatalogRepository, FaultCatalogRepository>();

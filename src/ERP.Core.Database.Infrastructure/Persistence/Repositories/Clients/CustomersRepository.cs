@@ -1,8 +1,8 @@
-using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Clients;
 using ERP.Core.Database.Infrastructure.Persistence.Context;
-using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Clients;
 
-namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations
+namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Clients
 {
     public class CustomersRepository(ErpDbContext context) : Repository<Customers>(context), ICustomersRepository
     {

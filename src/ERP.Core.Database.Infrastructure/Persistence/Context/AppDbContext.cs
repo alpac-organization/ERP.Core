@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
-using ERP.Core.Database.Domain.Entities.Inventory;
+using ERP.Core.Database.Domain.Entities.Clients;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Payrolls;
-using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
-using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Accounting;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -131,11 +132,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Codes> Codes => Set<Codes>();
         #endregion
 
+        #region Customers
+        public DbSet<Customers> Customers => Set<Customers>();
+        public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
+        public DbSet<CustomerCharges> CustomerCharges => Set<CustomerCharges>();
+        #endregion Customers
+
         #region Operaciones
         public DbSet<Invoice> Invoices => Set<Invoice>();
 
-        public DbSet<Customers> Customers => Set<Customers>();
-        public DbSet<CustomerCreditInformation> CustomerCreditInformations => Set<CustomerCreditInformation>();
 
         public DbSet<ServicesOrder> ServicesOrders => Set<ServicesOrder>();
         public DbSet<OperationalOrder> OperationalOrders => Set<OperationalOrder>();
