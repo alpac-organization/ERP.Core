@@ -1,3 +1,4 @@
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Clients;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
@@ -103,17 +104,20 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #endregion
 
         #region Operations
-        ICustomersRepository Customers { get; }
         IInvoicesRepository Invoices { get; }
         IOperationalOrdersRepository OperationalOrders { get; }
         IOperationalServicesRepository OperationalServices { get; }
         IServicesOrdersRepository ServicesOrders { get; }
-        ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
         IAssignmentCollaboratorsRepository AssignmentCollaborators { get; }
         IAssignmentsMachineryRepository AssignmentsMachineries { get; }
         IAssignmentOperationalRepository AssignmentOperationals { get; }
         ICodesRepository Codes { get; }
         #endregion
+
+        #region Customers
+        ICustomersRepository Customers { get; }
+        ICustomerCreditInformationsRepository CustomerCreditInformations { get; }
+        #endregion Customers
 
         #region ✅ Shopping
         IQuotesRepository Quotations { get; }

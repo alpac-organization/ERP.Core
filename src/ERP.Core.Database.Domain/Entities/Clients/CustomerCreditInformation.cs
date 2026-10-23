@@ -1,7 +1,7 @@
-using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Bases;
 
-namespace ERP.Core.Database.Domain.Entities.Operations
+namespace ERP.Core.Database.Domain.Entities.Clients
 {
     /// <summary>
     /// Informacion crediticia de una sucursal de cliente.

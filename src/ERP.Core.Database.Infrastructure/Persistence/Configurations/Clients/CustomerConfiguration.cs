@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Clients;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Operations
+namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Clients
 {
     public class CustomerConfiguration : IEntityTypeConfiguration<Customers>
     {

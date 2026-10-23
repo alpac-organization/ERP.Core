@@ -1,8 +1,9 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Operations;
 
-namespace ERP.Core.Database.Domain.Entities.Operations
+namespace ERP.Core.Database.Domain.Entities.Clients
 {
 
     /// <summary>

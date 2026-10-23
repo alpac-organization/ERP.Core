@@ -1,6 +1,6 @@
-using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Clients;
 
-namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations
+namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Clients
 {
     public interface ICustomerCreditInformationsRepository : IRepository<CustomerCreditInformation>
     {
