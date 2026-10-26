@@ -19,7 +19,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public TimeOnly? EndTime { get; set; }
 
         public PermitApplicationType Type { get; set; }
-
+        public PermitBeneficiaryScope BeneficiaryScope {get; set;} = PermitBeneficiaryScope.None;
+        public FamilyRelationship FamilyRelationship {get; set;} = FamilyRelationship.None;
+        public string? RelatedPersonName {get; set;} = string.Empty;
 
         [Column(TypeName = "jsonb")] 
         public string AdditionalData { get; set; } = "{}";

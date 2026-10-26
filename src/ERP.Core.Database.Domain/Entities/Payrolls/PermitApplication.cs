@@ -18,6 +18,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public PermitApplicationType Type { get; set; }
         public PermitApplicationStatus Status { get; set; }
 
+        public PermitBeneficiaryScope BeneficiaryScope {get; set;} = PermitBeneficiaryScope.None;
+
+        public FamilyRelationship FamilyRelationship {get; set;} = FamilyRelationship.None;
+
+        public string? RelatedPersonName {get; set;} = string.Empty;
+
         public bool IsWithRangeDate { get; set; }
         
 
