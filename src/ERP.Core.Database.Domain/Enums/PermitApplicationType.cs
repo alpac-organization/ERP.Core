@@ -40,6 +40,19 @@ namespace ERP.Core.Database.Domain.Enums
         /// <summary>
         /// Solicitud de pago correspondiente al saldo de vacaciones acumuladas del colaborador.
         /// </summary>
-        VacationPay = 8
+        VacationPay = 8,
+
+        // Cita o comparecencia judicial.
+        JudicialAppointment = 9,
+
+        // Permiso por matrimonio del colaborador.
+        MarriageLeave = 10,
+
+        // Permiso por nacimiento de un hijo.
+        BirthLeave = 11,
+
+        //Permiso por fallecimiento de un familiar.
+        BereavementLeave = 12
+
     }
 }

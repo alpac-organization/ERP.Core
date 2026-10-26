@@ -64,6 +64,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<Currency>("currency_enum");
                     npgsqlOptions.MapEnum<PermitApplicationStatus>("permit_application_status_enum");
                     npgsqlOptions.MapEnum<PermitApplicationType>("permit_application_type_enum");
+                    npgsqlOptions.MapEnum<PermitBeneficiaryScope>("permit_beneficiary_scope_enum");
+                    npgsqlOptions.MapEnum<FamilyRelationship>("family_relationship_enum");
                     npgsqlOptions.MapEnum<MaritalStatus>("marital_status_enum");
                     npgsqlOptions.MapEnum<DeductionType>("deduction_type_enum");
                     npgsqlOptions.MapEnum<PayrollStatus>("payroll_status_enum");

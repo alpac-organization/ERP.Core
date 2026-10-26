@@ -45,6 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "employment_type_enum", new[] { "internal", "outsourced", "temporary" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_status_enum", new[] { "pending_review", "approved_entry", "cancel_entry" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_type_enum", new[] { "buy", "return", "inventory_adjustment" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "family_relationship_enum", new[] { "none", "spouse", "child", "parent", "sibling" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed" });
@@ -68,7 +69,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permission_type_enum", new[] { "read", "create", "update", "delete" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_status_enum", new[] { "pending", "approved", "rejected", "cancelled" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay", "judicial_appointment", "marriage_leave", "birth_leave", "bereavement_leave" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_beneficiary_scope_enum", new[] { "none", "own", "family_nucleus" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_stock_status_enum", new[] { "stable", "low_balance", "empty" });
@@ -4455,6 +4457,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,4)")
                         .HasColumnName("amount_days");
 
+                    b.Property<int>("BeneficiaryScope")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("permit_beneficiary_scope_enum")
+                        .HasColumnName("beneficiary_scope")
+                        .HasDefaultValueSql("'none'::permit_beneficiary_scope_enum");
+
                     b.Property<string>("CollaboratorCode")
                         .IsRequired()
                         .HasColumnType("text")
@@ -4486,6 +4494,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("end_time");
 
+                    b.Property<int>("FamilyRelationship")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("family_relationship_enum")
+                        .HasColumnName("family_relationship")
+                        .HasDefaultValueSql("'none'::family_relationship_enum");
+
                     b.Property<bool?>("FirtsStepApproved")
                         .HasColumnType("boolean")
                         .HasColumnName("first_step_approved");
@@ -4507,6 +4521,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("PayrolId")
                         .HasColumnType("uuid")
                         .HasColumnName("payroll_id");
+
+                    b.Property<string>("RelatedPersonName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("related_person_name");
 
                     b.Property<string>("RequestedBy")
                         .IsRequired()
@@ -4559,6 +4578,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("additional_data");
 
+                    b.Property<int>("BeneficiaryScope")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("permit_beneficiary_scope_enum")
+                        .HasColumnName("beneficiary_scope")
+                        .HasDefaultValueSql("'none'::permit_beneficiary_scope_enum");
+
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
@@ -4585,9 +4610,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("end_time");
 
+                    b.Property<int>("FamilyRelationship")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("family_relationship_enum")
+                        .HasColumnName("family_relationship")
+                        .HasDefaultValueSql("'none'::family_relationship_enum");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
+
+                    b.Property<string>("RelatedPersonName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("related_person_name");
 
                     b.Property<string>("RequestedBy")
                         .IsRequired()
@@ -4615,6 +4651,98 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_permit_application_pending_id");
 
                     b.ToTable("permit_applications_pending", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitTypePolicy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("perm_type_policy_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<int>("BeneficiaryScope")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("permit_beneficiary_scope_enum")
+                        .HasColumnName("beneficiary_scope")
+                        .HasDefaultValueSql("'none'::permit_beneficiary_scope_enum");
+
+                    b.Property<bool>("ConsumesVacationBalance")
+                        .HasColumnType("boolean")
+                        .HasColumnName("consumes_vacation_balance");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<int>("FamilyRelationship")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("family_relationship_enum")
+                        .HasColumnName("family_relationship")
+                        .HasDefaultValueSql("'none'::family_relationship_enum");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_paid");
+
+                    b.Property<decimal?>("MaxAmountDays")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("max_amount_days");
+
+                    b.Property<int>("MaxEvidenceCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("max_evidence_count");
+
+                    b.Property<int>("MinEvidenceCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("min_evidence_count");
+
+                    b.Property<int>("PermitApplicationType")
+                        .HasColumnType("permit_application_type_enum")
+                        .HasColumnName("permit_application_type");
+
+                    b.Property<int>("RequiredApprovalSteps")
+                        .HasColumnType("integer")
+                        .HasColumnName("required_approval_steps");
+
+                    b.Property<bool>("RequiresEvidence")
+                        .HasColumnType("boolean")
+                        .HasColumnName("requires_evidence");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permit_type_policy_id");
+
+                    b.HasIndex("PermitApplicationType", "BeneficiaryScope", "FamilyRelationship")
+                        .IsUnique()
+                        .HasDatabaseName("ux_permit_type_policies_rule")
+                        .HasFilter("deleted_at IS NULL");
+
+                    b.ToTable("permission_type_policies", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_permit_type_policies_evidence", "min_evidence_count >= 0 AND max_evidence_count >= min_evidence_count");
+
+                            t.HasCheckConstraint("ck_permit_type_policies_steps", "required_approval_steps IN (1, 2)");
+                        });
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonalInformation", b =>
