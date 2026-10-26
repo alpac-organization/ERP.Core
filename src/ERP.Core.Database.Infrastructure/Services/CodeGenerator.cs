@@ -481,42 +481,54 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion Metodos Privado
 
         #region Metodo para generar codigo producto
-        public async Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(
-            Guid branchId,
-            Guid categoryId,
-            CancellationToken ct = default)
+        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default)
         {
-            var branch = await _unitOfWork.Branches.Entities
-                .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.Id == branchId, ct);
+            var branchCode = await _unitOfWork.Branches.Entities
+                .Where(branch => branch.IsActive)
+                .Where(branch => branch.Id == profile.BranchId)
+                .Select(branch => branch.BranchCode)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (branch is null || string.IsNullOrWhiteSpace(branch.BranchCode))
+            if (string.IsNullOrEmpty(branchCode))
             {
-                return (false, string.Empty);
+                return (false, null);
             }
 
-            var category = await _unitOfWork.CategoryProducts.Entities
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == categoryId && c.DeletedAt == null, ct);
+            var categoryCode = await _unitOfWork.CategoryProducts.Entities
+                .Where(category => category.IsActive)
+                .Where(category => category.Id == categoryId)
+                .Select(category => category.Code)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (category is null || string.IsNullOrWhiteSpace(category.Code))
+            if (string.IsNullOrEmpty(categoryCode))
             {
-                return (false, string.Empty);
+                return (false, null);
             }
 
-            var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{category.Code.ToUpperInvariant()}-";
+            var codePrefix = $"{branchCode}-{categoryCode}-";
+            
+            var lastProductCode = await _unitOfWork.Products.Entities
+                .Include(product => product.CostCenter)
+                .Where(product => product.BranchId == profile.BranchId)
+                .Where(product => product.CostCenterId == profile.CostCenterId)
+                .Where(product => product.CostCenter.WorkAreaId == profile.AreaId)
+                .Where(product => product.ProductUsageType == ProductUsageType.Administrative)
+                .OrderByDescending(product => product.CreatedAt)
+                .Select(product => product.Code)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            await AcquireCodePrefixLockAsync(prefix, ct);
+            var nextNumber = 1;
 
-            var codesQuery = _unitOfWork.Products.Entities
-                .AsNoTracking()
-                .IgnoreQueryFilters()
-                .Where(p => p.Code != null && p.Code.StartsWith(prefix))
-                .Select(p => (string?)p.Code);
+            if (lastProductCode is not null)
+            {
+                var lastSegment = lastProductCode[codePrefix.Length..];
+                if (int.TryParse(lastSegment, out var lastNumber))
+                    nextNumber = lastNumber + 1;
+            }
 
-            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
-            return (true, code);
+            return (true, $"{codePrefix}{nextNumber:D3}");
         }
+
         #endregion Products
 
         #region Generar codigo QR
