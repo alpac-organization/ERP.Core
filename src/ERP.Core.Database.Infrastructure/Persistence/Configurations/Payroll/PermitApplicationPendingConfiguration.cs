@@ -27,6 +27,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("permit_application_type_enum")
                 .IsRequired();
 
+            builder.Property(e=>e.BeneficiaryScope)
+                .HasColumnName("beneficiary_scope")
+                .HasColumnType("permit_beneficiary_scope_enum")
+                .HasDefaultValueSql("'none'::permit_beneficiary_scope_enum")
+                .IsRequired();
+
+            builder.Property(e=>e.FamilyRelationship)
+                .HasColumnName("family_relationship")
+                .HasColumnType("family_relationship_enum")
+                .HasDefaultValueSql("'none'::family_relationship_enum")
+                .IsRequired();
+
+            builder.Property(e=>e.RelatedPersonName)
+                .HasColumnName("related_person_name")
+                .HasMaxLength(200);
+
             builder.Property(e => e.CollaboratorId)
                 .HasColumnName("collaborator_id")
                 .IsRequired();
