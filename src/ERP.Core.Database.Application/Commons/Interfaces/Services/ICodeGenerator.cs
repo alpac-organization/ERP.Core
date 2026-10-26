@@ -33,8 +33,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(Guid areaId, CancellationToken ct = default);
         Task<(bool IsSuccess, string Code)> GenerateUniqueSectionCodeAsync(Guid warehouseId, SectionType sectionType, SectionStorageType sectionStorageType, CancellationToken ct = default);
         Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default);
-
-        Task<(bool IsSuccess, string Code)> GenerateUniqueProductCode(Guid branchId, Guid categoryId, CancellationToken ct = default);
+        
+        Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default);
         Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default);
 
         Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null);
