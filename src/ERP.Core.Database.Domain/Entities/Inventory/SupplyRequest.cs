@@ -17,7 +17,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public Guid WorkAreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
 
-        // Centro de costo de origen
+        // Centro de costo de origen    
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
