@@ -480,57 +480,6 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         #endregion Metodos Privado
 
-        #region Metodo para generar codigo producto
-        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default)
-        {
-            var branchCode = await _unitOfWork.Branches.Entities
-                .Where(branch => branch.IsActive)
-                .Where(branch => branch.Id == profile.BranchId)
-                .Select(branch => branch.BranchCode)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (string.IsNullOrEmpty(branchCode))
-            {
-                return (false, null);
-            }
-
-            var categoryCode = await _unitOfWork.CategoryProducts.Entities
-                .Where(category => category.IsActive)
-                .Where(category => category.Id == categoryId)
-                .Select(category => category.Code)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (string.IsNullOrEmpty(categoryCode))
-            {
-                return (false, null);
-            }
-
-            var codePrefix = $"{branchCode}-{categoryCode}-";
-            
-            var lastProductCode = await _unitOfWork.Products.Entities
-                .Include(product => product.CostCenter)
-                .Where(product => product.BranchId == profile.BranchId)
-                .Where(product => product.CostCenterId == profile.CostCenterId)
-                .Where(product => product.CostCenter.WorkAreaId == profile.AreaId)
-                .Where(product => product.ProductUsageType == ProductUsageType.Administrative)
-                .OrderByDescending(product => product.CreatedAt)
-                .Select(product => product.Code)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            var nextNumber = 1;
-
-            if (lastProductCode is not null)
-            {
-                var lastSegment = lastProductCode[codePrefix.Length..];
-                if (int.TryParse(lastSegment, out var lastNumber))
-                    nextNumber = lastNumber + 1;
-            }
-
-            return (true, $"{codePrefix}{nextNumber:D3}");
-        }
-
-        #endregion Products
-
         #region Generar codigo QR
         private const int PaperWidthPx = 576;
         private const int SideMargin = 12;
@@ -1030,6 +979,61 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             return BuildSequenceCode(prefix, existingCodes);
 
+        }
+        
+        private const int CodePadWidth = 3;
+        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default)
+        {
+            var branchCode = await _unitOfWork.Branches.Entities
+                .Where(branch => branch.IsActive && branch.Id == profile.BranchId)
+                .Select(branch => branch.BranchCode)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (string.IsNullOrWhiteSpace(branchCode))
+                return (false, null);
+
+            var categoryCode = await _unitOfWork.CategoryProducts.Entities
+                .Where(category => category.IsActive && category.Id == categoryId)
+                .Select(category => category.Code)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (string.IsNullOrWhiteSpace(categoryCode))
+                return (false, null);
+
+            // Ej: "ALP-MGA-01-"  -> cada categoría tiene su propia secuencia
+            var codePrefix = $"{branchCode.Trim()}-{categoryCode.Trim()}-";
+
+            var nextCode = await GetNextCodeAsync(codePrefix, cancellationToken);
+
+            return (true, nextCode);
+        }
+
+        private async Task<string> GetNextCodeAsync(string codePrefix, CancellationToken cancellationToken)
+        {
+            var existingCodes = await _unitOfWork.Products.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters() // incluye eliminados para no reutilizar códigos
+                .Where(product => product.Code != null && product.Code.StartsWith(codePrefix))
+                .Select(product => product.Code!)
+                .ToListAsync(cancellationToken);
+
+            long maxNumber = 0;
+
+            foreach (var code in existingCodes)
+            {
+                var trimmed = code.Trim();
+                if (trimmed.Length <= codePrefix.Length) continue;
+
+                var suffix = trimmed[codePrefix.Length..];
+
+                // Solo sufijos 100% numéricos (descarta códigos de otros formatos)
+                if (!suffix.All(char.IsAsciiDigit)) continue;
+
+                if (long.TryParse(suffix, out var number) && number > maxNumber)
+                    maxNumber = number;
+            }
+
+            return $"{codePrefix}{(maxNumber + 1).ToString().PadLeft(CodePadWidth, '0')}";
         }
 
         public async Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default)
