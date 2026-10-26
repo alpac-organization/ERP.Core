@@ -980,7 +980,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             return BuildSequenceCode(prefix, existingCodes);
 
         }
-        
+
         private const int CodePadWidth = 3;
         public async Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default)
         {
@@ -1037,7 +1037,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         }
 
         public async Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default)
-        {   
+        {
             var branchCode = await _unitOfWork.Branches.Entities
                 .Where(branch => branch.IsActive)
                 .Where(branch => branch.Id == profile.BranchId)
@@ -1072,7 +1072,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             var codePrefix = $"{branchCode}-{workAreaCode}-{categoryCode}-";
-            
+
             var lastProductCode = await _unitOfWork.Products.Entities
                 .Include(product => product.CostCenter)
                 .Where(product => product.BranchId == profile.BranchId)
@@ -1095,12 +1095,41 @@ namespace ERP.Core.Database.Infrastructure.Services
             return (true, $"{codePrefix}{nextNumber:D3}");
         }
 
+        public async Task<(bool IsSuccess, string Code)> GenerateCodeToSupplyRequests(string Branch, ReasonUse Use, CancellationToken ct = default)
+        {
+            var typeCode = GetSupplyRequestTypeCode(Use);
+
+            if (string.IsNullOrWhiteSpace(Branch) || typeCode is null)
+                return (false, string.Empty);
+
+            var prefix = $"{typeCode}-{Branch}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
+            var codesQuery = _unitOfWork.SupplyRequests.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .Where(sr => sr.Code != null && sr.Code.StartsWith(prefix))
+                .Select(sr => sr.Code);
+
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
+            return (true, code);            // OR-ALP-MGA-001 || AR-ALP-MGA-001
+
+        }
+
+        private static string? GetSupplyRequestTypeCode(ReasonUse use) => use switch
+        {
+            ReasonUse.Operation => "OR",
+            ReasonUse.Sale => "AR",
+            _ => null
+        };
+
         #endregion Inventory
 
         #region Customers
         public async Task<(bool IsSuccess, string Code)> GenerateCodeToCustomers(string Branch, CancellationToken ct = default)
         {
-            if(string.IsNullOrWhiteSpace(Branch))
+            if (string.IsNullOrWhiteSpace(Branch))
                 return (false, string.Empty);
 
             string prefix = $"CUS-{Branch.Trim().ToUpperInvariant()}-";
@@ -1112,7 +1141,7 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .IgnoreQueryFilters()
                 .Where(c => c.CIFCode != null && c.CIFCode.StartsWith(prefix))
                 .Select(c => (string?)c.CIFCode);
-            
+
             var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
 
             return (true, code);  // "CUS-ALP-MGA-001"  --> Salida

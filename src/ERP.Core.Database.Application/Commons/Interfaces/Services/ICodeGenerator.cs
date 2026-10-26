@@ -45,5 +45,6 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
 
 
         Task<(bool IsSuccess, string Code)> GenerateCodeToCustomers(string Branch, CancellationToken ct = default);
+        Task<(bool IsSuccess, string Code)> GenerateCodeToSupplyRequests(string Branch, ReasonUse Use, CancellationToken ct = default);
     }
 }
