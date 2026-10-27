@@ -1885,6 +1885,41 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("category_allowed_unit_measures", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAllowedCategories", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_allowed_category_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("inventory_allowed_categories", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -7771,6 +7806,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UnitMeasure");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAllowedCategories", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "CategoryProducts")
+                        .WithMany("InventoryAllowedCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CategoryProducts");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
@@ -9338,6 +9384,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CategoryAllowedUnitMeasures");
 
                     b.Navigation("Children");
+
+                    b.Navigation("InventoryAllowedCategories");
 
                     b.Navigation("Products");
                 });

@@ -2,6 +2,7 @@ using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Catalogs;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Shopping;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
+using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Inventory;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Warehouse;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Operations;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories.Authentication;
@@ -100,6 +101,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IProductStockRepository ProductStocks { get; }
         IReasonsInventoryRemovalRepository ReasonsInventoryRemoval { get; }
         IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited { get; }
+        IInventoryAllowedCategoriesRepository InventoryAllowedCategories { get; }
 
         #endregion
 
