@@ -17,6 +17,7 @@ using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory;
+using ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
@@ -213,13 +214,16 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
 
             // Inventario
-            services.AddScoped<IKardexRepository, KardexRepository>();
+services.AddScoped<IKardexRepository, KardexRepository>();
             services.AddScoped<IProductStockRepository, ProductStockRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
+            services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
-
-            #region 
+            services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
+            services.AddScoped<IInventoryAllowedCategoriesRepository, InventoryAllowedCategoriesRepository>();
+            
+            #region
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
             services.AddScoped<IReceptionTransportEntranceRepository, ReceptionTransportEntranceRepository>();
             services.AddScoped<IStepExecutionLogsRepository, StepExecutionLogsRepository>();

@@ -117,6 +117,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
         public DbSet<RequisitionOperationalAreasPermited> RequisitionOperationalAreasPermits => Set<RequisitionOperationalAreasPermited>();
+        public DbSet<InventoryAllowedCategories> InventoryAllowedCategories => Set<InventoryAllowedCategories>();
         
         #endregion
 
