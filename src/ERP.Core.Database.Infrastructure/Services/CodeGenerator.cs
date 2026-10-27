@@ -1003,6 +1003,8 @@ namespace ERP.Core.Database.Infrastructure.Services
             // Ej: "ALP-MGA-01-"  -> cada categoría tiene su propia secuencia
             var codePrefix = $"{branchCode.Trim()}-{categoryCode.Trim()}-";
 
+            await AcquireCodePrefixLockAsync(codePrefix, cancellationToken);
+
             var nextCode = await GetNextCodeAsync(codePrefix, cancellationToken);
 
             return (true, nextCode);
