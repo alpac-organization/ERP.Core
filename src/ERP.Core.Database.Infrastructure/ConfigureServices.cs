@@ -177,6 +177,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IWarehouseLocationRepository, WarehouseLocationRepository>();
             services.AddScoped<IAssistanceControlRepository, AssistanceControlRepository>();
             services.AddScoped<ICategoryProductsRepository, CategoryProductsRepository>();
+            services.AddScoped<ICategoryAllowedUnitMeasuresRepository, CategoryAllowedUnitMeasuresRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
 
             services.AddScoped<IWarehouseCapacityRepository, WarehouseCapacityRepository>();

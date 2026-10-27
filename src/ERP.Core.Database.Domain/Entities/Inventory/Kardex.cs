@@ -8,7 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 {
     public class Kardex : BaseEntity<Guid>
     {
-        public KardexType kardexType { get; set; }
+        public KardexType KardexType { get; set; }
         public KardexMovementType MovementType { get; set; }
 
         /// <summary>

@@ -122,6 +122,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
 
         #region Pendiente a analizar
         public DbSet<CategoryProducts> CategoryProducts => Set<CategoryProducts>();
+        public DbSet<CategoryAllowedUnitMeasures> CategoryAllowedUnitMeasures => Set<CategoryAllowedUnitMeasures>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<OutsourcedWarehouse> OutsourcedWarehouses => Set<OutsourcedWarehouse>();
         public DbSet<Discrepancies> Discrepancies => Set<Discrepancies>();

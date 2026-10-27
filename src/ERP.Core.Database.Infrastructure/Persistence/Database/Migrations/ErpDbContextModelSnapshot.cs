@@ -1844,6 +1844,45 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("work_areas", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.CategoryAllowedUnitMeasures", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_allowed_unit_measure_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("UnitMeasureId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_measure_id");
+
+                    b.Property<Guid?>("UnitMeasureId1")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UnitMeasureId");
+
+                    b.HasIndex("UnitMeasureId1");
+
+                    b.ToTable("category_allowed_unit_measures", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2012,6 +2051,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<int>("KardexType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("kardex_type_enum")
+                        .HasColumnName("kardex_type")
+                        .HasDefaultValueSql("'administrative'::kardex_type_enum");
+
                     b.Property<Guid>("MovementByUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("movement_by_user_id");
@@ -2065,12 +2110,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("WorkAreaId")
                         .HasColumnType("uuid")
                         .HasColumnName("area_id");
-
-                    b.Property<int>("kardexType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("kardex_type_enum")
-                        .HasColumnName("kardex_type")
-                        .HasDefaultValueSql("'administrative'::kardex_type_enum");
 
                     b.HasKey("Id");
 
@@ -7711,6 +7750,29 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.CategoryAllowedUnitMeasures", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "CategoryProducts")
+                        .WithMany("CategoryAllowedUnitMeasures")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", null)
+                        .WithMany("CategoryAllowedUnitMeasures")
+                        .HasForeignKey("UnitMeasureId1");
+
+                    b.Navigation("CategoryProducts");
+
+                    b.Navigation("UnitMeasure");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
@@ -9275,6 +9337,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", b =>
                 {
+                    b.Navigation("CategoryAllowedUnitMeasures");
+
                     b.Navigation("Children");
 
                     b.Navigation("Products");
@@ -9374,6 +9438,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", b =>
                 {
+                    b.Navigation("CategoryAllowedUnitMeasures");
+
                     b.Navigation("ProductStocks");
 
                     b.Navigation("Products");
