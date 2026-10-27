@@ -116,7 +116,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
             IAbsencesRepository absencesRepository,
-            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository
+            IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
+            IPermitTypePolicyRepository permitTypePolicyRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -156,6 +157,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
+
+        public IPermitTypePolicyRepository PermitTypePolicyRepository => permitTypePolicyRepository;
         public IInssAccountingInformationRepository InssAccountingInformation => inssAccountingInformationRepository;
 
         #region Catalogos

@@ -252,6 +252,7 @@ services.AddScoped<IKardexRepository, KardexRepository>();
             services.AddScoped<IDisciplinarySanctionsRepository, DisciplinarySanctionsRepository>();
             services.AddScoped<IAbsencesRepository, AbsencesRepository>();
 
+            services.AddScoped<IPermitTypePolicyRepository, PermitTypePolicyRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Servicios 
