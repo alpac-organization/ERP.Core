@@ -32,13 +32,21 @@ public class CategoryAllowedUnitMeasuresConfiguration : IEntityTypeConfiguration
             .HasColumnName("unit_measure_id")
             .IsRequired();
 
+        builder.Property(e => e.CreatedAt)
+            .HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.DeletedAt)
+            .HasColumnName("deleted_at");
+
         builder.HasOne(c => c.CategoryProducts)
             .WithMany(c => c.CategoryAllowedUnitMeasures)
             .HasForeignKey(c => c.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(c => c.UnitMeasure)
-            .WithMany()
+            .WithMany(c => c.CategoryAllowedUnitMeasures)
             .HasForeignKey(c => c.UnitMeasureId)
             .OnDelete(DeleteBehavior.Cascade);
     }
