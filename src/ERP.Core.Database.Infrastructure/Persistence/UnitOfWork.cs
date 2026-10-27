@@ -56,6 +56,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IAssistanceControlRepository assistanceControlRepository,
             IWarehouseLocationRepository locationRepository,
             ICategoryProductsRepository categoryProductsRepository,
+            ICategoryAllowedUnitMeasuresRepository categoryAllowedUnitMeasuresRepository,
             IProductsRepository productsRepository,
             IWarehousesRepository warehouseRepository,
             IWarehouseCapacityRepository warehouseCapacityRepository,
@@ -167,6 +168,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICustomsBranchesRepository CustomsBranches => customsBranchesRepository;
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
+        public ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures => categoryAllowedUnitMeasuresRepository;
         #endregion
 
         #region Warehouse

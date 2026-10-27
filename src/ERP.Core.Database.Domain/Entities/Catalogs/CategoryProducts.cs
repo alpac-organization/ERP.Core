@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
@@ -14,4 +15,5 @@ public class CategoryProducts : BaseEntity<Guid>
     
     public virtual ICollection<Product> Products { get; set; } = [];
     public virtual ICollection<CategoryProducts> Children { get; set; } = [];
+    public virtual ICollection<CategoryAllowedUnitMeasures> CategoryAllowedUnitMeasures { get; set; } = [];
 }

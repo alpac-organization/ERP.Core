@@ -57,6 +57,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IWarehouseLocationRepository Locations { get; }
         ICategoryProductsRepository CategoryProducts { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
+        ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures { get; }
         #endregion
 
         #region Warehouse
