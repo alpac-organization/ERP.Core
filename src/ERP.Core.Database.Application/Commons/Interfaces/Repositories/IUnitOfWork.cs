@@ -27,6 +27,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISalariesRepository Salaries { get; }
         IVacationsRepository Vacations { get; }
         IPermitApplicationsRepository PermitApplications { get; }
+
+        IPermitTypePolicyRepository PermitTypePolicyRepository {get;}
         IDeductionsRepository Deductions { get; }
         IPayrollsRepository Payrolls { get; }
         IOrdinaryPayrollsRepository OrdinaryPayrolls { get; }
