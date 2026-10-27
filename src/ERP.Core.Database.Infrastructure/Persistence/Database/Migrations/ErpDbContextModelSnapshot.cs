@@ -1856,8 +1856,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -1869,16 +1876,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("unit_measure_id");
 
-                    b.Property<Guid?>("UnitMeasureId1")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("UnitMeasureId");
-
-                    b.HasIndex("UnitMeasureId1");
 
                     b.ToTable("category_allowed_unit_measures", "public");
                 });
@@ -7759,14 +7761,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
-                        .WithMany()
+                        .WithMany("CategoryAllowedUnitMeasures")
                         .HasForeignKey("UnitMeasureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", null)
-                        .WithMany("CategoryAllowedUnitMeasures")
-                        .HasForeignKey("UnitMeasureId1");
 
                     b.Navigation("CategoryProducts");
 
