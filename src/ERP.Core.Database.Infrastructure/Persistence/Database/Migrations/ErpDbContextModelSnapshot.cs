@@ -79,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_status_enum", new[] { "available", "occupied", "under_maintenance", "blocked", "reserved" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_usage_profile_enum", new[] { "active_flow", "static_hold" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "reason_use_enum", new[] { "sale", "operation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_status_enum", new[] { "applied", "cancelled" });

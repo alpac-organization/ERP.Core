@@ -129,6 +129,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryType>("entry_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductStockStatus>("product_stock_status_enum", "public");
+                    npgsqlOptions.MapEnum<ReasonUse>("reason_use_enum", "public");
                 })
             );
 
