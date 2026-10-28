@@ -51,6 +51,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "inventory_outputs_status_enum", new[] { "output_pending", "dispatched" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "invoice_status_enum", new[] { "pending", "paid", "overdue" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "kardex_movement_type_enum", new[] { "buys", "exit", "returns" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "kardex_type_enum", new[] { "operational", "administrative" });
@@ -2064,30 +2065,43 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
                     b.Property<Guid>("CostCenterId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Observations")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("observations");
 
                     b.Property<Guid>("ReasonsInventoryRemovalId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("reason_inventory_removal_id");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("inventory_outputs_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'outputpending'::inventory_outputs_status_enum");
 
                     b.Property<Guid>("SupplyRequestId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("supply_request_id");
 
                     b.Property<Guid>("WorkAreaId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("work_area_id");
 
                     b.HasKey("Id");
 
@@ -2097,7 +2111,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("ReasonsInventoryRemovalId");
 
-                    b.HasIndex("SupplyRequestId");
+                    b.HasIndex("SupplyRequestId")
+                        .IsUnique();
 
                     b.HasIndex("WorkAreaId");
 
@@ -7946,21 +7961,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
-                        .WithMany()
+                        .WithMany("InventoryOutputs")
                         .HasForeignKey("CostCenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ReasonsInventoryRemoval", "ReasonsInventoryRemoval")
                         .WithMany()
                         .HasForeignKey("ReasonsInventoryRemovalId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", "SupplyRequest")
-                        .WithMany()
-                        .HasForeignKey("SupplyRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("InventoryOutput")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "SupplyRequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
@@ -9506,6 +9521,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
                 {
+                    b.Navigation("InventoryOutputs");
+
                     b.Navigation("Kardices");
 
                     b.Navigation("ProductStocks");
@@ -9619,6 +9636,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", b =>
                 {
+                    b.Navigation("InventoryOutput")
+                        .IsRequired();
+
                     b.Navigation("SupplyRequestItems");
                 });
 

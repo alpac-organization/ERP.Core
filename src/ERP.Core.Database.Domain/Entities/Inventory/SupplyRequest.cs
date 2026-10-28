@@ -39,5 +39,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         //Stock Solicitado en la solicitud.
         public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
+        public virtual InventoryOutputs InventoryOutput { get; set; } = default!;
     }
 }

@@ -6,7 +6,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 {
     public class InventoryOutputs : BaseEntity<Guid>
     {
-        public string? Code { get; set; }
+        public string Code { get; set; } = null!;
         public string? Observations { get; set; }
         public InventoryOutputsStatus Status { get; set; }
 
