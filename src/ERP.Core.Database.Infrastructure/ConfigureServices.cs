@@ -223,7 +223,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
             services.AddScoped<IInventoryAllowedCategoriesRepository, InventoryAllowedCategoriesRepository>();
-            #endregion
+            services.AddScoped<IInventoryAreasPermissionsRepository, InventoryAreasPermissionsRepository>();
+            #endregion Inventario
 
             #region
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
