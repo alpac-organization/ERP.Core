@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261028151416_SupplyRequestItemServices")]
+    [Migration("20261028153008_SupplyRequestItemServices")]
     partial class SupplyRequestItemServices
     {
         /// <inheritdoc />
