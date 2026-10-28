@@ -280,7 +280,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 table: "inventory_outputs",
                 type: "inventory_outputs_status_enum",
                 nullable: false,
-                defaultValueSql: "'outputpending'::inventory_outputs_status_enum");
+                defaultValueSql: "'output_pending'::inventory_outputs_status_enum");
 
             migrationBuilder.CreateIndex(
                 name: "IX_inventory_outputs_supply_request_id",

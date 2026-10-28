@@ -30,7 +30,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.Property(e => e.Status)
                 .HasColumnName("status")
                 .HasColumnType("inventory_outputs_status_enum")
-                .HasDefaultValueSql("'outputpending'::inventory_outputs_status_enum")
+                .HasDefaultValueSql("'output_pending'::inventory_outputs_status_enum")
                 .IsRequired();
 
             builder.Property(e => e.BranchId)
