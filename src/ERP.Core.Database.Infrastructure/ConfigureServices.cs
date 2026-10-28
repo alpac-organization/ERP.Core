@@ -17,7 +17,6 @@ using ERP.Core.Database.Infrastructure.Persistence.Repositories.Warehouse;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Authentication;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Operations;
 using ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory;
-using ERP.Core.Database.Infrastructure.Persistence.Repositories.Inventory;
 
 using ERP.Core.Database.Application.Commons.Interfaces.Services;
 using ERP.Core.Database.Application.Commons.Interfaces.Repositories;
@@ -130,6 +129,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryType>("entry_type_enum", "public");
                     npgsqlOptions.MapEnum<ProductStockStatus>("product_stock_status_enum", "public");
+                    npgsqlOptions.MapEnum<ReasonUse>("reason_use_enum", "public");
                 })
             );
 
@@ -213,16 +213,18 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsPositionsRepository, LotsPositionsRepository>();
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
 
-            // Inventario
+            #region Inventario
             services.AddScoped<IKardexRepository, KardexRepository>();
             services.AddScoped<IProductStockRepository, ProductStockRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
+            services.AddScoped<ISupplyRequestItemRepository, SupplyRequestItemRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
             services.AddScoped<IInventoryAllowedCategoriesRepository, InventoryAllowedCategoriesRepository>();
-            
+            #endregion
+
             #region
             services.AddScoped<IReceptionEntranceRepository, ReceptionEntranceReporitory>();
             services.AddScoped<IReceptionTransportEntranceRepository, ReceptionTransportEntranceRepository>();

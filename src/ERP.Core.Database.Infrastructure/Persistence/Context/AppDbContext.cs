@@ -113,6 +113,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Kardex> Kardex => Set<Kardex>();
         public DbSet<ProductStock> ProductStocks => Set<ProductStock>();
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
+        public DbSet<SupplyRequestItem> SupplyRequestItems => Set<SupplyRequestItem>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<InventoryAreasPermissions> InventoryAreasPermissions => Set<InventoryAreasPermissions>();
@@ -258,6 +259,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<EntryStatus>("public", "entry_status_enum");
             modelBuilder.HasPostgresEnum<EntryType>("public", "entry_type_enum");
             modelBuilder.HasPostgresEnum<ProductStockStatus>("public", "product_stock_status_enum");
+            modelBuilder.HasPostgresEnum<ReasonUse>("public", "reason_use_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

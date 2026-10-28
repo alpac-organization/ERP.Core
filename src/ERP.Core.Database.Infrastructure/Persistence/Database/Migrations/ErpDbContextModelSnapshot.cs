@@ -79,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_status_enum", new[] { "available", "occupied", "under_maintenance", "blocked", "reserved" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_usage_profile_enum", new[] { "active_flow", "static_hold" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "reason_use_enum", new[] { "sale", "operation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_status_enum", new[] { "applied", "cancelled" });
@@ -2400,33 +2401,54 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("supply_request_item_id");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)")
+                        .HasColumnName("amount");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
 
                     b.Property<Guid>("ProductStockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_stock_id");
+
+                    b.Property<Guid?>("ProductStockId1")
                         .HasColumnType("uuid");
 
                     b.Property<int>("ReasonUse")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("reason_use_enum")
+                        .HasColumnName("reason_use")
+                        .HasDefaultValueSql("'sale'::reason_use_enum");
 
                     b.Property<Guid>("SupplyRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supply_request_id");
+
+                    b.Property<Guid?>("SupplyRequestId1")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductStockId");
 
+                    b.HasIndex("ProductStockId1");
+
                     b.HasIndex("SupplyRequestId");
 
-                    b.ToTable("SupplyRequestItem", "public");
+                    b.HasIndex("SupplyRequestId1");
+
+                    b.ToTable("supply_request_item", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.AssignmentCollaborators", b =>
@@ -8069,16 +8091,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequestItem", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", "ProductStock")
-                        .WithMany("SupplyRequestItems")
+                        .WithMany()
                         .HasForeignKey("ProductStockId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", "SupplyRequest")
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", null)
                         .WithMany("SupplyRequestItems")
+                        .HasForeignKey("ProductStockId1");
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", "SupplyRequest")
+                        .WithMany()
                         .HasForeignKey("SupplyRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", null)
+                        .WithMany("SupplyRequestItems")
+                        .HasForeignKey("SupplyRequestId1");
 
                     b.Navigation("ProductStock");
 
