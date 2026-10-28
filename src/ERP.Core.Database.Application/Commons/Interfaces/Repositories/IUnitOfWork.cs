@@ -28,7 +28,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IVacationsRepository Vacations { get; }
         IPermitApplicationsRepository PermitApplications { get; }
 
-        IPermitTypePolicyRepository PermitTypePolicyRepository {get;}
+        IPermitTypePolicyRepository PermitTypePolicyRepository { get; }
         IDeductionsRepository Deductions { get; }
         IPayrollsRepository Payrolls { get; }
         IOrdinaryPayrollsRepository OrdinaryPayrolls { get; }
@@ -97,6 +97,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         #region Inventario
         IKardexRepository Kardex { get; }
         ISupplyRequestRepository SupplyRequests { get; }
+        ISupplyRequestItemRepository SupplyRequestItems { get; }
         IInventoryEntriesRepository InventoryEntries { get; }
         IInventoryOutputsRepository InventoryOutputs { get; }
         IProductStockRepository ProductStocks { get; }

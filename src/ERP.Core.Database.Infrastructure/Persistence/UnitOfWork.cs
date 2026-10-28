@@ -117,7 +117,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
             IAbsencesRepository absencesRepository,
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
-            IPermitTypePolicyRepository permitTypePolicyRepository
+            IPermitTypePolicyRepository permitTypePolicyRepository,
+            ISupplyRequestItemRepository supplyRequestItemRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -234,6 +235,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         #region Inventario
         public IKardexRepository Kardex => kardexRepository;
         public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
+        public ISupplyRequestItemRepository SupplyRequestItems => supplyRequestItemRepository;
         public IInventoryAllowedCategoriesRepository InventoryAllowedCategories => inventoryAllowedCategoriesRepository;
         public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
         public IProductStockRepository ProductStocks => productStocksRepository;

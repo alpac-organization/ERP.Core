@@ -113,6 +113,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Kardex> Kardex => Set<Kardex>();
         public DbSet<ProductStock> ProductStocks => Set<ProductStock>();
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
+        public DbSet<SupplyRequestItem> SupplyRequestItems => Set<SupplyRequestItem>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
