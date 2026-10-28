@@ -250,15 +250,20 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldClrType: typeof(int),
                 oldType: "integer");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "reason_use",
-                schema: "public",
-                table: "supply_request_item",
-                type: "reason_use_enum",
-                nullable: false,
-                defaultValueSql: "'sale'::reason_use_enum",
-                oldClrType: typeof(int),
-                oldType: "integer");
+            migrationBuilder.Sql(@"
+    ALTER TABLE public.supply_request_item
+        ALTER COLUMN reason_use DROP DEFAULT;
+
+    ALTER TABLE public.supply_request_item
+        ALTER COLUMN reason_use TYPE public.reason_use_enum
+        USING (CASE reason_use
+                 WHEN 0 THEN 'sale'
+                 WHEN 1 THEN 'operation'
+               END)::public.reason_use_enum;
+
+    ALTER TABLE public.supply_request_item
+        ALTER COLUMN reason_use SET DEFAULT 'sale'::public.reason_use_enum;
+");
 
             migrationBuilder.AlterColumn<bool>(
                 name: "is_active",
@@ -613,15 +618,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 oldPrecision: 5,
                 oldScale: 2);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "ReasonUse",
-                schema: "public",
-                table: "SupplyRequestItem",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "reason_use_enum",
-                oldDefaultValueSql: "'sale'::reason_use_enum");
+            migrationBuilder.Sql(@"
+    ALTER TABLE public.""SupplyRequestItem"" ALTER COLUMN ""ReasonUse"" DROP DEFAULT;
+
+    ALTER TABLE public.""SupplyRequestItem""
+        ALTER COLUMN ""ReasonUse"" TYPE integer
+        USING (CASE ""ReasonUse""::text
+                 WHEN 'sale' THEN 0
+                 WHEN 'operation' THEN 1
+               END);
+");
 
             migrationBuilder.AlterColumn<bool>(
                 name: "IsActive",
