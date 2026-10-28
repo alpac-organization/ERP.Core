@@ -187,6 +187,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.family_relationship_enum", "none,spouse,child,parent,sibling")
                 .OldAnnotation("Npgsql:Enum:public.fault_severity_enum", "minor,serious,very_serious")
                 .OldAnnotation("Npgsql:Enum:public.fault_source_enum", "manual,system_escalation,biometric_clock")
+                .OldAnnotation("Npgsql:Enum:public.fault_source_enum", "manual,system_escalation,biometric_clock")
                 .OldAnnotation("Npgsql:Enum:public.fault_status_enum", "open,sanction_applied,prescribed")
                 .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
@@ -257,8 +258,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
     ALTER TABLE public.supply_request_item
         ALTER COLUMN reason_use TYPE public.reason_use_enum
         USING (CASE reason_use
-                 WHEN 0 THEN 'sale'
-                 WHEN 1 THEN 'operation'
+                 WHEN 1 THEN 'sale'
+                 WHEN 2 THEN 'operation'
+                 ELSE 'sale'
                END)::public.reason_use_enum;
 
     ALTER TABLE public.supply_request_item
@@ -624,8 +626,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
     ALTER TABLE public.""SupplyRequestItem""
         ALTER COLUMN ""ReasonUse"" TYPE integer
         USING (CASE ""ReasonUse""::text
-                 WHEN 'sale' THEN 0
-                 WHEN 'operation' THEN 1
+                 WHEN 'sale' THEN 1
+                 WHEN 'operation' THEN 2
                END);
 ");
 
