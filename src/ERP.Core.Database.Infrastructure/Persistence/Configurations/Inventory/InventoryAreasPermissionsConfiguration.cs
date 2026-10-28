@@ -28,6 +28,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("work_area_id")
                 .IsRequired();
 
+            builder.Property(e => e.CompanyId)
+                .HasColumnName("company_id")
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasColumnType("timestamp with time zone")
@@ -40,10 +44,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.HasIndex(e => e.WorkAreaId)
                 .HasDatabaseName("ix_inventory_areas_permissions_work_area_id");
-                
+
             builder.HasOne(e => e.WorkArea)
                 .WithMany(e => e.InventoryAreasPermissions)
                 .HasForeignKey(e => e.WorkAreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.HasOne(e => e.Company)
+                .WithMany(e => e.InventoryAreasPermissions)
+                .HasForeignKey(e => e.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
