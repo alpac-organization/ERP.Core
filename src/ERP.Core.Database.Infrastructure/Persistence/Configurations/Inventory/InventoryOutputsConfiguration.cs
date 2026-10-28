@@ -20,18 +20,65 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.Code)
                 .HasColumnName("code")
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(e => e.Observations)
+                .HasColumnName("observations")
+                .IsRequired(false);
+
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("inventory_outputs_status_enum")
+                .HasDefaultValueSql("'outputpending'::inventory_outputs_status_enum")
+                .IsRequired();
+
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired();
+
+            builder.Property(e => e.WorkAreaId)
+                .HasColumnName("work_area_id")
+                .IsRequired();
+
+            builder.Property(e => e.CostCenterId)
+                .HasColumnName("cost_center_id")
+                .IsRequired();
+
+            builder.Property(e => e.SupplyRequestId)
+                .HasColumnName("supply_request_id")
+                .IsRequired();
+
+            builder.Property(e => e.ReasonsInventoryRemovalId)
+                .HasColumnName("reason_inventory_removal_id")
+                .IsRequired();
+
 
         #region Foreign Keys
+
+            builder.HasOne(e => e.Branch)
+                .WithMany(e => e.InventoryOutputs)
+                .HasForeignKey(e => e.BranchId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.WorkArea)
                 .WithMany(e => e.InventoryOutputs)
                 .HasForeignKey(e => e.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.Branch)
+            builder.HasOne(e => e.CostCenter)
                 .WithMany(e => e.InventoryOutputs)
-                .HasForeignKey(e => e.BranchId)
+                .HasForeignKey(e => e.CostCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.SupplyRequest)
+                .WithOne(e => e.InventoryOutput)
+                .HasForeignKey<InventoryOutputs>(e => e.SupplyRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.ReasonsInventoryRemoval)
+                .WithMany()
+                .HasForeignKey(e => e.ReasonsInventoryRemovalId)
                 .OnDelete(DeleteBehavior.Restrict);
 
         #endregion Foreign Keys
