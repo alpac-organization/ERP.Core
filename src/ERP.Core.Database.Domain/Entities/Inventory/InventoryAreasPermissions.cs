@@ -3,7 +3,7 @@ using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory
 {
-    public class AreaRequestPolicy : BaseEntity<Guid>
+    public class InventoryAreasPermissions : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
         

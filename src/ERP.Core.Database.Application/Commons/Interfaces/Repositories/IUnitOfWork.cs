@@ -102,6 +102,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IInventoryOutputsRepository InventoryOutputs { get; }
         IProductStockRepository ProductStocks { get; }
         IReasonsInventoryRemovalRepository ReasonsInventoryRemoval { get; }
+        IInventoryAreasPermissionsRepository InventoryAreasPermissions { get; }
         IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited { get; }
         IInventoryAllowedCategoriesRepository InventoryAllowedCategories { get; }
 
