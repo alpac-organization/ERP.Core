@@ -10,7 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public Guid ProductStockId { get; set; }
         public virtual ProductStock ProductStock { get; set; } = default!;
         
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
         public ReasonUse ReasonUse { get; set; }
 
         public Guid SupplyRequestId { get; set; }
