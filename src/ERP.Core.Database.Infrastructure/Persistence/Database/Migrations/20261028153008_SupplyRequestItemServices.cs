@@ -186,7 +186,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.entry_type_enum", "buy,return,inventory_adjustment")
                 .OldAnnotation("Npgsql:Enum:public.family_relationship_enum", "none,spouse,child,parent,sibling")
                 .OldAnnotation("Npgsql:Enum:public.fault_severity_enum", "minor,serious,very_serious")
-                .OldAnnotation("Npgsql:Enum:public.fault_source_enum", "manual,system_escalation")
+                .OldAnnotation("Npgsql:Enum:public.fault_source_enum", "manual,system_escalation,biometric_clock")
                 .OldAnnotation("Npgsql:Enum:public.fault_status_enum", "open,sanction_applied,prescribed")
                 .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
