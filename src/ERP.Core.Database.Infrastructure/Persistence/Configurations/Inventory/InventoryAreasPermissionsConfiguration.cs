@@ -40,9 +40,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.HasIndex(e => e.WorkAreaId)
                 .HasDatabaseName("ix_inventory_areas_permissions_work_area_id");
-
+                
             builder.HasOne(e => e.WorkArea)
-                .WithMany()
+                .WithMany(e => e.InventoryAreasPermissions)
                 .HasForeignKey(e => e.WorkAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

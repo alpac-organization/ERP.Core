@@ -1949,15 +1949,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("work_area_id");
 
-                    b.Property<Guid?>("WorkAreaId1")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("WorkAreaId")
                         .HasDatabaseName("ix_inventory_areas_permissions_work_area_id");
-
-                    b.HasIndex("WorkAreaId1");
 
                     b.ToTable("inventory_areas_permissions", "public");
                 });
@@ -7883,14 +7878,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAreasPermissions", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
-                        .WithMany()
+                        .WithMany("InventoryAreasPermissions")
                         .HasForeignKey("WorkAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", null)
-                        .WithMany("InventoryAreasPermissions")
-                        .HasForeignKey("WorkAreaId1");
 
                     b.Navigation("WorkArea");
                 });
