@@ -112,6 +112,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IProductStockRepository productStocksRepository,
             IInventoryOutputsRepository inventoryOutputsRepository,
             IReasonsInventoryRemovalRepository reasonsInventoryRemovalRepository,
+            IInventoryAreasPermissionsRepository inventoryAreasPermissionsRepository,
             IFaultCatalogRepository faultCatalogRepository,
             IDisciplinaryFaultsRepository disciplinaryFaultsRepository,
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
@@ -239,6 +240,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IProductStockRepository ProductStocks => productStocksRepository;
         public IInventoryOutputsRepository InventoryOutputs => inventoryOutputsRepository;
         public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
+        public IInventoryAreasPermissionsRepository InventoryAreasPermissions => inventoryAreasPermissionsRepository;
         public IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited => requisitionOperationalAreasPermitedRepository;
         #endregion Inventario
 

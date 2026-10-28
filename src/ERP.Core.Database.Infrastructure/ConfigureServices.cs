@@ -214,7 +214,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ICustomsBranchesRepository, CustomsBranchesRepository>();
 
             // Inventario
-services.AddScoped<IKardexRepository, KardexRepository>();
+            services.AddScoped<IKardexRepository, KardexRepository>();
             services.AddScoped<IProductStockRepository, ProductStockRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();

@@ -115,6 +115,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<SupplyRequest> SupplyRequests => Set<SupplyRequest>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
+        public DbSet<InventoryAreasPermissions> InventoryAreasPermissions => Set<InventoryAreasPermissions>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
         public DbSet<RequisitionOperationalAreasPermited> RequisitionOperationalAreasPermits => Set<RequisitionOperationalAreasPermited>();
         public DbSet<InventoryAllowedCategories> InventoryAllowedCategories => Set<InventoryAllowedCategories>();
