@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory
 {
@@ -7,6 +8,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
     {
         public string? Code { get; set; }
         public string? Observations { get; set; }
+        public InventoryOutputsStatus Status { get; set; }
 
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
