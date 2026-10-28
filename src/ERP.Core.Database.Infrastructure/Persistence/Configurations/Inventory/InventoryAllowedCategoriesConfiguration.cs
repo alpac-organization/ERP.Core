@@ -1,5 +1,5 @@
-using System.Runtime.InteropServices;
 using ERP.Core.Database.Domain.Entities.Inventory;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

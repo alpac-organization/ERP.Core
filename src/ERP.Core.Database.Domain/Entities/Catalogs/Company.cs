@@ -2,6 +2,7 @@ using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs
 {
@@ -43,5 +44,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Catálogo de faltas disciplinarias por empresa
         public virtual ICollection<FaultCatalog> FaultCatalogs { get; set; } = [];
+
+        public virtual ICollection<InventoryAreasPermissions> InventoryAreasPermissions { get; set; } = [];
     }
 }
