@@ -947,7 +947,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         // Generar code para solicitudes pendientes de ingreso
         public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingInputs(string Branch, CancellationToken ct = default)
         {
-            string prefix = $"{Branch}-In-";
+            string prefix = $"In-{Branch}-";
 
             var existingCodes = await _unitOfWork.InventoryEntries.Entities
                 .AsNoTracking()
@@ -965,7 +965,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         // Generar code para solicitudes pendientes de salida
         public async Task<(bool IsSuccess, string Code)> GenerateCodeToInventoryPendingOutPuts(string Branch, CancellationToken ct = default)
         {
-            string prefix = $"{Branch}-Out-";
+            string prefix = $"OUT-{Branch}-";
 
             var existingCodes = await _unitOfWork.InventoryOutputs.Entities
                 .AsNoTracking()
