@@ -53,8 +53,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("reason_inventory_removal_id")
                 .IsRequired();
 
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
 
-        #region Foreign Keys
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
+
+            #region Foreign Keys
 
             builder.HasOne(e => e.Branch)
                 .WithMany(e => e.InventoryOutputs)
@@ -81,7 +89,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasForeignKey(e => e.ReasonsInventoryRemovalId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-        #endregion Foreign Keys
+            #endregion Foreign Keys
 
         }
     }

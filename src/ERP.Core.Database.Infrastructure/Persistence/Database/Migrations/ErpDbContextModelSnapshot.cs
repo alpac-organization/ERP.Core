@@ -2078,8 +2078,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("cost_center_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Observations")
                         .HasColumnType("text")
@@ -2093,7 +2100,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("inventory_outputs_status_enum")
                         .HasColumnName("status")
-                        .HasDefaultValueSql("'outputpending'::inventory_outputs_status_enum");
+                        .HasDefaultValueSql("'output_pending'::inventory_outputs_status_enum");
 
                     b.Property<Guid>("SupplyRequestId")
                         .HasColumnType("uuid")
