@@ -1075,8 +1075,6 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             var codePrefix = $"{branchCode}-{workAreaCode}-{categoryCode}-";
 
-            await AcquireCodePrefixLockAsync(codePrefix, cancellationToken);
-
             var lastProductCode = await _unitOfWork.Products.Entities
                 .Include(product => product.CostCenter)
                 .Where(product => product.BranchId == profile.BranchId)
@@ -1098,14 +1096,15 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             return (true, $"{codePrefix}{nextNumber:D3}");
-            /* ej:  ALP-CTO-01-01-001
-                    ALP-CTO-01-01-002
-                    ALP-CTO-01-02-001
-                    ALP-CTO-01-02-002
-                    .
-                    ALP-CTO-02-01-001
-                    .
-                      */
+            /* ej:  
+                ALP-CTO-01-01-001
+                ALP-CTO-01-01-002
+                ALP-CTO-01-02-001
+                ALP-CTO-01-02-002
+                .
+                ALP-CTO-02-01-001
+                .
+            */
         }
 
         public async Task<(bool IsSuccess, string Code)> GenerateCodeToSupplyRequests(string Branch, ReasonUse Use, CancellationToken ct = default)

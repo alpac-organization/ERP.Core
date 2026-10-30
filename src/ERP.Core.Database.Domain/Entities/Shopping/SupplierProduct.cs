@@ -1,7 +1,7 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
@@ -12,13 +12,12 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
 
         // Precio unitario vigente de este proveedor para este producto.
         public decimal UnitPrice { get; set; }
+        public string? ExclusiveStatusComments { get; set; }
 
         // Fecha en que el precio unitario vigente entró en vigor.
         public DateTime LastPriceUpdate { get; set; }
-
         public Currency Currency { get; set; } = Currency.NIO;
-
-        public string? ExclusiveStatusComments { get; set; }
+        
         public Guid UnitMeasureId { get; set; }
         public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
@@ -28,8 +27,8 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         public Guid SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; } = default!;
 
+        public virtual ICollection<Quotation> Quotations { get; set; } = [];
         public virtual ICollection<HistoryPrices> PriceHistories { get; set; } = [];
         public virtual ICollection<SupplierProductTierPrice> TierPrices { get; set; } = [];
-        public virtual ICollection<Quotation> Quotations { get; set; } = [];
     }
 }
