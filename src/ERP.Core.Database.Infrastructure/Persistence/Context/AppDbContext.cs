@@ -260,6 +260,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<EntryType>("public", "entry_type_enum");
             modelBuilder.HasPostgresEnum<ProductStockStatus>("public", "product_stock_status_enum");
             modelBuilder.HasPostgresEnum<ReasonUse>("public", "reason_use_enum");
+            modelBuilder.HasPostgresEnum<InventoryOutputsStatus>("public", "inventory_outputs_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
