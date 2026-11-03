@@ -339,10 +339,15 @@ namespace ERP.Core.Infrastructure.Services.AWS
             var host = uri.Host.ToLowerInvariant();
             var path = uri.AbsolutePath.TrimStart('/');
 
-            // Caso 1: URL pública con PublicKeyBaseUrl
-            if (!string.IsNullOrWhiteSpace(settings.PublicKeyBaseUrl))
+            // Caso 1: URL pública con BaseUrl / PublicKeyBaseUrl
+            var returnBaseUrl = System.Environment.GetEnvironmentVariable("S3Storage__BaseUrl")
+                ?? settings.BaseUrl
+                ?? System.Environment.GetEnvironmentVariable("S3Storage__PublicKeyBaseUrl")
+                ?? settings.PublicKeyBaseUrl;
+
+            if (!string.IsNullOrWhiteSpace(returnBaseUrl))
             {
-                if (Uri.TryCreate(settings.PublicKeyBaseUrl, UriKind.Absolute, out var publicUri))
+                if (Uri.TryCreate(returnBaseUrl, UriKind.Absolute, out var publicUri))
                 {
                     var publicHost = publicUri.Host.ToLowerInvariant();
                     var publicPathPrefix = publicUri.AbsolutePath.TrimEnd('/');
@@ -510,9 +515,14 @@ namespace ERP.Core.Infrastructure.Services.AWS
         {
             var settings = _options.Value;
 
-            if (!string.IsNullOrWhiteSpace(settings.PublicKeyBaseUrl))
+            var returnBaseUrl = System.Environment.GetEnvironmentVariable("S3Storage__BaseUrl")
+                ?? settings.BaseUrl
+                ?? System.Environment.GetEnvironmentVariable("S3Storage__PublicKeyBaseUrl")
+                ?? settings.PublicKeyBaseUrl;
+
+            if (!string.IsNullOrWhiteSpace(returnBaseUrl))
             {
-                return $"{settings.PublicKeyBaseUrl.TrimEnd('/')}/{key}";
+                return $"{returnBaseUrl.TrimEnd('/')}/{key}";
             }
 
             if (!string.IsNullOrWhiteSpace(settings.ServiceUrl))

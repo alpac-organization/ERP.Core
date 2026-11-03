@@ -7,6 +7,7 @@ namespace ERP.Core.Infrastructure.Settings
         public string? AccessKey { get; set; }
         public string? SecretKey { get; set; }
         public string? ServiceUrl { get; set; }
+        public string? BaseUrl { get; set; }
         public string? PublicKeyBaseUrl { get; set; }
         public bool ForcePathStyle { get; set; } = true;
     }
