@@ -14,7 +14,11 @@ using ERP.Core.Application.Commons.Interfaces.AWS;
 
 namespace ERP.Core.Infrastructure.Services.AWS
 {
-    public partial class S3StorageService(IAmazonS3 _s3Client, IOptions<S3Settings> _options, IErrorManager _errorManager) : IS3StorageService
+    public partial class S3StorageService(
+    IAmazonS3 _s3Client,
+    IOptions<S3Settings> _options,
+    IErrorManager _errorManager,
+    IOptions<BaseUrlS3ServiceSettings>? _baseUrlOptions = null) : IS3StorageService
     {
         private static readonly int PresignedUrlExpirationMinutes = 1440;
         private static readonly string[] AllowedExtensions = ["png", "jpg", "jpeg", "webp", "gif"];
@@ -137,7 +141,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     continue; // Saltar URLs vacías
                 }
 
-                var key = ExtractKeyFromUrl(imageUrl, settings);
+                var key = ExtractKeyFromUrl(imageUrl, settings, _baseUrlOptions?.Value);
 
                 if (string.IsNullOrEmpty(key))
                 {
@@ -199,7 +203,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
                     continue;
                 }
 
-                var sourceKey = ExtractKeyFromUrl(sourceUrl, settings);
+                var sourceKey = ExtractKeyFromUrl(sourceUrl, settings, _baseUrlOptions?.Value);
 
                 if (string.IsNullOrEmpty(sourceKey))
                 {
@@ -317,7 +321,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
             return movedUrls;
         }
         #endregion
-        private static string ExtractKeyFromUrl(string imageUrl, S3Settings settings)
+        private static string ExtractKeyFromUrl(string imageUrl, S3Settings settings, BaseUrlS3ServiceSettings? baseUrlSettings = null)
         {
             if (string.IsNullOrWhiteSpace(imageUrl))
             {
@@ -522,6 +526,7 @@ namespace ERP.Core.Infrastructure.Services.AWS
 
             if (!string.IsNullOrWhiteSpace(returnBaseUrl))
             {
+                return $"{returnBaseUrl.TrimEnd('/')}/{key}";
                 return $"{returnBaseUrl.TrimEnd('/')}/{key}";
             }
 
