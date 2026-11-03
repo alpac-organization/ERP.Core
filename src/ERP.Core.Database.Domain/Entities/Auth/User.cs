@@ -64,5 +64,6 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         // Faltas Disciplinarias
         public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];
+        public virtual ICollection<DisciplinarySanction> DisciplinarySanctions { get; set; } = [];
     }
 }

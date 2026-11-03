@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
@@ -27,6 +28,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public string? CancellationReason { get; set; } // Motivo si SanctionStatus = Cancelled
 
       public Guid IssuedBy { get; set; } // Quién aplicó la sanción (Jefe Inmediato o Recursos Humanos)
+      public virtual User User { get; set; } = null!;
 
       /// <summary>
       /// Documentos de la sancion (Memorandum o Memorandum + Carta de Compromiso, Carta de Cancelacion + Autorizacion MITRAB si se requiere)

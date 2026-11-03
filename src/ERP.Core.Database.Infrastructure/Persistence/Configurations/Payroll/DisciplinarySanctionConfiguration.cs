@@ -100,6 +100,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasForeignKey(e => e.FaultId)
             .OnDelete(DeleteBehavior.Restrict);
 
+         builder.HasOne(e => e.User)
+            .WithMany(ds => ds.DisciplinarySanctions)
+            .HasForeignKey(e => e.IssuedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
          builder.HasOne(e => e.Payroll)
             .WithMany(p => p.DisciplinarySanctions)
             .HasForeignKey(e => e.PayrollId)

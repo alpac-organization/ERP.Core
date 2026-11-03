@@ -48,7 +48,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "family_relationship_enum", new[] { "none", "spouse", "child", "parent", "sibling" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation", "biometric_clock" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "inventory_outputs_status_enum", new[] { "output_pending", "dispatched" });
@@ -3821,6 +3821,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("disciplinary_fault_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
@@ -3872,6 +3883,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_faults_code");
+
                     b.HasIndex("CollaboratorId")
                         .HasDatabaseName("ix_disciplinary_faults_collaborator_id");
 
@@ -3898,6 +3913,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("disciplinary_sanction_id")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -3952,12 +3978,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_sanctions_code");
+
                     b.HasIndex("FaultId")
                         .HasDatabaseName("ix_disciplinary_sanctions_fault_id");
 
                     b.HasIndex("Id")
                         .IsUnique()
                         .HasDatabaseName("ix_disciplinary_sanction_id");
+
+                    b.HasIndex("IssuedBy");
 
                     b.HasIndex("PayrollId")
                         .HasDatabaseName("ix_disciplinary_sanctions_payroll_id");
@@ -8500,6 +8532,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
+                        .WithMany("DisciplinarySanctions")
+                        .HasForeignKey("IssuedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
                         .WithMany("DisciplinarySanctions")
                         .HasForeignKey("PayrollId")
@@ -8508,6 +8546,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Fault");
 
                     b.Navigation("Payroll");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", b =>
@@ -9423,6 +9463,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentsMachineries");
 
                     b.Navigation("DisciplinaryFaults");
+
+                    b.Navigation("DisciplinarySanctions");
 
                     b.Navigation("Kardices");
 
