@@ -59,6 +59,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("requested_by_user_id")
                 .IsRequired();
 
+            builder.Property(e => e.ApprovedByUserChiefId)
+                .HasColumnName("approved_by_user_chief_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.AnnulledByUserChiefId)
+                .HasColumnName("annulled_by_user_chief_id")
+                .IsRequired(false);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -69,7 +77,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .IsRequired(false);
 
             #region Foreign Keys
-            
+
             builder.HasOne(e => e.WorkArea)
                 .WithMany(e => e.SupplyRequests)
                 .HasForeignKey(e => e.WorkAreaId)
