@@ -2349,6 +2349,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("supply_request_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid?>("AnnulledByUserChiefId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("annulled_by_user_chief_id");
+
+                    b.Property<Guid?>("ApprovedByUserChiefId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("approved_by_user_chief_id");
+
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uuid")
                         .HasColumnName("branch_id");
