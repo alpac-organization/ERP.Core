@@ -10,6 +10,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public Guid FaultId { get; set; }
       public virtual DisciplinaryFault Fault { get; set; } = null!;
 
+      public string Code { get; set; } = string.Empty;
+
       public SanctionType SanctionType { get; set; }
 
       public SanctionStatus SanctionStatus { get; set; }
@@ -22,6 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public virtual Payroll? Payroll { get; set; }
 
       public string Reason { get; set; } = string.Empty;
+      public string? CancellationReason { get; set; } // Motivo si SanctionStatus = Cancelled
 
       public Guid IssuedBy { get; set; } // Quién aplicó la sanción (Jefe Inmediato o Recursos Humanos)
 

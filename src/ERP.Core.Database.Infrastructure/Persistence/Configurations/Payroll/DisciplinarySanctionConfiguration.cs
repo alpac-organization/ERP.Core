@@ -24,6 +24,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .IsUnique()
             .HasDatabaseName("ix_disciplinary_sanction_id");
 
+         builder.Property(e => e.Code)
+            .HasColumnName("code")
+            .HasMaxLength(50)
+            .IsRequired();
+
+         builder.HasIndex(e => e.Code)
+            .IsUnique()
+            .HasDatabaseName("ix_disciplinary_sanctions_code");
+
          builder.Property(e => e.FaultId)
             .HasColumnName("fault_id")
             .IsRequired();
@@ -60,6 +69,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.Property(e => e.IssuedBy)
             .HasColumnName("issued_by")
             .IsRequired();
+
+         builder.Property(e => e.CancellationReason)
+            .HasColumnName("cancellation_reason")
+            .HasMaxLength(500)
+            .IsRequired(false);
 
          builder.Property(e => e.Evidence)
             .HasColumnName("evidence")
