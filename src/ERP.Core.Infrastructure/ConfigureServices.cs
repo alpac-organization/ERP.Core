@@ -20,7 +20,6 @@ namespace ERP.Core.Infrastructure
         {
 
             services.Configure<S3Settings>(configuration.GetSection("S3Storage"));
-            services.Configure<BaseUrlS3ServiceSettings>(configuration.GetSection("BaseUrlS3Service"));
             services.Configure<AwsSnsSettings>(configuration.GetSection("AwsSns"));
 
             var settings = configuration.GetSection("S3Storage").Get<S3Settings>()
