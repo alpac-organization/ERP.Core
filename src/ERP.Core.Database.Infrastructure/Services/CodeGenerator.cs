@@ -1160,6 +1160,64 @@ namespace ERP.Core.Database.Infrastructure.Services
 
         }
 
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueDisciplinaryFaultCodeAsync(
+            Guid companyId,
+            DateOnly occurrenceDate,
+            CancellationToken ct = default)
+        {
+            var companyCode = await _unitOfWork.Companies.Entities
+                .AsNoTracking()
+                .Where(c => c.Id == companyId && c.DeletedAt == null)
+                .Select(c => c.Code)
+                .FirstOrDefaultAsync(ct);
+
+            if (string.IsNullOrWhiteSpace(companyCode)) return (false, string.Empty);
+
+            // Ej: FLT-ALP-2026-
+            var prefix = $"FLT-{companyCode.Trim().ToUpperInvariant()}-{occurrenceDate.Year}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
+            var codesQuery = _unitOfWork.DisciplinaryFaults.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .Where(f => f.Code != null && f.Code.StartsWith(prefix))
+                .Select(f => (string?)f.Code);
+
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
+
+            return (true, code); // FLT-ALP-2026-001
+        }
+
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueDisciplinarySanctionCodeAsync(
+            Guid companyId,
+            DateOnly issuedDate,
+            CancellationToken ct = default)
+        {
+            var companyCode = await _unitOfWork.Companies.Entities
+                .AsNoTracking()
+                .Where(c => c.Id == companyId && c.DeletedAt == null)
+                .Select(c => c.Code)
+                .FirstOrDefaultAsync(ct);
+
+            if (string.IsNullOrWhiteSpace(companyCode)) return (false, string.Empty);
+
+            // Ej: SAN-ALP-2026-
+            var prefix = $"SAN-{companyCode.Trim().ToUpperInvariant()}-{issuedDate.Year}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
+            var codesQuery = _unitOfWork.DisciplinarySanctions.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .Where(s => s.Code != null && s.Code.StartsWith(prefix))
+                .Select(s => (string?)s.Code);
+
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
+
+            return (true, code); // SAN-ALP-2026-001
+        }
+
         #endregion Customers
     }
 }

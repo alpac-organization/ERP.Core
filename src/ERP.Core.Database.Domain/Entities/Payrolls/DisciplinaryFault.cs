@@ -10,6 +10,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public Guid CollaboratorId { get; set; }
       public virtual Collaborator Collaborator { get; set; } = null!;
 
+      public string Code { get; set; } = string.Empty;
+
       public Guid FaultCatalogId { get; set; }
       public virtual FaultCatalog FaultCatalog { get; set; } = null!;
       public DateOnly OccurrenceDate { get; set; }
@@ -23,6 +25,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
       public Guid? ParentFaultId { get; set; }
       public virtual DisciplinaryFault? ParentFault { get; set; }
+
+      public string? CancellationReason { get; set; } // Motivo si se cancela
 
       /// <summary>
       /// Evidencias en JSON (notas + fotos en S3). Default "{}".

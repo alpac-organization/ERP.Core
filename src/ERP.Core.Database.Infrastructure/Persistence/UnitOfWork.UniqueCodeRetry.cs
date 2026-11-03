@@ -11,7 +11,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             "ux_purchase_requests_code",
             "ux_purchase_orders_code",
             "ux_products_code",
-            "ux_payment_requests_code"
+            "ux_payment_requests_code",
+            "ix_disciplinary_faults_code",
+            "ix_disciplinary_sanctions_code"
         ];
 
         // aqui Ejecuta una acción dentro de una transaction, haciendo retry si ocurre una violación de código único.
