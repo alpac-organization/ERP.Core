@@ -3,6 +3,8 @@
 
 out/
 src/ERP.Core.Database.Infrastructure/appsettings.json
+src/ERP.Core.Testing/appsettings.Testing.json
+**/appsettings.*.json*
 
 **/bin/
 **/obj/
