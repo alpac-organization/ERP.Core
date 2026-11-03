@@ -4869,6 +4869,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("beneficiary_scope")
                         .HasDefaultValueSql("'none'::permit_beneficiary_scope_enum");
 
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
                     b.Property<bool>("ConsumesVacationBalance")
                         .HasColumnType("boolean")
                         .HasColumnName("consumes_vacation_balance");
@@ -4934,9 +4938,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_permit_type_policy_id");
 
-                    b.HasIndex("PermitApplicationType", "BeneficiaryScope", "FamilyRelationship")
+                    b.HasIndex("CompanyId", "PermitApplicationType", "BeneficiaryScope", "FamilyRelationship")
                         .IsUnique()
-                        .HasDatabaseName("ux_permit_type_policies_rule")
+                        .HasDatabaseName("ux_permit_type_policies_company_rule")
                         .HasFilter("deleted_at IS NULL");
 
                     b.ToTable("permission_type_policies", "public", t =>
@@ -8705,6 +8709,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Collaborator");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitTypePolicy", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("PermitTypePolicies")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonalInformation", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -9568,6 +9583,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InventoryAreasPermissions");
 
                     b.Navigation("JobPositions");
+
+                    b.Navigation("PermitTypePolicies");
 
                     b.Navigation("TypesAccountingPayroll");
 

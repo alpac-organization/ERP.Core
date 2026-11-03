@@ -29,6 +29,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .IsUnique()
             .HasDatabaseName("ix_permit_type_policy_id");
 
+         builder.Property(e => e.CompanyId)
+            .HasColumnName("company_id")
+            .IsRequired();
+
          builder.Property(e=>e.PermitApplicationType)
             .HasColumnName("permit_application_type")
             .HasColumnType("permit_application_type_enum")
@@ -78,10 +82,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasColumnName("max_amount_days")
             .HasPrecision(18, 4);
 
-         builder.HasIndex(e => new { e.PermitApplicationType, e.BeneficiaryScope, e.FamilyRelationship })
+         builder.HasIndex(e => new { e.CompanyId, e.PermitApplicationType, e.BeneficiaryScope, e.FamilyRelationship })
             .IsUnique()
             .HasFilter("deleted_at IS NULL")
-            .HasDatabaseName("ux_permit_type_policies_rule");
+            .HasDatabaseName("ux_permit_type_policies_company_rule");
+
+         builder.HasOne(e => e.Company)
+            .WithMany(c => c.PermitTypePolicies)
+            .HasForeignKey(e => e.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
