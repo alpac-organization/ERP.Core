@@ -68,6 +68,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse
                 .HasSentinel(ProductUsageType.Administrative)            
                 .IsRequired();
 
+            builder.Property(p => p.ProductStatus)
+                .HasColumnName("product_status")
+                .HasColumnType("product_status_enum")
+                .HasDefaultValueSql("'active'::product_status_enum")
+                .HasSentinel(ProductStatus.Active)            
+                .IsRequired();
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
