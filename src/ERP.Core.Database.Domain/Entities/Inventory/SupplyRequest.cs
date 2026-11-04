@@ -35,6 +35,8 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         //Solicitado por usuario
         public Guid RequestedByUserId { get; set; }
+        public Guid? ApprovedByUserChiefId { get; set; }
+        public Guid? AnnulledByUserChiefId { get; set; }
         public virtual User User { get; set; } = default!;
 
         //Stock Solicitado en la solicitud.

@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
@@ -14,6 +15,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public bool IsPaid {get; set;}
 
       public bool ConsumesVacationBalance {get; set;}
+
+      public Guid CompanyId {get; set;}
+
+      public virtual Company Company {get; set;} = null!; 
 
       public bool RequiresEvidence {get; set;}
 

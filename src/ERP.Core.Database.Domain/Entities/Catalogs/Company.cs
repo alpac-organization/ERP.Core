@@ -45,6 +45,9 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         //Catálogo de faltas disciplinarias por empresa
         public virtual ICollection<FaultCatalog> FaultCatalogs { get; set; } = [];
 
+        //Políticas de tipos de permiso por empresa
+        public virtual ICollection<PermitTypePolicy> PermitTypePolicies { get; set; } = [];
+
         public virtual ICollection<InventoryAreasPermissions> InventoryAreasPermissions { get; set; } = [];
     }
 }
