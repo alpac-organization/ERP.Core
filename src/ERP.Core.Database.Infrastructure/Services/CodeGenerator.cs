@@ -73,8 +73,6 @@ namespace ERP.Core.Database.Infrastructure.Services
             var typeCode = GetTypeCode(purchaseRequestType);
             var prefix = $"{branch.BranchCode.ToUpperInvariant()}-{typeCode}-";
 
-            await AcquireCodePrefixLockAsync(prefix, ct);
-
             var codesQuery = _unitOfWork.PurchaseRequests.Entities
                 .AsNoTracking()
                 .IgnoreQueryFilters()
