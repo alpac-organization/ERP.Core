@@ -132,6 +132,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<ReasonUse>("reason_use_enum", "public");
                     npgsqlOptions.MapEnum<KardexType>("kardex_type_enum", "public");
                     npgsqlOptions.MapEnum<InventoryOutputsStatus>("inventory_outputs_status_enum", "public");
+                    npgsqlOptions.MapEnum<ProductStatus>("product_status_enum", "public");
                 })
             );
 
@@ -220,6 +221,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProductStockRepository, ProductStockRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
             services.AddScoped<ISupplyRequestItemRepository, SupplyRequestItemRepository>();
+            services.AddScoped<IFuelRequestRepository, FuelRequestRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();

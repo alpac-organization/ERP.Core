@@ -50,6 +50,9 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public DateOnly TransactionDate { get; set; }
         public TimeOnly TransactionTime { get; set; }
 
+        /// <summary>
+        /// Producto que se esta moviendo
+        /// </summary>
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; } = default!;
 

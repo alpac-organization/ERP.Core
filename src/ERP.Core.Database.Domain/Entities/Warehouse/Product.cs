@@ -11,6 +11,8 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public string Code { get; set; } = string.Empty;
         public string? ProductName { get; set; }
         public string? Description { get; set; }
+        
+        public bool IsActive { get; set; }
         public bool IsTaxExempt { get; set;} = false;
 
         //Control de productos de Corinto / Managua
@@ -26,6 +28,7 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public Guid UnitMeasureId { get; set; }
         public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
+        public ProductStatus ProductStatus { get; set;}
         public ProductUsageType ProductUsageType { get; set; }
 
         public virtual ICollection<SupplierProduct> SupplierProducts { get; set; } = [];
