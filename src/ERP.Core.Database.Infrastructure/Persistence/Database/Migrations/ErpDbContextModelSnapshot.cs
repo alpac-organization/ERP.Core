@@ -4896,10 +4896,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_paid");
-
                     b.Property<decimal?>("MaxAmountDays")
                         .HasPrecision(18, 4)
                         .HasColumnType("numeric(18,4)")
