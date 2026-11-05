@@ -45,7 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "employment_type_enum", new[] { "internal", "outsourced", "temporary" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_status_enum", new[] { "pending_review", "approved_entry", "cancel_entry" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_type_enum", new[] { "buy", "return", "inventory_adjustment" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "family_relationship_enum", new[] { "none", "spouse", "child", "parent", "sibling" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "family_relationship_enum", new[] { "none", "spouse", "child", "parent", "sibling", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation", "biometric_clock" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed", "cancelled" });

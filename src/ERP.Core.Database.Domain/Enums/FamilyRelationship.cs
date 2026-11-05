@@ -7,5 +7,6 @@ namespace ERP.Core.Database.Domain.Enums
          Child = 2,
          Parent = 3,
          Sibling = 4,
+         Other = 5,
    }
 }
