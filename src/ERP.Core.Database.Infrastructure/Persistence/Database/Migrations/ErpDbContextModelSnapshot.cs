@@ -7634,9 +7634,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("machinery_id");
 
-                    b.Property<Guid?>("MachineryId1")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal?>("Mileage")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
@@ -7645,9 +7642,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("ProductStockId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_stock_id");
-
-                    b.Property<Guid?>("ProductStockId1")
-                        .HasColumnType("uuid");
 
                     b.Property<decimal>("RequestedQuantity")
                         .HasPrecision(5, 2)
@@ -7658,20 +7652,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("unit_measure_id");
 
-                    b.Property<Guid?>("UnitMeasureId1")
-                        .HasColumnType("uuid");
-
                     b.HasIndex("MachineryId");
-
-                    b.HasIndex("MachineryId1");
 
                     b.HasIndex("ProductStockId");
 
-                    b.HasIndex("ProductStockId1");
-
                     b.HasIndex("UnitMeasureId");
-
-                    b.HasIndex("UnitMeasureId1");
 
                     b.ToTable("fuel_requests", "public");
                 });
@@ -9558,34 +9543,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.FuelRequest", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Machinery", "Machinery")
-                        .WithMany()
+                        .WithMany("FuelRequests")
                         .HasForeignKey("MachineryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Machinery", null)
-                        .WithMany("FuelRequests")
-                        .HasForeignKey("MachineryId1");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", "ProductStock")
-                        .WithMany()
+                        .WithMany("FuelRequests")
                         .HasForeignKey("ProductStockId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", null)
-                        .WithMany("FuelRequests")
-                        .HasForeignKey("ProductStockId1");
-
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", "UnitMeasure")
-                        .WithMany()
+                        .WithMany("FuelRequests")
                         .HasForeignKey("UnitMeasureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.UnitMeasure", null)
-                        .WithMany("FuelRequests")
-                        .HasForeignKey("UnitMeasureId1");
 
                     b.Navigation("Machinery");
 
