@@ -47,7 +47,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.SupplyRequestId)
                 .HasColumnName("supply_request_id")
-                .IsRequired();
+                .IsRequired(false);
+
+            builder.Property(e => e.FuelRequestId)
+                .HasColumnName("fuel_request_id")
+                .IsRequired(false);
 
             builder.Property(e => e.ReasonsInventoryRemovalId)
                 .HasColumnName("reason_inventory_removal_id")
@@ -82,6 +86,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.HasOne(e => e.SupplyRequest)
                 .WithOne(e => e.InventoryOutput)
                 .HasForeignKey<InventoryOutputs>(e => e.SupplyRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.FuelRequest)
+                .WithOne(e => e.InventoryOutput)
+                .HasForeignKey<InventoryOutputs>(e => e.FuelRequestId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.ReasonsInventoryRemoval)
