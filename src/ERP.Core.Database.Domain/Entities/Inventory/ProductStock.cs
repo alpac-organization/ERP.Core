@@ -12,7 +12,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public int? MaximumStock { get; set; }
         public int AvailableQuantity { get; set; }
         public decimal WeightedAverageCost { get; set; }
-        
+
         public ProductStockStatus Status { get; set; }
 
         public Guid UnitMeasureId { get; set; }
@@ -25,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public virtual CostCenter CostCenter { get; set; } = default!;
 
         public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
+        public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
     }
 }

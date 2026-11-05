@@ -70,22 +70,22 @@ public class BaseSupplyRequestConfiguration : IEntityTypeConfiguration<BaseSuppl
         #region Foreign Keys
 
         builder.HasOne(e => e.WorkArea)
-            .WithMany(e => e.SupplyRequests)
+            .WithMany(e => e.BaseSupplyRequests)
             .HasForeignKey(e => e.WorkAreaId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.CostCenter)
-            .WithMany(e => e.SupplyRequests)
+            .WithMany(e => e.BaseSupplyRequests)
             .HasForeignKey(e => e.CostCenterId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.Branch)
-            .WithMany(e => e.SupplyRequests)
+            .WithMany(e => e.BaseSupplyRequests)
             .HasForeignKey(e => e.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.User)
-            .WithMany(e => e.SupplyRequests)
+            .WithMany(e => e.BaseSupplyRequests)
             .HasForeignKey(e => e.RequestedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
