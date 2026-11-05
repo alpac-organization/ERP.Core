@@ -84,7 +84,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "reason_use_enum", new[] { "sale", "operation" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "role_type_enum", new[] { "administrator", "supervisor", "manager", "operator" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "salary_type_enum", new[] { "fixed", "variable", "professional_services" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_status_enum", new[] { "applied", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_status_enum", new[] { "applied", "cancelled", "pending" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "sanction_type_enum", new[] { "verbal_warning", "memorandum", "suspension", "commitment_letter", "termination" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_storage_type_enum", new[] { "racks", "lots", "pallets", "none" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "section_type_enum", new[] { "storage", "aisle" });
@@ -3900,6 +3900,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("disciplinary_sanction_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_at");
+
+                    b.Property<Guid?>("ApprovedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("approved_by");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3952,6 +3971,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("suspension_start_date");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApprovedBy")
+                        .HasDatabaseName("ix_disciplinary_sanctions_approved_by");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_sanctions_code");
 
                     b.HasIndex("FaultId")
                         .HasDatabaseName("ix_disciplinary_sanctions_fault_id");
@@ -8504,6 +8530,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ApprovedByUser")
+                        .WithMany()
+                        .HasForeignKey("ApprovedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", "Fault")
                         .WithMany("Sanctions")
                         .HasForeignKey("FaultId")
@@ -8514,6 +8545,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .WithMany("DisciplinarySanctions")
                         .HasForeignKey("PayrollId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedByUser");
 
                     b.Navigation("Fault");
 

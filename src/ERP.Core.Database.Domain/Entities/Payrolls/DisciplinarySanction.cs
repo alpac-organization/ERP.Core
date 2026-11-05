@@ -25,10 +25,15 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public virtual Payroll? Payroll { get; set; }
 
       public string Reason { get; set; } = string.Empty;
-      public string? CancellationReason { get; set; } // Motivo si SanctionStatus = Cancelled
+      public string? CancellationReason { get; set; } // Motivo si SanctionStatus = Cancelled (rechazo/cancelación)
 
-      public Guid IssuedBy { get; set; } // Quién aplicó la sanción (Jefe Inmediato o Recursos Humanos)
+      public Guid IssuedBy { get; set; } // Quién crea/propone la sanción (Jefe Inmediato)
       public virtual User User { get; set; } = null!;
+
+      public Guid? ApprovedBy { get; set; } // Quién aprueba/aplica la sanción (Recursos Humanos)
+      public virtual User? ApprovedByUser { get; set; }
+
+      public DateTime? ApprovedAt { get; set; } // Fecha/hora de aprobación
 
       /// <summary>
       /// Documentos de la sancion (Memorandum o Memorandum + Carta de Compromiso, Carta de Cancelacion + Autorizacion MITRAB si se requiere)
