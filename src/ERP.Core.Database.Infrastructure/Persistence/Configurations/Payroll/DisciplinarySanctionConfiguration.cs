@@ -75,8 +75,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .IsRequired(false);
 
          builder.Property(e => e.ApprovedAt)
-            .HasColumnName("approved_at")
-            .HasColumnType("timestamp with time zone")
+            .HasColumnName("approved_at")            
             .IsRequired(false);
 
          builder.Property(e => e.CancellationReason)
