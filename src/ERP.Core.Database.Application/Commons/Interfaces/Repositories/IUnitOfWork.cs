@@ -98,6 +98,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IKardexRepository Kardex { get; }
         ISupplyRequestRepository SupplyRequests { get; }
         ISupplyRequestItemRepository SupplyRequestItems { get; }
+        IFuelRequestRepository FuelRequests { get; }
         IInventoryEntriesRepository InventoryEntries { get; }
         IInventoryOutputsRepository InventoryOutputs { get; }
         IProductStockRepository ProductStocks { get; }

@@ -21,5 +21,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<ProductStock> ProductStocks { get; set; } = [];
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
         public virtual ICollection<CategoryAllowedUnitMeasures> CategoryAllowedUnitMeasures { get; set; } = [];
+        public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
     }
 }

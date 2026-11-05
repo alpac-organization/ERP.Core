@@ -1120,11 +1120,35 @@ namespace ERP.Core.Database.Infrastructure.Services
                 .AsNoTracking()
                 .IgnoreQueryFilters()
                 .Where(sr => sr.Code != null && sr.Code.StartsWith(prefix))
+                .OrderByDescending(sr => sr.CreatedAt)
+                .Take(10)
                 .Select(sr => sr.Code);
 
             var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
             return (true, code);            // OR-ALP-MGA-001 || AR-ALP-MGA-001
 
+        }
+
+        // Solicitudes de Combustible
+        public async Task<(bool IsSuccess, string Code)> GenerateCodeToFuelRequests(string Branch, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(Branch))
+                return (false, string.Empty);
+
+            var prefix = $"FR-{Branch.Trim().ToUpperInvariant()}-";
+
+            await AcquireCodePrefixLockAsync(prefix, ct);
+
+            var codesQuery = _unitOfWork.FuelRequests.Entities
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .Where(fr => fr.Code != null && fr.Code.StartsWith(prefix))
+                .OrderByDescending(fr => fr.CreatedAt)
+                .Take(10)
+                .Select(fr => fr.Code);
+
+            var code = await ResolveNextCodeAsync(codesQuery, prefix, padWidth: 3, ct);
+            return (true, code); // FR-ALP-MGA-001
         }
 
         private static string? GetSupplyRequestTypeCode(ReasonUse use) => use switch
