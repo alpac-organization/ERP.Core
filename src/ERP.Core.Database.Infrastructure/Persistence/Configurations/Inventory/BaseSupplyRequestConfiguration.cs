@@ -14,7 +14,7 @@ public class BaseSupplyRequestConfiguration : IEntityTypeConfiguration<BaseSuppl
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .HasColumnName("supply_request_id")
+            .HasColumnName("base_supply_request_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
             .IsRequired();

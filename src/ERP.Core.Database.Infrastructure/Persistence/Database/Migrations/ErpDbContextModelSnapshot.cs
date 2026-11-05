@@ -783,7 +783,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("supply_request_id")
+                        .HasColumnName("base_supply_request_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid?>("AnnulledByUserChiefId")
@@ -2161,6 +2161,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<Guid?>("FuelRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("fuel_request_id");
+
                     b.Property<string>("Observations")
                         .HasColumnType("text")
                         .HasColumnName("observations");
@@ -2175,7 +2179,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("status")
                         .HasDefaultValueSql("'output_pending'::inventory_outputs_status_enum");
 
-                    b.Property<Guid>("SupplyRequestId")
+                    b.Property<Guid?>("SupplyRequestId")
                         .HasColumnType("uuid")
                         .HasColumnName("supply_request_id");
 
@@ -2188,6 +2192,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("BranchId");
 
                     b.HasIndex("CostCenterId");
+
+                    b.HasIndex("FuelRequestId")
+                        .IsUnique();
 
                     b.HasIndex("ReasonsInventoryRemovalId");
 
@@ -8133,6 +8140,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.FuelRequest", "FuelRequest")
+                        .WithOne("InventoryOutput")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "FuelRequestId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ReasonsInventoryRemoval", "ReasonsInventoryRemoval")
                         .WithMany()
                         .HasForeignKey("ReasonsInventoryRemovalId")
@@ -8142,8 +8154,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", "SupplyRequest")
                         .WithOne("InventoryOutput")
                         .HasForeignKey("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "SupplyRequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("InventoryOutputs")
@@ -8154,6 +8165,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("CostCenter");
+
+                    b.Navigation("FuelRequest");
 
                     b.Navigation("ReasonsInventoryRemoval");
 
@@ -10085,6 +10098,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignmentStockPlacements");
 
                     b.Navigation("SectionPositionsCoordinates")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.FuelRequest", b =>
+                {
+                    b.Navigation("InventoryOutput")
                         .IsRequired();
                 });
 
