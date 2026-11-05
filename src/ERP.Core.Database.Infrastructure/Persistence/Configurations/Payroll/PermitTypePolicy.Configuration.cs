@@ -50,8 +50,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasDefaultValueSql("'none'::family_relationship_enum")
             .IsRequired();
 
-         builder.Property(e=>e.IsPaid)
-            .HasColumnName("is_paid");
 
          builder.Property(e=>e.ConsumesVacationBalance)
             .HasColumnName("consumes_vacation_balance");
