@@ -70,6 +70,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasColumnName("issued_by")
             .IsRequired();
 
+         builder.Property(e => e.ApprovedBy)
+            .HasColumnName("approved_by")
+            .IsRequired(false);
+
+         builder.Property(e => e.ApprovedAt)
+            .HasColumnName("approved_at")
+            .HasColumnType("timestamp with time zone")
+            .IsRequired(false);
+
          builder.Property(e => e.CancellationReason)
             .HasColumnName("cancellation_reason")
             .HasMaxLength(500)
@@ -95,6 +104,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.HasIndex(e => e.PayrollId)
             .HasDatabaseName("ix_disciplinary_sanctions_payroll_id");
 
+         builder.HasIndex(e => e.ApprovedBy)
+            .HasDatabaseName("ix_disciplinary_sanctions_approved_by");
+
          builder.HasOne(e => e.Fault)
             .WithMany(f => f.Sanctions)
             .HasForeignKey(e => e.FaultId)
@@ -103,6 +115,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.HasOne(e => e.User)
             .WithMany(ds => ds.DisciplinarySanctions)
             .HasForeignKey(e => e.IssuedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
+         builder.HasOne(e => e.ApprovedByUser)
+            .WithMany()
+            .HasForeignKey(e => e.ApprovedBy)
             .OnDelete(DeleteBehavior.Restrict);
 
          builder.HasOne(e => e.Payroll)
