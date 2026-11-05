@@ -7618,12 +7618,22 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseSupplyRequest");
 
+                    b.Property<decimal?>("EngineHours")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("numeric(9,2)")
+                        .HasColumnName("engine_hours");
+
                     b.Property<Guid>("MachineryId")
                         .HasColumnType("uuid")
                         .HasColumnName("machinery_id");
 
                     b.Property<Guid?>("MachineryId1")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal?>("Mileage")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("mileage");
 
                     b.Property<Guid>("ProductStockId")
                         .HasColumnType("uuid")

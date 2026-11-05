@@ -27,6 +27,16 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
             .HasPrecision(5, 2)
             .IsRequired();
 
+        builder.Property(fr => fr.Mileage)
+            .HasColumnName("mileage")
+            .HasPrecision(10, 2)
+            .IsRequired(false);
+
+        builder.Property(fr => fr.EngineHours)
+            .HasColumnName("engine_hours")
+            .HasPrecision(9, 2)
+            .IsRequired(false);
+
         #region Foreign Keys
 
         builder.HasOne(fr => fr.Machinery)

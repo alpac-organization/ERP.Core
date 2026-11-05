@@ -17,4 +17,6 @@ public class FuelRequest : BaseSupplyRequest
     public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
     public decimal RequestedQuantity { get; set; }
+    public decimal? Mileage { get; set; }                           // kilometraje del vehiculo particular
+    public decimal? EngineHours { get; set; }                       // horas motor para maquinaria
 }
