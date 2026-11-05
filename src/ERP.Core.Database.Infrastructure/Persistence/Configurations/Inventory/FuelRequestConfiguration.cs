@@ -40,17 +40,17 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
         #region Foreign Keys
 
         builder.HasOne(fr => fr.Machinery)
-            .WithMany()
+            .WithMany(m => m.FuelRequests)
             .HasForeignKey(fr => fr.MachineryId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(fr => fr.ProductStock)
-            .WithMany()
+            .WithMany(ps => ps.FuelRequests)
             .HasForeignKey(fr => fr.ProductStockId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(fr => fr.UnitMeasure)
-            .WithMany()
+            .WithMany(u => u.FuelRequests)
             .HasForeignKey(fr => fr.UnitMeasureId)
             .OnDelete(DeleteBehavior.Restrict);
         #endregion Foreign Keys
