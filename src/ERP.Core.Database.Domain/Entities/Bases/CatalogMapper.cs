@@ -88,4 +88,17 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public string? Code { get; set; }
         public string? CustomsBranchName { get; set; }
     }
+
+    public class MachineryInformation
+    {
+        public Guid MachineryId { get; set; }
+        public string? Brand { get; set; }
+        public string? Code { get; set; }
+        public string? Year { get; set; }
+        public string? Model { get; set; }
+        public string? SerialNumber { get; set; }
+        public string? Color { get; set; }
+        public MachineryStatus Status { get; set; }
+        public MachineryType Type { get; set; }
+    }
 }
