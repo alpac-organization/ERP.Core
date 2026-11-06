@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                   "required_approval_steps IN (1, 2)");
 
             table.HasCheckConstraint("ck_permit_type_policies_evidence",
-                    "min_evidence_count >= 0 AND max_evidence_count >= min_evidence_count");
+                    "(requires_evidence = false AND min_evidence_count = 0 AND max_evidence_count = 0) OR (requires_evidence = true AND min_evidence_count >= 1 AND (max_evidence_count IS NULL OR max_evidence_count >= min_evidence_count))");
          });
 
          builder.HasKey(e=> e.Id);
@@ -50,8 +50,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasDefaultValueSql("'none'::family_relationship_enum")
             .IsRequired();
 
-         builder.Property(e=>e.IsPaid)
-            .HasColumnName("is_paid");
 
          builder.Property(e=>e.ConsumesVacationBalance)
             .HasColumnName("consumes_vacation_balance");
@@ -69,9 +67,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .IsRequired();
 
          builder.Property(e=>e.MaxEvidenceCount)
-            .HasColumnName("max_evidence_count")
-            .HasDefaultValue(0)
-            .IsRequired();
+            .HasColumnName("max_evidence_count");
 
          builder.Property(e => e.IsActive)
             .HasColumnName("is_active")

@@ -12,7 +12,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
       public FamilyRelationship  FamilyRelationship {get; set;} = FamilyRelationship.None; 
 
-      public bool IsPaid {get; set;}
 
       public bool ConsumesVacationBalance {get; set;}
 
@@ -22,7 +21,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
       public bool RequiresEvidence {get; set;}
 
-      public int MaxEvidenceCount {get; set;}
+      public int? MaxEvidenceCount {get; set;}
 
       public int MinEvidenceCount {get; set;} 
 

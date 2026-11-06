@@ -24,7 +24,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
-        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
+        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
         public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = [];
         public virtual ICollection<InventoryOutputs> InventoryOutputs { get; set; } = [];
         public virtual ICollection<InventoryAreasPermissions> InventoryAreasPermissions { get; set; } = [];

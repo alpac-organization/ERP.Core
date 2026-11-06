@@ -61,7 +61,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
 
         //Inventario
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
-        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
+        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
 
         // Faltas Disciplinarias
         public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];

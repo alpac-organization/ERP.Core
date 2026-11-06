@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Entities.Inventory;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -19,4 +20,5 @@ public class Machinery : BaseEntity<Guid>
     public bool IsActive { get; set; } = true;
 
     public virtual Branch Branch { get; set; } = default!;
+    public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
 }

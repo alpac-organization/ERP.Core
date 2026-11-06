@@ -119,7 +119,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IAbsencesRepository absencesRepository,
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
-            ISupplyRequestItemRepository supplyRequestItemRepository
+            ISupplyRequestItemRepository supplyRequestItemRepository,
+            IFuelRequestRepository fuelRequestRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -237,6 +238,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IKardexRepository Kardex => kardexRepository;
         public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
         public ISupplyRequestItemRepository SupplyRequestItems => supplyRequestItemRepository;
+        public IFuelRequestRepository FuelRequests => fuelRequestRepository;
         public IInventoryAllowedCategoriesRepository InventoryAllowedCategories => inventoryAllowedCategoriesRepository;
         public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
         public IProductStockRepository ProductStocks => productStocksRepository;

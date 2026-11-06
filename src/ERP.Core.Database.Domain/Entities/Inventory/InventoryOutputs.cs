@@ -1,6 +1,6 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory
 {
@@ -19,8 +19,11 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
 
-        public Guid SupplyRequestId { get; set; }
+        public Guid? SupplyRequestId { get; set; }
         public virtual SupplyRequest SupplyRequest { get; set; } = default!;
+        
+        public Guid? FuelRequestId { get; set; }
+        public virtual FuelRequest FuelRequest { get; set; } = default!;
 
         public Guid ReasonsInventoryRemovalId { get; set; }
         public virtual ReasonsInventoryRemoval ReasonsInventoryRemoval { get; set; } = default!;
