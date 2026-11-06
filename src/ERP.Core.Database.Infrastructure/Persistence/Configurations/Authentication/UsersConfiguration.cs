@@ -30,6 +30,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Authentica
                 .HasColumnName("email")
                 .IsRequired();
 
+            builder.Property(e => e.PictureUrl)
+                .HasColumnName("picture_url")
+                .IsRequired(false);
+
             builder.Property(e => e.IdentificationNumber)
                 .HasColumnName("identification_number")
                 .IsRequired();
