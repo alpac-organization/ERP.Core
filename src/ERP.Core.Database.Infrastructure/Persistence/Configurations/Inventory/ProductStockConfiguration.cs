@@ -25,15 +25,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(e => e.AvailableQuantity)
                 .HasColumnName("available_quantity")
+                .HasPrecision(7, 2)
                 .IsRequired();
 
             builder.Property(e => e.MinimumStock)
                 .HasColumnName("minimum_stock")
+                .HasPrecision(7, 2)
                 .IsRequired();
 
             builder.Property(e => e.MaximumStock)
-                .HasColumnName("maximum_stock");
-
+                .HasColumnName("maximum_stock")
+                .HasPrecision(7, 2)
+                .IsRequired(false);
+                        
             builder.Property(e => e.ProductId)
                 .HasColumnName("product_id")
                 .IsRequired();
