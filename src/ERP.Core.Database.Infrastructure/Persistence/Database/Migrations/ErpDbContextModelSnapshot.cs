@@ -450,6 +450,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
 
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("picture_url");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text")
