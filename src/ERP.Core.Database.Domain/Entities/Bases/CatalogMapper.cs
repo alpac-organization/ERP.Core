@@ -101,4 +101,15 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public MachineryStatus Status { get; set; }
         public MachineryType Type { get; set; }
     }
+
+    public class InventoryStockInformation
+    {
+        public Guid InventoryStockId { get; set; }
+        public Guid ProductId { get; set; }
+        public int AvailableQuantity { get; set; }
+        public decimal WeightedAverageCost { get; set; }
+        public ProductStockStatus Status { get; set; }
+        public Guid UnitMeasureId { get; set; }
+
+    }
 }

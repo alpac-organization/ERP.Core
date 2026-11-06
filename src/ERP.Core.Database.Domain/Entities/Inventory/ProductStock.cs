@@ -1,16 +1,16 @@
+using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 using ERP.Core.Database.Domain.Entities.Warehouse;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory
 {
     public class ProductStock : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
-        public int MinimumStock { get; set; }
-        public int? MaximumStock { get; set; }
-        public int AvailableQuantity { get; set; }
+        public decimal MinimumStock { get; set; }
+        public decimal? MaximumStock { get; set; }
+        public decimal AvailableQuantity { get; set; }
         public decimal WeightedAverageCost { get; set; }
 
         public ProductStockStatus Status { get; set; }
@@ -26,5 +26,6 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
         public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
+        public virtual ICollection<InventoryOutputsItem> InventoryOutputsItems { get; set; } = [];
     }
 }
