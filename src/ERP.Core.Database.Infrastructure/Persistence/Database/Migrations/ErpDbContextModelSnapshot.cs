@@ -4908,10 +4908,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(18,4)")
                         .HasColumnName("max_amount_days");
 
-                    b.Property<int>("MaxEvidenceCount")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("MaxEvidenceCount")
                         .HasColumnType("integer")
-                        .HasDefaultValue(0)
                         .HasColumnName("max_evidence_count");
 
                     b.Property<int>("MinEvidenceCount")
@@ -4945,7 +4943,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.ToTable("permission_type_policies", "public", t =>
                         {
-                            t.HasCheckConstraint("ck_permit_type_policies_evidence", "min_evidence_count >= 0 AND max_evidence_count >= min_evidence_count");
+                            t.HasCheckConstraint("ck_permit_type_policies_evidence", "(requires_evidence = false AND min_evidence_count = 0 AND max_evidence_count = 0) OR (requires_evidence = true AND min_evidence_count >= 1 AND (max_evidence_count IS NULL OR max_evidence_count >= min_evidence_count))");
 
                             t.HasCheckConstraint("ck_permit_type_policies_steps", "required_approval_steps IN (1, 2)");
                         });
