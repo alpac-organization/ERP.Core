@@ -1,11 +1,11 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Shopping;
-using ERP.Core.Database.Domain.Entities.Accounting;
-using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Payrolls;
 using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Inventory;
-using ERP.Core.Database.Domain.Entities.Payrolls;
+using ERP.Core.Database.Domain.Entities.Accounting;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -15,6 +15,7 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         public string? Email { get; set; }
         public string? UserName { get; set; }
         public string? Fullname { get; set; }
+        public string? PictureUrl { get; set; }
         public string? PasswordHash { get; set; }
         public string? IdentificationNumber { get; set; }
 
