@@ -70,6 +70,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasMaxLength(500)
                 .IsRequired(false);
 
+            builder.Property(e => e.IsAllDispached)
+                .HasColumnName("is_all_dispached")
+                .HasDefaultValue(true)
+                .IsRequired(false);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
