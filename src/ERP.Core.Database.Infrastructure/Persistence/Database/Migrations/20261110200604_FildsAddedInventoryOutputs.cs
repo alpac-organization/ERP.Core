@@ -123,7 +123,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.fault_status_enum", "open,sanction_applied,prescribed,cancelled")
                 .OldAnnotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .OldAnnotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
-                .OldAnnotation("Npgsql:Enum:public.inventory_outputs_status_enum", "output_pending,dispatched")
+                .OldAnnotation("Npgsql:Enum:public.inventory_outputs_status_enum", "output_pending,dispatched,in_progress")
                 .OldAnnotation("Npgsql:Enum:public.invoice_status_enum", "pending,paid,overdue")
                 .OldAnnotation("Npgsql:Enum:public.kardex_movement_type_enum", "buys,exit,returns")
                 .OldAnnotation("Npgsql:Enum:public.kardex_type_enum", "operational,administrative")
