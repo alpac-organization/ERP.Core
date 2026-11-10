@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class FildsAddedInventoryOutputs : Migration
+    public partial class FildsAddedInventory : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -175,84 +175,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
-            migrationBuilder.AlterColumn<decimal>(
-                name: "minimum_stock",
-                schema: "public",
-                table: "product_stock",
-                type: "numeric(7,2)",
-                precision: 7,
-                scale: 2,
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
-
-            migrationBuilder.AlterColumn<decimal>(
-                name: "maximum_stock",
-                schema: "public",
-                table: "product_stock",
-                type: "numeric(7,2)",
-                precision: 7,
-                scale: 2,
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "integer",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<decimal>(
-                name: "available_quantity",
-                schema: "public",
-                table: "product_stock",
-                type: "numeric(7,2)",
-                precision: 7,
-                scale: 2,
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
-
-            migrationBuilder.AlterColumn<decimal>(
-                name: "units",
-                schema: "public",
-                table: "kardex",
-                type: "numeric(7,2)",
-                precision: 7,
-                scale: 2,
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
-
-            migrationBuilder.AlterColumn<decimal>(
-                name: "total_units",
-                schema: "public",
-                table: "kardex",
-                type: "numeric(7,2)",
-                precision: 7,
-                scale: 2,
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "dispatched_at",
-                schema: "public",
-                table: "inventory_outputs",
-                type: "timestamp with time zone",
-                nullable: true);
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs",
-                type: "uuid",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "dispatched_justification",
-                schema: "public",
-                table: "inventory_outputs",
-                type: "character varying(500)",
-                maxLength: 500,
-                nullable: true);
-
             migrationBuilder.AddColumn<bool>(
                 name: "is_all_dispached",
                 schema: "public",
@@ -261,97 +183,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 nullable: true,
                 defaultValue: true);
 
-            migrationBuilder.CreateTable(
-                name: "inventory_outputs_items",
-                schema: "public",
-                columns: table => new
-                {
-                    inventory_output_item_id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    inventory_output_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_stock_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    dispatched_quantity = table.Column<decimal>(type: "numeric", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_inventory_outputs_items", x => x.inventory_output_item_id);
-                    table.ForeignKey(
-                        name: "FK_inventory_outputs_items_inventory_outputs_inventory_output_~",
-                        column: x => x.inventory_output_id,
-                        principalSchema: "public",
-                        principalTable: "inventory_outputs",
-                        principalColumn: "inventory_output_id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_inventory_outputs_items_product_stock_product_stock_id",
-                        column: x => x.product_stock_id,
-                        principalSchema: "public",
-                        principalTable: "product_stock",
-                        principalColumn: "product_stock_id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_inventory_outputs_dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs",
-                column: "dispatched_by_user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_inventory_outputs_items_inventory_output_id",
-                schema: "public",
-                table: "inventory_outputs_items",
-                column: "inventory_output_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_inventory_outputs_items_product_stock_id",
-                schema: "public",
-                table: "inventory_outputs_items",
-                column: "product_stock_id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_inventory_outputs_users_dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs",
-                column: "dispatched_by_user_id",
-                principalSchema: "public",
-                principalTable: "users",
-                principalColumn: "user_id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_inventory_outputs_users_dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs");
-
-            migrationBuilder.DropTable(
-                name: "inventory_outputs_items",
-                schema: "public");
-
-            migrationBuilder.DropIndex(
-                name: "IX_inventory_outputs_dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs");
-
-            migrationBuilder.DropColumn(
-                name: "dispatched_at",
-                schema: "public",
-                table: "inventory_outputs");
-
-            migrationBuilder.DropColumn(
-                name: "dispatched_by_user_id",
-                schema: "public",
-                table: "inventory_outputs");
-
-            migrationBuilder.DropColumn(
-                name: "dispatched_justification",
-                schema: "public",
-                table: "inventory_outputs");
-
             migrationBuilder.DropColumn(
                 name: "is_all_dispached",
                 schema: "public",
@@ -388,7 +224,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.fault_status_enum", "open,sanction_applied,prescribed,cancelled")
                 .Annotation("Npgsql:Enum:public.gender_type_enum", "man,women")
                 .Annotation("Npgsql:Enum:public.identification_type_enum", "cedula,pasaporte,cedula_residencia,ruc")
-                .Annotation("Npgsql:Enum:public.inventory_outputs_status_enum", "output_pending,dispatched")
+                .Annotation("Npgsql:Enum:public.inventory_outputs_status_enum", "output_pending,dispatched,in_progress")
                 .Annotation("Npgsql:Enum:public.invoice_status_enum", "pending,paid,overdue")
                 .Annotation("Npgsql:Enum:public.kardex_movement_type_enum", "buys,exit,returns")
                 .Annotation("Npgsql:Enum:public.kardex_type_enum", "operational,administrative")
@@ -521,61 +357,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "minimum_stock",
-                schema: "public",
-                table: "product_stock",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "numeric(7,2)",
-                oldPrecision: 7,
-                oldScale: 2);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "maximum_stock",
-                schema: "public",
-                table: "product_stock",
-                type: "integer",
-                nullable: true,
-                oldClrType: typeof(decimal),
-                oldType: "numeric(7,2)",
-                oldPrecision: 7,
-                oldScale: 2,
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "available_quantity",
-                schema: "public",
-                table: "product_stock",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "numeric(7,2)",
-                oldPrecision: 7,
-                oldScale: 2);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "units",
-                schema: "public",
-                table: "kardex",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "numeric(7,2)",
-                oldPrecision: 7,
-                oldScale: 2);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "total_units",
-                schema: "public",
-                table: "kardex",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "numeric(7,2)",
-                oldPrecision: 7,
-                oldScale: 2);
         }
     }
 }

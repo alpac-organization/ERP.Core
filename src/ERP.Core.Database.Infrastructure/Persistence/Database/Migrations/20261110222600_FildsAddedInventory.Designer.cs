@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ErpDbContext))]
-    [Migration("20261110200604_FildsAddedInventoryOutputs")]
-    partial class FildsAddedInventoryOutputs
+    [Migration("20261110222600_FildsAddedInventory")]
+    partial class FildsAddedInventory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
