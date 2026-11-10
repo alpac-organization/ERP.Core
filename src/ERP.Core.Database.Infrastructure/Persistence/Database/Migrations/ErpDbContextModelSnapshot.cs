@@ -51,7 +51,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_status_enum", new[] { "open", "sanction_applied", "prescribed", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "gender_type_enum", new[] { "man", "women" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "identification_type_enum", new[] { "cedula", "pasaporte", "cedula_residencia", "ruc" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "inventory_outputs_status_enum", new[] { "output_pending", "dispatched", "in_progress" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "inventory_outputs_status_enum", new[] { "output_pending", "dispatched", "in_progress", "rejected" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "invoice_status_enum", new[] { "pending", "paid", "overdue" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "kardex_movement_type_enum", new[] { "buys", "exit", "returns" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "kardex_type_enum", new[] { "operational", "administrative" });
