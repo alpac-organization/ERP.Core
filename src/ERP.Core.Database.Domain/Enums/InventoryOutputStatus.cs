@@ -4,5 +4,6 @@ public enum InventoryOutputsStatus
 {
     OutputPending = 1,
     Dispatched = 2,
-    InProgress = 3
+    InProgress = 3,
+    Rejected = 4
 }
