@@ -7111,9 +7111,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsTaxExempt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
