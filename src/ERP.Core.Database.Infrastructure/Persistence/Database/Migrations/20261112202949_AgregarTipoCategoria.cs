@@ -10,6 +10,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql(@"
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'category_type_enum') THEN
+                        CREATE TYPE public.category_type_enum AS ENUM ('administrative', 'operational');
+                    END IF;
+                END $$;
+            ");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:public.absence_source_enum", "manual,biometric_clock")
                 .Annotation("Npgsql:Enum:public.absence_status_enum", "pending,applied,cancelled")
@@ -18,7 +27,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .Annotation("Npgsql:Enum:public.assignment_operational_status_enum", "none,pending,in_progress,on_hold,downloaded")
                 .Annotation("Npgsql:Enum:public.bank_account_type_enum", "savings,checking")
                 .Annotation("Npgsql:Enum:public.catalog_type_enum", "branches,work_areas,job_positions,document_types,banks,exchange_rates,departaments,purchase_rejection_reasons")
-                .Annotation("Npgsql:Enum:public.category_type_enum", "administrative,operational")
                 .Annotation("Npgsql:Enum:public.codes_type_enum", "none,qr,bar")
                 .Annotation("Npgsql:Enum:public.collaborator_status_enum", "active,inactive,vacation,subsidy,suspended,terminated,testing_process")
                 .Annotation("Npgsql:Enum:public.constitution_type_enum", "natural,legal")
@@ -175,13 +183,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 .OldAnnotation("Npgsql:Enum:public.warehouse_type_enum", "fiscal,granel,nationalized")
                 .OldAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
-            migrationBuilder.AddColumn<int>(
-                name: "category_type",
-                schema: "public",
-                table: "category_products",
-                type: "category_type_enum",
-                nullable: false,
-                defaultValueSql: "'administrative'::category_type_enum");
+            migrationBuilder.Sql(@"
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_schema = 'public' AND table_name = 'category_products' AND column_name = 'category_type'
+                    ) THEN
+                        ALTER TABLE public.category_products
+                        ADD COLUMN category_type category_type_enum NOT NULL DEFAULT 'administrative'::category_type_enum;
+                    END IF;
+                END $$;
+            ");
         }
 
         /// <inheritdoc />
