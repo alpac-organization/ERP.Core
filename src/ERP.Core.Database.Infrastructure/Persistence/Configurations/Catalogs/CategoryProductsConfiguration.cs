@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,6 +18,13 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasColumnName("category_product_id")
             .HasDefaultValueSql("gen_random_uuid()")
             .ValueGeneratedOnAdd()
+            .IsRequired();
+
+        builder.Property(c => c.CategoryType)
+            .HasColumnName("category_type")
+            .HasColumnType("category_type_enum")
+            .HasSentinel(CategoryType.Administrative)
+            .HasDefaultValueSql("'administrative'::category_type_enum")
             .IsRequired();
 
         builder.Property(c => c.Code)

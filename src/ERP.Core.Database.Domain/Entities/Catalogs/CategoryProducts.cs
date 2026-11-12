@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Warehouse;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -9,6 +10,7 @@ public class CategoryProducts : BaseEntity<Guid>
     public string? Name {get; set;}
     public string? Code {get; set;}
     public bool IsActive {get; set;} = true;
+    public CategoryType CategoryType { get; set; }
 
     public Guid? ParentId { get; set; }
     public virtual CategoryProducts? Parent { get; set; }

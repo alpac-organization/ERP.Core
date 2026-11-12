@@ -28,6 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "assignment_operational_status_enum", new[] { "none", "pending", "in_progress", "on_hold", "downloaded" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "bank_account_type_enum", new[] { "savings", "checking" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments", "purchase_rejection_reasons" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "category_type_enum", new[] { "administrative", "operational" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "codes_type_enum", new[] { "none", "qr", "bar" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "constitution_type_enum", new[] { "natural", "legal" });
@@ -991,6 +992,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_product_id")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<int>("CategoryType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("category_type_enum")
+                        .HasColumnName("category_type")
+                        .HasDefaultValueSql("'administrative'::category_type_enum");
 
                     b.Property<string>("Code")
                         .HasMaxLength(500)
