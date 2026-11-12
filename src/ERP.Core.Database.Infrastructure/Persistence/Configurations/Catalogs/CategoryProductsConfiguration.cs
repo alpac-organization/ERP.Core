@@ -27,6 +27,12 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasDefaultValueSql("'administrative'::category_type_enum")
             .IsRequired();
 
+        builder.Property(c => c.IsService)
+            .HasColumnName("is_service")
+            .HasDefaultValue(false)
+            .IsRequired();
+
+
         builder.Property(c => c.Code)
             .HasColumnName("code")
             .HasMaxLength(500)
