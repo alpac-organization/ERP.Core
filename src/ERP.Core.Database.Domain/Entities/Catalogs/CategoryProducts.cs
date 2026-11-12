@@ -10,6 +10,7 @@ public class CategoryProducts : BaseEntity<Guid>
     public string? Name {get; set;}
     public string? Code {get; set;}
     public bool IsActive {get; set;} = true;
+    public bool IsService { get; set; } = false;
     public CategoryType CategoryType { get; set; }
 
     public Guid? ParentId { get; set; }
