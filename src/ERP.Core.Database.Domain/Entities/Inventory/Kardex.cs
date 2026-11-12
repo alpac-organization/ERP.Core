@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         /// <summary>
         /// Total de unidades de salidas y entradas de productos
         /// </summary>
-        public int Units { get; set; }
+        public decimal Units { get; set; }
 
         /// <summary>
         /// Costo por unidad
@@ -34,7 +34,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         /// <summary>
         /// Totol de unidades de existencias
         /// </summary>
-        public int TotalUnits { get; set; }
+        public decimal TotalUnits { get; set; }
 
         /// <summary>
         /// Costo promedio

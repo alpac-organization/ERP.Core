@@ -57,6 +57,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("reason_inventory_removal_id")
                 .IsRequired();
 
+            builder.Property(e => e.DispatchedByUserId)
+                .HasColumnName("dispatched_by_user_id")
+                .IsRequired(false);
+
+            builder.Property(e => e.DispatchedAt)
+                .HasColumnName("dispatched_at")
+                .IsRequired(false);
+
+            builder.Property(e => e.DispatchedJustification)
+                .HasColumnName("dispatched_justification")
+                .HasMaxLength(500)
+                .IsRequired(false);
+
+            builder.Property(e => e.IsAllDispached)
+                .HasColumnName("is_all_dispached")
+                .HasDefaultValue(true)
+                .IsRequired(false);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -81,6 +99,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.HasOne(e => e.CostCenter)
                 .WithMany(e => e.InventoryOutputs)
                 .HasForeignKey(e => e.CostCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.User)
+                .WithMany(e => e.InventoryOutputs)
+                .HasForeignKey(e => e.DispatchedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.SupplyRequest)

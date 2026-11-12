@@ -1,4 +1,5 @@
 using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -21,11 +22,18 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         public Guid? SupplyRequestId { get; set; }
         public virtual SupplyRequest SupplyRequest { get; set; } = default!;
-        
+
         public Guid? FuelRequestId { get; set; }
         public virtual FuelRequest FuelRequest { get; set; } = default!;
 
         public Guid ReasonsInventoryRemovalId { get; set; }
         public virtual ReasonsInventoryRemoval ReasonsInventoryRemoval { get; set; } = default!;
+
+        public Guid? DispatchedByUserId { get; set; }
+        public virtual User? User { get; set; }
+        public DateTime? DispatchedAt { get; set; }
+        public string? DispatchedJustification { get; set; }
+        public bool? IsAllDispached { get; set; } = true;
+        public virtual ICollection<InventoryOutputsItem> InventoryOutputsItems { get; set; } = [];
     }
 }

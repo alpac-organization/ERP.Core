@@ -45,6 +45,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(k => k.Units)
                 .HasColumnName("units")
+                .HasPrecision(7, 2)
                 .IsRequired();
 
             builder.Property(k => k.UnitCost)
@@ -64,6 +65,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.Property(k => k.TotalUnits)
                 .HasColumnName("total_units")
+                .HasPrecision(7, 2)
                 .IsRequired();
 
             builder.Property(k => k.AverageCost)
