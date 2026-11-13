@@ -1,2 +1,2 @@
-namespace ERP.Core.Database.Domain.Entities.Inventory;
-public class InventoryAllowedCategories { }
+// namespace ERP.Core.Database.Domain.Entities.Inventory;
+// public class InventoryAllowedCategories { }
