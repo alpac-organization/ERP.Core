@@ -27,6 +27,11 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
             .HasPrecision(5, 2)
             .IsRequired();
 
+        builder.Property(fr => fr.RequestedQuantityLitters)
+            .HasColumnName("requested_quantity_litters")
+            .HasPrecision(5, 2)
+            .IsRequired();
+
         builder.Property(fr => fr.Mileage)
             .HasColumnName("mileage")
             .HasPrecision(10, 2)
@@ -35,6 +40,10 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
         builder.Property(fr => fr.EngineHours)
             .HasColumnName("engine_hours")
             .HasPrecision(9, 2)
+            .IsRequired(false);
+
+        builder.Property(fr => fr.CustomerId)
+            .HasColumnName("customer_id")
             .IsRequired(false);
 
         #region Foreign Keys
@@ -52,6 +61,11 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
         builder.HasOne(fr => fr.UnitMeasure)
             .WithMany(u => u.FuelRequests)
             .HasForeignKey(fr => fr.UnitMeasureId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(fr => fr.Customer)
+            .WithMany(ps => ps.FuelRequests)
+            .HasForeignKey(fr => fr.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
         #endregion Foreign Keys
     }

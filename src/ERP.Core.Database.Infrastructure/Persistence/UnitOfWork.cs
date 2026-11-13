@@ -107,7 +107,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ICodesRepository codesRepository,
             IKardexRepository kardexRepository,
             ISupplyRequestRepository supplyRequestsRepository,
-            IInventoryAllowedCategoriesRepository inventoryAllowedCategoriesRepository,
             IInventoryEntriesRepository inventoryEntriesRepository,
             IProductStockRepository productStocksRepository,
             IInventoryOutputsRepository inventoryOutputsRepository,
@@ -240,7 +239,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISupplyRequestRepository SupplyRequests => supplyRequestsRepository;
         public ISupplyRequestItemRepository SupplyRequestItems => supplyRequestItemRepository;
         public IFuelRequestRepository FuelRequests => fuelRequestRepository;
-        public IInventoryAllowedCategoriesRepository InventoryAllowedCategories => inventoryAllowedCategoriesRepository;
         public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
         public IProductStockRepository ProductStocks => productStocksRepository;
         public IInventoryOutputsRepository InventoryOutputs => inventoryOutputsRepository;

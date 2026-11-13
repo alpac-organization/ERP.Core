@@ -1989,41 +1989,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("category_allowed_unit_measures", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAllowedCategories", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("inventory_allowed_category_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("inventory_allowed_categories", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAreasPermissions", b =>
                 {
                     b.Property<Guid>("Id")
@@ -7707,6 +7672,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseSupplyRequest");
 
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
                     b.Property<decimal?>("EngineHours")
                         .HasPrecision(9, 2)
                         .HasColumnType("numeric(9,2)")
@@ -7730,9 +7699,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("requested_quantity");
 
+                    b.Property<decimal>("RequestedQuantityLitters")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)")
+                        .HasColumnName("requested_quantity_litters");
+
                     b.Property<Guid>("UnitMeasureId")
                         .HasColumnType("uuid")
                         .HasColumnName("unit_measure_id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("MachineryId");
 
@@ -8124,17 +8100,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CategoryProducts");
 
                     b.Navigation("UnitMeasure");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAllowedCategories", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "CategoryProducts")
-                        .WithMany("InventoryAllowedCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CategoryProducts");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryAreasPermissions", b =>
@@ -9650,6 +9615,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.FuelRequest", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
+                        .WithMany("FuelRequests")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Machinery", "Machinery")
                         .WithMany("FuelRequests")
                         .HasForeignKey("MachineryId")
@@ -9667,6 +9637,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("UnitMeasureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Machinery");
 
@@ -9788,8 +9760,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CategoryAllowedUnitMeasures");
 
                     b.Navigation("Children");
-
-                    b.Navigation("InventoryAllowedCategories");
 
                     b.Navigation("Products");
                 });
@@ -9963,6 +9933,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.Customers", b =>
                 {
+                    b.Navigation("FuelRequests");
+
                     b.Navigation("OperationalOrders");
                 });
 

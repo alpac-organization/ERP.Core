@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Operations
@@ -24,5 +25,6 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         //Operaciones activas.
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
+        public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
     }
 }

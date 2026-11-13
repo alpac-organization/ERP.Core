@@ -18,6 +18,6 @@ public class CategoryProducts : BaseEntity<Guid>
     
     public virtual ICollection<Product> Products { get; set; } = [];
     public virtual ICollection<CategoryProducts> Children { get; set; } = [];
-    public virtual ICollection<InventoryAllowedCategories> InventoryAllowedCategories { get; set; } = [];
+    // public virtual ICollection<InventoryAllowedCategories> InventoryAllowedCategories { get; set; } = [];
     public virtual ICollection<CategoryAllowedUnitMeasures> CategoryAllowedUnitMeasures { get; set; } = [];
 }
