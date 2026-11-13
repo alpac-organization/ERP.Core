@@ -20,7 +20,10 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         public Guid WorkAreaId { get; set; }
         public virtual WorkArea WorkArea { get; set; } = default!;
-        
+
+        public Guid? BranchId { get; set; }
+        public virtual Branch Branch { get; set; } = default!;
+
         public virtual ICollection<UserProfile> UserProfiles { get; set; } = [];
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
@@ -29,7 +32,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<Kardex> Kardices { get; set; } = [];
         public virtual ICollection<Product> Products { get; set; } = [];
         public virtual ICollection<ProductStock> ProductStocks { get; set; } = [];
-        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
         public virtual ICollection<InventoryOutputs> InventoryOutputs { get; set; } = [];
+        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
     }
 }

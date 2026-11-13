@@ -34,6 +34,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("work_area_id")
                 .IsRequired();
 
+            builder.Property(e => e.BranchId)
+                .HasColumnName("branch_id")
+                .IsRequired(false);
+
             builder.Property(e => e.Description)
                 .HasColumnName("description")
                 .HasMaxLength(150);
@@ -58,6 +62,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.HasOne(c => c.WorkArea)
                 .WithMany(s => s.CostCenters)
                 .HasForeignKey(s => s.WorkAreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.Branch)
+                .WithMany(s => s.CostCenters)
+                .HasForeignKey(s => s.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(c => c.UserProfiles)
