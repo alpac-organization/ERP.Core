@@ -33,7 +33,5 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public virtual User? User { get; set; }
         public DateTime? DispatchedAt { get; set; }
         public string? DispatchedJustification { get; set; }
-        public bool? IsAllDispached { get; set; } = true;
-        public virtual ICollection<InventoryOutputsItem> InventoryOutputsItems { get; set; } = [];
     }
 }

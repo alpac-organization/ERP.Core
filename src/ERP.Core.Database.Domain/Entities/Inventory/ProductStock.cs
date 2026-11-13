@@ -26,6 +26,5 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
 
         public virtual ICollection<SupplyRequestItem> SupplyRequestItems { get; set; } = [];
         public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
-        public virtual ICollection<InventoryOutputsItem> InventoryOutputsItems { get; set; } = [];
     }
 }

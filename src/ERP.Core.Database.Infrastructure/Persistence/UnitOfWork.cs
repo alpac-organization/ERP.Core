@@ -119,8 +119,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
             ISupplyRequestItemRepository supplyRequestItemRepository,
-            IFuelRequestRepository fuelRequestRepository,
-            IInventoryOutputsItemRepository inventoryOutputsItemRepository
+            IFuelRequestRepository fuelRequestRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -242,7 +241,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IInventoryEntriesRepository InventoryEntries => inventoryEntriesRepository;
         public IProductStockRepository ProductStocks => productStocksRepository;
         public IInventoryOutputsRepository InventoryOutputs => inventoryOutputsRepository;
-        public IInventoryOutputsItemRepository InventoryOutputsItems => inventoryOutputsItemRepository;
         public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
         public IInventoryAreasPermissionsRepository InventoryAreasPermissions => inventoryAreasPermissionsRepository;
         public IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited => requisitionOperationalAreasPermitedRepository;

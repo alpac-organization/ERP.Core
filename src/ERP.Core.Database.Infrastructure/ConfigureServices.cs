@@ -225,7 +225,6 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IFuelRequestRepository, FuelRequestRepository>();
             services.AddScoped<IInventoryEntriesRepository, InventoryEntriesRepository>();
             services.AddScoped<IInventoryOutputsRepository, InventoryOutputsRepository>();
-            services.AddScoped<IInventoryOutputsItemRepository, InventoryOutputsItemRepository>();
             services.AddScoped<IReasonsInventoryRemovalRepository, ReasonsInventoryRemovalRepository>();
             services.AddScoped<IRequisitionOperationalAreasPermitedRepository, RequisitionOperationalAreasPermitedRepository>();
             services.AddScoped<IInventoryAreasPermissionsRepository, InventoryAreasPermissionsRepository>();
