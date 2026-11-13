@@ -37,6 +37,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true);
+                
+            builder.Property(e => e.IsOperational)
+                .HasColumnName("is_operational")
+                .HasDefaultValue(false);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")

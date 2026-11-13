@@ -38,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Catalogs
                 .HasColumnName("description")
                 .HasMaxLength(150);
 
+            builder.Property(e => e.IsOperational)
+                .HasColumnName("is_operational")
+                .HasDefaultValue(false);
+
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true);
