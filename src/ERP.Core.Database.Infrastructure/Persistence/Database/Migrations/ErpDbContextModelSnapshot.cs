@@ -1915,6 +1915,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsOperational")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_operational");
+
                     b.Property<string>("WorkAreaCode")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
