@@ -8,6 +8,7 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Notifications;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Context
 {
@@ -19,6 +20,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Session> Sessions => Set<Session>();
         public DbSet<UserProfile> Profiles => Set<UserProfile>();
         public DbSet<Notification> Notifications => Set<Notification>();
+
+        public DbSet<NotificationSenderConfig> NotificationSenderConfigs => Set<NotificationSenderConfig>();
+        public DbSet<NotificationRecipientConfig> NotificationRecipientConfigs => Set<NotificationRecipientConfig>();
+        public DbSet<NotificationOutbox> NotificationOutboxes => Set<NotificationOutbox>();
+        public DbSet<NotificationDelivery> NotificationDeliveries => Set<NotificationDelivery>();
         public DbSet<UserModuleRoles> ModulesWithRoles => Set<UserModuleRoles>();
 
         public DbSet<Role> Roles => Set<Role>();
