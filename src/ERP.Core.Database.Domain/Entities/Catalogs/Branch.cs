@@ -19,9 +19,9 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public bool HasWarehouse { get; set; } = false;
         public bool DoesGenerateSeniority { get; set; } = false;
 
-
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; } = null!;
+
 
         //Seccionamientos de nominas.        
         public virtual ICollection<Payroll> Payrolls { get; set; } = [];
@@ -33,8 +33,9 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
 
         //Inventario
         public virtual ICollection<Product> Products { get; set; } = [];
-        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
+        public virtual ICollection<CostCenter> CostCenters { get; set; } = [];
         public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = [];
         public virtual ICollection<InventoryOutputs> InventoryOutputs { get; set; } = [];
+        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
     }
 }

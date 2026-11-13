@@ -1122,6 +1122,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("cost_center_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid?>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
                     b.Property<int>("CoilCode")
                         .HasColumnType("integer")
                         .HasColumnName("coil_code");
@@ -1168,6 +1172,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("work_area_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -7919,11 +7925,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany("CostCenters")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("CostCenters")
                         .HasForeignKey("WorkAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Branch");
 
                     b.Navigation("WorkArea");
                 });
@@ -9681,6 +9694,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Branch", b =>
                 {
                     b.Navigation("BaseSupplyRequests");
+
+                    b.Navigation("CostCenters");
 
                     b.Navigation("InventoryEntries");
 
