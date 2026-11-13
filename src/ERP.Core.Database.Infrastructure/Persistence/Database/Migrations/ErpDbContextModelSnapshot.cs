@@ -2178,12 +2178,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("fuel_request_id");
 
-                    b.Property<bool?>("IsAllDispached")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_all_dispached");
-
                     b.Property<string>("Observations")
                         .HasColumnType("text")
                         .HasColumnName("observations");
@@ -2225,38 +2219,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("WorkAreaId");
 
                     b.ToTable("inventory_outputs", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputsItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("inventory_output_item_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("DispatchedQuantity")
-                        .HasColumnType("numeric")
-                        .HasColumnName("dispatched_quantity");
-
-                    b.Property<Guid>("InventoryOutputId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("inventory_output_id");
-
-                    b.Property<Guid>("ProductStockId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("product_stock_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryOutputId");
-
-                    b.HasIndex("ProductStockId");
-
-                    b.ToTable("inventory_outputs_items", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
@@ -8220,25 +8182,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkArea");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputsItem", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "InventoryOutput")
-                        .WithMany("InventoryOutputsItems")
-                        .HasForeignKey("InventoryOutputId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", "ProductStock")
-                        .WithMany("InventoryOutputsItems")
-                        .HasForeignKey("ProductStockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InventoryOutput");
-
-                    b.Navigation("ProductStock");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.Kardex", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
@@ -9912,16 +9855,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InventoryEntryItems");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
-                {
-                    b.Navigation("InventoryOutputsItems");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
                 {
                     b.Navigation("FuelRequests");
-
-                    b.Navigation("InventoryOutputsItems");
 
                     b.Navigation("SupplyRequestItems");
                 });
