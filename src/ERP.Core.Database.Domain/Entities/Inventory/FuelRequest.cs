@@ -1,5 +1,6 @@
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Operations;
 
 namespace ERP.Core.Database.Domain.Entities.Inventory;
 
@@ -17,8 +18,14 @@ public class FuelRequest : BaseSupplyRequest
     public virtual UnitMeasure UnitMeasure { get; set; } = default!;
 
     public decimal RequestedQuantity { get; set; }
+    public decimal RequestedQuantityLitters { get; set; }
     public decimal? Mileage { get; set; }                           // kilometraje del vehiculo particular
     public decimal? EngineHours { get; set; }                       // horas motor para maquinaria
+
+
+    //Cliente para Corinto
+    public Guid? CustomerId { get; set; }
+    public virtual Customers? Customer { get; set; } = default!;
 
     public virtual InventoryOutputs InventoryOutput { get; set; } = default!;
 }
