@@ -13,6 +13,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public bool IsActive { get; set; }
         public string? Description { get; set; } 
         public string? CostCenterName { get; set; }
+        public bool IsOperational { get; set; }
 
         public int CoilCode { get; set; }
         public string CostCenterCode { get; set; } = null!;
