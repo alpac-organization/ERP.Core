@@ -289,7 +289,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion Codigos de secciones de almacen
 
         #region WorkAreas
-        public async Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(Guid companyId, bool isOperational, CancellationToken ct = default)
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(Guid companyId, bool isOperational = false, CancellationToken ct = default)
         {
             var company = await _unitOfWork.Companies.Entities
                 .AsNoTracking()
