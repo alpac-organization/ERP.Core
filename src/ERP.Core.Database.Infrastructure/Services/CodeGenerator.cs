@@ -289,9 +289,7 @@ namespace ERP.Core.Database.Infrastructure.Services
         #endregion Codigos de secciones de almacen
 
         #region WorkAreas
-        public async Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(
-            Guid companyId,
-            CancellationToken ct = default)
+        public async Task<(bool IsSuccess, string Code)> GenerateUniqueWorkAreaCodeAsync(Guid companyId, bool isOperational = false, CancellationToken ct = default)
         {
             var company = await _unitOfWork.Companies.Entities
                 .AsNoTracking()
@@ -303,10 +301,12 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             var prefix = $"{company.Code}-";
-
+            
             var existingCodes = await _unitOfWork.WorkAreas.Entities
                 .AsNoTracking()
-                .Where(wa => wa.CompanyId == companyId && wa.DeletedAt == null)
+                .Where(wa => wa.CompanyId == companyId
+                        && wa.DeletedAt == null
+                        && wa.IsOperational == isOperational)
                 .Select(wa => wa.WorkAreaCode)
                 .ToListAsync(ct);
 
@@ -314,7 +314,8 @@ namespace ERP.Core.Database.Infrastructure.Services
 
             return (true, $"{prefix}{maxSequence + 1:D2}");
         }
-        #endregion WorkAreas
+
+        #endregion
 
         #region CostCenters
         public async Task<(bool IsSuccess, string Code)> GenerateUniqueCostCenterCodeAsync(
