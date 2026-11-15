@@ -41,6 +41,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
+        public DbSet<ChristmasBonusAdvance> ChristmasBonusAdvances => Set<ChristmasBonusAdvance>(); 
+        public DbSet<ChristmasBonusSettlement> ChristmasBonusSettlements => Set<ChristmasBonusSettlement>();
+        public DbSet<ChristmasBonusPeriod> ChristmasBonusPeriods => Set<ChristmasBonusPeriod>();
         public DbSet<InssAccountingInformation> InssAccountingInformation => Set<InssAccountingInformation>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         #endregion

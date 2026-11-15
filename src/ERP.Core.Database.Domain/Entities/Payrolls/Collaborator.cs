@@ -68,8 +68,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
 
 
-        //Acumulador de aguinaldo
+        // aguinaldo
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
+        
+        public virtual ICollection<ChristmasBonusAdvance> ChristmasBonusAdvances { get; set; } = [];
+
+        public virtual ICollection<ChristmasBonusSettlement> ChristmasBonusSettlements { get; set; } = [];
 
 
         //Registro de historial de viaticos
