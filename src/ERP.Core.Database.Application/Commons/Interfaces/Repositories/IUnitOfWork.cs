@@ -142,6 +142,18 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IFaultCatalogRepository FaultCatalogs { get; }
         IDisciplinaryFaultsRepository DisciplinaryFaults { get; }
         IDisciplinarySanctionsRepository DisciplinarySanctions { get; }
+
+        #endregion
+
+        #region Aguinaldo
+        IChristmasBonusPeriodRepository ChristmasBonusPeriods { get; }
+
+        IChristmasBonusAccrualRepository ChristmasBonusAccruals { get; }
+
+        IChristmasBonusAdvanceRepository ChristmasBonusAdvances { get; }
+
+        IChristmasBonusSettlementRepository ChristmasBonusSettlements { get; }
+
         #endregion
 
         #region Nomina: Control de Ausencias

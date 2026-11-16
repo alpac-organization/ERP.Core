@@ -5,7 +5,6 @@ namespace ERP.Core.Database.Domain.Enums
     {
         Calculated = 1, // la fase inicial de estar en estado calculado
         Paid = 2,
-        Superseded = 3, // estado de por si fue recalculado el calculo
-        Cancelled = 4,
+        Cancelled = 3,
     }
 }

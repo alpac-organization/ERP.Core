@@ -24,7 +24,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal EligibleDays { get; set; }//Cantidad de días que generaron derecho.
 
-
          public decimal ChristmasBonusDays { get; set; } // dias generados aqui
 
         public decimal BaseSalarySnapshot { get; set; } // hacemos tracking de que salario se utilizo por si cambia en algun momento
