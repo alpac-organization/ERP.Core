@@ -7115,7 +7115,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("Code")
-                        .IsUnique()
                         .HasDatabaseName("ux_products_code");
 
                     b.HasIndex("CostCenterId");
