@@ -55,7 +55,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.HasIndex(e => new { e.CompanyId, e.EndYear })
                 .IsUnique()
-                .HasDatabaseName("ix_christmas_bonus_periods_company_id_end_year");
+                .HasFilter("\"deleted_at\" IS NULL")
+                .HasDatabaseName("ux_christmas_bonus_periods_company_id_end_year");
 
             builder.HasIndex(e => new { e.CompanyId, e.StartDate, e.EndDate })
                 .HasDatabaseName("ix_christmas_bonus_periods_company_id_dates");

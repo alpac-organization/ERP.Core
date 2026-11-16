@@ -6,6 +6,8 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories.Payrolls
     {
         Task<ChristmasBonusSettlement> RegisterChristmasBonusSettlement(ChristmasBonusSettlement settlement);
 
-        Task<ChristmasBonusSettlement> GetChristmasBonusSettlementByCollaboratorAndPeriod(Guid collaboratorId, Guid christmasBonusPeriodId);
+        Task<ChristmasBonusSettlement?> GetChristmasBonusSettlementByCollaboratorAndPeriod(
+            Guid collaboratorId,
+            Guid christmasBonusPeriodId);
     }
 }
