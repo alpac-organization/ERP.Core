@@ -23,10 +23,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.HasIndex(e => e.Id)
-                .IsUnique()
-                .HasDatabaseName("ix_christmas_bonus_period_id");
-
             builder.Property(e => e.CompanyId)
                 .HasColumnName("company_id")
                 .IsRequired();

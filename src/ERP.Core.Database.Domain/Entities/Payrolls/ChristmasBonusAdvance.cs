@@ -1,4 +1,6 @@
 namespace ERP.Core.Database.Domain.Entities.Payrolls;
+
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
@@ -23,24 +25,27 @@ public class ChristmasBonusAdvance :BaseEntity<Guid>
 
         public decimal AmountInDollars { get; set; }
 
-
         public ChristmasBonusAdvanceStatus Status { get; set; }
 
         public DateOnly RequestedAt { get; set; }
 
-        public string? RequestedBy { get; set; }
+        public Guid? RequestedById { get; set; }
+        public virtual User? RequestedBy { get; set; }
 
         public DateOnly? ApprovedAt { get; set; }
 
-        public string? ApprovedBy { get; set; }
+        public Guid? ApprovedById { get; set; }
+        public virtual User? ApprovedBy { get; set; }
 
         public DateOnly? PaidAt { get; set; }
 
-        public string? PaidBy { get; set; }
+        public Guid? PaidById { get; set; }
+        public virtual User? PaidBy { get; set; }
 
-        public DateOnly? ReversedAt { get; set; }
+        public DateOnly? CancelledAt { get; set; }
 
-        public string? ReversedBy { get; set; }
+        public Guid? CancelledById { get; set; }
+        public virtual User? CancelledBy { get; set; }
 
-        public string? ReversalReason { get; set; }
+        public string? CancellationReason { get; set; }
 }

@@ -43,8 +43,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal? AmountToPayInDollars { get; set; }
 
-        public Guid? ReplacesSettlementId { get; set; }
-
-        public virtual ChristmasBonusSettlement? ReplacesSettlement { get; set; }
     }
 }

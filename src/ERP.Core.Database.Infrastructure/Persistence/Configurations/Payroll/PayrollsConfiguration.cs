@@ -53,6 +53,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnType("date")
                 .IsRequired();
 
+            builder.Property(e => e.ClosedAt)
+                .HasColumnName("closed_at")
+                .IsRequired(false);
+
+
+
+            builder.Property(e => e.ClosedBy)
+                .HasColumnName("closed_by_user_id")
+                .IsRequired(false);
+
+            builder.HasOne(e => e.ClosedByUser)
+                 .WithMany()
+                 .HasForeignKey(e => e.ClosedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -99,7 +114,18 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasMany(c => c.ChristmasBonusAccruals)
                 .WithOne(s => s.Payroll)
                 .HasForeignKey(s => s.PayrollId)
-                .OnDelete(DeleteBehavior.Cascade);        
+                .OnDelete(DeleteBehavior.Restrict);        
+
+            
+            builder.HasMany(c => c.ChristmasBonusAdvances)
+                .WithOne(s => s.Payroll)
+                .HasForeignKey(s => s.PayrollId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(c => c.ChristmasBonusSettlements)
+                .WithOne(s => s.Payroll)
+                .HasForeignKey(s => s.PayrollId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
