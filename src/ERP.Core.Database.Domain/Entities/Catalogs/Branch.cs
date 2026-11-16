@@ -29,6 +29,7 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = [];
         public virtual ICollection<WorkingInformation> WorkingInformations { get; set; } = [];
         public virtual ICollection<Machinery> Machinery { get; set; } = [];
+        public virtual ICollection<Equipment> Equipment { get; set; } = [];
 
 
         //Inventario
