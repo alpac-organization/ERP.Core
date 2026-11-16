@@ -35,7 +35,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Services
         Task<(bool IsSuccess, string Code)> GenerateUniqueReceptionEntranceCodeAsync(CancellationToken ct = default);
         
         Task<(bool IsSuccess, string? Code)> GenerateUniqueProductCode(UserProfile profile, Guid categoryId, CancellationToken cancellationToken = default);
-        Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default);
+        Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, Guid costCenterId, CancellationToken cancellationToken = default);
 
         Task<(string ImageUrl, string Code)> GenerateBarcodeAsync(string? logoUrl = null);
         Task<(string ImageUrl, string Code)> GenerateQrCodeAsync(string redirectUrl, string? logoUrl = null);

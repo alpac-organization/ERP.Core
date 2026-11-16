@@ -1035,7 +1035,7 @@ namespace ERP.Core.Database.Infrastructure.Services
             return $"{codePrefix}{(maxNumber + 1).ToString().PadLeft(CodePadWidth, '0')}";
         }
 
-        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, CancellationToken cancellationToken = default)
+        public async Task<(bool IsSuccess, string? Code)> GenerateUniqueOperationalProductCode(UserProfile profile, Guid categoryProductId, Guid costCenterId, CancellationToken cancellationToken = default)
         {
             var branchCode = await _unitOfWork.Branches.Entities
                 .Where(branch => branch.IsActive)
@@ -1071,11 +1071,11 @@ namespace ERP.Core.Database.Infrastructure.Services
             }
 
             var codePrefix = $"{branchCode}-{workAreaCode}-{categoryCode}-";
-
+            
             var lastProductCode = await _unitOfWork.Products.Entities
                 .Include(product => product.CostCenter)
                 .Where(product => product.BranchId == profile.BranchId)
-                .Where(product => product.CostCenterId == profile.CostCenterId)
+                .Where(product => product.CostCenterId == costCenterId)
                 .Where(product => product.CostCenter.WorkAreaId == profile.AreaId)
                 .Where(product => product.ProductUsageType == ProductUsageType.Operational)
                 .Where(product => product.Code.StartsWith(codePrefix))

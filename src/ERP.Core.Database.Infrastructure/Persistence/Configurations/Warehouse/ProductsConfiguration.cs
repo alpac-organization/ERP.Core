@@ -29,7 +29,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Warehouse
                 .IsRequired();
 
             builder.HasIndex(p => p.Code)
-                .IsUnique()
                 .HasDatabaseName("ux_products_code");
 
             builder.Property(p => p.ProductName)
