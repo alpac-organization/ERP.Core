@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 {
-    public class ChristmasBonusAccrualConfiguration : IEntityTypeConfiguration<ChristmasBonusAccrual>
+    public class ChristmasBonusAccrualConfiguration
+        : IEntityTypeConfiguration<ChristmasBonusAccrual>
     {
         public void Configure(EntityTypeBuilder<ChristmasBonusAccrual> builder)
         {
@@ -13,6 +14,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 table.HasCheckConstraint(
                     "ck_christmas_bonus_accruals_covered_dates",
                     "\"covered_to\" >= \"covered_from\"");
+
+                table.HasCheckConstraint(
+                    "ck_christmas_bonus_accruals_year",
+                    "\"accrual_year\" > 0");
 
                 table.HasCheckConstraint(
                     "ck_christmas_bonus_accruals_month",
@@ -33,6 +38,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 table.HasCheckConstraint(
                     "ck_christmas_bonus_accruals_amount",
                     "\"accrued_amount\" >= 0");
+
+                table.HasCheckConstraint(
+                    "ck_christmas_bonus_accruals_amount_in_dollars",
+                    "\"accrued_amount_in_dollars\" IS NULL OR \"accrued_amount_in_dollars\" >= 0");
             });
 
             builder.HasKey(e => e.Id);
@@ -95,32 +104,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.AccruedAmountInDollars)
                 .HasColumnName("accrued_amount_in_dollars")
-                .HasPrecision(18, 4);
+                .HasPrecision(18, 4)
+                .IsRequired(false);
 
-            builder.Property(e => e.Status)
-                .HasColumnName("status")
-                .IsRequired();
-
-            builder.Property(e => e.IsProjected)
-                .HasColumnName("is_projected")
-                .IsRequired();
-
-            builder.Property(e => e.Revision)
-                .HasColumnName("revision")
-                .HasDefaultValue(1)
-                .IsRequired();
-
-            builder.Property(e => e.CalculationReason)
-                .HasColumnName("calculation_reason")
-                .IsRequired();
-
-            builder.Property(e => e.IsCurrent)
-                .HasColumnName("is_current")
-                .HasDefaultValue(true)
-                .IsRequired();
-
-            builder.Property(e => e.ReplacesAccrualId)
-                .HasColumnName("replaces_accrual_id");
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -145,17 +131,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(e => e.PayrollId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.ReplacesAccrual)
-                .WithMany()
-                .HasForeignKey(e => e.ReplacesAccrualId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasIndex(e => new
             {
                 e.CollaboratorId,
                 e.ChristmasBonusPeriodId
             })
-            .HasDatabaseName("ix_christmas_bonus_accruals_collaborator_period");
+            .HasDatabaseName(
+                "ix_christmas_bonus_accruals_collaborator_period");
 
             builder.HasIndex(e => new
             {
@@ -163,10 +145,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 e.AccrualYear,
                 e.AccrualMonth
             })
-            .HasDatabaseName("ix_christmas_bonus_accruals_period_year_month");
+            .HasDatabaseName(
+                "ix_christmas_bonus_accruals_period_year_month");
 
             builder.HasIndex(e => e.PayrollId)
-                .HasDatabaseName("ix_christmas_bonus_accruals_payroll_id");
+                .HasDatabaseName(
+                    "ix_christmas_bonus_accruals_payroll_id");
 
             builder.HasIndex(e => new
             {
@@ -176,8 +160,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 e.AccrualMonth
             })
             .IsUnique()
-            .HasFilter("\"is_current\" = TRUE AND \"deleted_at\" IS NULL")
-            .HasDatabaseName("ux_christmas_bonus_accruals_current_month");
+            .HasFilter("\"deleted_at\" IS NULL")
+            .HasDatabaseName(
+                "ux_christmas_bonus_accruals_period_collaborator_year_month");
         }
     }
 }

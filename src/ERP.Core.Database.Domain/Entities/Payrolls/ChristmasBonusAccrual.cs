@@ -32,18 +32,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal? AccruedAmountInDollars { get; set; } //monto en dolares
 
-        public ChristmasBonusAccrualStatus Status { get; set; } 
-
-        public bool IsProjected { get; set; } 
-
-        public int Revision { get; set; } = 1; //cuantas revisiones hubieron
-
-        public ChristmasBonusCalculationReason CalculationReason { get; set; } 
-
-        public bool IsCurrent { get; set; } = true; // flag de que version es la actual
-
-        public Guid? ReplacesAccrualId { get; set; } // hace referencia al calculo anterior
-
-        public virtual ChristmasBonusAccrual? ReplacesAccrual { get; set; }
     }
 }

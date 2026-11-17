@@ -6,41 +6,39 @@ using Microsoft.EntityFrameworkCore;
 namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
 {
     public class ChristmasBonusAccrualRepository(ErpDbContext _context)
-        : Repository<ChristmasBonusAccrual>(_context), IChristmasBonusAccrualRepository
+        : Repository<ChristmasBonusAccrual>(_context),
+          IChristmasBonusAccrualRepository
     {
-        public async Task<ChristmasBonusAccrual> RegisterChristmasBonusAccrual(ChristmasBonusAccrual accrual)
+        public async Task<ChristmasBonusAccrual> RegisterChristmasBonusAccrual(
+            ChristmasBonusAccrual accrual)
         {
-            var entry = await _context.ChristmasBonusAccruals.AddAsync(accrual);
+            var entry = await _context.ChristmasBonusAccruals
+                .AddAsync(accrual);
+
             return entry.Entity;
         }
 
-        public async Task<ChristmasBonusAccrual?> GetCurrentChristmasBonusAccrualMonthly(
-            Guid collaboratorId,
-            Guid christmasBonusPeriodId,
-            int year,
-            int month)
+        public async Task<ChristmasBonusAccrual?>
+            GetChristmasBonusAccrualMonthly(Guid collaboratorId,Guid christmasBonusPeriodId,int year,int month)
         {
             return await _context.ChristmasBonusAccruals
-                .Where(a => a.CollaboratorId == collaboratorId
-                    && a.ChristmasBonusPeriodId == christmasBonusPeriodId
-                    && a.AccrualYear == year
-                    && a.AccrualMonth == month
-                    && a.IsCurrent 
-                    && (a.Status == Domain.Enums.ChristmasBonusAccrualStatus.Projected || 
-                        a.Status == Domain.Enums.ChristmasBonusAccrualStatus.Confirmed)
-                    && a.DeletedAt == null)
-                .SingleOrDefaultAsync();
+                .AsNoTracking()
+                .SingleOrDefaultAsync(a =>
+                    a.CollaboratorId == collaboratorId &&
+                    a.ChristmasBonusPeriodId == christmasBonusPeriodId &&
+                    a.AccrualYear == year &&
+                    a.AccrualMonth == month &&
+                    a.DeletedAt == null);
         }
 
-        public async Task<List<ChristmasBonusAccrual>> GetCurrentChristmasBonusAccrualByPeriod(
-            Guid collaboratorId,
-            Guid christmasBonusPeriodId)
+        public async Task<List<ChristmasBonusAccrual>>GetChristmasBonusAccrualsByPeriod(Guid collaboratorId,Guid christmasBonusPeriodId)
         {
             return await _context.ChristmasBonusAccruals
-                .Where(a => a.CollaboratorId == collaboratorId
-                    && a.ChristmasBonusPeriodId == christmasBonusPeriodId
-                    && a.IsCurrent
-                    && a.DeletedAt == null)
+                .AsNoTracking()
+                .Where(a =>
+                    a.CollaboratorId == collaboratorId &&
+                    a.ChristmasBonusPeriodId == christmasBonusPeriodId &&
+                    a.DeletedAt == null)
                 .OrderBy(a => a.AccrualYear)
                 .ThenBy(a => a.AccrualMonth)
                 .ToListAsync();

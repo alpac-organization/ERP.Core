@@ -4,7 +4,6 @@ namespace ERP.Core.Database.Domain.Enums
     public enum ChristmasBonusSettlementStatus
     {
         Calculated = 1, // la fase inicial de estar en estado calculado
-        Paid = 2,
-        Cancelled = 3,
+        Paid = 2, // aqui la  fase de haber estado pagado 
     }
 }
