@@ -133,6 +133,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<Machinery> Machineries => Set<Machinery>();
+        public DbSet<Equipment> Equipments => Set<Equipment>();
         public DbSet<AssignmentStockPlacements> AssignmentStockPlacements => Set<AssignmentStockPlacements>();
         public DbSet<Codes> Codes => Set<Codes>();
         #endregion
@@ -209,6 +210,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
             modelBuilder.HasPostgresEnum<MachineryStatus>("public", "machinery_status_enum");
+            modelBuilder.HasPostgresEnum<EquipmentStatus>("public", "equipment_status_enum");
+            modelBuilder.HasPostgresEnum<EquipmentType>("public", "equipment_type_enum");
 
             modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum");
             modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum");

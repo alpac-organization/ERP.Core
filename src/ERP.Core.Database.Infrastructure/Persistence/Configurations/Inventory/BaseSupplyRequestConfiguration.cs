@@ -27,6 +27,10 @@ public class BaseSupplyRequestConfiguration : IEntityTypeConfiguration<BaseSuppl
             .HasColumnName("justification")
             .HasColumnType("text");
 
+        builder.Property(e => e.WarehouseId)
+            .HasColumnName("warehouse_id")
+            .IsRequired();
+
         builder.Property(e => e.OutflowStatus)
             .HasColumnName("outflow_status")
             .HasColumnType("outflow_status_enum")
@@ -88,6 +92,12 @@ public class BaseSupplyRequestConfiguration : IEntityTypeConfiguration<BaseSuppl
             .WithMany(e => e.BaseSupplyRequests)
             .HasForeignKey(e => e.RequestedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.Warehouse)
+            .WithMany(e => e.BaseSupplyRequests)
+            .HasForeignKey(e => e.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
         #endregion Foreign Keys
     }
