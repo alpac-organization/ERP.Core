@@ -61,6 +61,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ICategoryProductsRepository CategoryProducts { get; }
         IUnitsMeasurementRepository UnitsMeasurement { get; }
         ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures { get; }
+        IExchangeRateHistoryRepository ExchangeRateHistories { get; }
         #endregion
 
         #region Warehouse
