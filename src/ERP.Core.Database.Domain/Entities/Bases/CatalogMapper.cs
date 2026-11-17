@@ -112,4 +112,20 @@ namespace ERP.Core.Database.Domain.Entities.Bases
         public Guid UnitMeasureId { get; set; }
 
     }
+
+    public class EquipmentInformation
+    {
+        public string Brand { get; set; } = null!;
+        public string Code { get; set; } = null!;
+        public string Model { get; set; } = null!;
+        public string SerialNumber { get; set; } = null!;
+        public EquipmentStatus Status { get; set; }
+        public EquipmentType Type { get; set; }
+
+        public bool Gasoline { get; set; }
+        public bool Diesel { get; set; }
+        public bool Electric { get; set; }
+        public bool Lpg { get; set; }
+
+    }
 }
