@@ -12,6 +12,10 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
 
         builder.Property(fr => fr.MachineryId)
             .HasColumnName("machinery_id")
+            .IsRequired(false);
+
+        builder.Property(fr => fr.EquipmentId)
+            .HasColumnName("equipment_id")
             .IsRequired();
 
         builder.Property(fr => fr.ProductStockId)
@@ -51,6 +55,11 @@ public class FuelRequestConfiguration : IEntityTypeConfiguration<FuelRequest>
         builder.HasOne(fr => fr.Machinery)
             .WithMany(m => m.FuelRequests)
             .HasForeignKey(fr => fr.MachineryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(fr => fr.Equipment)
+            .WithMany(m => m.FuelRequests)
+            .HasForeignKey(fr => fr.EquipmentId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(fr => fr.ProductStock)

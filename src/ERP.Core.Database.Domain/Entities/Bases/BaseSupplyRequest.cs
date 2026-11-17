@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Warehouse;
 
 namespace ERP.Core.Database.Domain.Entities.Bases;
 
@@ -19,6 +20,10 @@ public abstract class BaseSupplyRequest : BaseEntity<Guid>
 
     public Guid BranchId { get; set; }
     public virtual Branch Branch { get; set; } = default!;
+
+    // Bodega destino.
+    public Guid WarehouseId { get; set; }
+    public virtual Warehouses Warehouse { get; set; } = default!;
 
     public Guid RequestedByUserId { get; set; }
     public virtual User User { get; set; } = default!;
