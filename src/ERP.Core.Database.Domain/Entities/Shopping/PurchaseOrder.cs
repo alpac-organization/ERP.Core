@@ -1,14 +1,15 @@
 
 using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Shopping
 {
     public class PurchaseOrder : BaseEntity<Guid>
     {
         public bool IsActive { get; set; }
-
         public string? Code { get; set; }
+        public PurchaseOrderStatus Status { get; set; }
         
         public Guid? SupplierId { get; set; }
         public virtual Supplier? Supplier { get; set; }
