@@ -22,8 +22,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal Amount { get; set; }
 
-        public decimal AmountInDollars { get; set; }
-
         public ChristmasBonusAdvanceStatus Status { get; set; }
 
         public DateOnly RequestedAt { get; set; }

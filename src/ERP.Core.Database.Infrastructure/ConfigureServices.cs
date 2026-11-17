@@ -199,6 +199,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsPositionsCoordinatesRepository, LotsPositionsCoordinatesRepository>();
             services.AddScoped<IRacksPositionsCoordinatesRepository, RacksPositionsCoordinatesRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
+            services.AddScoped<IExchangeRateHistoryRepository, ExchangeRateHistoryRepository>();
 
             // Operations
             services.AddScoped<ICustomersRepository, CustomersRepository>();

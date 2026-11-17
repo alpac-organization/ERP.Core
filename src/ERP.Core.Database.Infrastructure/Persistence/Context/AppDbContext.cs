@@ -77,6 +77,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<FaultCatalog> FaultCatalogs => Set<FaultCatalog>();
+        public DbSet<ExchangeRateHistory> ExchangeRateHistories => Set<ExchangeRateHistory>();
         #endregion
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
