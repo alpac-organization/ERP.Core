@@ -91,6 +91,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ILotsRepository lotsRepository,
             ILotsPositionsRepository lotsPositionsRepository,
             IMachineryRepository machineryRepository,
+            IEquipmentRepository equipmentRepository,
             ICustomsBranchesRepository customsBranchesRepository,
             IAssignmentStockPlacementsRepository assignmentStockPlacementsRepository,
             ICustomersRepository customersRepository,
@@ -201,6 +202,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public ISectionPositionsCoordinatesRepository SectionPositionsCoordinates => sectionPositionsCoordinatesRepository;
         public IMachineryRepository Machineries => machineryRepository;
+        public IEquipmentRepository Equipments => equipmentRepository;
         #endregion
 
         #region Operations

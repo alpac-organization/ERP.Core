@@ -90,6 +90,7 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         ISectionPositionsRepository SectionPositionsRepository { get; }
         ISectionPositionsCoordinatesRepository SectionPositionsCoordinates { get; }
         IMachineryRepository Machineries { get; }
+        IEquipmentRepository Equipments { get; }
         IAssignmentStockPlacementsRepository AssignmentStockPlacements { get; }
         #endregion
 
