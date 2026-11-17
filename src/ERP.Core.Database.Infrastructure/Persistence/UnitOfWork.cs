@@ -78,6 +78,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISuppliersRepository suppliersRepository,
             IQuotesRepository quotesRepository,
             IUnitsMeasurementRepository unitsMeasurementRepository,
+            IExchangeRateHistoryRepository exchangeRateHistoryRepository,
             ISuppliersDetailsRepository suppliersDetailsRepository,
             IPurchaseRequestsRepository purchaseRequestsRepository,
             IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
@@ -185,6 +186,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures => categoryAllowedUnitMeasuresRepository;
+        public IExchangeRateHistoryRepository ExchangeRateHistories => exchangeRateHistoryRepository;
         #endregion
 
         #region Warehouse
