@@ -134,6 +134,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<InventoryOutputsStatus>("inventory_outputs_status_enum", "public");
                     npgsqlOptions.MapEnum<ProductStatus>("product_status_enum", "public");
                     npgsqlOptions.MapEnum<CategoryType>("category_type_enum", "public");
+                    npgsqlOptions.MapEnum<PurchaseOrderStatus>("purchase_order_status_enum", "public");
                 })
             );
 

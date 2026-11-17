@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ERP.Core.Database.Domain.Entities.Shopping;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
@@ -21,6 +22,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.IsActive)
                 .HasColumnName("is_active")
                 .HasDefaultValue(true)
+                .IsRequired();
+                
+            builder.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("purchase_order_status_enum")
+                .HasDefaultValueSql("'pending'::purchase_order_status_enum")
+                .HasSentinel(PurchaseOrderStatus.Pending)
                 .IsRequired();
 
             builder.Property(e => e.Code)
