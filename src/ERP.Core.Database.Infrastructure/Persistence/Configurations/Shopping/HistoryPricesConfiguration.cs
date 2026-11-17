@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
@@ -21,6 +22,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.PriceType)
                 .HasColumnName("price_type")
                 .HasColumnType("supplier_price_history_type_enum")
+                .HasSentinel(SupplierPriceHistoryType.UnitPrice)
                 .IsRequired();
 
             builder.Property(e => e.Price)
@@ -36,6 +38,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("currency")
                 .HasColumnType("currency_enum")
                 .HasDefaultValueSql("'nio'::currency_enum")
+                .HasSentinel(Currency.NIO)
                 .IsRequired();
 
             builder.Property(e => e.EffectiveFrom)
