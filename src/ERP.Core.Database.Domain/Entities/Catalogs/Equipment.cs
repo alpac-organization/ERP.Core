@@ -26,4 +26,4 @@ public class Equipment : BaseEntity<Guid>
 
     public virtual Branch Branch { get; set; } = default!;
     public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
-}
+}   
