@@ -46,6 +46,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "employment_type_enum", new[] { "internal", "outsourced", "temporary" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_status_enum", new[] { "pending_review", "approved_entry", "cancel_entry" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "entry_type_enum", new[] { "buy", "return", "inventory_adjustment" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "equipment_status_enum", new[] { "available", "in_use", "in_maintenance", "out_of_service" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "equipment_type_enum", new[] { "forklift", "wheel_loader", "truck", "pickup", "conveyor", "brush_cutter", "generator", "pressure_washer", "blower", "water_pump" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "family_relationship_enum", new[] { "none", "spouse", "child", "parent", "sibling", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_severity_enum", new[] { "minor", "serious", "very_serious" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "fault_source_enum", new[] { "manual", "system_escalation", "biometric_clock" });
@@ -836,6 +838,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("requested_by_user_id");
 
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("warehouse_id");
+
                     b.Property<Guid>("WorkAreaId")
                         .HasColumnType("uuid")
                         .HasColumnName("work_area_id");
@@ -847,6 +853,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CostCenterId");
 
                     b.HasIndex("RequestedByUserId");
+
+                    b.HasIndex("WarehouseId");
 
                     b.HasIndex("WorkAreaId");
 
@@ -1218,6 +1226,112 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("customs_branches", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Equipment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("equipment_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("brand");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Color")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("color");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("Diesel")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("diesel");
+
+                    b.Property<bool>("Electric")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("electric");
+
+                    b.Property<bool>("Gasoline")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("gasoline");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("Lpg")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("lpg");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("model");
+
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("serial_number");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("equipment_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'available'::equipment_status_enum");
+
+                    b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("equipment_type_enum")
+                        .HasColumnName("type")
+                        .HasDefaultValueSql("'forklift'::equipment_type_enum");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("character varying(4)")
+                        .HasColumnName("year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.ToTable("equipments", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
@@ -7654,7 +7768,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("numeric(9,2)")
                         .HasColumnName("engine_hours");
 
-                    b.Property<Guid>("MachineryId")
+                    b.Property<Guid>("EquipmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("equipment_id");
+
+                    b.Property<Guid?>("MachineryId")
                         .HasColumnType("uuid")
                         .HasColumnName("machinery_id");
 
@@ -7683,6 +7801,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("EquipmentId");
+
                     b.HasIndex("MachineryId");
 
                     b.HasIndex("ProductStockId");
@@ -7696,22 +7816,29 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.HasBaseType("ERP.Core.Database.Domain.Entities.Bases.BaseSupplyRequest");
 
-                    b.Property<Guid>("OperationalOrderId")
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DucaOrTransportOrder")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("EquipmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("OperationalOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("operational_order_id");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("warehouse_id");
 
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ux_supply_requests_code")
                         .HasFilter("\"deleted_at\" IS NULL");
 
-                    b.HasIndex("OperationalOrderId");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("WarehouseId");
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("OperationalOrderId");
 
                     b.ToTable("supply_requests", "public");
                 });
@@ -7876,6 +8003,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
+                        .WithMany("BaseSupplyRequests")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("BaseSupplyRequests")
                         .HasForeignKey("WorkAreaId")
@@ -7887,6 +8020,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CostCenter");
 
                     b.Navigation("User");
+
+                    b.Navigation("Warehouse");
 
                     b.Navigation("WorkArea");
                 });
@@ -7938,6 +8073,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("WorkArea");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Equipment", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany("Equipment")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
@@ -9581,11 +9727,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Equipment", "Equipment")
+                        .WithMany("FuelRequests")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Machinery", "Machinery")
                         .WithMany("FuelRequests")
                         .HasForeignKey("MachineryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", "ProductStock")
                         .WithMany("FuelRequests")
@@ -9601,6 +9752,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Customer");
 
+                    b.Navigation("Equipment");
+
                     b.Navigation("Machinery");
 
                     b.Navigation("ProductStock");
@@ -9610,21 +9763,25 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.SupplyRequest", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Operations.Customers", "Customer")
+                        .WithMany("SupplyRequest")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId");
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", "OperationalOrder")
                         .WithMany("SupplyRequests")
                         .HasForeignKey("OperationalOrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
-                        .WithMany("SupplyRequests")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Customer");
+
+                    b.Navigation("Equipment");
 
                     b.Navigation("OperationalOrder");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Auth.Role", b =>
@@ -9695,6 +9852,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("BaseSupplyRequests");
 
                     b.Navigation("CostCenters");
+
+                    b.Navigation("Equipment");
 
                     b.Navigation("InventoryEntries");
 
@@ -9774,6 +9933,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.CustomsBranches", b =>
                 {
                     b.Navigation("ReceptionEntrances");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.Equipment", b =>
+                {
+                    b.Navigation("FuelRequests");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
@@ -9892,6 +10056,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("FuelRequests");
 
                     b.Navigation("OperationalOrders");
+
+                    b.Navigation("SupplyRequest");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Operations.OperationalOrder", b =>
@@ -10084,9 +10250,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                 {
                     b.Navigation("AssignmentOperationals");
 
-                    b.Navigation("Sections");
+                    b.Navigation("BaseSupplyRequests");
 
-                    b.Navigation("SupplyRequests");
+                    b.Navigation("Sections");
 
                     b.Navigation("WarehouseCapacity")
                         .IsRequired();

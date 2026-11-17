@@ -6,8 +6,10 @@ namespace ERP.Core.Database.Domain.Entities.Inventory;
 
 public class FuelRequest : BaseSupplyRequest
 {
-    public Guid MachineryId { get; set; }
+    public Guid? MachineryId { get; set; }
     public virtual Machinery Machinery { get; set; } = default!;
+    public Guid EquipmentId { get; set; }
+    public virtual Equipment Equipment { get; set; } = default!;
 
     // tipo de combustible
     public Guid ProductStockId { get; set; }
