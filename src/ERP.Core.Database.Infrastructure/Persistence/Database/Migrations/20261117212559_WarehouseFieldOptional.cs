@@ -1,0 +1,59 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
+{
+    /// <inheritdoc />
+    public partial class WarehouseFieldOptional : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<Guid>(
+                name: "warehouse_id",
+                schema: "public",
+                table: "supply_requests",
+                type: "uuid",
+                nullable: true,
+                oldClrType: typeof(Guid),
+                oldType: "uuid");
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "warehouse_id",
+                schema: "public",
+                table: "fuel_requests",
+                type: "uuid",
+                nullable: true,
+                oldClrType: typeof(Guid),
+                oldType: "uuid");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<Guid>(
+                name: "warehouse_id",
+                schema: "public",
+                table: "supply_requests",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+                oldClrType: typeof(Guid),
+                oldType: "uuid",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "warehouse_id",
+                schema: "public",
+                table: "fuel_requests",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+                oldClrType: typeof(Guid),
+                oldType: "uuid",
+                oldNullable: true);
+        }
+    }
+}

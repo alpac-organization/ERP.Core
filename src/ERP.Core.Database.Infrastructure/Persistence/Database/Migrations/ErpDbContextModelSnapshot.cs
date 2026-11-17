@@ -839,7 +839,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("requested_by_user_id");
 
-                    b.Property<Guid>("WarehouseId")
+                    b.Property<Guid?>("WarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("warehouse_id");
 
@@ -8023,8 +8023,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany("BaseSupplyRequests")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("BaseSupplyRequests")
