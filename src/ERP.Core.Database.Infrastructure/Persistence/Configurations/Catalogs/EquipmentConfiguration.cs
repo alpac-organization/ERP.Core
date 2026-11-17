@@ -98,9 +98,26 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
             .HasDefaultValue(false)
             .IsRequired();
 
+        builder.Property(e => e.UpdatedByUserId)
+            .HasColumnName("updated_by_user_id")
+            .IsRequired(false);
+
+        builder.Property(e => e.UpdatedAt)
+            .HasColumnName("updated_at")
+            .IsRequired(false);
+
+        #region Relations
+        
         builder.HasOne(e => e.Branch)
             .WithMany(b => b.Equipment)
             .HasForeignKey(e => e.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.User)
+            .WithMany(b => b.Equipment)
+            .HasForeignKey(e => e.UpdatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+    
+        #endregion Relations
     }
 }
