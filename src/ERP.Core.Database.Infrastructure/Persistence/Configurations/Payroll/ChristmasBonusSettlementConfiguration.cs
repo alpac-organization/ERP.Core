@@ -61,10 +61,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.Type)
                 .HasColumnName("type")
+                .HasColumnType("christmas_bonus_settlement_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.Status)
                 .HasColumnName("status")
+                .HasColumnType("christmas_bonus_settlement_status_enum")
                 .IsRequired();
 
             builder.Property(e => e.CutoffDate)
