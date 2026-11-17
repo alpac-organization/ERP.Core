@@ -1,6 +1,7 @@
+using ERP.Core.Database.Domain.Enums;
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Inventory;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Catalogs;
 
@@ -26,4 +27,10 @@ public class Equipment : BaseEntity<Guid>
 
     public virtual Branch Branch { get; set; } = default!;
     public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
-}   
+
+
+    // auditoria
+    public Guid? UpdatedByUserId { get; set; }
+    public virtual User? User { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+}
