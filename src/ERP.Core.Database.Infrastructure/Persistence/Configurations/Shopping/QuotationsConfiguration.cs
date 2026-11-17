@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
@@ -23,12 +24,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
                 .HasColumnName("product_quality")
                 .HasColumnType("product_quality_enum")
                 .HasDefaultValueSql("'good'::product_quality_enum")
+                .HasSentinel(ProductQuality.Good)
                 .IsRequired();
 
             builder.Property(e => e.PaymentMethodType)
                 .HasColumnName("payment_method_type")
                 .HasColumnType("payment_method_type_enum")
                 .HasDefaultValueSql("'ach'::payment_method_type_enum")
+                .HasSentinel(PaymentMethodType.ACH)
                 .IsRequired();
 
             builder.Property(e => e.IsActive)

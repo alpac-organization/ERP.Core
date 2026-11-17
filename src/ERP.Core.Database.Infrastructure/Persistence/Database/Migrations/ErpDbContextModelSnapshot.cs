@@ -80,6 +80,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_status_enum", new[] { "active", "inactive", "low_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_stock_status_enum", new[] { "stable", "low_balance", "empty" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_usage_type_enum", new[] { "administrative", "operational" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_order_status_enum", new[] { "pending", "generated" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_status_enum", new[] { "pending", "approved", "rejected", "canceled", "revision", "finished" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "purchase_request_type_enum", new[] { "requisition", "eventual", "monthly" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "rack_status_enum", new[] { "available", "occupied", "under_maintenance", "blocked", "reserved" });
@@ -5964,6 +5965,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("date")
                         .HasColumnName("send_to_review_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("purchase_order_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'::purchase_order_status_enum");
 
                     b.Property<Guid?>("SupplierId")
                         .HasColumnType("uuid")
