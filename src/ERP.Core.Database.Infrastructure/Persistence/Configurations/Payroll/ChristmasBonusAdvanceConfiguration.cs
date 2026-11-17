@@ -15,9 +15,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                     "ck_christmas_bonus_advances_amount",
                     "\"amount\" > 0");
 
-                table.HasCheckConstraint(
-                    "ck_christmas_bonus_advances_amount_in_dollars",
-                    "\"amount_in_dollars\" > 0");
             });
 
             builder.HasKey(e => e.Id);
@@ -45,11 +42,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.Amount)
                 .HasColumnName("amount")
-                .HasPrecision(18, 4)
-                .IsRequired();
-
-            builder.Property(e => e.AmountInDollars)
-                .HasColumnName("amount_in_dollars")
                 .HasPrecision(18, 4)
                 .IsRequired();
 

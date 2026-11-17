@@ -25,9 +25,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
                     && a.ChristmasBonusPeriodId == christmasBonusPeriodId
                     && a.AccrualYear == year
                     && a.AccrualMonth == month
-                    && a.IsCurrent
+                    && a.IsCurrent 
+                    && (a.Status == Domain.Enums.ChristmasBonusAccrualStatus.Projected || 
+                        a.Status == Domain.Enums.ChristmasBonusAccrualStatus.Confirmed)
                     && a.DeletedAt == null)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
 
         public async Task<List<ChristmasBonusAccrual>> GetCurrentChristmasBonusAccrualByPeriod(

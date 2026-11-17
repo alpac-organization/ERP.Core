@@ -27,17 +27,5 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
                 .OrderBy(a => a.PaidAt)
                 .ToListAsync();
         }
-
-        public async Task<decimal> GetTotalPaidAdvances(
-            Guid collaboratorId,
-            Guid christmasBonusPeriodId)
-        {
-            return await _context.ChristmasBonusAdvances
-                .Where(a => a.CollaboratorId == collaboratorId
-                    && a.ChristmasBonusPeriodId == christmasBonusPeriodId
-                    && a.Status == ChristmasBonusAdvanceStatus.Paid
-                    && a.DeletedAt == null)
-                .SumAsync(a => a.Amount);
-        }
     }
 }

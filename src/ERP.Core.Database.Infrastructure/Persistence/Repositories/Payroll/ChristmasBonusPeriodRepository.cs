@@ -31,10 +31,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Repositories.Payroll
             int endYear)
         {
             return await _context.ChristmasBonusPeriods
-                .Where(p => p.CompanyId == companyId
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.CompanyId == companyId
                     && p.EndYear == endYear
-                    && p.DeletedAt == null)
-                .FirstOrDefaultAsync();
+                    && p.DeletedAt == null);
         }
     }
 }
