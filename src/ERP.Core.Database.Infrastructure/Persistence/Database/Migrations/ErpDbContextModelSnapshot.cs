@@ -1035,6 +1035,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_fuel");
 
+                    b.Property<bool>("IsMaterial")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_material");
+
                     b.Property<bool>("IsService")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
