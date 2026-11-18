@@ -20,10 +20,8 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         public Guid BranchId { get; set; }
         public virtual Branch Branch { get; set; } = default!;
 
-        public Guid? PurchaseRequestId { get; set; }
-        public virtual PurchaseRequest PurchaseRequest { get; set; } = default!;
-
-        public virtual ICollection<InventoryEntryItem> InventoryEntryItems { get; set; } = default!;
+        public Guid PurchaseOrderId { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; } = default!;
     }
 
     public class InventoryEntryAdditionalData

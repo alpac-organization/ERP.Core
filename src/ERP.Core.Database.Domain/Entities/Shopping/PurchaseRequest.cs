@@ -122,9 +122,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
         /// </summary>
         public virtual ICollection<PurchaseRequestItem> PurchaseRequestItems { get; set; } = [];
         public virtual ICollection<ServiceOrderRequistions> ServiceOrderRequistions { get; set; } = [];  
-
-        //Inventario
-        public virtual ICollection<InventoryEntry> InventoryEntries { get; set; } = default!;      
     }
 
     public class PurchaseRequestAdditionalData

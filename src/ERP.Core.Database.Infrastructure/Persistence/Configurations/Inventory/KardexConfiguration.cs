@@ -105,6 +105,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.Property(e => e.DeletedAt)
                 .HasColumnName("deleted_at");
 
+            builder.Property(e => e.InventoryOutputId)
+                .HasColumnName("inventory_output_id")
+                .IsRequired(false);
+
+
             // ---- Relationships ----
 
             builder.HasOne(k => k.CostCenter)
@@ -120,6 +125,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
             builder.HasOne(k => k.User)
                 .WithMany(K => K.Kardices)
                 .HasForeignKey(k => k.MovementByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(k => k.InventoryOutput)
+                .WithMany(K => K.KardexMovements)
+                .HasForeignKey(k => k.InventoryOutputId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(k => k.WorkArea)
