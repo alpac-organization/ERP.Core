@@ -38,6 +38,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 table.HasCheckConstraint(
                     "ck_christmas_bonus_settlements_amount_to_pay",
                     "\"amount_to_pay\" >= 0");
+
+                table.HasCheckConstraint("ck_christmas_bonus_settlements_amount_to_pay_dollars",
+                    "\"amount_to_pay_in_dollars\" IS NULL OR \"amount_to_pay_in_dollars\" >= 0");
             });
 
             builder.HasKey(e => e.Id);
@@ -76,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.SalaryTypeSnapshot)
                 .HasColumnName("salary_type_snapshot")
+                .HasColumnType("salary_type_enum")
                 .IsRequired();
 
             builder.Property(e => e.ReferenceSalary)
@@ -116,6 +120,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.AmountToPayInDollars)
                 .HasColumnName("amount_to_pay_in_dollars")
                 .HasPrecision(18, 4);
+
+
+            builder.Property(e => e.PaidAt)
+                .HasColumnName("paid_at")
+                .HasColumnType("date");
+
+            builder.Property(e => e.PaidById)
+                .HasColumnName("paid_by_id");
+
+            builder.HasOne(e => e.PaidBy)
+                .WithMany()
+                .HasForeignKey(e => e.PaidById)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
