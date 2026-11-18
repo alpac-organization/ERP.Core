@@ -22,8 +22,8 @@ public abstract class BaseSupplyRequest : BaseEntity<Guid>
     public virtual Branch Branch { get; set; } = default!;
 
     // Bodega destino.
-    public Guid WarehouseId { get; set; }
-    public virtual Warehouses Warehouse { get; set; } = default!;
+    public Guid? WarehouseId { get; set; }
+    public virtual Warehouses? Warehouse { get; set; }
 
     public Guid RequestedByUserId { get; set; }
     public virtual User User { get; set; } = default!;

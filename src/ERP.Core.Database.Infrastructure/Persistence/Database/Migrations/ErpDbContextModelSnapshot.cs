@@ -839,7 +839,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("requested_by_user_id");
 
-                    b.Property<Guid>("WarehouseId")
+                    b.Property<Guid?>("WarehouseId")
                         .HasColumnType("uuid")
                         .HasColumnName("warehouse_id");
 
@@ -1034,6 +1034,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_fuel");
+
+                    b.Property<bool>("IsMaterial")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_material");
 
                     b.Property<bool>("IsService")
                         .ValueGeneratedOnAdd()
@@ -2357,6 +2363,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<Guid?>("InventoryOutputId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_output_id");
+
                     b.Property<int>("KardexType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("kardex_type_enum")
@@ -2423,6 +2433,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CostCenterId")
                         .HasDatabaseName("ix_kardex_cost_center_id");
+
+                    b.HasIndex("InventoryOutputId");
 
                     b.HasIndex("MovementByUserId")
                         .HasDatabaseName("ix_kardex_movement_by_user_id");
@@ -8001,8 +8013,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Warehouse.Warehouses", "Warehouse")
                         .WithMany("BaseSupplyRequests")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("BaseSupplyRequests")
@@ -8339,6 +8350,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "InventoryOutput")
+                        .WithMany("KardexMovements")
+                        .HasForeignKey("InventoryOutputId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
                         .WithMany("Kardices")
                         .HasForeignKey("MovementByUserId")
@@ -8358,6 +8374,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("CostCenter");
+
+                    b.Navigation("InventoryOutput");
 
                     b.Navigation("Product");
 
@@ -10019,6 +10037,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UserProfiles");
 
                     b.Navigation("WorkingInformations");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
+                {
+                    b.Navigation("InventoryEntryItems");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
+                {
+                    b.Navigation("KardexMovements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
