@@ -1,3 +1,4 @@
+using ERP.Core.Database.Domain.Entities.Auth;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Enums;
 
@@ -42,6 +43,13 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal AmountToPay { get; set; } //cantidad a pagarj
 
         public decimal? AmountToPayInDollars { get; set; }
+
+
+        public DateOnly? PaidAt { get; set; }
+
+        public Guid? PaidById { get; set; }
+
+        public virtual User? PaidBy { get; set; }
 
     }
 }
