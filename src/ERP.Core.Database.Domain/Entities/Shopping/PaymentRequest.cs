@@ -7,7 +7,6 @@ namespace ERP.Core.Database.Domain.Entities.Shopping
     public class PaymentRequest : BaseEntity<Guid>
     {
         public string Code { get; set; } = string.Empty;
-
         public PaymentMethodType PaymentMethodType { get; set; }
 
         public Guid PurchaseOrderId { get; set; }

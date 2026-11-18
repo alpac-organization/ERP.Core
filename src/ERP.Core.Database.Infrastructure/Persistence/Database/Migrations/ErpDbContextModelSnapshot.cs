@@ -75,6 +75,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_status_enum", new[] { "pending", "approved", "rejected", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay", "judicial_appointment", "marriage_leave", "birth_leave", "bereavement_leave" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_beneficiary_scope_enum", new[] { "none", "own", "family_nucleus" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_scope_enum", new[] { "individual", "group", "by_area" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_status_enum", new[] { "draft", "pending_approval", "approved", "rejected", "applied", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_status_enum", new[] { "active", "inactive", "low_process" });
@@ -1034,6 +1036,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_fuel");
+
+                    b.Property<bool>("IsMaterial")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_material");
 
                     b.Property<bool>("IsService")
                         .ValueGeneratedOnAdd()
@@ -2215,9 +2223,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("observations");
 
-                    b.Property<Guid?>("PurchaseRequestId")
+                    b.Property<Guid>("PurchaseOrderId")
                         .HasColumnType("uuid")
-                        .HasColumnName("purchase_request_id");
+                        .HasColumnName("purchase_order_id");
 
                     b.Property<Guid>("WorkAreaId")
                         .HasColumnType("uuid")
@@ -2231,33 +2239,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ux_inventory_entries_code");
 
-                    b.HasIndex("PurchaseRequestId");
+                    b.HasIndex("PurchaseOrderId")
+                        .IsUnique();
 
                     b.HasIndex("WorkAreaId");
 
                     b.ToTable("inventory_entries", "public");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("InventoryEntryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryEntryId");
-
-                    b.ToTable("InventoryEntryItem", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
@@ -2379,6 +2366,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<Guid?>("InventoryOutputId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_output_id");
+
                     b.Property<int>("KardexType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("kardex_type_enum")
@@ -2445,6 +2436,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CostCenterId")
                         .HasDatabaseName("ix_kardex_cost_center_id");
+
+                    b.HasIndex("InventoryOutputId");
 
                     b.HasIndex("MovementByUserId")
                         .HasDatabaseName("ix_kardex_movement_by_user_id");
@@ -5156,6 +5149,138 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("personal_informations", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("personnel_action_request_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime?>("AppliedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("applied_at");
+
+                    b.Property<Guid?>("AppliedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("applied_by_user_id");
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("attachment_url");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime>("EffectiveDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("effective_date");
+
+                    b.Property<string>("Justification")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("justification");
+
+                    b.Property<string>("ManagementNotes")
+                        .HasColumnType("text")
+                        .HasColumnName("management_notes");
+
+                    b.Property<string>("RequestCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("request_code");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("requested_at");
+
+                    b.Property<Guid>("RequestedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requested_by_user_id");
+
+                    b.Property<DateTime?>("ReviewedByManagementAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("reviewed_by_management_at");
+
+                    b.Property<Guid?>("ReviewedByManagementUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reviewed_by_management_user_id");
+
+                    b.Property<int>("Scope")
+                        .HasColumnType("personnel_action_scope_enum")
+                        .HasColumnName("scope");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("personnel_action_status_enum")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestCode")
+                        .IsUnique();
+
+                    b.ToTable("personnel_action_requests", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequestItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("personnel_action_request_item_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("MemorandumUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("memorandum_url");
+
+                    b.Property<Guid>("PersonnelActionRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("personnel_action_request_id");
+
+                    b.Property<Guid?>("SalaryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("salary_id");
+
+                    b.Property<Guid?>("WorkPositionHistoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("work_position_history_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("PersonnelActionRequestId");
+
+                    b.HasIndex("SalaryId");
+
+                    b.HasIndex("WorkPositionHistoryId");
+
+                    b.ToTable("personnel_action_request_items", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ProfessionalServicesPayroll", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5338,6 +5463,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("end_date");
 
+                    b.Property<Guid?>("PersonnelActionRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("personnel_action_request_id");
+
                     b.Property<int>("SalaryType")
                         .HasColumnType("salary_type_enum")
                         .HasColumnName("salary_type");
@@ -5349,7 +5478,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CollaboratorId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"end_date\" IS NULL");
+
+                    b.HasIndex("PersonnelActionRequestId");
 
                     b.ToTable("salaries", "public");
                 });
@@ -5692,6 +5824,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
 
+                    b.Property<Guid?>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -5721,6 +5857,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("CostCenterId");
 
                     b.HasIndex("WorkPositionId");
 
@@ -8278,10 +8416,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
-                        .WithMany("InventoryEntries")
-                        .HasForeignKey("PurchaseRequestId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", "PurchaseOrder")
+                        .WithOne("InventoryEntry")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "PurchaseOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("InventoryEntries")
@@ -8291,20 +8430,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Branch");
 
-                    b.Navigation("PurchaseRequest");
+                    b.Navigation("PurchaseOrder");
 
                     b.Navigation("WorkArea");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "InventoryEntry")
-                        .WithMany("InventoryEntryItems")
-                        .HasForeignKey("InventoryEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InventoryEntry");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
@@ -8371,6 +8499,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", "InventoryOutput")
+                        .WithMany("KardexMovements")
+                        .HasForeignKey("InventoryOutputId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "User")
                         .WithMany("Kardices")
                         .HasForeignKey("MovementByUserId")
@@ -8390,6 +8523,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("CostCenter");
+
+                    b.Navigation("InventoryOutput");
 
                     b.Navigation("Product");
 
@@ -9004,6 +9139,39 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Collaborator");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequestItem", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("PersonnelActionRequestItems")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", "PersonnelActionRequest")
+                        .WithMany("Items")
+                        .HasForeignKey("PersonnelActionRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Salary", "Salary")
+                        .WithMany()
+                        .HasForeignKey("SalaryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.WorkPositionHistory", "WorkPositionHistory")
+                        .WithMany()
+                        .HasForeignKey("WorkPositionHistoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("PersonnelActionRequest");
+
+                    b.Navigation("Salary");
+
+                    b.Navigation("WorkPositionHistory");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ProfessionalServicesPayroll", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -9050,7 +9218,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", "PersonnelActionRequest")
+                        .WithMany()
+                        .HasForeignKey("PersonnelActionRequestId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Collaborator");
+
+                    b.Navigation("PersonnelActionRequest");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Subsidy", b =>
@@ -9129,6 +9304,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "WorkPosition")
                         .WithMany()
                         .HasForeignKey("WorkPositionId")
@@ -9136,6 +9316,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Collaborator");
+
+                    b.Navigation("CostCenter");
 
                     b.Navigation("WorkPosition");
                 });
@@ -10053,9 +10235,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkingInformations");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
                 {
-                    b.Navigation("InventoryEntryItems");
+                    b.Navigation("KardexMovements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
@@ -10129,6 +10311,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("PersonalInformation")
                         .IsRequired();
 
+                    b.Navigation("PersonnelActionRequestItems");
+
                     b.Navigation("ProfessionalServicesPayrolls");
 
                     b.Navigation("RecordsTravelExpensePayments");
@@ -10191,6 +10375,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("VacationAccruals");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ProfessionalServicesPayroll", b =>
                 {
                     b.Navigation("AssistanceControls");
@@ -10198,6 +10387,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
+                    b.Navigation("InventoryEntry");
+
                     b.Navigation("PaymentRequest");
 
                     b.Navigation("PurchaseOrderItems");
@@ -10206,8 +10397,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", b =>
                 {
                     b.Navigation("AccountingReview");
-
-                    b.Navigation("InventoryEntries");
 
                     b.Navigation("ManagementReview");
 
