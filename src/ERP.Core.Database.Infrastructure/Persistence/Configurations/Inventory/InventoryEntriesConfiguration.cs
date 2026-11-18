@@ -28,6 +28,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("observations")
                 .HasColumnType("text");
 
+            builder.Property(e => e.InvoiceNumber)
+                .HasColumnName("invoice_number")
+                .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(e => e.InvoiceDate)
+                .HasColumnName("invoice_date")
+                .HasColumnType("date")
+                .IsRequired(false);
+
             builder.Property(e => e.EntryStatus)
                 .HasColumnName("entry_status")
                 .HasColumnType("entry_status_enum")
@@ -83,7 +93,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .WithOne(e => e.InventoryEntry)
                 .HasForeignKey<InventoryEntry>(e => e.PurchaseOrderId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
+            builder.HasMany(e => e.InventoryEntryItems)
+                .WithOne(item => item.InventoryEntry)
+                .HasForeignKey(item => item.InventoryEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             #endregion
 
             #region Indexes

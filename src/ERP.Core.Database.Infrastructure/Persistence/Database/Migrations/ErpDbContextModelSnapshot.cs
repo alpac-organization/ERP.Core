@@ -2217,6 +2217,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("entry_type")
                         .HasDefaultValueSql("'buy'::entry_type_enum");
 
+                    b.Property<DateOnly?>("InvoiceDate")
+                        .HasColumnType("date")
+                        .HasColumnName("invoice_date");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("invoice_number");
+
                     b.Property<string>("Observations")
                         .HasColumnType("text")
                         .HasColumnName("observations");
@@ -2243,6 +2252,51 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("WorkAreaId");
 
                     b.ToTable("inventory_entries", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_entry_item_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid>("InventoryEntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inventory_entry_id");
+
+                    b.Property<Guid>("PurchaseOrderItemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("purchase_order_item_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostCenterId")
+                        .HasDatabaseName("ix_inventory_entry_items_cost_center_id");
+
+                    b.HasIndex("PurchaseOrderItemId")
+                        .HasDatabaseName("ix_inventory_entry_items_purchase_order_item_id");
+
+                    b.HasIndex("InventoryEntryId", "PurchaseOrderItemId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_inventory_entry_items_entry_order_item");
+
+                    b.ToTable("inventory_entry_items", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
@@ -2440,10 +2494,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("MovementByUserId")
                         .HasDatabaseName("ix_kardex_movement_by_user_id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("WorkAreaId")
                         .HasDatabaseName("ix_kardex_work_area_id");
+
+                    b.HasIndex("ProductId", "TransactionDate")
+                        .HasDatabaseName("ix_kardex_product_id_transaction_date");
+
+                    b.HasIndex("WorkAreaId", "CostCenterId", "TransactionDate")
+                        .HasDatabaseName("ix_kardex_area_cost_center_transaction_date");
 
                     b.ToTable("kardex", "public");
                 });
@@ -8288,6 +8346,33 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkArea");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "InventoryEntry")
+                        .WithMany("InventoryEntryItems")
+                        .HasForeignKey("InventoryEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrderItem", "PurchaseOrderItem")
+                        .WithMany()
+                        .HasForeignKey("PurchaseOrderItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CostCenter");
+
+                    b.Navigation("InventoryEntry");
+
+                    b.Navigation("PurchaseOrderItem");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
@@ -10039,6 +10124,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UserProfiles");
 
                     b.Navigation("WorkingInformations");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
+                {
+                    b.Navigation("InventoryEntryItems");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>

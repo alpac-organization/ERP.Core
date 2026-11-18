@@ -146,6 +146,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
 
             builder.HasIndex(k => k.MovementByUserId)
                 .HasDatabaseName("ix_kardex_movement_by_user_id");
+
+            builder.HasIndex(k => new { k.ProductId, k.TransactionDate })
+                .HasDatabaseName("ix_kardex_product_id_transaction_date");
+
+            builder.HasIndex(k => new { k.WorkAreaId, k.CostCenterId, k.TransactionDate })
+                .HasDatabaseName("ix_kardex_area_cost_center_transaction_date");
         }
     }
 }

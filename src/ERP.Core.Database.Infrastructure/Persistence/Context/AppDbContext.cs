@@ -116,6 +116,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<FuelRequest> FuelRequests => Set<FuelRequest>();
         public DbSet<SupplyRequestItem> SupplyRequestItems => Set<SupplyRequestItem>();
         public DbSet<InventoryEntry> InventoryEntries => Set<InventoryEntry>();
+        public DbSet<InventoryEntryItem> InventoryEntryItems => Set<InventoryEntryItem>();
         public DbSet<InventoryOutputs> InventoryOutputs => Set<InventoryOutputs>();
         public DbSet<InventoryAreasPermissions> InventoryAreasPermissions => Set<InventoryAreasPermissions>();
         public DbSet<ReasonsInventoryRemoval> ReasonsInventoryRemoval => Set<ReasonsInventoryRemoval>();
