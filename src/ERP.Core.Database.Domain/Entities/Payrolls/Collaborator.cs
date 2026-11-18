@@ -53,6 +53,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
         public virtual ICollection<PermitApplicationPending> PermitApplicationsPending { get; set; } = [];
+        public virtual ICollection<PersonnelActionRequestItem> PersonnelActionRequestItems { get; set; } = [];
 
 
         //Registros de ciclos de nominas
