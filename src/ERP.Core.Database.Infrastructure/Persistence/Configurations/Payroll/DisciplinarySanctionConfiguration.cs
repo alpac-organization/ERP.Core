@@ -61,6 +61,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasColumnName("payroll_id")
             .IsRequired(false);
 
+         builder.Property(e => e.DeductionId)
+            .HasColumnName("deduction_id")
+            .IsRequired(false);
+
          builder.Property(e => e.Reason)
             .HasColumnName("reason")
             .HasMaxLength(500)
@@ -75,7 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .IsRequired(false);
 
          builder.Property(e => e.ApprovedAt)
-            .HasColumnName("approved_at")            
+            .HasColumnName("approved_at")
             .IsRequired(false);
 
          builder.Property(e => e.CancellationReason)
@@ -102,6 +106,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
          builder.HasIndex(e => e.PayrollId)
             .HasDatabaseName("ix_disciplinary_sanctions_payroll_id");
+         
+         builder.HasIndex(e => e.DeductionId)
+            .IsUnique()
+            .HasFilter("deduction_id IS NOT NULL")
+            .HasDatabaseName("ix_disciplinary_sanctions_deduction_id");
 
          builder.HasIndex(e => e.ApprovedBy)
             .HasDatabaseName("ix_disciplinary_sanctions_approved_by");
@@ -124,6 +133,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.HasOne(e => e.Payroll)
             .WithMany(p => p.DisciplinarySanctions)
             .HasForeignKey(e => e.PayrollId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+         builder.HasOne(e => e.Deduction)
+            .WithMany()
+            .HasForeignKey(e => e.DeductionId)
             .OnDelete(DeleteBehavior.Restrict);
       }
    }

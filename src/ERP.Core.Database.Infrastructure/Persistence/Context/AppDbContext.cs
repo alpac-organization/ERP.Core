@@ -81,6 +81,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<DisciplinarySanction> DisciplinarySanctions => Set<DisciplinarySanction>();
         #endregion
 
+        #region Nomina: Baja de Colaboradores
+        public DbSet<CollaboratorTermination> CollaboratorTerminations => Set<CollaboratorTermination>();
+        #endregion
+
         #region Nomina: Control de Ausencias
         public DbSet<Absence> Absences => Set<Absence>();
         #endregion
