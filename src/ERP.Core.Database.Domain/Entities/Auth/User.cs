@@ -6,6 +6,7 @@ using ERP.Core.Database.Domain.Entities.Warehouse;
 using ERP.Core.Database.Domain.Entities.Inventory;
 using ERP.Core.Database.Domain.Entities.Accounting;
 using ERP.Core.Database.Domain.Entities.Operations;
+using ERP.Core.Database.Domain.Entities.Catalogs;
 
 namespace ERP.Core.Database.Domain.Entities.Auth
 {
@@ -67,5 +68,8 @@ namespace ERP.Core.Database.Domain.Entities.Auth
         // Faltas Disciplinarias
         public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];
         public virtual ICollection<DisciplinarySanction> DisciplinarySanctions { get; set; } = [];
+
+        // Equipment
+        public virtual ICollection<Equipment> Equipment { get; set; } = [];
     }
 }

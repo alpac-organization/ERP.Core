@@ -100,6 +100,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TransportUnit>("transport_unit_enum", "public");
                     npgsqlOptions.MapEnum<DucaType>("duca_type_enum", "public");
                     npgsqlOptions.MapEnum<MachineryStatus>("machinery_status_enum", "public");
+                    npgsqlOptions.MapEnum<EquipmentStatus>("equipment_status_enum", "public");
                     npgsqlOptions.MapEnum<PalletType>("pallet_type_enum", "public");
                     npgsqlOptions.MapEnum<UnloadingMerchandiseType>("unloading_merchandise_type_enum", "public");
                     npgsqlOptions.MapEnum<BankAccountType>("bank_account_type_enum", "public");
@@ -115,6 +116,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<SupplierType>("supplier_type_enum", "public");
                     npgsqlOptions.MapEnum<AssignmentCollaboratorsRoles>("assignment_collaborators_roles_enum", "public");
                     npgsqlOptions.MapEnum<MachineryType>("machinery_type_enum", "public");
+                    npgsqlOptions.MapEnum<EquipmentType>("equipment_type_enum", "public");
                     npgsqlOptions.MapEnum<ServiceOrderRequisitionStatus>("service_order_requisition_status_enum", "public");
                     npgsqlOptions.MapEnum<EmploymentType>("employment_type_enum", "public");
                     npgsqlOptions.MapEnum<DestinationType>("destination_type_enum", "public");
@@ -138,6 +140,7 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<InventoryOutputsStatus>("inventory_outputs_status_enum", "public");
                     npgsqlOptions.MapEnum<ProductStatus>("product_status_enum", "public");
                     npgsqlOptions.MapEnum<CategoryType>("category_type_enum", "public");
+                    npgsqlOptions.MapEnum<PurchaseOrderStatus>("purchase_order_status_enum", "public");
                 })
             );
 
@@ -249,6 +252,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ISectionPositionsRepository, SectionPositionRepository>();
             services.AddScoped<ISectionPositionsCoordinatesRepository, SectionPositionsCoordinatesRepository>();
             services.AddScoped<IMachineryRepository, MachineryRepository>();
+            services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IPurchaseRequestsReviewedAccountingRepository, PurchaseRequestsReviewedAccountingRepository>();
             services.AddScoped<IPurchaseRequestsReviewedManagementRepository, PurchaseRequestsReviewedManagementRepository>();
             services.AddScoped<IAssignmentStockPlacementsRepository, AssignmentStockPlacementsRepository>();

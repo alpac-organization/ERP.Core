@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ERP.Core.Database.Domain.Entities.Shopping;
+using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
 {
@@ -31,6 +32,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Shopping
             builder.Property(e => e.PaymentMethodType)
                 .HasColumnName("payment_method_type")
                 .HasColumnType("payment_method_type_enum")
+                .HasSentinel(PaymentMethodType.Cash)
                 .IsRequired();
 
             builder.Property(e => e.PurchaseOrderId)
