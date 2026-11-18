@@ -2238,28 +2238,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("inventory_entries", "public");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("InventoryEntryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryEntryId");
-
-                    b.ToTable("InventoryEntryItem", "public");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
                 {
                     b.Property<Guid>("Id")
@@ -8297,17 +8275,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkArea");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntryItem", b =>
-                {
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "InventoryEntry")
-                        .WithMany("InventoryEntryItems")
-                        .HasForeignKey("InventoryEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InventoryEntry");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
@@ -10052,11 +10019,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("UserProfiles");
 
                     b.Navigation("WorkingInformations");
-                });
-
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
-                {
-                    b.Navigation("InventoryEntryItems");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
