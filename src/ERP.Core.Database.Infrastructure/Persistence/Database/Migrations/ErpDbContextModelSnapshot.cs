@@ -2221,9 +2221,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("observations");
 
-                    b.Property<Guid?>("PurchaseRequestId")
+                    b.Property<Guid>("PurchaseOrderId")
                         .HasColumnType("uuid")
-                        .HasColumnName("purchase_request_id");
+                        .HasColumnName("purchase_order_id");
 
                     b.Property<Guid>("WorkAreaId")
                         .HasColumnType("uuid")
@@ -2237,7 +2237,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ux_inventory_entries_code");
 
-                    b.HasIndex("PurchaseRequestId");
+                    b.HasIndex("PurchaseOrderId")
+                        .IsUnique();
 
                     b.HasIndex("WorkAreaId");
 
@@ -8268,10 +8269,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", "PurchaseRequest")
-                        .WithMany("InventoryEntries")
-                        .HasForeignKey("PurchaseRequestId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", "PurchaseOrder")
+                        .WithOne("InventoryEntry")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", "PurchaseOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "WorkArea")
                         .WithMany("InventoryEntries")
@@ -8281,7 +8283,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Branch");
 
-                    b.Navigation("PurchaseRequest");
+                    b.Navigation("PurchaseOrder");
 
                     b.Navigation("WorkArea");
                 });
@@ -10039,11 +10041,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkingInformations");
                 });
 
-            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryEntry", b =>
-                {
-                    b.Navigation("InventoryEntryItems");
-                });
-
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.InventoryOutputs", b =>
                 {
                     b.Navigation("KardexMovements");
@@ -10189,6 +10186,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseOrder", b =>
                 {
+                    b.Navigation("InventoryEntry");
+
                     b.Navigation("PaymentRequest");
 
                     b.Navigation("PurchaseOrderItems");
@@ -10197,8 +10196,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Shopping.PurchaseRequest", b =>
                 {
                     b.Navigation("AccountingReview");
-
-                    b.Navigation("InventoryEntries");
 
                     b.Navigation("ManagementReview");
 
