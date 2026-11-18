@@ -12,6 +12,7 @@ public class CategoryProducts : BaseEntity<Guid>
     public bool IsActive {get; set;} = true;
     public bool IsService { get; set; } = false;
     public bool IsFuel { get; set; } = false;
+    public bool IsMaterial { get; set; } = false;
     public CategoryType CategoryType { get; set; }
 
     public Guid? ParentId { get; set; }

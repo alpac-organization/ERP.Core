@@ -37,6 +37,11 @@ public class CategoryProductsConfiguration : IEntityTypeConfiguration<CategoryPr
             .HasDefaultValue(false)
             .IsRequired();
 
+        builder.Property(c => c.IsMaterial)
+            .HasColumnName("is_material")
+            .HasDefaultValue(false)
+            .IsRequired();
+
 
         builder.Property(c => c.Code)
             .HasColumnName("code")
