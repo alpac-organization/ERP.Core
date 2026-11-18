@@ -55,9 +55,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasColumnName("branch_id")
                 .IsRequired();
 
-            builder.Property(e => e.PurchaseRequestId)
-                .HasColumnName("purchase_request_id")
-                .IsRequired(false);
+            builder.Property(e => e.PurchaseOrderId)
+                .HasColumnName("purchase_order_id")
+                .IsRequired();
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
@@ -79,9 +79,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Inventory
                 .HasForeignKey(e => e.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.PurchaseRequest)
-                .WithMany(e => e.InventoryEntries)
-                .HasForeignKey(e => e.PurchaseRequestId)
+            builder.HasOne(e => e.PurchaseOrder)
+                .WithOne(e => e.InventoryEntry)
+                .HasForeignKey<InventoryEntry>(e => e.PurchaseOrderId)
                 .OnDelete(DeleteBehavior.Restrict);
                 
             #endregion
