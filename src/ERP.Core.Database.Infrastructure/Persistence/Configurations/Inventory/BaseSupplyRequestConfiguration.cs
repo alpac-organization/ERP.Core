@@ -29,7 +29,7 @@ public class BaseSupplyRequestConfiguration : IEntityTypeConfiguration<BaseSuppl
 
         builder.Property(e => e.WarehouseId)
             .HasColumnName("warehouse_id")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(e => e.OutflowStatus)
             .HasColumnName("outflow_status")
