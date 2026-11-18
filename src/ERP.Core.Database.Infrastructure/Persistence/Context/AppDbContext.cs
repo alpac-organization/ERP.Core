@@ -32,6 +32,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
         public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
+        public DbSet<PersonnelActionRequest> PersonnelActionRequests => Set<PersonnelActionRequest>();
+        public DbSet<PersonnelActionRequestItem> PersonnelActionRequestItems => Set<PersonnelActionRequestItem>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         public DbSet<PermitTypePolicy> PermitTypePolicies => Set<PermitTypePolicy>();
@@ -194,6 +196,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<MaritalStatus>("public", "marital_status_enum");
             modelBuilder.HasPostgresEnum<PermitApplicationStatus>("public", "permit_application_status_enum");
             modelBuilder.HasPostgresEnum<PermitApplicationType>("public", "permit_application_type_enum");
+            modelBuilder.HasPostgresEnum<PersonnelActionScope>("public", "personnel_action_scope_enum");
+            modelBuilder.HasPostgresEnum<PersonnelActionStatus>("public", "personnel_action_status_enum");
             modelBuilder.HasPostgresEnum<PermitBeneficiaryScope>("public", "permit_beneficiary_scope_enum");
             modelBuilder.HasPostgresEnum<FamilyRelationship>("public", "family_relationship_enum");
             modelBuilder.HasPostgresEnum<DeductionType>("public", "deduction_type_enum");
