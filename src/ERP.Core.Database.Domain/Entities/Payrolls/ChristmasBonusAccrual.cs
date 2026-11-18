@@ -1,5 +1,4 @@
 using ERP.Core.Database.Domain.Entities.Bases;
-using ERP.Core.Database.Domain.Enums;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
