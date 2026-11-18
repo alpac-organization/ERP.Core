@@ -30,6 +30,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("job_position_id")
                 .IsRequired();
 
+            builder.Property(e => e.CostCenterId)
+                .HasColumnName("cost_center_id")
+                .IsRequired(false);
+
             builder.Property(e => e.StartDate)
                 .HasColumnName("start_date")
                 .IsRequired();
@@ -54,6 +58,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.HasOne(d => d.WorkPosition)
                 .WithMany()
                 .HasForeignKey(d => d.WorkPositionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(d => d.CostCenter)
+                .WithMany()
+                .HasForeignKey(d => d.CostCenterId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
