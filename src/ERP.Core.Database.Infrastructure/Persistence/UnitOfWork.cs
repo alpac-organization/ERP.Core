@@ -29,6 +29,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISalariesRepository salariesRepository,
             IVacationsRepository vacationsRepository,
             IPermitApplicationsRepository permitApplicationsRepository,
+            IPersonnelActionRequestRepository personnelActionRequestRepository,
             IDeductionsRepository deductionsRepository,
             IPayrollsRepository payrollsRepository,
             IOrdinaryPayrollsRepository ordinaryPayrollsRepository,
@@ -142,6 +143,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISalariesRepository Salaries => salariesRepository;
         public IVacationsRepository Vacations => vacationsRepository;
         public IPermitApplicationsRepository PermitApplications => permitApplicationsRepository;
+        public IPersonnelActionRequestRepository PersonnelActionRequests => personnelActionRequestRepository;
         public IDeductionsRepository Deductions => deductionsRepository;
         public IPayrollsRepository Payrolls => payrollsRepository;
         public IOrdinaryPayrollsRepository OrdinaryPayrolls => ordinaryPayrollsRepository;
