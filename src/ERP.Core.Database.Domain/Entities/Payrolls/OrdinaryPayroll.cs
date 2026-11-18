@@ -54,6 +54,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal Absences { get; set; } = 0.0m;//Ausencias (Salario Diario + Séptimo Día)
         public decimal Sanction { get; set; } = 0.0m;//Sanción
+        public int SanctionDays { get; set; } = 0; // Días de suspensión
         public int TotalAbsenceDays { get; set; } = 0; // Total de días de ausencia injustificada
         public decimal SeventhDayDeduction { get; set; } = 0.0m; // Deducción de séptimo día por inasistencia
     }
