@@ -55,6 +55,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.Property(e => e.ClosedAt)
                 .HasColumnName("closed_at")
+                .HasColumnType("date")
                 .IsRequired(false);
 
 
