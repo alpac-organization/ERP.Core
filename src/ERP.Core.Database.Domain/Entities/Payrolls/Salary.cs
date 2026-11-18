@@ -18,6 +18,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public Guid? PersonnelActionRequestId { get; set; }
+        public virtual PersonnelActionRequest? PersonnelActionRequest { get; set; }
+
         public virtual Collaborator Collaborator { get; set; } = null!;
     }
 }   

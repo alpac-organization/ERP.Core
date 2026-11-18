@@ -158,6 +158,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ISalariesRepository, SalariesRepository>();
             services.AddScoped<IVacationsRepository, VacationsRepository>();
             services.AddScoped<IPermitApplicationsRepository, PermitApplicationsRepository>();
+            services.AddScoped<IPersonnelActionRequestRepository, PersonnelActionRequestRepository>();
             services.AddScoped<IDeductionsRepository, DeductionsRepository>();
             services.AddScoped<IPayrollsRepository, PayrollsRepository>();
             services.AddScoped<IOrdinaryPayrollsRepository, OrdinaryPayrollsRepository>();

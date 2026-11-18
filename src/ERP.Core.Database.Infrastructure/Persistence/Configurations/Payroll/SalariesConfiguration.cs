@@ -61,6 +61,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("end_date");
 
 
+            builder.Property(e => e.PersonnelActionRequestId)
+                .HasColumnName("personnel_action_request_id");
+
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -74,7 +77,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(p => p.CollaboratorId) 
                 .OnDelete(DeleteBehavior.Cascade); 
 
+            builder.HasOne(p => p.PersonnelActionRequest)
+                .WithMany()
+                .HasForeignKey(p => p.PersonnelActionRequestId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.HasIndex(p => p.CollaboratorId)
+                .HasFilter("\"end_date\" IS NULL")
                 .IsUnique();
         }
     }
