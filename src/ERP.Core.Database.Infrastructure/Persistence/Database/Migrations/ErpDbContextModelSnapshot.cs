@@ -29,6 +29,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "bank_account_type_enum", new[] { "savings", "checking" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "catalog_type_enum", new[] { "branches", "work_areas", "job_positions", "document_types", "banks", "exchange_rates", "departaments", "purchase_rejection_reasons" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "category_type_enum", new[] { "administrative", "operational" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "christmas_bonus_advance_status_enum", new[] { "pending", "approved", "paid", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "christmas_bonus_period_status_enum", new[] { "active", "completed", "settled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "christmas_bonus_settlement_status_enum", new[] { "calculated", "paid" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "christmas_bonus_settlement_type_enum", new[] { "annual", "employment_termination" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "codes_type_enum", new[] { "none", "qr", "bar" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "collaborator_status_enum", new[] { "active", "inactive", "vacation", "subsidy", "suspended", "terminated", "testing_process" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "constitution_type_enum", new[] { "natural", "legal" });
@@ -70,7 +74,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payment_method_type_enum", new[] { "ach", "local_transfer", "check", "cash", "international_wire" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_period_enum", new[] { "first_period", "second_period" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_status_enum", new[] { "progress", "closed", "cancelled", "completed" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "payroll_type_enum", new[] { "none", "ordinary", "provided", "professional_services", "christmas_bonus" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permission_type_enum", new[] { "read", "create", "update", "delete" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_status_enum", new[] { "pending", "approved", "rejected", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_application_type_enum", new[] { "vacation", "medical_appointment", "compensatory_time", "paid_leave", "unpaid_leave", "special_leave", "donated_vacations", "vacation_pay", "judicial_appointment", "marriage_leave", "birth_leave", "bereavement_leave" });
@@ -1353,6 +1357,59 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("equipments", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.ExchangeRateHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("exchange_rate_history_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateOnly>("EffectiveFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("effective_from");
+
+                    b.Property<DateOnly?>("EffectiveTo")
+                        .HasColumnType("date")
+                        .HasColumnName("effective_to");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("numeric(18,6)")
+                        .HasColumnName("rate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Currency", "EffectiveFrom")
+                        .IsUnique()
+                        .HasDatabaseName("ux_exchange_rate_histories_currency_effective_from")
+                        .HasFilter("\"deleted_at\" IS NULL");
+
+                    b.HasIndex("Currency", "EffectiveFrom", "EffectiveTo")
+                        .HasDatabaseName("ix_exchange_rate_histories_currency_dates");
+
+                    b.ToTable("exchange_rate_histories", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_exchange_rate_histories_dates", "\"effective_to\" IS NULL OR \"effective_to\" >= \"effective_from\"");
+
+                            t.HasCheckConstraint("ck_exchange_rate_histories_rate", "\"rate\" > 0");
+                        });
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Catalogs.JobPosition", b =>
@@ -3628,19 +3685,49 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("christmas_bonus_accrual_id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<decimal>("BaseSalary")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("base_salary");
+                    b.Property<int>("AccrualMonth")
+                        .HasColumnType("integer")
+                        .HasColumnName("accrual_month");
+
+                    b.Property<int>("AccrualYear")
+                        .HasColumnType("integer")
+                        .HasColumnName("accrual_year");
+
+                    b.Property<decimal>("AccruedAmount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("accrued_amount");
+
+                    b.Property<decimal?>("AccruedAmountInDollars")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("accrued_amount_in_dollars");
+
+                    b.Property<decimal>("BaseSalarySnapshot")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("base_salary_snapshot");
 
                     b.Property<decimal>("ChristmasBonusDays")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasPrecision(9, 4)
+                        .HasColumnType("numeric(9,4)")
                         .HasColumnName("christmas_bonus_days");
+
+                    b.Property<Guid>("ChristmasBonusPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_period_id");
 
                     b.Property<Guid>("CollaboratorId")
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
+
+                    b.Property<DateOnly>("CoveredFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("covered_from");
+
+                    b.Property<DateOnly>("CoveredTo")
+                        .HasColumnType("date")
+                        .HasColumnName("covered_to");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -3652,15 +3739,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<decimal>("EquivalentQuantity")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("equivalent_quantity");
-
-                    b.Property<decimal>("EquivalentQuantityInDollars")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("equivalent_quantity_in_dollars");
+                    b.Property<decimal>("EligibleDays")
+                        .HasPrecision(9, 4)
+                        .HasColumnType("numeric(9,4)")
+                        .HasColumnName("eligible_days");
 
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid")
@@ -3668,13 +3750,324 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CollaboratorId")
+                    b.HasIndex("PayrollId")
+                        .HasDatabaseName("ix_christmas_bonus_accruals_payroll_id");
+
+                    b.HasIndex("CollaboratorId", "ChristmasBonusPeriodId")
+                        .HasDatabaseName("ix_christmas_bonus_accruals_collaborator_period");
+
+                    b.HasIndex("ChristmasBonusPeriodId", "AccrualYear", "AccrualMonth")
+                        .HasDatabaseName("ix_christmas_bonus_accruals_period_year_month");
+
+                    b.HasIndex("ChristmasBonusPeriodId", "CollaboratorId", "AccrualYear", "AccrualMonth")
                         .IsUnique()
-                        .HasDatabaseName("ix_christmas_bonus_collaborator_id");
+                        .HasDatabaseName("ux_christmas_bonus_accruals_period_collaborator_year_month")
+                        .HasFilter("\"deleted_at\" IS NULL");
 
-                    b.HasIndex("PayrollId");
+                    b.ToTable("christmas_bonus_accruals", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_amount", "\"accrued_amount\" >= 0");
 
-                    b.ToTable("christmas_bonus_accruals", "public");
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_amount_in_dollars", "\"accrued_amount_in_dollars\" IS NULL OR \"accrued_amount_in_dollars\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_base_salary", "\"base_salary_snapshot\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_covered_dates", "\"covered_to\" >= \"covered_from\"");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_days", "\"christmas_bonus_days\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_eligible_days", "\"eligible_days\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_month", "\"accrual_month\" >= 1 AND \"accrual_month\" <= 12");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_accruals_year", "\"accrual_year\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAdvance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_advance_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("amount");
+
+                    b.Property<DateOnly?>("ApprovedAt")
+                        .HasColumnType("date")
+                        .HasColumnName("approved_at");
+
+                    b.Property<Guid?>("ApprovedById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("approved_by_id");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<DateOnly?>("CancelledAt")
+                        .HasColumnType("date")
+                        .HasColumnName("cancelled_at");
+
+                    b.Property<Guid?>("CancelledById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by_id");
+
+                    b.Property<Guid>("ChristmasBonusPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_period_id");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("currency_enum")
+                        .HasColumnName("currency");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateOnly?>("PaidAt")
+                        .HasColumnType("date")
+                        .HasColumnName("paid_at");
+
+                    b.Property<Guid?>("PaidById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("paid_by_id");
+
+                    b.Property<Guid?>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<DateOnly>("RequestedAt")
+                        .HasColumnType("date")
+                        .HasColumnName("requested_at");
+
+                    b.Property<Guid?>("RequestedById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requested_by_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("christmas_bonus_advance_status_enum")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedById");
+
+                    b.HasIndex("CancelledById");
+
+                    b.HasIndex("ChristmasBonusPeriodId");
+
+                    b.HasIndex("PaidById");
+
+                    b.HasIndex("PayrollId")
+                        .HasDatabaseName("ix_christmas_bonus_advances_payroll_id");
+
+                    b.HasIndex("RequestedById");
+
+                    b.HasIndex("CollaboratorId", "ChristmasBonusPeriodId", "Status")
+                        .HasDatabaseName("ix_christmas_bonus_advances_collaborator_period_status");
+
+                    b.ToTable("christmas_bonus_advances", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_christmas_bonus_advances_amount", "\"amount\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_period_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date")
+                        .HasColumnName("end_date");
+
+                    b.Property<int>("EndYear")
+                        .HasColumnType("integer")
+                        .HasColumnName("end_year");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date")
+                        .HasColumnName("start_date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("christmas_bonus_period_status_enum")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId", "EndYear")
+                        .IsUnique()
+                        .HasDatabaseName("ux_christmas_bonus_periods_company_id_end_year")
+                        .HasFilter("\"deleted_at\" IS NULL");
+
+                    b.HasIndex("CompanyId", "StartDate", "EndDate")
+                        .HasDatabaseName("ix_christmas_bonus_periods_company_id_dates");
+
+                    b.ToTable("christmas_bonus_periods", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_christmas_bonus_periods_dates", "\"end_date\" >= \"start_date\"");
+                        });
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusSettlement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_settlement_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("AdvancesPaid")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("advances_paid");
+
+                    b.Property<decimal>("AmountToPay")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("amount_to_pay");
+
+                    b.Property<decimal?>("AmountToPayInDollars")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("amount_to_pay_in_dollars");
+
+                    b.Property<decimal>("ChildSupportWithholding")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("child_support_withholding");
+
+                    b.Property<decimal>("ChristmasBonusDays")
+                        .HasPrecision(9, 4)
+                        .HasColumnType("numeric(9,4)")
+                        .HasColumnName("christmas_bonus_days");
+
+                    b.Property<Guid>("ChristmasBonusPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("christmas_bonus_period_id");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateOnly>("CutoffDate")
+                        .HasColumnType("date")
+                        .HasColumnName("cutoff_date");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal>("EligibleDays")
+                        .HasPrecision(9, 4)
+                        .HasColumnType("numeric(9,4)")
+                        .HasColumnName("eligible_days");
+
+                    b.Property<decimal>("GrossEntitlement")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("gross_entitlement");
+
+                    b.Property<DateOnly?>("PaidAt")
+                        .HasColumnType("date")
+                        .HasColumnName("paid_at");
+
+                    b.Property<Guid?>("PaidById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("paid_by_id");
+
+                    b.Property<Guid?>("PayrollId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payroll_id");
+
+                    b.Property<decimal>("ReferenceSalary")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)")
+                        .HasColumnName("reference_salary");
+
+                    b.Property<int>("SalaryTypeSnapshot")
+                        .HasColumnType("salary_type_enum")
+                        .HasColumnName("salary_type_snapshot");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("christmas_bonus_settlement_status_enum")
+                        .HasColumnName("status");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("christmas_bonus_settlement_type_enum")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("PaidById");
+
+                    b.HasIndex("PayrollId")
+                        .HasDatabaseName("ix_christmas_bonus_settlements_payroll_id");
+
+                    b.HasIndex("ChristmasBonusPeriodId", "CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_christmas_bonus_settlements_period_collaborator")
+                        .HasFilter("\"deleted_at\" IS NULL");
+
+                    b.ToTable("christmas_bonus_settlements", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_advances", "\"advances_paid\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_amount_to_pay", "\"amount_to_pay\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_amount_to_pay_dollars", "\"amount_to_pay_in_dollars\" IS NULL OR \"amount_to_pay_in_dollars\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_child_support", "\"child_support_withholding\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_days", "\"christmas_bonus_days\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_eligible_days", "\"eligible_days\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_gross", "\"gross_entitlement\" >= 0");
+
+                            t.HasCheckConstraint("ck_christmas_bonus_settlements_reference_salary", "\"reference_salary\" >= 0");
+                        });
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
@@ -4853,6 +5246,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("company_branch_id");
 
+                    b.Property<DateOnly?>("ClosedAt")
+                        .HasColumnType("date")
+                        .HasColumnName("closed_at");
+
+                    b.Property<Guid?>("ClosedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("closed_by_user_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -4890,6 +5291,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("ClosedBy");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -5592,9 +5995,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("CollaboratorId")
                         .IsUnique()
-                        .HasFilter("\"end_date\" IS NULL");
+                        .HasDatabaseName("ux_salaries_collaborator_active")
+                        .HasFilter("\"end_date\" IS NULL AND \"deleted_at\" IS NULL");
 
                     b.HasIndex("PersonnelActionRequestId");
+
+                    b.HasIndex("CollaboratorId", "StartDate", "EndDate")
+                        .HasDatabaseName("ix_salaries_collaborator_dates");
 
                     b.ToTable("salaries", "public");
                 });
@@ -8958,19 +9365,125 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAccrual", b =>
                 {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", "ChristmasBonusPeriod")
+                        .WithMany("Accruals")
+                        .HasForeignKey("ChristmasBonusPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
                         .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("PayrollId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("ChristmasBonusPeriod");
+
                     b.Navigation("Collaborator");
+
+                    b.Navigation("Payroll");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusAdvance", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ApprovedBy")
+                        .WithMany()
+                        .HasForeignKey("ApprovedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "CancelledBy")
+                        .WithMany()
+                        .HasForeignKey("CancelledById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", "ChristmasBonusPeriod")
+                        .WithMany("Advances")
+                        .HasForeignKey("ChristmasBonusPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("ChristmasBonusAdvances")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "PaidBy")
+                        .WithMany()
+                        .HasForeignKey("PaidById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("ChristmasBonusAdvances")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "RequestedBy")
+                        .WithMany()
+                        .HasForeignKey("RequestedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedBy");
+
+                    b.Navigation("CancelledBy");
+
+                    b.Navigation("ChristmasBonusPeriod");
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("PaidBy");
+
+                    b.Navigation("Payroll");
+
+                    b.Navigation("RequestedBy");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusSettlement", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", "ChristmasBonusPeriod")
+                        .WithMany("Settlements")
+                        .HasForeignKey("ChristmasBonusPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("ChristmasBonusSettlements")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "PaidBy")
+                        .WithMany()
+                        .HasForeignKey("PaidById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
+                        .WithMany("ChristmasBonusSettlements")
+                        .HasForeignKey("PayrollId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ChristmasBonusPeriod");
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("PaidBy");
 
                     b.Navigation("Payroll");
                 });
@@ -9237,7 +9750,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ClosedByUser")
+                        .WithMany()
+                        .HasForeignKey("ClosedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Branch");
+
+                    b.Navigation("ClosedByUser");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.PermitApplication", b =>
@@ -9368,7 +9888,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
                         .WithMany("Salaries")
                         .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", "PersonnelActionRequest")
@@ -10437,6 +10957,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ServiceOrderRequistions");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.ChristmasBonusPeriod", b =>
+                {
+                    b.Navigation("Accruals");
+
+                    b.Navigation("Advances");
+
+                    b.Navigation("Settlements");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", b =>
                 {
                     b.Navigation("Absences");
@@ -10444,6 +10973,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("AssignedTravelExpenses");
 
                     b.Navigation("ChristmasBonusAccruals");
+
+                    b.Navigation("ChristmasBonusAdvances");
+
+                    b.Navigation("ChristmasBonusSettlements");
 
                     b.Navigation("Deductions");
 
@@ -10521,6 +11054,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Absences");
 
                     b.Navigation("ChristmasBonusAccruals");
+
+                    b.Navigation("ChristmasBonusAdvances");
+
+                    b.Navigation("ChristmasBonusSettlements");
 
                     b.Navigation("DisciplinarySanctions");
 
