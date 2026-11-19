@@ -136,7 +136,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .OnDelete(DeleteBehavior.Restrict);
 
          builder.HasOne(e => e.Deduction)
-            .WithMany()
+            .WithMany(d => d.DisciplinarySanctions)
             .HasForeignKey(e => e.DeductionId)
             .OnDelete(DeleteBehavior.Restrict);
       }

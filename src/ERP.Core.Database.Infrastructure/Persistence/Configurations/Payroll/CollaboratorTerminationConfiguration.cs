@@ -90,19 +90,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
          builder.Property(ct => ct.DeletedAt)
             .HasColumnName("deleted_at");
 
-         builder.HasIndex(ct => ct.CollaboratorId)
-            .HasDatabaseName("ix_collaborator_terminations_collaborator_id");
+         builder.HasIndex(ct => ct.CollaboratorId, "ix_collaborator_terminations_collaborator_id");
 
          builder.HasIndex(ct => ct.RegisteredBy)
             .HasDatabaseName("ix_collaborator_terminations_registered_by");
 
          builder.HasIndex(ct => ct.ClosedBy)
             .HasDatabaseName("ix_collaborator_terminations_closed_by");
-         
-         builder.HasIndex(ct => ct.CollaboratorId)
+
+         builder.HasIndex(ct => ct.CollaboratorId, "ix_collaborator_terminations_collaborator_id_pending")
             .IsUnique()
-            .HasFilter("termination_status = 'pending' AND deleted_at IS NULL")
-            .HasDatabaseName("ix_collaborator_terminations_collaborator_id_pending");
+            .HasFilter("termination_status = 'pending' AND deleted_at IS NULL");
 
          builder.HasIndex(ct => ct.SanctionId)
             .IsUnique()
