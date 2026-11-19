@@ -121,7 +121,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
             ISupplyRequestItemRepository supplyRequestItemRepository,
-            IFuelRequestRepository fuelRequestRepository
+            IFuelRequestRepository fuelRequestRepository,
+            ICollaboratorTerminationRepository collaboratorTerminationRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -258,6 +259,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Nomina: Control de Ausencias
         public IAbsencesRepository Absences => absencesRepository;
+        #endregion
+
+        #region Nomina: Registro de terminacion de colaborador
+        public ICollaboratorTerminationRepository CollaboratorTerminations => collaboratorTerminationRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

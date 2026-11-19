@@ -148,6 +148,10 @@ namespace ERP.Core.Database.Application.Commons.Interfaces.Repositories
         IAbsencesRepository Absences { get; }
         #endregion
 
+        #region Nomina: Registro de terminacion de colaborador
+        ICollaboratorTerminationRepository CollaboratorTerminations { get; }
+        #endregion
+
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
         Task ExecuteWithUniqueCodeRetryAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default);

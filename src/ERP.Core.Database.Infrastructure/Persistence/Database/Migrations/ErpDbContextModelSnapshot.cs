@@ -100,6 +100,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_price_history_type_enum", new[] { "unit_price", "preferential_price" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "supplier_type_enum", new[] { "international", "ordinary" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "tax_type_enum", new[] { "inss", "inss_patronal", "exchange_rate", "inatec", "inss_patronal2", "iva", "imi", "ir", "ir_supplier_internation" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "termination_status_enum", new[] { "pending", "closed", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "termination_type_enum", new[] { "voluntary_resignation", "mutual_agreement", "justified_dismissal", "unjustified_dismissal", "contract_expiration", "work_completion", "employee_death", "retirement" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "time_type_enum", new[] { "day", "month", "year" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "transport_unit_enum", new[] { "container", "van" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "unit_measure_type_enum", new[] { "weight", "volume", "length", "area", "unit", "time" });
@@ -3788,6 +3790,108 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.ToTable("collaborators", "public");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("termination_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<DateTime?>("ClosedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("closed_at");
+
+                    b.Property<Guid?>("ClosedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("closed_by");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateOnly>("DepartureDate")
+                        .HasColumnType("date")
+                        .HasColumnName("departure_date");
+
+                    b.Property<string>("Evidence")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("jsonb")
+                        .HasDefaultValue("{}")
+                        .HasColumnName("evidence");
+
+                    b.Property<DateOnly?>("NoticeDate")
+                        .HasColumnType("date")
+                        .HasColumnName("notice_date");
+
+                    b.Property<int?>("NoticeDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("notice_days");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<Guid>("RegisteredBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("registered_by");
+
+                    b.Property<Guid?>("SanctionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sanction_id");
+
+                    b.Property<int>("TerminationStatus")
+                        .HasColumnType("termination_status_enum")
+                        .HasColumnName("termination_status");
+
+                    b.Property<int>("TerminationType")
+                        .HasColumnType("termination_type_enum")
+                        .HasColumnName("termination_type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosedBy")
+                        .HasDatabaseName("ix_collaborator_terminations_closed_by");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("ix_collaborator_termination_id");
+
+                    b.HasIndex("RegisteredBy")
+                        .HasDatabaseName("ix_collaborator_terminations_registered_by");
+
+                    b.HasIndex("SanctionId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_collaborator_terminations_sanction_id")
+                        .HasFilter("sanction_id IS NOT NULL");
+
+                    b.HasIndex(new[] { "CollaboratorId" }, "ix_collaborator_terminations_collaborator_id");
+
+                    b.HasIndex(new[] { "CollaboratorId" }, "ix_collaborator_terminations_collaborator_id_pending")
+                        .IsUnique()
+                        .HasFilter("termination_status = 'pending' AND deleted_at IS NULL");
+
+                    b.ToTable("collaborator_terminations", "public");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4084,6 +4188,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<Guid?>("DeductionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("deduction_id");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
@@ -4137,6 +4245,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_disciplinary_sanctions_code");
+
+                    b.HasIndex("DeductionId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_disciplinary_sanctions_deduction_id")
+                        .HasFilter("deduction_id IS NOT NULL");
 
                     b.HasIndex("FaultId")
                         .HasDatabaseName("ix_disciplinary_sanctions_fault_id");
@@ -8873,6 +8986,39 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "ClosedByUser")
+                        .WithMany()
+                        .HasForeignKey("ClosedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("Terminations")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "RegisteredByUser")
+                        .WithMany()
+                        .HasForeignKey("RegisteredBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", "DisciplinarySanction")
+                        .WithOne("Termination")
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", "SanctionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ClosedByUser");
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("DisciplinarySanction");
+
+                    b.Navigation("RegisteredByUser");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
@@ -8944,6 +9090,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("ApprovedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", "Deduction")
+                        .WithMany("DisciplinarySanctions")
+                        .HasForeignKey("DeductionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinaryFault", "Fault")
                         .WithMany("Sanctions")
                         .HasForeignKey("FaultId")
@@ -8962,6 +9113,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ApprovedByUser");
+
+                    b.Navigation("Deduction");
 
                     b.Navigation("Fault");
 
@@ -10321,6 +10474,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Subsidies");
 
+                    b.Navigation("Terminations");
+
                     b.Navigation("Vacation")
                         .IsRequired();
 
@@ -10334,6 +10489,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", b =>
                 {
+                    b.Navigation("DisciplinarySanctions");
+
                     b.Navigation("PaymentHistories");
                 });
 
@@ -10342,6 +10499,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Absences");
 
                     b.Navigation("Sanctions");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.DisciplinarySanction", b =>
+                {
+                    b.Navigation("Termination");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.FaultCatalog", b =>

@@ -124,6 +124,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<FaultStatus>("fault_status_enum", "public");
                     npgsqlOptions.MapEnum<SanctionType>("sanction_type_enum", "public");
                     npgsqlOptions.MapEnum<SanctionStatus>("sanction_status_enum", "public");
+                    npgsqlOptions.MapEnum<TerminationType>("termination_type_enum", "public");
+                    npgsqlOptions.MapEnum<TerminationProcessStatus>("termination_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceStatus>("absence_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceSource>("absence_source_enum", "public");
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
@@ -265,6 +267,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAbsencesRepository, AbsencesRepository>();
 
             services.AddScoped<IPermitTypePolicyRepository, PermitTypePolicyRepository>();
+            services.AddScoped<ICollaboratorTerminationRepository, CollaboratorTerminationRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Servicios 
