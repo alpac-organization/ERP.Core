@@ -74,8 +74,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
        
             builder.HasOne(p => p.Collaborator)
                 .WithMany(c => c.Salaries)
-                .HasForeignKey(p => p.CollaboratorId) 
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasForeignKey(p => p.CollaboratorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(p => p.PersonnelActionRequest)
                 .WithMany()
@@ -83,8 +83,17 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasIndex(p => p.CollaboratorId)
-                .HasFilter("\"end_date\" IS NULL")
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("\"end_date\" IS NULL AND \"deleted_at\" IS NULL")
+                .HasDatabaseName("ux_salaries_collaborator_active");
+
+            builder.HasIndex(p => new
+            {
+                p.CollaboratorId,
+                p.StartDate,
+                p.EndDate
+            })
+            .HasDatabaseName("ix_salaries_collaborator_dates");
         }
     }
 }

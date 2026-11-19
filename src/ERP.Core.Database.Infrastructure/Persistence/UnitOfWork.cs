@@ -43,7 +43,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISubsidyRepository subsidyRepository,
             IProfessionalServicesPayrollsRepository professionalServicesPayrollsRepository,
             IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository,
+            IChristmasBonusPeriodRepository christmasBonusPeriodRepository,
             IChristmasBonusAccrualRepository christmasBonusAccrualRepository,
+            IChristmasBonusAdvanceRepository christmasBonusAdvanceRepository,
+            IChristmasBonusSettlementRepository christmasBonusSettlementRepository,
             IRecordsTravelExpensePaymentsRepository recordsTravelExpensePaymentsRepository,
             IVacationAccrualRepository vacationAccrualRepository,
             ITypesSubsidyRepository typesSubsidyRepository,
@@ -76,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISuppliersRepository suppliersRepository,
             IQuotesRepository quotesRepository,
             IUnitsMeasurementRepository unitsMeasurementRepository,
+            IExchangeRateHistoryRepository exchangeRateHistoryRepository,
             ISuppliersDetailsRepository suppliersDetailsRepository,
             IPurchaseRequestsRepository purchaseRequestsRepository,
             IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
@@ -159,7 +163,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IDeductionPaymentHistoryRepository DeductionPaymentHistories => deductionPaymentHistoryRepository;
         public IVacationAccrualRepository VacationAccruals => vacationAccrualRepository;
         public IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments => recordsTravelExpensePaymentsRepository;
+
+        #region Aguinaldo
+        public IChristmasBonusPeriodRepository ChristmasBonusPeriods => christmasBonusPeriodRepository;
         public IChristmasBonusAccrualRepository ChristmasBonusAccruals => christmasBonusAccrualRepository;
+        public IChristmasBonusAdvanceRepository ChristmasBonusAdvances => christmasBonusAdvanceRepository;
+        public IChristmasBonusSettlementRepository ChristmasBonusSettlements => christmasBonusSettlementRepository;
+        #endregion
+
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
@@ -179,6 +190,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures => categoryAllowedUnitMeasuresRepository;
+        public IExchangeRateHistoryRepository ExchangeRateHistories => exchangeRateHistoryRepository;
         #endregion
 
         #region Warehouse
