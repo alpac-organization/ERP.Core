@@ -24,6 +24,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public Guid? PayrollId { get; set; }
       public virtual Payroll? Payroll { get; set; }
 
+      public Guid? DeductionId { get; set; }
+      public virtual Deduction? Deduction { get; set; }
+
       public string Reason { get; set; } = string.Empty;
       public string? CancellationReason { get; set; } // Motivo si SanctionStatus = Cancelled (rechazo/cancelación)
 
@@ -40,5 +43,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       /// </summary>
       [Column(TypeName = "jsonb")]
       public string Evidence { get; set; } = "{}";
+
+      public virtual CollaboratorTermination? Termination { get; set; }
    }
 }

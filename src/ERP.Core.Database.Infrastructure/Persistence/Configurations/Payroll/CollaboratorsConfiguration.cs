@@ -164,11 +164,21 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasForeignKey(s => s.CollaboratorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //Reporte de acumulador de aguinaldo
+            // Acumulaciones, adelantos y liquidaciones de aguinaldo
             builder.HasMany(c => c.ChristmasBonusAccruals)
                 .WithOne(s => s.Collaborator)
                 .HasForeignKey(s => s.CollaboratorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(c => c.ChristmasBonusAdvances)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(c => c.ChristmasBonusSettlements)
+                .WithOne(s => s.Collaborator)
+                .HasForeignKey(s => s.CollaboratorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //Reporte de Ingresos pagados, en este caso viaticos pagados
             builder.HasMany(c => c.RecordsTravelExpensePayments)

@@ -75,6 +75,10 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<DeductionStatus>("deduction_status_enum");
                     npgsqlOptions.MapEnum<DeductionPaymentStatus>("deduction_payment_status_enum");
                     npgsqlOptions.MapEnum<PayrollPeriod>("payroll_period_enum");
+                    npgsqlOptions.MapEnum<ChristmasBonusPeriodStatus>("christmas_bonus_period_status_enum", "public");
+                    npgsqlOptions.MapEnum<ChristmasBonusAdvanceStatus>("christmas_bonus_advance_status_enum", "public");
+                    npgsqlOptions.MapEnum<ChristmasBonusSettlementStatus>("christmas_bonus_settlement_status_enum", "public");
+                    npgsqlOptions.MapEnum<ChristmasBonusSettlementType>("christmas_bonus_settlement_type_enum", "public");
                     npgsqlOptions.MapEnum<WarehouseType>("warehouse_type_enum", "public");
                     npgsqlOptions.MapEnum<ConstitutionType>("constitution_type_enum", "public");
                     npgsqlOptions.MapEnum<UnitMeasureType>("unit_measure_type_enum", "public");
@@ -124,6 +128,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<FaultStatus>("fault_status_enum", "public");
                     npgsqlOptions.MapEnum<SanctionType>("sanction_type_enum", "public");
                     npgsqlOptions.MapEnum<SanctionStatus>("sanction_status_enum", "public");
+                    npgsqlOptions.MapEnum<TerminationType>("termination_type_enum", "public");
+                    npgsqlOptions.MapEnum<TerminationProcessStatus>("termination_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceStatus>("absence_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceSource>("absence_source_enum", "public");
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
@@ -172,7 +178,10 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IProfessionalServicesPayrollsRepository, ProfessionalServicesPayrollsRepository>();
             services.AddScoped<IDeductionPaymentHistoryRepository, DeductionPaymentHistoryRepository>();
             services.AddScoped<IVacationAccrualRepository, VacationAccrualRepository>();
+            services.AddScoped<IChristmasBonusPeriodRepository, ChristmasBonusPeriodRepository>();
             services.AddScoped<IChristmasBonusAccrualRepository, ChristmasBonusAccrualRepository>();
+            services.AddScoped<IChristmasBonusAdvanceRepository, ChristmasBonusAdvanceRepository>();
+            services.AddScoped<IChristmasBonusSettlementRepository, ChristmasBonusSettlementRepository>();
             services.AddScoped<IRecordsTravelExpensePaymentsRepository, RecordsTravelExpensePaymentsRepository>();
             services.AddScoped<ISubsidyRepository, SubsidyRepository>();
             services.AddScoped<ITypesSubsidyRepository, TypeSubsidyRepository>();
@@ -200,6 +209,7 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<ILotsPositionsCoordinatesRepository, LotsPositionsCoordinatesRepository>();
             services.AddScoped<IRacksPositionsCoordinatesRepository, RacksPositionsCoordinatesRepository>();
             services.AddScoped<IUnitsMeasurementRepository, UnitsMeasurementRepository>();
+            services.AddScoped<IExchangeRateHistoryRepository, ExchangeRateHistoryRepository>();
 
             // Operations
             services.AddScoped<ICustomersRepository, CustomersRepository>();
@@ -265,6 +275,8 @@ namespace ERP.Core.Database.Infrastructure
             services.AddScoped<IAbsencesRepository, AbsencesRepository>();
 
             services.AddScoped<IPermitTypePolicyRepository, PermitTypePolicyRepository>();
+            services.AddScoped<ICollaboratorTerminationRepository, CollaboratorTerminationRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Servicios 

@@ -43,7 +43,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISubsidyRepository subsidyRepository,
             IProfessionalServicesPayrollsRepository professionalServicesPayrollsRepository,
             IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository,
+            IChristmasBonusPeriodRepository christmasBonusPeriodRepository,
             IChristmasBonusAccrualRepository christmasBonusAccrualRepository,
+            IChristmasBonusAdvanceRepository christmasBonusAdvanceRepository,
+            IChristmasBonusSettlementRepository christmasBonusSettlementRepository,
             IRecordsTravelExpensePaymentsRepository recordsTravelExpensePaymentsRepository,
             IVacationAccrualRepository vacationAccrualRepository,
             ITypesSubsidyRepository typesSubsidyRepository,
@@ -76,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISuppliersRepository suppliersRepository,
             IQuotesRepository quotesRepository,
             IUnitsMeasurementRepository unitsMeasurementRepository,
+            IExchangeRateHistoryRepository exchangeRateHistoryRepository,
             ISuppliersDetailsRepository suppliersDetailsRepository,
             IPurchaseRequestsRepository purchaseRequestsRepository,
             IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
@@ -121,7 +125,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
             ISupplyRequestItemRepository supplyRequestItemRepository,
-            IFuelRequestRepository fuelRequestRepository
+            IFuelRequestRepository fuelRequestRepository,
+            ICollaboratorTerminationRepository collaboratorTerminationRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -158,7 +163,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IDeductionPaymentHistoryRepository DeductionPaymentHistories => deductionPaymentHistoryRepository;
         public IVacationAccrualRepository VacationAccruals => vacationAccrualRepository;
         public IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments => recordsTravelExpensePaymentsRepository;
+
+        #region Aguinaldo
+        public IChristmasBonusPeriodRepository ChristmasBonusPeriods => christmasBonusPeriodRepository;
         public IChristmasBonusAccrualRepository ChristmasBonusAccruals => christmasBonusAccrualRepository;
+        public IChristmasBonusAdvanceRepository ChristmasBonusAdvances => christmasBonusAdvanceRepository;
+        public IChristmasBonusSettlementRepository ChristmasBonusSettlements => christmasBonusSettlementRepository;
+        #endregion
+
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
@@ -178,6 +190,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures => categoryAllowedUnitMeasuresRepository;
+        public IExchangeRateHistoryRepository ExchangeRateHistories => exchangeRateHistoryRepository;
         #endregion
 
         #region Warehouse
@@ -258,6 +271,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Nomina: Control de Ausencias
         public IAbsencesRepository Absences => absencesRepository;
+        #endregion
+
+        #region Nomina: Registro de terminacion de colaborador
+        public ICollaboratorTerminationRepository CollaboratorTerminations => collaboratorTerminationRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
