@@ -60,6 +60,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.EndDate)
                 .HasColumnName("end_date");
 
+            builder.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true)
+                .IsRequired();
 
             builder.Property(e => e.PersonnelActionRequestId)
                 .HasColumnName("personnel_action_request_id");
@@ -84,7 +88,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
 
             builder.HasIndex(p => p.CollaboratorId)
                 .IsUnique()
-                .HasFilter("\"end_date\" IS NULL AND \"deleted_at\" IS NULL")
+                .HasFilter("\"is_active\" = true AND \"end_date\" IS NULL AND \"deleted_at\" IS NULL")
                 .HasDatabaseName("ux_salaries_collaborator_active");
 
             builder.HasIndex(p => new
