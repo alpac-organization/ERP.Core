@@ -21,6 +21,6 @@ namespace ERP.Core.Database.Domain.Entities.Warehouse
         public virtual ICollection<AssignmentOperational> AssignmentOperationals { get; set; } = [];
 
         //Control de uso por inventario
-        public virtual ICollection<SupplyRequest> SupplyRequests { get; set; } = [];
+        public virtual ICollection<BaseSupplyRequest> BaseSupplyRequests { get; set; } = [];
     }
 }

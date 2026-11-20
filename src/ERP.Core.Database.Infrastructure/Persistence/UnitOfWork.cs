@@ -29,6 +29,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISalariesRepository salariesRepository,
             IVacationsRepository vacationsRepository,
             IPermitApplicationsRepository permitApplicationsRepository,
+            IPersonnelActionRequestRepository personnelActionRequestRepository,
             IDeductionsRepository deductionsRepository,
             IPayrollsRepository payrollsRepository,
             IOrdinaryPayrollsRepository ordinaryPayrollsRepository,
@@ -42,7 +43,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISubsidyRepository subsidyRepository,
             IProfessionalServicesPayrollsRepository professionalServicesPayrollsRepository,
             IDeductionPaymentHistoryRepository deductionPaymentHistoryRepository,
+            IChristmasBonusPeriodRepository christmasBonusPeriodRepository,
             IChristmasBonusAccrualRepository christmasBonusAccrualRepository,
+            IChristmasBonusAdvanceRepository christmasBonusAdvanceRepository,
+            IChristmasBonusSettlementRepository christmasBonusSettlementRepository,
             IRecordsTravelExpensePaymentsRepository recordsTravelExpensePaymentsRepository,
             IVacationAccrualRepository vacationAccrualRepository,
             ITypesSubsidyRepository typesSubsidyRepository,
@@ -75,6 +79,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ISuppliersRepository suppliersRepository,
             IQuotesRepository quotesRepository,
             IUnitsMeasurementRepository unitsMeasurementRepository,
+            IExchangeRateHistoryRepository exchangeRateHistoryRepository,
             ISuppliersDetailsRepository suppliersDetailsRepository,
             IPurchaseRequestsRepository purchaseRequestsRepository,
             IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
@@ -91,6 +96,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             ILotsRepository lotsRepository,
             ILotsPositionsRepository lotsPositionsRepository,
             IMachineryRepository machineryRepository,
+            IEquipmentRepository equipmentRepository,
             ICustomsBranchesRepository customsBranchesRepository,
             IAssignmentStockPlacementsRepository assignmentStockPlacementsRepository,
             ICustomersRepository customersRepository,
@@ -121,7 +127,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IPhysicalCountLineRepository physicalCountLinesRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
             ISupplyRequestItemRepository supplyRequestItemRepository,
-            IFuelRequestRepository fuelRequestRepository
+            IFuelRequestRepository fuelRequestRepository,
+            ICollaboratorTerminationRepository collaboratorTerminationRepository
         ) : IUnitOfWork
     {
         public ErpDbContext Context => _context;
@@ -143,6 +150,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISalariesRepository Salaries => salariesRepository;
         public IVacationsRepository Vacations => vacationsRepository;
         public IPermitApplicationsRepository PermitApplications => permitApplicationsRepository;
+        public IPersonnelActionRequestRepository PersonnelActionRequests => personnelActionRequestRepository;
         public IDeductionsRepository Deductions => deductionsRepository;
         public IPayrollsRepository Payrolls => payrollsRepository;
         public IOrdinaryPayrollsRepository OrdinaryPayrolls => ordinaryPayrollsRepository;
@@ -157,7 +165,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IDeductionPaymentHistoryRepository DeductionPaymentHistories => deductionPaymentHistoryRepository;
         public IVacationAccrualRepository VacationAccruals => vacationAccrualRepository;
         public IRecordsTravelExpensePaymentsRepository RecordsTravelExpensePayments => recordsTravelExpensePaymentsRepository;
+
+        #region Aguinaldo
+        public IChristmasBonusPeriodRepository ChristmasBonusPeriods => christmasBonusPeriodRepository;
         public IChristmasBonusAccrualRepository ChristmasBonusAccruals => christmasBonusAccrualRepository;
+        public IChristmasBonusAdvanceRepository ChristmasBonusAdvances => christmasBonusAdvanceRepository;
+        public IChristmasBonusSettlementRepository ChristmasBonusSettlements => christmasBonusSettlementRepository;
+        #endregion
+
         public ISubsidyRepository Subsidies => subsidyRepository;
         public ITypesSubsidyRepository TypesSubsidies => typesSubsidyRepository;
         public IPermitApplicationsPendingRepository PermitApplicationsPending => permitApplicationsPendingRepository;
@@ -177,6 +192,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ICategoryProductsRepository CategoryProducts => categoryProductsRepository;
         public IUnitsMeasurementRepository UnitsMeasurement => unitsMeasurementRepository;
         public ICategoryAllowedUnitMeasuresRepository CategoryAllowedUnitMeasures => categoryAllowedUnitMeasuresRepository;
+        public IExchangeRateHistoryRepository ExchangeRateHistories => exchangeRateHistoryRepository;
         #endregion
 
         #region Warehouse
@@ -203,6 +219,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public ISectionPositionsRepository SectionPositionsRepository => sectionPositionsRepository;
         public ISectionPositionsCoordinatesRepository SectionPositionsCoordinates => sectionPositionsCoordinatesRepository;
         public IMachineryRepository Machineries => machineryRepository;
+        public IEquipmentRepository Equipments => equipmentRepository;
         #endregion
 
         #region Operations
@@ -258,6 +275,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence
 
         #region Nomina: Control de Ausencias
         public IAbsencesRepository Absences => absencesRepository;
+        #endregion
+
+        #region Nomina: Registro de terminacion de colaborador
+        public ICollaboratorTerminationRepository CollaboratorTerminations => collaboratorTerminationRepository;
         #endregion
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

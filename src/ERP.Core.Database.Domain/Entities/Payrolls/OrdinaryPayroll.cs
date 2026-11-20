@@ -46,7 +46,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal ChildSupportGarnishment { get; set; } = 0.0m;// Embargo Alimenticio
         
         public decimal SalaryAdvance { get; set; } = 0.0m;// Adelanto de salario
-        public decimal ChristmasBonusAdvance { get; set; } = 0.0m; //Adelanto de aguinaldo
         public decimal UniformDeduction { get; set; } = 0.0m; // Deducción por camisetas de la empresa
 
         public decimal CashShortage { get; set; } = 0.0m;     //Faltante de caja
@@ -54,6 +53,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         public decimal Absences { get; set; } = 0.0m;//Ausencias (Salario Diario + Séptimo Día)
         public decimal Sanction { get; set; } = 0.0m;//Sanción
+        public int SanctionDays { get; set; } = 0; // Días de suspensión
         public int TotalAbsenceDays { get; set; } = 0; // Total de días de ausencia injustificada
         public decimal SeventhDayDeduction { get; set; } = 0.0m; // Deducción de séptimo día por inasistencia
     }

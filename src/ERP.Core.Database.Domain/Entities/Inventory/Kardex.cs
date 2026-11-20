@@ -30,7 +30,7 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         /// Total de salida de dinero
         /// </summary>
         public decimal TotalOutput { get; set; }
-        
+
         /// <summary>
         /// Totol de unidades de existencias
         /// </summary>
@@ -73,5 +73,9 @@ namespace ERP.Core.Database.Domain.Entities.Inventory
         /// </summary>
         public Guid CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; } = default!;
+
+        // Conexion con salidas de inventario
+        public Guid? InventoryOutputId { get; set; }
+        public virtual InventoryOutputs? InventoryOutput { get; set; }
     }
 }

@@ -28,10 +28,13 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Salary> Salaries => Set<Salary>();
         public DbSet<Vacation> Vacations => Set<Vacation>();
         public DbSet<Collaborator> Collaborators => Set<Collaborator>();
+        public DbSet<CollaboratorPeriod> CollaboratorPeriods => Set<CollaboratorPeriod>();
         public DbSet<PermitApplication> PermitApplications => Set<PermitApplication>();
         public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
         public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
         public DbSet<WorkPositionHistory> WorkPositionHistories => Set<WorkPositionHistory>();
+        public DbSet<PersonnelActionRequest> PersonnelActionRequests => Set<PersonnelActionRequest>();
+        public DbSet<PersonnelActionRequestItem> PersonnelActionRequestItems => Set<PersonnelActionRequestItem>();
         public DbSet<AssignedTravelExpenses> AssignedTravelExpenses => Set<AssignedTravelExpenses>();
         public DbSet<PermitApplicationPending> PermitApplicationsPending => Set<PermitApplicationPending>();
         public DbSet<PermitTypePolicy> PermitTypePolicies => Set<PermitTypePolicy>();
@@ -41,6 +44,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<VacationAccrual> VacationAccruals => Set<VacationAccrual>();
         public DbSet<IncomeTaxAccrual> IncomeTaxAccruals => Set<IncomeTaxAccrual>();
         public DbSet<ChristmasBonusAccrual> ChristmasBonusAccruals => Set<ChristmasBonusAccrual>();
+        public DbSet<ChristmasBonusAdvance> ChristmasBonusAdvances => Set<ChristmasBonusAdvance>(); 
+        public DbSet<ChristmasBonusSettlement> ChristmasBonusSettlements => Set<ChristmasBonusSettlement>();
+        public DbSet<ChristmasBonusPeriod> ChristmasBonusPeriods => Set<ChristmasBonusPeriod>();
         public DbSet<InssAccountingInformation> InssAccountingInformation => Set<InssAccountingInformation>();
         public DbSet<RecordsTravelExpensePayments> RecordsTravelExpensePayments => Set<RecordsTravelExpensePayments>();
         #endregion
@@ -74,11 +80,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<UnitMeasure> UnitsMeasurement => Set<UnitMeasure>();
         public DbSet<TypesAccountingPayroll> TypesAccountingPayrolls => Set<TypesAccountingPayroll>();
         public DbSet<FaultCatalog> FaultCatalogs => Set<FaultCatalog>();
+        public DbSet<ExchangeRateHistory> ExchangeRateHistories => Set<ExchangeRateHistory>();
         #endregion
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias
         public DbSet<DisciplinaryFault> DisciplinaryFaults => Set<DisciplinaryFault>();
         public DbSet<DisciplinarySanction> DisciplinarySanctions => Set<DisciplinarySanction>();
+        #endregion
+
+        #region Nomina: Baja de Colaboradores
+        public DbSet<CollaboratorTermination> CollaboratorTerminations => Set<CollaboratorTermination>();
         #endregion
 
         #region Nomina: Control de Ausencias
@@ -135,6 +146,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<ManifestCancellations> ManifestCancellations => Set<ManifestCancellations>();
         public DbSet<StepExecutionLogs> StepExecutionLogs => Set<StepExecutionLogs>();
         public DbSet<Machinery> Machineries => Set<Machinery>();
+        public DbSet<Equipment> Equipments => Set<Equipment>();
         public DbSet<AssignmentStockPlacements> AssignmentStockPlacements => Set<AssignmentStockPlacements>();
         public DbSet<Codes> Codes => Set<Codes>();
         #endregion
@@ -194,6 +206,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<MaritalStatus>("public", "marital_status_enum");
             modelBuilder.HasPostgresEnum<PermitApplicationStatus>("public", "permit_application_status_enum");
             modelBuilder.HasPostgresEnum<PermitApplicationType>("public", "permit_application_type_enum");
+            modelBuilder.HasPostgresEnum<PersonnelActionScope>("public", "personnel_action_scope_enum");
+            modelBuilder.HasPostgresEnum<PersonnelActionStatus>("public", "personnel_action_status_enum");
             modelBuilder.HasPostgresEnum<PermitBeneficiaryScope>("public", "permit_beneficiary_scope_enum");
             modelBuilder.HasPostgresEnum<FamilyRelationship>("public", "family_relationship_enum");
             modelBuilder.HasPostgresEnum<DeductionType>("public", "deduction_type_enum");
@@ -204,6 +218,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DeductionStatus>("public", "deduction_status_enum");
             modelBuilder.HasPostgresEnum<DeductionPaymentStatus>("public", "deduction_payment_status_enum");
             modelBuilder.HasPostgresEnum<PayrollPeriod>("public", "payroll_period_enum");
+            modelBuilder.HasPostgresEnum<ChristmasBonusPeriodStatus>("public", "christmas_bonus_period_status_enum");
+            modelBuilder.HasPostgresEnum<ChristmasBonusAdvanceStatus>("public", "christmas_bonus_advance_status_enum");
+            modelBuilder.HasPostgresEnum<ChristmasBonusSettlementStatus>("public", "christmas_bonus_settlement_status_enum");
+            modelBuilder.HasPostgresEnum<ChristmasBonusSettlementType>("public", "christmas_bonus_settlement_type_enum");
             modelBuilder.HasPostgresEnum<WarehouseType>("public", "warehouse_type_enum");
             modelBuilder.HasPostgresEnum<ConstitutionType>("public", "constitution_type_enum");
             modelBuilder.HasPostgresEnum<UnitMeasureType>("public", "unit_measure_type_enum");
@@ -211,6 +229,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<DucaStatus>("public", "duca_status_enum");
             modelBuilder.HasPostgresEnum<DocumentType>("public", "document_type_enum");
             modelBuilder.HasPostgresEnum<MachineryStatus>("public", "machinery_status_enum");
+            modelBuilder.HasPostgresEnum<EquipmentStatus>("public", "equipment_status_enum");
+            modelBuilder.HasPostgresEnum<EquipmentType>("public", "equipment_type_enum");
 
             modelBuilder.HasPostgresEnum<PriorityLevel>("public", "priority_level_enum");
             modelBuilder.HasPostgresEnum<DestinationRequest>("public", "destination_request_enum");
@@ -266,6 +286,9 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<InventoryOutputsStatus>("public", "inventory_outputs_status_enum");
             modelBuilder.HasPostgresEnum<ProductStatus>("public", "product_status_enum");
             modelBuilder.HasPostgresEnum<CategoryType>("public", "category_type_enum");
+            modelBuilder.HasPostgresEnum<PurchaseOrderStatus>("public", "purchase_order_status_enum");
+            modelBuilder.HasPostgresEnum<TerminationType>("public", "termination_type_enum");
+            modelBuilder.HasPostgresEnum<TerminationProcessStatus>("public", "termination_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

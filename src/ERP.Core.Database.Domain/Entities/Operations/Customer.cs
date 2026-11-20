@@ -25,6 +25,7 @@ namespace ERP.Core.Database.Domain.Entities.Operations
 
         //Operaciones activas.
         public virtual ICollection<OperationalOrder> OperationalOrders { get; set; } = [];
+        public virtual ICollection<SupplyRequest> SupplyRequest { get; set; } = [];
         public virtual ICollection<FuelRequest> FuelRequests { get; set; } = [];
     }
 }

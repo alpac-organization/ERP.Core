@@ -1,6 +1,7 @@
 using ERP.Core.Database.Domain.Enums;
 using ERP.Core.Database.Domain.Entities.Bases;
 using ERP.Core.Database.Domain.Entities.Catalogs;
+using ERP.Core.Database.Domain.Entities.Auth;
 
 namespace ERP.Core.Database.Domain.Entities.Payrolls
 {
@@ -13,6 +14,12 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public DateOnly EndDate { get; set; }
         public DateOnly StartDate { get; set; }
 
+        // Cierre de payroll
+        public DateOnly? ClosedAt { get; set; }
+
+        public Guid? ClosedBy { get; set; }
+
+        public virtual User? ClosedByUser { get; set; }
 
         //Sucursal asociada.
         public Guid BranchId { get; set; }
@@ -34,7 +41,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Acumulados de ir y acumulados devengados
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = []; 
-        public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
 
@@ -43,5 +49,11 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
 
         //Ausencias procesadas en este ciclo de nómina
         public virtual ICollection<Absence> Absences { get; set; } = [];
+        
+        public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
+
+        public virtual ICollection<ChristmasBonusAdvance> ChristmasBonusAdvances { get; set; } = [];
+
+        public virtual ICollection<ChristmasBonusSettlement> ChristmasBonusSettlements { get; set; } = [];
     }
 }

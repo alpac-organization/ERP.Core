@@ -62,11 +62,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             builder.Property(e => e.EntryDate)
                 .HasColumnName("entry_date")
                 .HasColumnType("date")
-                .IsRequired();
-
-            builder.Property(e => e.DepartureDate)
-                .HasColumnName("departure_date")
-                .IsRequired(false);
+                .IsRequired();            
 
             builder.Property(e => e.CreatedAt)
                 .HasColumnName("created_at")

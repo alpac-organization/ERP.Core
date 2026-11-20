@@ -14,7 +14,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public bool DoesWorkSaturdays { get; set; } = false;
         public bool HasBeenFired { get; set; } = false;
 
-        //Id de la empresa a la que pertenece este colaborador.
+        // Id de la empresa a la que pertenece este colaborador.
         public Guid CompanyId { get; set; }
 
         //Otras propiedades
@@ -36,6 +36,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Habilita al colaborador de estar exento del marcado del reloj
         public bool IsTimeClockExempt { get; set; } = false;
 
+        public virtual ICollection<CollaboratorPeriod> EmploymentPeriods { get; set; } = [];
+
         // Relacionar tablas para acceso a  ellas
         public virtual Company Company { get; set; } = default!;
         public virtual Vacation Vacation { get; set; } = default!;
@@ -44,49 +46,57 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual ICollection<WorkPositionHistory> WorkPositionHistory { get; set; } = [];
 
 
-        //Multiples ingresos
+        // Multiples ingresos
         public virtual ICollection<Income> Incomes { get; set; } = [];
         public virtual ICollection<Salary> Salaries { get; set; } = [];
         public virtual ICollection<Deduction> Deductions { get; set; } = [];
 
-        //Solicitudes pendientes, activas en proceso.
+        // Solicitudes pendientes, activas en proceso.
         public virtual ICollection<Subsidy> Subsidies { get; set; } = [];
         public virtual ICollection<PermitApplication> PermitApplications { get; set; } = [];
         public virtual ICollection<PermitApplicationPending> PermitApplicationsPending { get; set; } = [];
+        public virtual ICollection<PersonnelActionRequestItem> PersonnelActionRequestItems { get; set; } = [];
 
 
-        //Registros de ciclos de nominas
+        // Registros de ciclos de nominas
         public virtual ICollection<OrdinaryPayroll> OrdinaryPayrolls { get; set; } = [];
         public virtual ICollection<ProfessionalServicesPayroll> ProfessionalServicesPayrolls { get; set; } = [];
 
 
-        //Acumulador de vacaciones por quincena
+        // Acumulador de vacaciones por quincena
         public virtual ICollection<VacationAccrual> VacationAccruals { get; set; } = [];
 
 
-        //Acumulador de ir y devengado
+        // Acumulador de ir y devengado
         public virtual ICollection<IncomeTaxAccrual> IncomeTaxAccruals { get; set; } = [];
 
 
-        //Acumulador de aguinaldo
+        // aguinaldo
         public virtual ICollection<ChristmasBonusAccrual> ChristmasBonusAccruals { get; set; } = [];
+        
+        public virtual ICollection<ChristmasBonusAdvance> ChristmasBonusAdvances { get; set; } = [];
+
+        public virtual ICollection<ChristmasBonusSettlement> ChristmasBonusSettlements { get; set; } = [];
 
 
-        //Registro de historial de viaticos
+        // Registro de historial de viaticos
         public virtual ICollection<AssignedTravelExpenses> AssignedTravelExpenses { get; set; } = [];
 
 
-        //Control de pagos de ingresos de viaticos por periodos
+        // Control de pagos de ingresos de viaticos por periodos
         public virtual ICollection<RecordsTravelExpensePayments> RecordsTravelExpensePayments { get; set; } = [];
 
 
-        //Informe del inss por periodos
+        // Informe del inss por periodos
         public virtual ICollection<InssAccountingInformation> InssAccountingInformation { get; set; } = [];
 
-        //Faltas disciplinarias del colaborador
+        // Faltas disciplinarias del colaborador
         public virtual ICollection<DisciplinaryFault> DisciplinaryFaults { get; set; } = [];
 
-        //Control de ausencias del colaborador
+        // Control de ausencias del colaborador
         public virtual ICollection<Absence> Absences { get; set; } = [];
+
+        // Registro de terminacion del colaborador (Se deja como coleccion ya que puede tener alguna cancelación)
+        public virtual ICollection<CollaboratorTermination> Terminations { get; set; } = [];
     }
 }
