@@ -46,7 +46,6 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public decimal ChildSupportGarnishment { get; set; } = 0.0m;// Embargo Alimenticio
         
         public decimal SalaryAdvance { get; set; } = 0.0m;// Adelanto de salario
-        public decimal ChristmasBonusAdvance { get; set; } = 0.0m; //Adelanto de aguinaldo
         public decimal UniformDeduction { get; set; } = 0.0m; // Deducción por camisetas de la empresa
 
         public decimal CashShortage { get; set; } = 0.0m;     //Faltante de caja

@@ -36,6 +36,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         // Habilita al colaborador de estar exento del marcado del reloj
         public bool IsTimeClockExempt { get; set; } = false;
 
+        public virtual ICollection<CollaboratorPeriod> EmploymentPeriods { get; set; } = [];
+
         // Relacionar tablas para acceso a  ellas
         public virtual Company Company { get; set; } = default!;
         public virtual Vacation Vacation { get; set; } = default!;

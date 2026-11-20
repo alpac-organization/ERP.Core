@@ -59,6 +59,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.CollaboratorPeriodId)
+                .HasColumnName("collaborator_period_id")
+                .IsRequired();
+
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id");
 
@@ -81,6 +85,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("salary_type_snapshot")
                 .HasColumnType("salary_type_enum")
                 .IsRequired();
+            
+            builder.HasOne(e => e.CollaboratorPeriod)
+                .WithMany(e => e.ChristmasBonusSettlements)
+                .HasForeignKey(e => e.CollaboratorPeriodId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.ReferenceSalary)
                 .HasColumnName("reference_salary")

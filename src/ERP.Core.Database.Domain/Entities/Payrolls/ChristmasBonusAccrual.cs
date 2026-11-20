@@ -8,6 +8,9 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public Guid ChristmasBonusPeriodId { get; set; } // a que periodo esta referenciado
         public virtual ChristmasBonusPeriod ChristmasBonusPeriod { get; set; } = default!;
 
+        public Guid CollaboratorPeriodId { get; set; }
+
+        public virtual CollaboratorPeriod CollaboratorPeriod { get; set; } = default!;
 
         public Guid CollaboratorId { get; set; }
         public virtual Collaborator Collaborator { get; set; } = default!;

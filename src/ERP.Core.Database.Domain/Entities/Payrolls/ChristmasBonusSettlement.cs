@@ -16,6 +16,10 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual Collaborator Collaborator { get; set; }
             = default!;
 
+        public Guid CollaboratorPeriodId { get; set; }
+
+        public virtual CollaboratorPeriod CollaboratorPeriod { get; set; } = default!;
+
         public Guid? PayrollId { get; set; }
 
         public virtual Payroll? Payroll { get; set; }

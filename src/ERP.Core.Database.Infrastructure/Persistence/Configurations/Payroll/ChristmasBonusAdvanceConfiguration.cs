@@ -33,6 +33,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .HasColumnName("collaborator_id")
                 .IsRequired();
 
+            builder.Property(e => e.CollaboratorPeriodId)
+                .HasColumnName("collaborator_period_id")
+                .IsRequired();
+
             builder.Property(e => e.PayrollId)
                 .HasColumnName("payroll_id");
 
@@ -101,6 +105,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .WithMany(e => e.ChristmasBonusAdvances)
                 .HasForeignKey(e => e.CollaboratorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.CollaboratorPeriod)
+                    .WithMany(e => e.ChristmasBonusAdvances)
+                    .HasForeignKey(e => e.CollaboratorPeriodId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Payroll)
                 .WithMany(e => e.ChristmasBonusAdvances)

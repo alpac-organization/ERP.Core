@@ -3721,6 +3721,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
 
+                    b.Property<Guid>("CollaboratorPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_period_id");
+
                     b.Property<DateOnly>("CoveredFrom")
                         .HasColumnType("date")
                         .HasColumnName("covered_from");
@@ -3749,6 +3753,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnName("payroll_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorPeriodId");
 
                     b.HasIndex("PayrollId")
                         .HasDatabaseName("ix_christmas_bonus_accruals_payroll_id");
@@ -3826,6 +3832,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
 
+                    b.Property<Guid>("CollaboratorPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_period_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3871,6 +3881,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CancelledById");
 
                     b.HasIndex("ChristmasBonusPeriodId");
+
+                    b.HasIndex("CollaboratorPeriodId");
 
                     b.HasIndex("PaidById");
 
@@ -3983,6 +3995,10 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("collaborator_id");
 
+                    b.Property<Guid>("CollaboratorPeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_period_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -4039,6 +4055,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CollaboratorId");
+
+                    b.HasIndex("CollaboratorPeriodId");
 
                     b.HasIndex("PaidById");
 
@@ -4181,6 +4199,71 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("IX_collaborators_identification_number");
 
                     b.ToTable("collaborators", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("employment_period_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CollaboratorCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("collaborator_code");
+
+                    b.Property<Guid>("CollaboratorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_id");
+
+                    b.Property<Guid?>("CollaboratorTerminationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("collaborator_termination_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateOnly?>("DepartureDate")
+                        .HasColumnType("date")
+                        .HasColumnName("departure_date");
+
+                    b.Property<DateOnly>("EntryDate")
+                        .HasColumnType("date")
+                        .HasColumnName("entry_date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaboratorCode")
+                        .IsUnique()
+                        .HasDatabaseName("ux_employment_periods_collaborator_code")
+                        .HasFilter("\"deleted_at\" IS NULL");
+
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_employment_periods_collaborator_active")
+                        .HasFilter("\"departure_date\" IS NULL AND \"deleted_at\" IS NULL");
+
+                    b.HasIndex("CollaboratorTerminationId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_employment_periods_termination")
+                        .HasFilter("\"collaborator_termination_id\" IS NOT NULL AND \"deleted_at\" IS NULL");
+
+                    b.HasIndex("CollaboratorId", "EntryDate", "DepartureDate")
+                        .HasDatabaseName("ix_employment_periods_collaborator_dates");
+
+                    b.ToTable("employment_periods", "public", t =>
+                        {
+                            t.HasCheckConstraint("ck_employment_periods_dates", "\"departure_date\" IS NULL OR \"departure_date\" >= \"entry_date\"");
+                        });
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", b =>
@@ -9398,6 +9481,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", "CollaboratorPeriod")
+                        .WithMany("ChristmasBonusAccruals")
+                        .HasForeignKey("CollaboratorPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Payroll", "Payroll")
                         .WithMany("ChristmasBonusAccruals")
                         .HasForeignKey("PayrollId")
@@ -9407,6 +9496,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ChristmasBonusPeriod");
 
                     b.Navigation("Collaborator");
+
+                    b.Navigation("CollaboratorPeriod");
 
                     b.Navigation("Payroll");
                 });
@@ -9435,6 +9526,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", "CollaboratorPeriod")
+                        .WithMany("ChristmasBonusAdvances")
+                        .HasForeignKey("CollaboratorPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "PaidBy")
                         .WithMany()
                         .HasForeignKey("PaidById")
@@ -9457,6 +9554,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ChristmasBonusPeriod");
 
                     b.Navigation("Collaborator");
+
+                    b.Navigation("CollaboratorPeriod");
 
                     b.Navigation("PaidBy");
 
@@ -9490,6 +9589,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", "CollaboratorPeriod")
+                        .WithMany("ChristmasBonusSettlements")
+                        .HasForeignKey("CollaboratorPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Auth.User", "PaidBy")
                         .WithMany()
                         .HasForeignKey("PaidById")
@@ -9503,6 +9608,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ChristmasBonusPeriod");
 
                     b.Navigation("Collaborator");
+
+                    b.Navigation("CollaboratorPeriod");
 
                     b.Navigation("PaidBy");
 
@@ -9518,6 +9625,24 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.Collaborator", "Collaborator")
+                        .WithMany("EmploymentPeriods")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", "CollaboratorTermination")
+                        .WithOne()
+                        .HasForeignKey("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", "CollaboratorTerminationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("CollaboratorTermination");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", b =>
@@ -11010,6 +11135,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("DisciplinaryFaults");
 
+                    b.Navigation("EmploymentPeriods");
+
                     b.Navigation("IncomeTaxAccruals");
 
                     b.Navigation("Incomes");
@@ -11046,6 +11173,15 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("WorkingInformation")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", b =>
+                {
+                    b.Navigation("ChristmasBonusAccruals");
+
+                    b.Navigation("ChristmasBonusAdvances");
+
+                    b.Navigation("ChristmasBonusSettlements");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", b =>
