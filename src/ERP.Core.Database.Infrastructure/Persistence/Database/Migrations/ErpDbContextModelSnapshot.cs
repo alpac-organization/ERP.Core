@@ -4301,10 +4301,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<DateOnly>("DepartureDate")
-                        .HasColumnType("date")
-                        .HasColumnName("departure_date");
-
                     b.Property<string>("Evidence")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -6530,10 +6526,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
-
-                    b.Property<DateOnly?>("DepartureDate")
-                        .HasColumnType("date")
-                        .HasColumnName("departure_date");
 
                     b.Property<DateOnly>("EntryDate")
                         .HasColumnType("date")
@@ -9636,7 +9628,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", "CollaboratorTermination")
-                        .WithOne()
+                        .WithOne("EmploymentPeriod")
                         .HasForeignKey("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorPeriod", "CollaboratorTerminationId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -11182,6 +11174,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("ChristmasBonusAdvances");
 
                     b.Navigation("ChristmasBonusSettlements");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.CollaboratorTermination", b =>
+                {
+                    b.Navigation("EmploymentPeriod");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Payrolls.Deduction", b =>

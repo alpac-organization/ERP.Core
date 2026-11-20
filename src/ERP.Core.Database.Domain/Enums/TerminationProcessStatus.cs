@@ -18,7 +18,7 @@ namespace ERP.Core.Database.Domain.Enums
       /// Trámite ejecutado: cierre operativo aplicado.
       /// <list type="bullet">
       /// <item><c>collaborators.status = Terminated</c> y <c>has_been_fired = true</c>.</item>
-      /// <item><c>working_information.departure_date</c> = fecha del expediente.</item>
+      /// <item><c>employment_periods.departure_date</c> = fecha del expediente.</item>
       /// <item>Se cierran salario/cargo vigentes y se cancelan permisos pendientes.</item>
       /// <item>Quedan <c>ClosedBy</c> / <c>ClosedAt</c>; el colaborador no se soft-deletea.</item>
       /// <item>El expediente queda listo para una liquidación posterior.</item>

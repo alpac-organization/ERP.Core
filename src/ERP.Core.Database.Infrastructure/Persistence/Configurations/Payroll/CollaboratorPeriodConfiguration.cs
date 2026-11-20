@@ -60,7 +60,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.CollaboratorTermination)
-                .WithOne()
+                .WithOne(t => t.EmploymentPeriod)
                 .HasForeignKey<CollaboratorPeriod>(
                     e => e.CollaboratorTerminationId)
                 .OnDelete(DeleteBehavior.Restrict);
