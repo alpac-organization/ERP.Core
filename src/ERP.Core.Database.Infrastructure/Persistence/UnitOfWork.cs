@@ -123,6 +123,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
             IDisciplinarySanctionsRepository disciplinarySanctionsRepository,
             IAbsencesRepository absencesRepository,
             IRequisitionOperationalAreasPermitedRepository requisitionOperationalAreasPermitedRepository,
+            IPhysicalCountRepository physicalCountsRepository,
+            IPhysicalCountLineRepository physicalCountLinesRepository,
             IPermitTypePolicyRepository permitTypePolicyRepository,
             ISupplyRequestItemRepository supplyRequestItemRepository,
             IFuelRequestRepository fuelRequestRepository,
@@ -261,6 +263,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence
         public IReasonsInventoryRemovalRepository ReasonsInventoryRemoval => reasonsInventoryRemovalRepository;
         public IInventoryAreasPermissionsRepository InventoryAreasPermissions => inventoryAreasPermissionsRepository;
         public IRequisitionOperationalAreasPermitedRepository RequisitionOperationalAreasPermited => requisitionOperationalAreasPermitedRepository;
+        public IPhysicalCountRepository PhysicalCounts => physicalCountsRepository;
+        public IPhysicalCountLineRepository PhysicalCountLines => physicalCountLinesRepository;
         #endregion Inventario
 
         #region Nomina: Gestion de Faltas y Sanciones Disciplinarias

@@ -49,5 +49,6 @@ namespace ERP.Core.Database.Domain.Entities.Catalogs
         public virtual ICollection<PermitTypePolicy> PermitTypePolicies { get; set; } = [];
 
         public virtual ICollection<InventoryAreasPermissions> InventoryAreasPermissions { get; set; } = [];
+        public virtual ICollection<PhysicalCount> PhysicalCounts { get; set; } = [];
     }
 }
