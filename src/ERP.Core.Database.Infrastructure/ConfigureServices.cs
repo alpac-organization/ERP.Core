@@ -220,6 +220,8 @@ namespace ERP.Core.Database.Infrastructure
             #region Inventario
             services.AddScoped<IKardexRepository, KardexRepository>();
             services.AddScoped<IProductStockRepository, ProductStockRepository>();
+            services.AddScoped<IPhysicalCountRepository, PhysicalCountRepository>();
+            services.AddScoped<IPhysicalCountLineRepository, PhysicalCountLineRepository>();
             services.AddScoped<ISupplyRequestRepository, SupplyRequestRepository>();
             services.AddScoped<ISupplyRequestItemRepository, SupplyRequestItemRepository>();
             services.AddScoped<IFuelRequestRepository, FuelRequestRepository>();
