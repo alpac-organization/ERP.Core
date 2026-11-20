@@ -81,6 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_beneficiary_scope_enum", new[] { "none", "own", "family_nucleus" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_scope_enum", new[] { "individual", "group", "by_area" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_status_enum", new[] { "draft", "pending_approval", "approved", "rejected", "applied", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "physical_count_status_enum", new[] { "draft", "in_progress", "completed", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_status_enum", new[] { "active", "inactive", "low_process" });
@@ -2507,6 +2508,154 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasDatabaseName("ix_kardex_work_area_id");
 
                     b.ToTable("kardex", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("physical_count_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid?>("AreaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("area_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("completed_at");
+
+                    b.Property<Guid?>("CompletedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("completed_by");
+
+                    b.Property<Guid?>("CostCenterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cost_center_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text")
+                        .HasColumnName("notes");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("physical_count_status_enum")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'draft'::physical_count_status_enum");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CostCenterId");
+
+                    b.HasIndex("CompanyId", "BranchId")
+                        .HasDatabaseName("ix_physical_counts_company_branch");
+
+                    b.ToTable("physical_counts", "public");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCountLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("physical_count_line_id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime?>("CountedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("counted_at");
+
+                    b.Property<Guid?>("CountedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("counted_by_user_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal?>("Difference")
+                        .HasPrecision(7, 2)
+                        .HasColumnType("numeric(7,2)")
+                        .HasColumnName("difference");
+
+                    b.Property<string>("Observations")
+                        .HasColumnType("text")
+                        .HasColumnName("observations");
+
+                    b.Property<Guid>("PhysicalCountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("physical_count_id");
+
+                    b.Property<decimal?>("PhysicalStock")
+                        .HasPrecision(7, 2)
+                        .HasColumnType("numeric(7,2)")
+                        .HasColumnName("physical_stock");
+
+                    b.Property<Guid>("ProductStockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_stock_id");
+
+                    b.Property<decimal>("SystemStock")
+                        .HasPrecision(7, 2)
+                        .HasColumnType("numeric(7,2)")
+                        .HasColumnName("system_stock");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("updated_by");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductStockId");
+
+                    b.HasIndex("PhysicalCountId", "ProductStockId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_physical_count_line_count_productstock");
+
+                    b.ToTable("physical_count_lines", "public");
                 });
 
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
@@ -9149,6 +9298,65 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("WorkArea");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCount", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.WorkArea", "Area")
+                        .WithMany("PhysicalCounts")
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Branch", "Branch")
+                        .WithMany("PhysicalCounts")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CategoryProducts", "Category")
+                        .WithMany("PhysicalCounts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.Company", "Company")
+                        .WithMany("PhysicalCounts")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
+                        .WithMany("PhysicalCounts")
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("CostCenter");
+                });
+
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCountLine", b =>
+                {
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCount", "PhysicalCount")
+                        .WithMany("Lines")
+                        .HasForeignKey("PhysicalCountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", "ProductStock")
+                        .WithMany("PhysicalCountLines")
+                        .HasForeignKey("ProductStockId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PhysicalCount");
+
+                    b.Navigation("ProductStock");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
                 {
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.CostCenter", "CostCenter")
@@ -10888,6 +11096,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Payrolls");
 
+                    b.Navigation("PhysicalCounts");
+
                     b.Navigation("Products");
 
                     b.Navigation("PurchaseRequests");
@@ -10907,6 +11117,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("CategoryAllowedUnitMeasures");
 
                     b.Navigation("Children");
+
+                    b.Navigation("PhysicalCounts");
 
                     b.Navigation("Products");
                 });
@@ -10929,6 +11141,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("PermitTypePolicies");
 
+                    b.Navigation("PhysicalCounts");
+
                     b.Navigation("TypesAccountingPayroll");
 
                     b.Navigation("WarehouseLocations");
@@ -10943,6 +11157,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("InventoryOutputs");
 
                     b.Navigation("Kardices");
+
+                    b.Navigation("PhysicalCounts");
 
                     b.Navigation("ProductStocks");
 
@@ -11046,6 +11262,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.Navigation("Kardices");
 
+                    b.Navigation("PhysicalCounts");
+
                     b.Navigation("PurchaseRequests");
 
                     b.Navigation("UserProfiles");
@@ -11058,9 +11276,16 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("KardexMovements");
                 });
 
+            modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.PhysicalCount", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
             modelBuilder.Entity("ERP.Core.Database.Domain.Entities.Inventory.ProductStock", b =>
                 {
                     b.Navigation("FuelRequests");
+
+                    b.Navigation("PhysicalCountLines");
 
                     b.Navigation("SupplyRequestItems");
                 });

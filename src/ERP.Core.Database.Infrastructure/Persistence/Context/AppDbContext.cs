@@ -289,6 +289,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
             modelBuilder.HasPostgresEnum<PurchaseOrderStatus>("public", "purchase_order_status_enum");
             modelBuilder.HasPostgresEnum<TerminationType>("public", "termination_type_enum");
             modelBuilder.HasPostgresEnum<TerminationProcessStatus>("public", "termination_status_enum");
+            modelBuilder.HasPostgresEnum<PhysicalCountStatus>("public", "physical_count_status_enum");
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
