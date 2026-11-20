@@ -30,11 +30,6 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Configurations.Payroll
             .HasColumnName("sanction_id")
             .IsRequired(false);
 
-         builder.Property(ct => ct.DepartureDate)
-            .HasColumnName("departure_date")
-            .HasColumnType("date")
-            .IsRequired();
-
          builder.Property(ct => ct.NoticeDate)
             .HasColumnName("notice_date")
             .HasColumnType("date")

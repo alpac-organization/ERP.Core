@@ -10,7 +10,7 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public string? InssNumber { get; set; }
         public string? WorkPhoneNumber { get; set; }
         public string? BankAccountNumber { get; set; }
-        
+
         /// <summary>
         /// Pendiente
         /// </summary>
@@ -42,6 +42,5 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
         public virtual CostCenter CostCenter { get; set; } = default!;
 
         public DateOnly EntryDate { get; set; } //Fecha de entrada del colaborador a la empresa.
-        public DateOnly? DepartureDate { get; set; } //Fecha de baja del colaborador.
     }
 }

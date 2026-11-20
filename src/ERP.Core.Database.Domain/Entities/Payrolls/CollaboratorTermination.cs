@@ -13,7 +13,8 @@ namespace ERP.Core.Database.Domain.Entities.Payrolls
       public Guid? SanctionId { get; set; }
       public virtual DisciplinarySanction? DisciplinarySanction { get; set; }
 
-      public DateOnly DepartureDate { get; set; } // Día efectivo que termina la relación
+      // Fecha efectiva de baja: CollaboratorPeriod.DepartureDate
+      public virtual CollaboratorPeriod? EmploymentPeriod { get; set; }
 
       // Ambos Notice* son opcionales
       public DateOnly? NoticeDate { get; set; } // Día en que se notificó/avisó por escrito la terminacion (no el último día de trabajo)
