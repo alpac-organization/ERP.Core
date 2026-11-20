@@ -28,6 +28,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Context
         public DbSet<Salary> Salaries => Set<Salary>();
         public DbSet<Vacation> Vacations => Set<Vacation>();
         public DbSet<Collaborator> Collaborators => Set<Collaborator>();
+        public DbSet<CollaboratorPeriod> CollaboratorPeriods => Set<CollaboratorPeriod>();
         public DbSet<PermitApplication> PermitApplications => Set<PermitApplication>();
         public DbSet<WorkingInformation> WorkingInformation => Set<WorkingInformation>();
         public DbSet<PersonalInformation> PersonalInformations => Set<PersonalInformation>();
