@@ -5979,6 +5979,12 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("end_date");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
                     b.Property<Guid?>("PersonnelActionRequestId")
                         .HasColumnType("uuid")
                         .HasColumnName("personnel_action_request_id");
@@ -5996,7 +6002,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.HasIndex("CollaboratorId")
                         .IsUnique()
                         .HasDatabaseName("ux_salaries_collaborator_active")
-                        .HasFilter("\"end_date\" IS NULL AND \"deleted_at\" IS NULL");
+                        .HasFilter("\"is_active\" = true AND \"end_date\" IS NULL AND \"deleted_at\" IS NULL");
 
                     b.HasIndex("PersonnelActionRequestId");
 
@@ -6362,9 +6368,19 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("end_date");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
                     b.Property<Guid>("JobPositionId")
                         .HasColumnType("uuid")
                         .HasColumnName("job_position_id");
+
+                    b.Property<Guid?>("PersonnelActionRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("personnel_action_request_id");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone")
@@ -6376,9 +6392,14 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CollaboratorId");
+                    b.HasIndex("CollaboratorId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_work_position_histories_collaborator_active")
+                        .HasFilter("\"is_active\" = true AND \"end_date\" IS NULL AND \"deleted_at\" IS NULL");
 
                     b.HasIndex("CostCenterId");
+
+                    b.HasIndex("PersonnelActionRequestId");
 
                     b.HasIndex("WorkPositionId");
 
@@ -9982,6 +10003,11 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ERP.Core.Database.Domain.Entities.Payrolls.PersonnelActionRequest", "PersonnelActionRequest")
+                        .WithMany()
+                        .HasForeignKey("PersonnelActionRequestId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("ERP.Core.Database.Domain.Entities.Catalogs.SubCatalog", "WorkPosition")
                         .WithMany()
                         .HasForeignKey("WorkPositionId")
@@ -9991,6 +10017,8 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
                     b.Navigation("Collaborator");
 
                     b.Navigation("CostCenter");
+
+                    b.Navigation("PersonnelActionRequest");
 
                     b.Navigation("WorkPosition");
                 });
