@@ -132,6 +132,8 @@ namespace ERP.Core.Database.Infrastructure
                     npgsqlOptions.MapEnum<TerminationProcessStatus>("termination_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceStatus>("absence_status_enum", "public");
                     npgsqlOptions.MapEnum<AbsenceSource>("absence_source_enum", "public");
+                    npgsqlOptions.MapEnum<PersonnelActionScope>("personnel_action_scope_enum", "public");
+                    npgsqlOptions.MapEnum<PersonnelActionStatus>("personnel_action_status_enum", "public");
                     npgsqlOptions.MapEnum<KardexMovementType>("kardex_movement_type_enum", "public");
                     npgsqlOptions.MapEnum<OutflowStatus>("outflow_status_enum", "public");
                     npgsqlOptions.MapEnum<EntryStatus>("entry_status_enum", "public");
