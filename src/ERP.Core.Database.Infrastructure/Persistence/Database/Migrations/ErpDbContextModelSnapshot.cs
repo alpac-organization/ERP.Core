@@ -81,6 +81,7 @@ namespace ERP.Core.Database.Infrastructure.Persistence.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "permit_beneficiary_scope_enum", new[] { "none", "own", "family_nucleus" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_scope_enum", new[] { "individual", "group", "by_area" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "personnel_action_status_enum", new[] { "draft", "pending_approval", "approved", "rejected", "applied", "cancelled" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "physical_count_status_enum", new[] { "draft", "in_progress", "completed", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "priority_level_enum", new[] { "none", "critical", "unforeseen", "normal", "printed_stationery" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_quality_enum", new[] { "excellent", "good", "regular", "poor", "damaged" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "public", "product_status_enum", new[] { "active", "inactive", "low_process" });
